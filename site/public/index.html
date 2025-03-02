@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/dashboards.css">
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./assets/img/logo.png">
+    <title>ImmunoData</title>
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="cabecalho-titulo">
+            <img class="cabecalho-titulo-img" src="./assets/img/logo.png" alt="Logo site">
+            <h1>
+                ImmunoData
+            </h1>
+        </div>
+        <nav class="cabecalho-navegacao">
+            <div class="cabecalho-navegacao-item">
+                <a href="./index.html"> Home</a>
+                <a href="./about.html"> Sobre</a>
+                <a href="./servicos.html">Serviços</a>
+                <a href="./contato.html">Contato</a>
+                <a href="./cadastro.html">Registre-se</a>  
+            </div>
+            <a class="logar" href="./login.html">Login</a>
+        </nav>
+    </header>
+    <main class="conteudo">
+        <section class="conteudo-principal">
+            <div class="capa conteudo-principal-parte">
+                <div class="sobre-capa">
+                    <h1 class="slogan">Vacinar é proteger o futuro! Conheça os dados sobre vacinação no Brasil.</h1>
+                </div>
+            </div>
+            <div class="conteudo-principal-parte">
+                <div class="conteudo-principal-titulo">
+                    <img src="./assets/vacina.png" alt="seringa">
+                    <p>QUEM SOMOS</p>
+                </div>
+                <div class="conteudo-principal-sobre">
+                    <h2>CONHEÇA MAIS SOBRE A IMMUNODATA</h2>
+                    <p>Fundada em 2025, nossa iniciativa busca <span>fortalecer a conscientização e a tomada de decisões</span> sobre vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
+                    <a href="./about.html"> Leia mais</a>
+                </div>
+            </div>
+            <div class="conteudo-principal-parte servico">
+                <div class="conteudo-principal-titulo">
+                    <img src="./assets/vacina.png" alt="seringa">
+                    <p>SERVIÇOS</p>
+                </div>
+                <div class="conteudo-principal-servico">
+                    <h2>CONHEÇA NOSSOS SERVIÇOS</h2>
+                    <p>Fundada em 2025, nossa iniciativa busca fortalecer a conscientização e a tomada de decisões sobre vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
+                    <a href="./servicos.html">Leia mais</a>
+                </div>
+            </div>
+            <div class="historias">
+                <h1 class="titulo-historias">Campanhas de Vacinação</h1>
+                    <div class="div-results">
+                        <div id="feed_container" class="feed-container">
+                        </div>
+                    </div>
+            </div>
+            <div class="conteudo-principal-parte contato">
+                <div class="informacao">
+                    <div class="contato-empresa">
+                        <p>ImmunoData</p>
+                        <p>contato@immunodata.com</p>
+                        <p>telefone</p>
+                    </div>
+                    <div class="links">
+                        <a href="">Politica de privacidade</a>
+                        <a href="">Termo de uso</a>
+                        <a href="./contato.html">Fale conosco</a>
+                    </div>
+                </div>
+                <div class="redes-sociais">
+                    <h2>CONHEÇA NOSSOS SERVIÇOS</h2>
+                    <p>endereco</p>
+                    <a href="./servicos.html">Leia mais</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="rodape">
+
+        <h4>
+            © 2025 ImmunoData - Todos os direitos reservados.
+        </h4>
+    </footer>
+</body>
+</html>
+
+<script>
+    window.onload = atualizarFeed();
+
+    function esconder(){
+        var esconder = document.getElementById('botao_esconder');
+        var mostrar = document.getElementById('botao_mostrar');
+
+        esconder.style.display = 'none';
+        mostrar.style.display = 'flex';
+    }
+
+    function mostrar(){
+        var esconder = document.getElementById('botao_esconder');
+        var mostrar = document.getElementById('botao_mostrar');
+
+        esconder.style.display = 'flex';
+        mostrar.style.display = 'none';
+    }
+    
+    function atualizarFeed() {
+        fetch("/avisos/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = "";
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacao = resposta[i];
+                        var data = new Date(publicacao.dtAborto);
+                        var dataFormatada = data.toLocaleDateString('pt-BR', {year: 'numeric', month: '2-digit', day: '2-digit'});
+
+                        var divPublicacao = document.createElement("div");
+                        var spanData = document.createElement("span");
+                        var spanNome = document.createElement("span");
+                        var spanSemanas = document.createElement("span");
+                        var spanMotivo = document.createElement("span");
+                        var spanFilhos = document.createElement("span");
+                        var spanRepeticao = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+
+                        spanNome.innerHTML = 'Nome: <b class="detalhe-historia">' + publicacao.nome + "</b>";
+                        spanData.innerHTML = 'Data do Aborto: <b class="detalhe-historia">' + dataFormatada + "</b>";
+                        spanSemanas.innerHTML = 'Tempo: <b class="detalhe-historia">' + publicacao.semanas + " semanas</b>";
+                        spanMotivo.innerHTML = 'Causa: <b class="detalhe-historia">' + publicacao.motivo + "</b>";
+                        spanFilhos.innerHTML = 'Filhos após perda: <b class="detalhe-historia">' + publicacao.filhos + "</b>";
+                        spanRepeticao.innerHTML = 'Aborto de repetição: <b class="detalhe-historia">' + publicacao.repeticao + "</b>";
+                        divDescricao.innerHTML = 'Descrição: <b class="detalhe-historia">' + publicacao.descricao + "</b>";
+
+                        divPublicacao.className = "publicacao";
+                        spanNome.className = "publicacao-nome";
+                        spanData.className = "publicacao-titulo";
+                        spanSemanas.className = "publicacao-semanas"
+                        spanMotivo.className = "publicacao-motivo"
+                        spanFilhos.className = "publicacao-filhos"
+                        spanRepeticao.className = "publicacao-repeticao"
+                        divDescricao.className = "publicacao-descricao";
+
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanData);
+                        divPublicacao.appendChild(spanSemanas);
+                        divPublicacao.appendChild(spanMotivo);
+                        divPublicacao.appendChild(spanFilhos);
+                        divPublicacao.appendChild(spanRepeticao);
+                        divPublicacao.appendChild(divDescricao);
+                        feed.appendChild(divPublicacao);
+                    }
+
+                    finalizarAguardar();
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+            finalizarAguardar();
+        });
+    }
+
+</script>
