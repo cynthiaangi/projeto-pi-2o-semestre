@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="icon" href="./assets/img/logo.png">
     <title>ImmunoData</title>
 </head>
+
 <body>
     <header class="cabecalho">
         <div class="cabecalho-titulo">
@@ -24,7 +26,7 @@
                 <a href="./about.html"> Sobre</a>
                 <a href="./servicos.html">Serviços</a>
                 <a href="./contato.html">Contato</a>
-                <a href="./cadastro.html">Registre-se</a>  
+                <a href="./cadastro.html">Registre-se</a>
             </div>
             <a class="logar" href="./login.html">Login</a>
         </nav>
@@ -37,41 +39,62 @@
                 </div>
             </div>
             <div class="conteudo-principal-parte">
-                <div class="conteudo-principal-titulo">
-                    <img src="./assets/vacina.png" alt="seringa">
-                    <p>QUEM SOMOS</p>
+                <div class="sobre">
+                    <div class="conteudo-principal-titulo">
+                        <img src="./assets/vacina.png" alt="seringa">
+                        <p>QUEM SOMOS</p>
+                    </div>
+                    <div class="conteudo-principal-sobre">
+                        <h2>CONHEÇA MAIS SOBRE A IMMUNODATA</h2>
+                        <p>Fundada em 2025, nossa iniciativa busca <span>fortalecer a conscientização e a tomada de
+                                decisões</span> sobre vacinação no Brasil. Analisamos dados para apoiar o setor público
+                            e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
+                    </div>
+                    <button href="./about.html"> Leia mais</button>
                 </div>
-                <div class="conteudo-principal-sobre">
-                    <h2>CONHEÇA MAIS SOBRE A IMMUNODATA</h2>
-                    <p>Fundada em 2025, nossa iniciativa busca <span>fortalecer a conscientização e a tomada de decisões</span> sobre vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
-                    <a href="./about.html"> Leia mais</a>
-                </div>
+                <img src="assets/vacinacao-infantil.png" alt="criança vacinando">
             </div>
             <div class="conteudo-principal-parte servico">
-                <div class="conteudo-principal-titulo">
-                    <img src="./assets/vacina.png" alt="seringa">
-                    <p>SERVIÇOS</p>
-                </div>
-                <div class="conteudo-principal-servico">
-                    <h2>CONHEÇA NOSSOS SERVIÇOS</h2>
-                    <p>Fundada em 2025, nossa iniciativa busca fortalecer a conscientização e a tomada de decisões sobre vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
-                    <a href="./servicos.html">Leia mais</a>
+                <div>
+                    <div class="conteudo-principal-titulo">
+                        <img src="./assets/vacina.png" alt="seringa">
+                        <p>SERVIÇOS</p>
+                    </div>
+                    <div class="conteudo-principal-servico">
+                        <h2>CONHEÇA NOSSOS SERVIÇOS</h2>
+                        <p>Fundada em 2025, nossa iniciativa busca fortalecer a conscientização e a tomada de decisões sobre
+                            vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de
+                            doenças, promovendo confiança e segurança na saúde coletiva.</p>
+                        </div>
+                        <button href="./servicos.html">Leia mais</button>
+
                 </div>
             </div>
             <div class="historias">
                 <h1 class="titulo-historias">Campanhas de Vacinação</h1>
-                    <div class="div-results">
-                        <div id="feed_container" class="feed-container">
-                        </div>
+                <div class="div-results">
+                    <div id="feed_container" class="feed-container">
                     </div>
+                </div>
             </div>
-            <div class="conteudo-principal-parte contato">
+            <div class="contato">
                 <div class="informacao">
                     <div class="contato-empresa">
-                        <p>ImmunoData</p>
-                        <p>contato@immunodata.com</p>
-                        <p>telefone</p>
+                        <div class="informacao-dados">
+                            <p class="contato-empresa-titulo">ImmunoData</p>
+                            <p>contato@immunodata.com</p>
+                            <p>telefone</p>
+                        </div>
+                        <div class="informacao-dados">
+                            <p>Rua Haddock Lobo, 595 - Cerqueira César</p>
+                            <p>São Paulo - SP</p>
+                            <p>14144-000</p>
+                            <p>Razão Social: Immunodata LTDA</p>
+                            <p>CNPJ 12.345.678/0001-90</p>
+                            
+                        </div>
                     </div>
+                    
                     <div class="links">
                         <a href="">Politica de privacidade</a>
                         <a href="">Termo de uso</a>
@@ -79,9 +102,16 @@
                     </div>
                 </div>
                 <div class="redes-sociais">
-                    <h2>CONHEÇA NOSSOS SERVIÇOS</h2>
-                    <p>endereco</p>
-                    <a href="./servicos.html">Leia mais</a>
+                    <h2>Redes sociais:</h2>
+                        <span class="posicao">
+                            <img src="assets/facebook.png" alt=""> Facebook
+                        </span>
+                        <span>
+                            <img src="assets/instagram.png" alt=""> Instagram
+                        </span>
+                        <span>
+                            <img src="assets/linkedin.png" alt=""> Linkedin
+                        </span>
                 </div>
             </div>
         </section>
@@ -94,12 +124,13 @@
         </h4>
     </footer>
 </body>
+
 </html>
 
 <script>
     window.onload = atualizarFeed();
 
-    function esconder(){
+    function esconder() {
         var esconder = document.getElementById('botao_esconder');
         var mostrar = document.getElementById('botao_mostrar');
 
@@ -107,14 +138,14 @@
         mostrar.style.display = 'flex';
     }
 
-    function mostrar(){
+    function mostrar() {
         var esconder = document.getElementById('botao_esconder');
         var mostrar = document.getElementById('botao_mostrar');
 
         esconder.style.display = 'flex';
         mostrar.style.display = 'none';
     }
-    
+
     function atualizarFeed() {
         fetch("/avisos/listar").then(function (resposta) {
             if (resposta.ok) {
@@ -134,7 +165,7 @@
                     for (let i = 0; i < resposta.length; i++) {
                         var publicacao = resposta[i];
                         var data = new Date(publicacao.dtAborto);
-                        var dataFormatada = data.toLocaleDateString('pt-BR', {year: 'numeric', month: '2-digit', day: '2-digit'});
+                        var dataFormatada = data.toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
                         var divPublicacao = document.createElement("div");
                         var spanData = document.createElement("span");
