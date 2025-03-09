@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="icon" href="./assets/img/logo.png">
+    <link rel="icon" href="./assets/logo immunodata/4.png">
     <title>ImmunoData</title>
 </head>
 
 <body>
     <header class="cabecalho">
         <div class="cabecalho-titulo">
-            <img class="cabecalho-titulo-img" src="./assets/img/logo.png" alt="Logo site">
+            <img class="cabecalho-titulo-img" src="./assets/logo immunodata/8.png" alt="Logo site">
             <h1>
                 ImmunoData
             </h1>
@@ -48,7 +48,7 @@
                                 decisões</span> sobre vacinação no Brasil. Analisamos dados para apoiar o setor público
                             e privado na prevenção de doenças, promovendo confiança e segurança na saúde coletiva.</p>
                     </div>
-                    <button href="./about.html"> Leia mais</button>
+                    <button onclick="irSobre()"> Leia mais</button>
                 </div>
                 <img src="assets/vacinacao-infantil.png" alt="criança vacinando" class="sobre-img">
             </div>
@@ -64,7 +64,7 @@
                             vacinação no Brasil. Analisamos dados para apoiar o setor público e privado na prevenção de
                             doenças, promovendo confiança e segurança na saúde coletiva.</p>
                         </div>
-                        <button href="./servicos.html">Leia mais</button>
+                        <button onclick="irServico()">Leia mais</button>
 
                 </div>
             </div>
@@ -124,3 +124,13 @@
 </body>
 
 </html>
+
+<script>
+    function irSobre() {
+        window.location = "./about.html";
+    }
+
+    function irServico() {
+        window.location = "./servicos.html";
+    }
+</script>
