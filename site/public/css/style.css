@@ -102,7 +102,13 @@ body{
     align-items: center;
 }
 
-.conteudo-principal-parte img{
+.nosso-nome{
+    height: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.sobre-img{
     width: 30%;
     margin-right: 150px;
 }
@@ -121,13 +127,32 @@ body{
     display: flex;
     flex-direction: column;
     margin-left: 150px;
-    width: 65%;
     gap: 20px;
     font-family: "Saira";
     font-size: 21px;
     font-weight: 400;
     color: #092b43;
     line-height: 1.5;
+}
+
+.conteudo-principal-motivo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 100px;
+    gap: 40px;
+    font-family: "Saira";
+    font-size: 21px;
+    font-weight: 400;
+    color: #092b43;
+    line-height: 1.2;
+    align-items: center;
+}
+
+.motivos{
+    display: flex;
+    justify-content: space-around;
+    gap: 100px;
+
 }
 
 .conteudo-principal-sobre span{
@@ -139,6 +164,12 @@ body{
 }
 
 .conteudo-principal-sobre h2{
+    font-family: "Roboto";
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.conteudo-principal-motivo h2{
     font-family: "Roboto";
     font-weight: 700;
     font-size: 40px;
@@ -158,8 +189,90 @@ body{
     margin-top: 40px;
 }
 
-.servico{
+.servicos{
     background-color: #EFF7F2;
+    width: 100%;
+    height: 700px;
+    display: flex;
+    align-items: center;
+}
+
+.servicos-escolha{
+    width: 100%;
+}
+
+.marcas{
+    background-color: #EFF7F2;
+}
+
+.indicadores{
+    background-color: #092b43;
+}
+
+.marcas-titulo{
+    font-size: 36px;
+    font-weight: 700;
+    font-family: "Saira";
+}
+
+.img-marcas{
+    margin: 0 !important;
+    width: 20% !important;
+}
+
+.visao-missao-valor{
+    background-color: #fff;
+    width: 300px;
+    border-radius: 70px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+    padding-top: 30px;
+}
+
+.cada-motivo{
+    background-color: #fff;
+    width: 300px;
+    border-radius: 70px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    font-size: 30px !important;
+    font-weight: 700;
+    font-family: "Saira";
+}
+
+.missao{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.visao{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+.valor{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+.marcas-texto{
+    width: 75%;
 }
 
 .conteudo-principal-servico{
@@ -188,6 +301,10 @@ body{
 
 .servico img{
     width: 5% !important;
+}
+
+.servicos img{
+    width: 5.5% !important;
 }
 
 .contato{
