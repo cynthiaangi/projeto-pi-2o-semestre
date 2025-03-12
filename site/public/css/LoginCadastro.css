@@ -199,9 +199,7 @@ input {
 
 /* Estiliza a sobreposição */
 .overlay {
-    background: #092B43; /* Cor de fundo */
-    background: -webkit-linear-gradient(to right, #092B43, #092B43); /* Gradiente */
-    background: linear-gradient(to right, #092B43, #145e92, #092B43); /* Gradiente */
+    background: gray; /* Cor de fundo */
     background-repeat: no-repeat; /* Não repete o fundo */
     background-size: cover; /* Cobre o fundo */
     background-position: 0 0; /* Posição do fundo */
