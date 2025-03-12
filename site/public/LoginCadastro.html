@@ -6,13 +6,13 @@
   <!-- Importação de ícones do FontAwesome -->
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
   <!-- Link para o arquivo de estilo CSS -->
-  <link rel="stylesheet" href="LoginCadastro.css">
+  <link rel="stylesheet" href="css/LoginCadastro.css">
 </head>
 <body>
 <div id="divLogin" style="display: block;">
         <!-- Link para a página inicial com um logo como botão -->
         <a href="index.html">
-            <img src="assets/logoAzul.png" alt="Home" class="home-button">
+            <img src="assets/logo immunodata/4.png" alt="Home" class="home-button">
         </a>
 
     <!-- Estrutura principal de cadastro/login -->
@@ -25,9 +25,9 @@
                 <input type="text" placeholder="Nome Completo" id="nome"/>
                 <input type="text" placeholder="Cargo atuante" id="cargo"/>
                 <input type="text" placeholder="Data de nascimento" id="data"/>
-                <input type="text" placeholder="Número de conselgo" id="número"/>
-                <input type="text" placeholder="Cidade onde atua" id="cidade"/>
-                <input type="password" placeholder="senha" id="senha"/>
+                <input type="text" placeholder="Número de conselho" id="númeroLogin"/>
+                <input type="text" placeholder="Cidade de atuação" id="cidade"/>
+                <input type="password" placeholder="Senha" id="senhaLogin"/>
                 <br>
                 <!-- Botão que chama a função para continuar para a próxima página -->
                 <button style="cursor: pointer; margin-bottom: 67px; display: flex;" type="button" class="btn next-btn1" onclick="goToNextPage()">Continuar</button>
@@ -39,11 +39,6 @@
             <form>
                 <h1>Entrar</h1>
                 <!-- Contêiner para login via redes sociais -->
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-brands fa-apple"></i></a>
-                </div>
                 <span>Ou use seu número de conselgo e senha para realizar Login</span>
                 <input type="text" placeholder="Número de Conselho" id="número"/>
                 <input type="password" placeholder="senha" id="senha"/>
@@ -73,4 +68,4 @@
 </div>
 </body>
 </html>
-<script  src="LoginCadastro.js"></script>
+<script  src="js/LoginCadastro.js"></script>

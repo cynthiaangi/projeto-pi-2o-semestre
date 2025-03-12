@@ -29,7 +29,7 @@ body {
     position: absolute; /* Posiciona de forma absoluta */
     top: 20px; /* 20 pixels do topo */
     left: 20px; /* 20 pixels da esquerda */
-    max-width: 110px; /* Largura máxima do botão */
+    max-width: 150px; /* Largura máxima do botão */
     height: auto; /* Altura automática */
     cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
 }
@@ -254,23 +254,6 @@ input {
 /* Transição para mover o painel da sobreposição para a posição original */
 .container.right-panel-active .overlay-right {
     transform: translateX(20%); /* Move 20% para a direita */
-}
-
-/* Estiliza o contêiner de redes sociais */
-.social-container {
-    margin: 20px 0; /* Margens verticais */
-}
-
-/* Estiliza os ícones de redes sociais */
-.social-container a {
-    border: 1px solid #DDDDDD; /* Borda leve */
-    border-radius: 50%; /* Borda arredondada */
-    display: inline-flex; /* Exibe como flexível */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    margin: 0 5px; /* Margens laterais */
-    height: 40px; /* Altura dos ícones */
-    width: 40px; /* Largura dos ícones */
 }
 
 /* Define um box-sizing global */
