@@ -674,3 +674,10 @@ select{
     gap: 15px;
     width: 40%;
 }
+
+.img-infografico{
+    display: flex;
+    width: 200px;
+    height: 400px;
+    margin-left: 570px;
+}
