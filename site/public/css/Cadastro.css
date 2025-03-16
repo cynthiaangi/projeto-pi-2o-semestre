@@ -41,6 +41,18 @@ body {
     border-radius: 0; /* Garante que não tenha bordas arredondadas (remova se quiser) */
 }
 
+.logo-button {
+    position: absolute;
+    top: 1px;
+    left: 5px;
+    width: 135px;
+    cursor: pointer;
+}
+
+.logo-button img {
+    width: 100%;
+    height: auto;
+}
 
 .form {
     width: 50%;
