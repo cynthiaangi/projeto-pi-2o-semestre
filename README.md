@@ -37,14 +37,7 @@ Relatórios gerenciais baseados em dados.
 
 Estratégias para identificação de áreas com baixa adesão vacinal.
 
-
-
-# Contribuições:
-
-[![GitHub Streak](https://streak-stats.demolab.com/?user=cynthiaangi&theme=bear&background=000&border=30A3DC&dates=FFF)](https://git.io/streak-stats)
+#
 
 
 ```Este documento será atualizado conforme o avanço do projeto.```
-
-
-
