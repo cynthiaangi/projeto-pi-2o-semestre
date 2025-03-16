@@ -103,6 +103,11 @@ body{
     gap: 20px;
 }
 
+.conteudo-principal-imagem{
+    width: 30%;
+    margin-right: 150px;
+}
+
 .nosso-nome{
     height: 500px;
     display: flex;
@@ -141,6 +146,24 @@ body{
     color: #092b43;
     line-height: 1.2;
     align-items: center;
+}
+
+.historias{
+    text-align: center;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.titulo-historias{
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.historias img{
+    width: 30%;
 }
 
 .motivos{
@@ -198,6 +221,10 @@ body{
 
 .marcas{
     background-color: #EFF7F2;
+}
+
+.marcas img{
+    margin-right: 50px;
 }
 
 .indicadores{
@@ -274,7 +301,7 @@ body{
     display: flex;
     flex-direction: column;
     margin-left: 150px;
-    width: 40%;
+    width: 60%;
     gap: 20px;
     font-family: "Saira";
     font-size: 21px;
@@ -373,9 +400,17 @@ body{
 
     }
 
+    .sobre button{
+        width: 20%;
+    }
+
     .conteudo-principal-sobre{
         margin-left: 50px;
         gap: 50px;
+    }
+
+    .conteudo-principal-servico{
+        width: 65%;
     }
 
     .sobre{
@@ -388,9 +423,21 @@ body{
         margin-left: 200px;
     }
 
+    .conteudo-principal-imagem{
+        margin-right: 50px;
+    }
+
     .sobre-capa{
         align-items: center;
         margin-left: 0;
+    }
+
+    .historias img{
+        width: 45%;
+    }
+
+    .marcas img{
+        width: 30%;
     }
 
     .contato-empresa{
