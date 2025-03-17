@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&family=Saira:ital,wght@0,100..900;1,100..900&family=Ultra&display=swap');
 
 
 body{
@@ -129,6 +130,7 @@ body{
 }
 
 .conteudo-principal-titulo{
+    font-family: "Saira";
     display: flex;
     align-items: center;
     gap: 20px;
@@ -160,6 +162,14 @@ body{
     color: #092b43;
     line-height: 1.2;
     align-items: center;
+}
+
+.titulo-pqescolher{
+align-items: center;
+margin-bottom: 7%;
+font-family: "Saira";
+font-size: 3.5rem;
+font-weight: 800;
 }
 
 .historias{
@@ -202,7 +212,7 @@ body{
 }
 
 .conteudo-principal-motivo h2{
-    font-family: "Roboto";
+    font-family: "Saira";
     font-weight: 700;
     font-size: 2.5rem;
 }
@@ -222,11 +232,17 @@ body{
 }
 
 .servicos{
-    background-color: #EFF7F2;
-    width: 100%;
+    /* background-color: #EFF7F2; */
+    background-color: #ffffff;
+    border-radius: 70px;
+    align-items: center;
+    margin-left: 35px;
+    width: 95%;
     height: 700px;
     display: flex;
-    align-items: center;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); 
+
+    
 }
 
 .servicos-escolha{
@@ -313,6 +329,7 @@ body{
 
 .conteudo-principal-servico{
     display: flex;
+    align-items: center;
     flex-direction: column;
     margin-left: 150px;
     width: 60%;
@@ -341,6 +358,33 @@ body{
 
 .servicos img{
     width: 5.5% !important;
+}
+
+
+
+.texto-motivacao{
+    font-family: "Saira";
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 2.9rem;
+    display: flex;
+    margin-left: 5%;
+}
+
+.img-infografico{   
+    margin-right: 25%;
+    display: flex;
+    width: 10%;
+    height: 90%;
+
+}
+
+.cada-servico{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .contato{
