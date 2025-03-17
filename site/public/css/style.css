@@ -66,6 +66,7 @@ body{
 }
 
 .sobre-capa{
+    color: white;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -80,6 +81,7 @@ body{
 }
 
 .sobre-capa-principal{
+    color: white;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -90,7 +92,7 @@ body{
     font-weight: 700;
     text-align: left;
     margin-left: 90px;
-    margin-top: 40px;
+    margin-top: 300px;
 }
 
 .slogan{
@@ -111,7 +113,7 @@ body{
 
 .conteudo-principal-parte{
     width: 100%;
-    height: 600px;
+    height: 500px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -121,7 +123,7 @@ body{
 .conteudo-principal-imagem{
     width: 30%;
     margin-right: 150px;
-}
+}   
 
 .nosso-nome{
     height: 500px;
@@ -231,23 +233,62 @@ font-weight: 800;
     margin-top: 40px;
 }
 
-.servicos{
-    /* background-color: #EFF7F2; */
+.servicos {
     background-color: #ffffff;
     border-radius: 70px;
     align-items: center;
-    margin-left: 35px;
+    margin-left: 2vw;
     width: 95%;
-    height: 700px;
+    height: auto;
     display: flex;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); 
-
-    
+    flex-direction: column;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 80px 10px;
+    gap: 200px;
 }
 
-.servicos-escolha{
+.servicos-escolha {
     width: 100%;
 }
+
+.cada-servico {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    flex-wrap: wrap;
+}
+
+.cada-escolha {
+    background: #f9f9f9;
+    border-radius: 20px;
+    padding: 40px;
+    width: 20vw; /* Aumentei o tamanho do card */
+    height: 13vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.cada-escolha:hover {
+    transform: scale(1.05);
+}
+
+.img-top {
+    width: 140px; /* Aumentei a imagem superior */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.cada-escolha h3 {
+    font-size: 24px; /* Aumentei o tamanho do texto */
+    color: #333;
+    font-weight: bold; /* Deixei mais destacado */
+    margin: 20px 0;
+}
+
 
 .marcas{
     background-color: #EFF7F2;
@@ -377,14 +418,6 @@ font-weight: 800;
     width: 10%;
     height: 90%;
 
-}
-
-.cada-servico{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    flex-direction: column;
 }
 
 .contato{
