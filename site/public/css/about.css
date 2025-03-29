@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&family=Saira:ital,wght@0,100..900;1,100..900&family=Ultra&display=swap');
+
+body{
+    background-color: #fff;
+    font-family: "Roboto";
+    color: #000;
+    height: 100vh;
+}
+
+.cabecalho {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 67px;
+    align-items: center;
+}
+
+.cabecalho-titulo{
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.cabecalho-titulo-img{
+    margin-right: 15px;
+    width: 10%;
+}
+
+.cabecalho-navegacao{
+    margin-right: 50px;
+    display: flex;
+    gap: 60px;   
+}
+
+.cabecalho-navegacao-item{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.cabecalho-navegacao a{
+    text-decoration: none;
+    font-weight: 500;
+    color: #0B0706;
+}
+
+.cabecalho-navegacao .logar{
+    background-color: #092b43;
+    padding: 12px 32px;
+    color: #fff !important;
+    border-radius: 4px;
+}
+
+.conteudo{
+    display: flex;
+}
+
+.conteudo-principal{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.capa {
+    background-image: url(../assets/fundo-vacina.jpg);
+    background-size: cover;
+    width: 100% !important;
+    margin: 0 !important;
+    height: 600px !important;
+}
+
+.sobre-capa-principal{
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    gap: 30px;
+    font-size: 4rem;
+    font-weight: 700;
+    text-align: left;
+    margin-left: 90px;
+    margin-top: 300px;
+}
+
+.conteudo-principal-parte{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+.conteudo-principal-imagem{
+    width: 30%;
+    margin-right: 150px;
+} 
+
+.conteudo-principal-titulo{
+    font-family: "Saira";
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 110px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.conteudo-principal-sobre{
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px;
+    gap: 20px;
+    font-family: "Saira";
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #092b43;
+    line-height: 1.5;
+}
+
+.conteudo-principal-sobre span{
+    font-weight: 700;
+}
+
+.conteudo-principal-sobre p{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.conteudo-principal-sobre h2{
+    font-family: "Roboto";
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.conteudo-principal-parte button{
+    background-color: #70C174;
+    padding: 16px 32px;
+    color: #fff;
+    font-family: "Roboto";
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 150px;
+    border: none;
+    margin-top: 40px;
+}
+
+.marcas{
+    background-color: #EFF7F2;
+}
+
+.marcas img{
+    margin-right: 50px;
+}
+
+.marcas-titulo{
+    font-size: 2.25rem;
+    font-weight: 700;
+    font-family: "Saira";
+}
+
+.img-marcas{
+    margin: 0 !important;
+    width: 20% !important;
+}
+
+.visao-missao-valor{
+    background-color: #fff;
+    width: 450px;
+    border-radius: 70px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 50px;
+    padding-top: 50px;
+}
+
+.missao{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.visao{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+.valor{
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+.marcas-texto{
+    width: 75%;
+}
+
+.conteudo-principal-titulo img{
+    width: 9% !important;
+    margin: 0 !important;
+}
+
+.contato{
+    height: 300px;
+    background-color: #ecf0f1;
+    border-bottom: 1px solid #9f9f9f;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    font-family: "Saira";
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.informacao{
+    padding: auto;
+    display: flex;
+    gap: 100px;
+}
+
+.contato-empresa{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.informacao-dados{
+    line-height: 1.50;
+}
+
+.contato-empresa-titulo{
+    font-weight: 900;    
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.redes-sociais{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.redes-sociais img{
+    width: 5%;
+}
+
+.rodape{
+    background-color: #ecf0f1;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    align-items: center;
+    margin-top: auto;
+}
+
+@media (max-width: 1150px) {
+    .conteudo-principal-parte{
+        gap: 40px;
+    }
+
+    .conteudo-principal-titulo img{
+        display: none;
+
+    }
+
+    .conteudo-principal-sobre{
+        margin-left: 50px;
+        gap: 50px;
+    }
+
+    .sobre{
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .conteudo-principal-titulo{
+        margin-left: 200px;
+    }
+
+    .conteudo-principal-imagem{
+        margin-right: 50px;
+    }
+
+    .marcas img{
+        width: 30%;
+    }
+
+    .contato-empresa{
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 810px){
+    .conteudo-principal-titulo{
+        display: none;
+    }
+
+    .conteudo-principal-parte img{
+        width: 40%;
+        margin: 0;
+    }
+
+    .marcas{
+        gap: 0;
+    }
+
+    .conteudo-principal-parte{
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .conteudo-principal-sobre{
+        width: 80%;
+    }
+
+    .sobre{
+        align-items: center;
+    }
+}
