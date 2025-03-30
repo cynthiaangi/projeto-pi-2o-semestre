@@ -31,21 +31,21 @@
                 <div class="input-group">
                     <div class="input-box">
                         <label for="nomeCompleto">Nome Completo</label>
-                        <input id="nome" name="nomeCompleto" type="text" placeholder="Digite seu nome completo">
+                        <input id="ipt_nome" name="nomeCompleto" type="text" placeholder="Digite seu nome completo">
                     </div>
 
                     <div class="input-box">
                         <label for="Cargo">Cargo atuante</label>
-                        <input id="cargo" type="text" placeholder="Digite seu cargo">
+                        <input id="ipt_cargo" type="text">
                     </div>
                     <div class="input-box">
                         <label for="data">Data de nascimento</label>
-                        <input id="data" type="date">
+                        <input id="ipt_data" type="date">
                     </div>
 
                     <div class="input-box">
                         <label for="number">Número de conselho</label>
-                        <input id="number" type="text" placeholder="CRM/SP 12345">
+                        <input id="ipt_number" type="text" placeholder="CRM/SP 12345">
                     </div>
 
                     <div class="input-box">
@@ -55,18 +55,18 @@
 
                     <div class="input-box">
                         <label for="password">Senha</label>
-                        <input id="password" type="password" placeholder="Digite sua senha">
+                        <input id="ipt_password" type="password" placeholder="Digite sua senha">
                     </div>
                 </div>
 
                 <div class="continue-button">
-                    <button><a href="Login.html">Se Cadastrar</a></button>
+                    <button onclick="cadastrar()">Cadastrar</button>
                 </div>
             </form>
         </div>
     </div>
+    <script src="js/cadastro.js"></script>
 </body>
 
 </html>
 
-<script src="js/cadastro.js"></script>
