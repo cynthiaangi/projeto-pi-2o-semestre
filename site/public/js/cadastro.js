@@ -94,22 +94,49 @@ function cadastrar() {
     console.log("estou no cadastro");
     var nome = ipt_nome.value;
     var cargo = sel_cargo.value;
-    var data = ipt_data.value;
+    var dataNasc = ipt_data.value;
     var conselho = ipt_number.value;
     var cidadeAtuante = sel_cidade.value;
     var senha = ipt_password.value;
 
+    var num_conselho = parseInt(conselho);
     var tam_senha = senha.length;
     var maiuscula_senha = senha.toUpperCase();
     var minuscula_senha = senha.toLowerCase();
+    var especial = "!@#$%&*"
     var tam_nome = nome.length;
     var tam_conselho = conselho.length;
+    var senhaOk = 0;
 
-    if(tam_nome < 5 || cargo == cargos[0] || (conselho != 5 && cargo == "Médico") || cidadeAtuante == cidadesSP[0] || tam_senha < 8) {
+    if(nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || senha == "" || dataNasc == '') {
         alert("Todos os campos devem ser preenchidos");
-    }else{
-        window.open("Login.html", "_self");
-        alert("Cadastro realizado com sucesso")
+    }else if(conselho != num_conselho || tam_conselho != 5){
+        alert("O número de conselho deve conter 5 números apenas");
+    } else if(tam_nome < 3){
+        alert("Digite um nome válido")
+    } else if(tam_senha < 8){
+        alert("A senha deve conter no mínimo 8 caracteres");
+    } else if(senha == maiuscula_senha || senha == minuscula_senha){
+        alert("A senha deve conter no mínimo uma letra maiúscula e uma letra minúscula")
+    } else{
+        for (let i = 0; i < tam_senha; i++) {
+            if(especial.includes(senha[i])){
+                senhaOk++;
+                break;
+            }
+        }
+        for (let j = 0; j < tam_senha; j++) {
+            if(Number(senha[j]) != NaN){
+                senhaOk++;
+                break;
+            }    
+        }
+        if(senhaOk != 2){
+            alert("A senha deve conter pelo menos 1 número e 1 caractere especial (!@#$%&*)");
+        } else{
+            window.open("Login.html", "_self");
+            alert("Cadastro realizado com sucesso");
+        }
     }
 }
 
