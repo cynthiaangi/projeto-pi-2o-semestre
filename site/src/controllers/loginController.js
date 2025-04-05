@@ -1,11 +1,11 @@
 var loginModel = require("../models/loginModel");
 
 function autenticar(req, res) {
-    var email = req.body.emailServer;
+    var conselho = req.body.conselhoServer;
     var senha = req.body.senhaServer;
 
-    if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+    if (conselho == undefined) {
+        res.status(400).send("Seu conselho está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
@@ -21,13 +21,13 @@ function autenticar(req, res) {
 
                                     res.json({
                                         id: resultadoAutenticar[0].idCadastro,
-                                        email: resultadoAutenticar[0].email,
+                                        conselho: resultadoAutenticar[0].conselho,
                                         nome: resultadoAutenticar[0].nome,
 
                                     });
                                 
                     } else if (resultadoAutenticar.length == 0) {
-                        res.status(403).send("Email e/ou senha inválido(s)");
+                        res.status(403).send("Número do conselho e/ou senha inválido(s)");
                     } else {
                         res.status(403).send("Mais de um usuário com o mesmo login e senha!");
                         
@@ -48,26 +48,26 @@ function cadastrar(req, res) {
 
     var nome = req.body.nomeServer;
     var dtNasc = req.body.dtNascServer;
-    var email = req.body.emailServer;
-    var telefone = req.body.telefoneServer;
-    var genero = req.body.generoServer;
+    var cargo = req.body.cargoServer;
+    var conselho = req.body.conselhoServer;
+    var cidade = req.body.cidadeServer;
     var senha = req.body.senhaServer;
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (dtNasc == undefined) {
         res.status(400).send("Sua data de Nascimento está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (telefone == undefined) {
-        res.status(400).send("Seu telefone está undefined!");
-    } else if (genero == undefined) {
-        res.status(400).send("Seu genero está undefined!");
+    } else if (cargo == undefined) {
+        res.status(400).send("Seu cargo está undefined!");
+    } else if (conselho == undefined) {
+        res.status(400).send("Seu conselho está undefined!");
+    } else if (cidade == undefined) {
+        res.status(400).send("Seu cidade está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!"); 
     }else{
 
-        loginModel.cadastrar(nome, dtNasc, email, telefone, genero, senha)
+        loginModel.cadastrar(nome, dtNasc, cargo, conselho, cidade, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);
