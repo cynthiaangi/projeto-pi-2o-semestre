@@ -108,35 +108,79 @@ function cadastrar() {
     var tam_conselho = conselho.length;
     var senhaOk = 0;
 
-    if(nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || senha == "" || dataNasc == '') {
+    if (nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || senha == "" || dataNasc == '') {
         alert("Todos os campos devem ser preenchidos");
-    }else if(conselho != num_conselho || tam_conselho != 5){
+    } else if (conselho != num_conselho || tam_conselho != 5) {
         alert("O número de conselho deve conter 5 números apenas");
-    } else if(tam_nome < 3){
+    } else if (tam_nome < 3) {
         alert("Digite um nome válido")
-    } else if(tam_senha < 8){
+    } else if (tam_senha < 8) {
         alert("A senha deve conter no mínimo 8 caracteres");
-    } else if(senha == maiuscula_senha || senha == minuscula_senha){
+    } else if (senha == maiuscula_senha || senha == minuscula_senha) {
         alert("A senha deve conter no mínimo uma letra maiúscula e uma letra minúscula")
-    } else{
+    } else {
         for (let i = 0; i < tam_senha; i++) {
-            if(especial.includes(senha[i])){
+            if (especial.includes(senha[i])) {
                 senhaOk++;
                 break;
             }
         }
         for (let j = 0; j < tam_senha; j++) {
-            if(Number(senha[j]) != NaN){
+            if (Number(senha[j]) != NaN) {
                 senhaOk++;
                 break;
-            }    
+            }
         }
-        if(senhaOk != 2){
+        if (senhaOk != 2) {
             alert("A senha deve conter pelo menos 1 número e 1 caractere especial (!@#$%&*)");
-        } else{
-            window.open("Login.html", "_self");
-            alert("Cadastro realizado com sucesso");
+        } else {
+            fetch("/login/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    nomeServer: nome,
+                    dtNascServer: dataNasc,
+                    cargoServer: cargo,
+                    conselhoServer: conselho,
+                    cidadeServer: cidadeAtuante,
+                    senhaServer: senha,
+
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        // cardErro.style.display = "block";
+
+                        alert("Cadastro realizado com sucesso! Redirecionando para a tela de login");
+                        // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                        setTimeout(() => {
+                            window.location = "Login.html";
+                        }, "2000");
+
+                        //   finalizarAguardar();
+                    } else {
+                        throw alert("Houve um erro ao tentar realizar o cadastro!");
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    // finalizarAguardar();
+                });
+
+            return false;
         }
     }
+
+
+    // Enviando o valor da nova input
+
+    // window.open("Login.html", "_self");
 }
 
