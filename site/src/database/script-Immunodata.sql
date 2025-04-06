@@ -15,7 +15,7 @@ CREATE TABLE usuarios (
     numConselho CHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
     fkCidadeResidente INT,
-    CONSTRAINT fkCidadeDoUsuario FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
+    CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
 );
 
 CREATE TABLE doencas (
@@ -31,15 +31,14 @@ CREATE TABLE ocorrencias (
     quantidadeCasos INT NOT NULL,
     coberturaVacinal DOUBLE,
     PRIMARY KEY (fkDoenca, fkCidade, anoReferencia),
-    CONSTRAINT fkDoencasOcorrencia FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
-    CONSTRAINT fkCidadeOcorrencia FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
+    CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
+    CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
 );
 
 CREATE TABLE logsEtl (
     idLog INT PRIMARY KEY AUTO_INCREMENT,
-    nivel VARCHAR(45) NOT NULL,
+    status VARCHAR(100) NOT NULL,
+    dataHora DATETIME NOT NULL,
     detalhes VARCHAR(200),
     classeQueOcorreu VARCHAR(100)
 );
-
-
