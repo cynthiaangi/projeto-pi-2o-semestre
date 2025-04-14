@@ -9,99 +9,129 @@ body {
     height: 100vh;
 }
 
-.cabecalho {
+
+header {
+    width: 100%;
+    height: 6vw;
+    position: fixed;
+  
+  
+    z-index: 3;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  }
+  
+  .cabecalho {
+    display: flex;
+    align-items: center;
+    z-index: 2
+  }
+  
+  .logo {
+    width: 15vw;
+    height: 100%;
+    margin-left: 2vw;
+    cursor: pointer;
+    margin-top: 0.6vw;
+  }
+  
+  .icon-header {
+    width: 6vw;
+    cursor: pointer;
+  }
+  
+  .box_nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  
+  }
+  
+  nav {
+    width: 40vw;
+    margin-right: 5vw;
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    height: 8vh;
     align-items: center;
-}
-
-.cabecalho-titulo {
-    display: flex;
-    margin-left: 1.25vw;
-    align-items: center;
-    font-size: 1.4rem;
-    font-weight: 700;
-}
-
-.cabecalho-titulo-img {
-    margin-right: 1vw;
-    width: 10%;
-}
-
-.cabecalho-navegacao {
-    margin-right: 3vw;
-    display: flex;
-    gap: 4vw;
-}
-
-.cabecalho-navegacao-item {
-    display: flex;
-    gap: 2.5vw;
-    align-items: center;
-}
-
-.cabecalho-navegacao a {
-    text-decoration: none;
-    font-weight: 500;
-    color: #0B0706;
-}
-
-.cabecalho-navegacao .logar {
-    background-color: #092b43;
-    padding: 0.75rem 2rem;
-    color: #fff !important;
-    border-radius: 0.25rem;
-}
-
-.conteudo {
-    display: flex;
-}
-
-.conteudo-principal {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10vh;
-}
-
-.conteudo-principal-parte {
-    width: 100%;
-    height: 62.5vh;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 2vw;
-}
-
-.capa {
-    background-image: url(../assets/fundo-vacina.jpg);
-    background-size: cover;
-    width: 100% !important;
-    margin: 0 !important;
-    height: 75vh !important;
-}
-
-.sobre-capa-principal {
     color: white;
-    height: 100%;
+  }
+  
+  a {
+    font-style: normal;
+    color: white;
+    text-decoration: none;
+    font-size: 1.5vw;
+    font-weight: 400;
+    text-align: center;
+  }
+  
+  a:hover {
+    font-weight: bold;
+  }
+  
+  .home {
+    background-image: url('../assets/fundo-vacina.jpg');
+    background-size: cover; 
+      background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 73vh;
+    background-color: white;
+    border-radius: 0vw 0vw 0vw 15vw;
     display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .home_embarque {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: left;
-    gap: 3vh;
-    font-size: 4rem;
-    font-weight: 700;
-    text-align: left;
-    margin-left: 6vw;
-    margin-top: 37.5vh;
-}
+    color: white;
+    height: 19vw;
+    width: 80vw;
+    margin-top: 5vw;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 2.5vw;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+  }
 
-.slogan {
-    width: 50%;
-    padding: 2rem;
-}
+  .home_embarque a {
+    background-color: #e2e2e2a8;
+    color: white;
+    /* background-color: #092b43cf; */
+    border-radius: 0.5vw;
+    width: 24vw;
+    height: 5.3vw;
+    text-align: center;
+    padding-top: 1vw;
+    font-size: 1.8vw;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+    margin-top: 2vw;
+  }
+  
+  .home_embarque span {
+    font-weight: 700;
+    padding-left: 0.2vw;
+    padding-right: 0.2vw;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .home_embarque a:hover {
+    background-color: #002f52b9;
+    color: white;
+    font-weight: 900;
+    transition: all 0.5s ease;
+    /* Para animações suaves em elementos */
+  
+  }
 
 .conteudo-principal-imagem {
     width: 30%;
@@ -250,6 +280,69 @@ body {
     margin-top: auto;
 }
 
+footer {
+    width: 100%;
+    background-color: #12577B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vw 0;
+  }
+  
+  .box_footer_rodape {
+    width: 80vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    color: white;
+    font-size: 1.1vw;
+    font-weight: 600;
+    flex-wrap: wrap;
+  }
+  
+  .box_footer_contato p {
+    margin: 0.5vw 0;
+  }
+  
+  .footer_title {
+    font-weight: 700;
+    font-size: 1.5vw;
+    margin-bottom: 1vw;
+  }
+  
+  .box_footer_termos p {
+    padding-bottom: 0.9vw;
+    cursor: pointer;
+  }
+  
+  .box_footer_termos a {
+    font-size: 1.1vw;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .a_footer {
+    width: 17vw;
+    height: 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.4vw;
+    color: #092B43;
+    background-color: white;
+    font-weight: 600;
+    font-size: 1.4vw;
+    text-decoration: none;
+    margin-top: 1vw;
+  }
+  
+  .footer_final {
+    color: white;
+    font-weight: lighter;
+    margin-top: 2vw;
+    font-size: 1vw;
+  }
 
 @media (max-width: 1150px) {
     .conteudo-principal-parte{
