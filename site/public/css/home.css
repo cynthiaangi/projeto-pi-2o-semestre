@@ -123,14 +123,35 @@ header {
     padding-right: 0.2vw;
     font-family: "Poppins", sans-serif;
   }
+
+  .box_cadastro {
+    display: flex;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    justify-content: space-around;
+    align-items: center;
+    width: 20vw;
+  }
   
-  .home_embarque a:hover {
-    background-color: #002f52b9;
-    color: white;
-    font-weight: 900;
-    transition: all 0.5s ease;
-    /* Para animações suaves em elementos */
+  .box_cadastro a {
+    width: 9vw;
+    height: 3vw;
+    border-radius: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .cadastrar {
+    border: 0.14vw solid #092B43;
+    font-size: 1.2vw;
+  }
+  
+  .logar {
+    background-color: #092B43;
+    font-size: 1.3vw;
   }
 
 .conteudo-principal-imagem {
