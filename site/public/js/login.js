@@ -30,12 +30,12 @@ function entrar(){
             resposta.json().then(json => {
                 console.log(json);
                 console.log(JSON.stringify(json));
-                sessionStorage.EMAIL_USUARIO = json.email;
+                sessionStorage.CONSELHO_USUARIO = json.conselho;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
 
                 setTimeout(function () {
-                    window.location = "./dashboard/usuario.html";
+                    window.location = "./dashboard.html";
                 }, 5000); // apenas para exibir o loading
 
             });

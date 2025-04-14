@@ -24,21 +24,29 @@ CREATE TABLE doencas (
     nomeVacina VARCHAR(45) NOT NULL
 );
 
+insert into doencas (nomeDoenca, nomeVacina) values 
+("Coqueluche", "Pentavalente"),
+("Meningite", "Meningocócica"),
+("Poliomielite", "VOP");
+
+
+
 CREATE TABLE ocorrencias (
+	idOcorrencia INT primary key auto_increment,
     fkDoenca INT,
     fkCidade INT,
     anoReferencia YEAR NOT NULL,
     quantidadeCasos INT NOT NULL,
     coberturaVacinal DOUBLE,
-    PRIMARY KEY (fkDoenca, fkCidade, anoReferencia),
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
 );
 
-CREATE TABLE logsEtl (
+CREATE TABLE logEtl (
     idLog INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(100) NOT NULL,
     dataHora DATETIME NOT NULL,
     detalhes VARCHAR(200),
     classeQueOcorreu VARCHAR(100)
-);
+); 
+-- teste
