@@ -3,7 +3,8 @@ package school.sptech.models;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Doencas {
-
+    // essa classe só é usada para buscar os dados do banco
+    // não é inserido nada no banco
 
     public Integer idDoenca;
     public String nomeDoenca;

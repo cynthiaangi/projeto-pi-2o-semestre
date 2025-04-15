@@ -14,11 +14,13 @@ public class LogEtlDao {
             this.jdbcTemplate = jdbcTemplate;
         }
 
-        public void inserirLogEtl(Integer idLog, String status, LocalDateTime dataHora, String detalhes, String classeQueOcorreu) {
+        // Insere os logs no banco de dados
+        public void inserirLogEtl(String status, LocalDateTime dataHora, String detalhes, String classeQueOcorreu) {
             jdbcTemplate.update("INSERT INTO logEtl (status, dataHora, detalhes, classeQueOcorreu) VALUES (?, ?, ?, ?)",
                     status, dataHora, detalhes, classeQueOcorreu);
         }
 
+        // Busca todos os logs
         public List<LogEtl> findAll() {
             List<LogEtl> logs = jdbcTemplate.query(
                     "SELECT * FROM logEtl", new BeanPropertyRowMapper<>(LogEtl.class)

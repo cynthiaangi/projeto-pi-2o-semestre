@@ -1,5 +1,6 @@
 package school.sptech.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.models.Cidades;
@@ -14,6 +15,7 @@ public class CidadesDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // lista todas as cidades
     public List<Cidades> findAll(){
         List<Cidades> cidades = jdbcTemplate.query(
                 "SELECT * FROM cidades", new BeanPropertyRowMapper<>(Cidades.class)
@@ -22,13 +24,21 @@ public class CidadesDao {
         return cidades;
     }
 
-    public void inserirCidade (Integer codigoIbge, String nome, Double qtdPopulacional){
-        jdbcTemplate.update("INSERT INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)," +
-                " codigoIbge, nome, qtdPopulacional");
-
+    // insere as cidades no banco de dados
+    public void inserirCidade(Long codigoIbge, String nomeCidade, Float qtdPopulacional) {
+        String sql = "INSERT INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, codigoIbge, nomeCidade, qtdPopulacional);
     }
 
-    public Cidades existsById(Integer codigoIbge) {
-        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT codigoIbge FROM cidades WHERE codigoIbge = ?) AS ja_existe", Cidades.class, codigoIbge);
+    // busca a cidade pelo id (codigoIbge)
+    public Cidades buscarPorId(Long codigoIbge) {
+        // esse try trata o erro caso a cidade não seja encontrada
+        try {
+            String sql = "SELECT * FROM cidades WHERE codigoIbge = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{codigoIbge}, new BeanPropertyRowMapper<>(Cidades.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null; // Retorna null se a cidade não for encontrada
+        }
     }
+
 }

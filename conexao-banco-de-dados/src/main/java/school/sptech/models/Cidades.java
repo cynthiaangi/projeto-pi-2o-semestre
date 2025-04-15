@@ -2,24 +2,24 @@ package school.sptech.models;
 
 public class Cidades {
 
-    public Integer codigoIbge;
+    public Long codigoIbge;
     public String nome;
     public Float qtdPopulacional;
 
     public Cidades() {
     }
 
-    public Cidades(Integer codigoIbge, String nome, Float qtdPopulacional) {
+    public Cidades(Long codigoIbge, String nome, Float qtdPopulacional) {
         this.codigoIbge = codigoIbge;
         this.nome = nome;
         this.qtdPopulacional = qtdPopulacional;
     }
 
-    public Integer getCodigoIbge() {
+    public Long getCodigoIbge() {
         return codigoIbge;
     }
 
-    public void setCodigoIbge(Integer codigoIbge) {
+    public void setCodigoIbge(Long codigoIbge) {
         this.codigoIbge = codigoIbge;
     }
 
