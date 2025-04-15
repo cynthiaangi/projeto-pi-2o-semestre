@@ -2,9 +2,9 @@ CREATE DATABASE immunoData;
 USE immunoData;
 
 CREATE TABLE cidades (
-    codigoIbge INT PRIMARY KEY,
+    codigoIbge BIGINT PRIMARY KEY,
     nome VARCHAR(90) NOT NULL,
-    qtdPopulacional FLOAT(6,1)
+    qtdPopulacional FLOAT
 );
 
 CREATE TABLE usuarios (
@@ -14,7 +14,7 @@ CREATE TABLE usuarios (
     cargoExercido VARCHAR(45),
     numConselho CHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
-    fkCidadeResidente INT,
+    fkCidadeResidente BIGINT,
     CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
 );
 
@@ -27,16 +27,15 @@ CREATE TABLE doencas (
 insert into doencas (nomeDoenca, nomeVacina) values 
 ("Coqueluche", "Pentavalente"),
 ("Meningite", "Meningocócica"),
-("Poliomielite", "VOP");
-
+("Poliomielite", "Vacina Oral Poliomielite - VOP");
 
 
 CREATE TABLE ocorrencias (
 	idOcorrencia INT primary key auto_increment,
     fkDoenca INT,
-    fkCidade INT,
+    fkCidade BIGINT,
     anoReferencia YEAR NOT NULL,
-    quantidadeCasos INT NOT NULL,
+    quantidadeCasos INT,
     coberturaVacinal DOUBLE,
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
@@ -49,4 +48,10 @@ CREATE TABLE logEtl (
     detalhes VARCHAR(200),
     classeQueOcorreu VARCHAR(100)
 ); 
--- teste
+
+ALTER TABLE logEtl MODIFY detalhes TEXT;
+
+select * from logetl;
+select * from ocorrencias;
+select * from cidades;
+select * from doencas;
