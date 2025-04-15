@@ -110,3 +110,54 @@ public class LeitorExcel {
         }
     }
 }
+
+//Coluna 0: Código IBGE
+//Coluna 1: Nome da cidade
+//Colunas 2–5: Meningite 2019–2022
+//Colunas 6–9: Poliomielite 2019–2022
+//Colunas 10–13: Coqueluche 2019–2022
+
+// Mapeamento dos anos por posição
+int[] anos = {2019, 2020, 2021, 2022};
+String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"}; // mapear depois para ID
+int colunaInicial = 2; // começa na Meningite 2019
+
+for (int rowIndex = 3; rowIndex <= sheet.getLastRowNum(); rowIndex++) { // começa da linha 4
+Row row = sheet.getRow(rowIndex);
+    if (row == null) continue;
+
+int codigoIbge = (int) row.getCell(0).getNumericCellValue();
+
+    for (int d = 0; d < doencas.length; d++) {
+        for (int a = 0; a < anos.length; a++) {
+int coluna = colunaInicial + d * 4 + a;
+Cell cell = row.getCell(coluna);
+double cobertura = 0.0;
+
+            if (cell != null) {
+        switch (cell.getCellType()) {
+        case NUMERIC:
+cobertura = cell.getNumericCellValue();
+                        break;
+                                case STRING:
+String valor = cell.getStringCellValue().replace(",", ".");
+cobertura = Double.parseDouble(valor);
+                        break;
+                                }
+                                }
+
+int fkDoenca = getFkDoenca(doencas[d]); // implementa essa função pra mapear a string para ID
+
+// monta o insert
+String sql = "INSERT INTO ocorrencias (fkDoenca, fkCidade, anoReferencia, quantidadeCasos, coberturaVacinal) " +
+        "VALUES (?, ?, ?, ?, ?)";
+PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, fkDoenca);
+            ps.setInt(2, codigoIbge);
+            ps.setInt(3, anos[a]);
+            ps.setInt(4, 0); // quantidadeCasos está faltando, assume 0
+            ps.setDouble(5, cobertura);
+            ps.executeUpdate();
+        }
+                }
+                }
