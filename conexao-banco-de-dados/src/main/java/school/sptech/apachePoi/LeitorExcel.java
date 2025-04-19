@@ -11,6 +11,7 @@ import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.LogEtlDao;
 import school.sptech.dao.OcorrenciasDao;
+import school.sptech.models.Doencas;
 
 public class LeitorExcel {
 
@@ -88,7 +89,135 @@ public class LeitorExcel {
 //        }
 //    }
 
-    // método para processar e inserir as cidades
+
+//    o que o chat recomendou:
+//    private void inserirCasosDoencas(Sheet sheet, DoencasDao doencasDao, LogEtlDao logDao, String nomeArquivo) {
+//        try {
+//            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Começa da linha 1 para pular o cabeçalho
+//                Row row = sheet.getRow(i);
+//                if (row == null) continue;
+//
+//                int codigoIbge = (int) row.getCell(0).getNumericCellValue();
+//
+//                // Colunas de casos por doença (ajustar os índices de acordo com o layout)
+//                String[] doencas = {"Coqueluche", "Meningite", "Polio"};
+//                int[] colInicio = {1, 7, 13}; // Coluna inicial de cada doença
+//                int anosPorDoenca = 6; // 2019 a 2024
+//
+//                for (int d = 0; d < doencas.length; d++) {
+//                    for (int a = 0; a < anosPorDoenca; a++) {
+//                        int col = colInicio[d] + a;
+//                        Cell cell = row.getCell(col);
+//                        if (cell == null || cell.getCellType() == CellType.BLANK) continue;
+//
+//                        int casos = (int) cell.getNumericCellValue();
+//                        int ano = 2019 + a;
+//                        if (casos > 0) {
+//                            DoencasDao.inserirCaso(codigoIbge, doencas[d], ano, casos);
+//                            logDao.inserirLogEtl("200", LocalDateTime.now(),
+//                                    "Linha %d do arquivo %s: inserido %d casos de %s para %d".formatted(i, nomeArquivo, casos, doencas[d], ano),
+//                                    "LeitorExcel");
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            logDao.inserirLogEtl("500", LocalDateTime.now(),
+//                    "Erro ao processar planilha: %s".formatted(e.getMessage()), "LeitorExcel");
+//        }
+//    }
+
+//    // método para processar e inserir os casos
+//    private void inserirCasos(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+//        System.out.println("inserindo casos");
+//
+//        try {
+//            // mapeamento dos anos, doenças e a coluna inicial da planilha
+//            int[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
+//            String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
+//            int colunaInicial = 1;
+//
+//            // Obtendo o valor do código IBGE e convertendo para inteiro
+//            // (não tenho certeza se isso é necessário, vou verificar depois)
+//            DataFormatter formatter = new DataFormatter();
+//            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+//            int codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+//
+//            // for para percorrer as doenças e anos
+//            for (int d = 0; d < doencas.length; d++) {
+//                for (int a = 0; a < anos.length; a++) {
+//                    int coluna = colunaInicial + d * 6 + a;
+//                    Cell cell = row.getCell(coluna);
+//                    double cobertura = 0.0;
+//                    // Verificando se a célula está vazia ou inválida
+//                    if (cell == null || cell.toString().trim().isEmpty()) {
+//                        continue; // logar o erro e pular
+//                    }
+//                    if (cell != null) {
+//                        // try para converter o valor da célula para Double e retirar a vírgula
+//                        try {
+//                            String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
+//                            if (!valorFormatado.isEmpty()) {
+//                                cobertura = Double.parseDouble(valorFormatado);
+//                            }
+//                        } catch (NumberFormatException ex) {
+//                            System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+//                            continue;
+//                        }
+//                    }
+
+
+                    private void inserirCasos(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+                        System.out.println("inserindo casos");
+
+                        try {
+                            int[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
+                            String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
+                            int colunaInicial = 1;
+
+                            DataFormatter formatter = new DataFormatter();
+                            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+                            int codigoIbge = Integer.parseInt(valorIbgeStr);
+
+                            for (int d = 0; d < doencas.length; d++) {
+                                int fkDoenca = doencasDao.buscarIdPorNome(doencas[d]);
+
+                                for (int a = 0; a < anos.length; a++) {
+                                    int coluna = colunaInicial + d * 6 + a;
+                                    Cell cell = row.getCell(coluna);
+                                    double cobertura = 0.0;
+
+                                    if (cell == null || cell.toString().trim().isEmpty()) {
+                                        continue;
+                                    }
+
+                                    try {
+                                        String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
+                                        if (!valorFormatado.isEmpty()) {
+                                            cobertura = Double.parseDouble(valorFormatado);
+                                        }
+                                    } catch (NumberFormatException ex) {
+                                        System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                                        continue;
+                                    }
+
+                                    // Inserir ou atualizar ocorrência
+                                    if (ocorrenciasDao.existeOcorrencia(fkDoenca, codigoIbge, anos[a]) > 0) {
+                                        ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], (int) cobertura);
+                                    } else {
+                                        ocorrenciasDao.inserirCasos(fkDoenca, codigoIbge, anos[a], (int) cobertura);
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro ao inserir casos: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+
+
+
+                    // método para processar e inserir as cidades
     private void processarCidades(Row row, CidadesDao cidadesDao, LogEtlDao logDao, String nomeArquivo) {
         try {
             // Obtém o valor do codigoIbge

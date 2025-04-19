@@ -22,6 +22,13 @@ public class OcorrenciasDao {
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
+    //inserindo casos no banco de dados
+    public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
+        jdbcTemplate.update("UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
+                quantidadeCasos, fkDoenca, fkCidade, anoReferencia);
+    }
+
+
 
 
     // busca todas as ocorrências
@@ -46,4 +53,22 @@ public class OcorrenciasDao {
                 Boolean.class, codigoIbge, mesReferencia, anoReferencia, fkDoenca
         );
     }
+
+    //verificando se é isso mesmo
+    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
+        jdbcTemplate.update(
+                "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
+                quantidadeCasos, fkDoenca, fkCidade, anoReferencia
+        );
+    }
+
+    public Integer buscarIdPorNome(String nomeDoenca) {
+        String sql = "SELECT id FROM doencas WHERE nome = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, nomeDoenca);
+    }
+
+
+
+
+
 }
