@@ -34,6 +34,7 @@ CREATE TABLE ocorrencias (
 	idOcorrencia INT primary key auto_increment,
     fkDoenca INT,
     fkCidade BIGINT,
+    mesReferencia VARCHAR(40),
     anoReferencia YEAR NOT NULL,
     quantidadeCasos INT,
     coberturaVacinal DOUBLE,
@@ -51,7 +52,17 @@ CREATE TABLE logEtl (
 
 ALTER TABLE logEtl MODIFY detalhes TEXT;
 
+select count(*) from logetl;
 select * from logetl;
 select * from ocorrencias;
+ select * from ocorrencias where mesReferencia is not null;
 select * from cidades;
 select * from doencas;
+
+truncate table logetl;
+
+SELECT * FROM ocorrencias
+WHERE fkCidade = 3532157
+  AND mesReferencia = 'Abr'
+  AND anoReferencia = 2023
+  AND fkDoenca = 1;
