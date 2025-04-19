@@ -41,4 +41,14 @@ public class CidadesDao {
         }
     }
 
+    public Integer buscarCodigoIbgePorNome(String nomeCidade) {
+        try {
+            String sql = "SELECT codigoIbge FROM cidades WHERE LOWER(nome) = LOWER(?)";
+            return jdbcTemplate.queryForObject(sql, Integer.class, nomeCidade);
+        } catch (EmptyResultDataAccessException e) {
+            return null; // cidade não encontrada
+        }
+    }
+
+
 }
