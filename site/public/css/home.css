@@ -104,7 +104,6 @@ header {
   .home_embarque a {
     background-color: #e2e2e2a8;
     color: white;
-    /* background-color: #092b43cf; */
     border-radius: 0.5vw;
     width: 24vw;
     height: 5.3vw;
@@ -155,9 +154,25 @@ header {
 
   /* fim da nav */
 
+  .topico_seringa {
+    display: flex;
+    align-items: center;
+    margin: 1vw 0vw 1vw 2vw;
+    font-size: 2.4vw;
+    font-weight: 600;
+    color: #092B43;
+    padding-top: 5vw;
+}
+
+.topico_seringa img {
+    width: 6vw;
+    height: auto;
+    margin-right: 0.6vw;
+}
+
+  /*  */
   .sobre_home {
     width: 100%;
-    margin-bottom: 3vw;
     background-color: white;
   }
   
@@ -166,7 +181,6 @@ header {
     height: 40vw;
     display: flex;
     justify-content: center;
-    padding-top: 5vw;
     color: #092B43;
   }
   
@@ -181,13 +195,8 @@ header {
     margin-left: 6vw;
   }
   
-  .box_sobre_home h3 {
-    font-size: 2.4vw;
-    font-weight: 600;
-  }
-  
   .box_sobre_home p {
-    margin-top: 1.2vw;
+    margin-top: 3.5vw;
     font-size: 1.7vw;
   }
   
@@ -204,7 +213,7 @@ header {
     align-items: center;
     font-weight: 600;
     border-radius: 0.4vw;
-    margin-top: 1vw;
+    margin-top: 5vw;
   }
 
 
