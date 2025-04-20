@@ -22,14 +22,19 @@ public class OcorrenciasDao {
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
-    //inserindo casos no banco de dados
+    //inserindo casos no banco de dadoskkkk
     public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
         jdbcTemplate.update("UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
                 quantidadeCasos, fkDoenca, fkCidade, anoReferencia);
     }
 
-
-
+    //verificando se é isso mesmo
+    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
+        jdbcTemplate.update(
+                "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
+                quantidadeCasos, fkDoenca, fkCidade, anoReferencia
+        );
+    }
 
     // busca todas as ocorrências
     public void findAll() {
@@ -46,29 +51,10 @@ public class OcorrenciasDao {
     }
 
     public Boolean existsByFksMensal(Long codigoIbge, String mesReferencia, int anoReferencia, int fkDoenca) {
-        System.out.printf("Verificando existência: codigoIbge=%d, mesReferencia=%s, anoReferencia=%d, fkDoenca=%d%n",
-                codigoIbge, mesReferencia, anoReferencia, fkDoenca);
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe2",
                 Boolean.class, codigoIbge, mesReferencia, anoReferencia, fkDoenca
         );
     }
-
-    //verificando se é isso mesmo
-    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
-        jdbcTemplate.update(
-                "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
-                quantidadeCasos, fkDoenca, fkCidade, anoReferencia
-        );
-    }
-
-    public Integer buscarIdPorNome(String nomeDoenca) {
-        String sql = "SELECT id FROM doencas WHERE nome = ?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, nomeDoenca);
-    }
-
-
-
-
 
 }
