@@ -9,10 +9,6 @@ import java.util.List;
 public class DoencasDao {
     private final JdbcTemplate jdbcTemplate;
 
-//    public DoencasDao(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
-
     public DoencasDao(JdbcTemplate jdbcTemplate) {
 
         this.jdbcTemplate = jdbcTemplate;

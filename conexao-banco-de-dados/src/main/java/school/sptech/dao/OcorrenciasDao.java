@@ -22,13 +22,7 @@ public class OcorrenciasDao {
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
-    //inserindo casos no banco de dadoskkkk
-    public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
-        jdbcTemplate.update("UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
-                quantidadeCasos, fkDoenca, fkCidade, anoReferencia);
-    }
-
-    //verificando se é isso mesmo
+    // atualiza os casos no banco de dados caso já exista
     public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
         jdbcTemplate.update(
                 "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
@@ -36,21 +30,22 @@ public class OcorrenciasDao {
         );
     }
 
-    // busca todas as ocorrências
-    public void findAll() {
-        jdbcTemplate.query("SELECT * FROM ocorrencias", new BeanPropertyRowMapper<>(Ocorrencias.class));
-
-    }
+    // busca todas as ocorrências existentes
+//    public void findAll() {
+//        jdbcTemplate.query("SELECT * FROM ocorrencias", new BeanPropertyRowMapper<>(Ocorrencias.class));
+//
+//    }
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
-    public Integer existsByFks(int codigoIbge, int ano, int fkDoenca) {
+    public Boolean existsByFks(Integer codigoIbge, Integer ano, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe",
-                Integer.class, codigoIbge, ano, fkDoenca
+                Boolean.class, codigoIbge, ano, fkDoenca
         );
     }
 
-    public Boolean existsByFksMensal(Long codigoIbge, String mesReferencia, int anoReferencia, int fkDoenca) {
+    // busca 1 ocorrência pelos campos fkDoenca, fkCidade, mesReferencia e anoReferencia
+    public Boolean existsByFksMensal(Long codigoIbge, String mesReferencia, Integer anoReferencia, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe2",
                 Boolean.class, codigoIbge, mesReferencia, anoReferencia, fkDoenca
