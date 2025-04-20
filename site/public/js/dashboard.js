@@ -1,4 +1,5 @@
 var ctx = myChartCanvas
+var cty = myChartCanvas2
 
 const anos = ["Selecione o ano","2018", "2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -31,22 +32,108 @@ anos.forEach((ano) => {
 anoAntesInput.replaceWith(selectAnoAntes);
 anoDepoisInput.replaceWith(selectAnoDepois);
 
+let myChart2 = new Chart(cty, {
+    type: 'doughnut',
+    data: {
+        labels: ['75%'],
+      datasets: [{
+        data: [75, 100 - 75],
+        backgroundColor: ['#0A4D68', '#E0E0E0'],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+        cutout: '70%',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+            display: true,
+            text: 'Meta vacinal',
+            color: '#2e2e2e',
+            font: {
+                size: 24
+            }
+            // padding: {
+            //     bottom: 
+            // }
+        },
+        legend: {
+            labels: {
+                color: '#2e2e2e',
+                font: {
+                    size: 16
+                }
+            }
+        },
+        // legend: { display: true },
+        tooltip: { enabled: true }
+      }
+    },
+    plugins: [{
+        id: 'marcadorMeta',
+        afterDatasetsDraw(chart) {
+          const {ctx, chartArea} = chart;
+          if (!chartArea) return;
+      
+          const posicao = 83; // Meta (%)
+          const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
+      
+          const centerX = (chartArea.left + chartArea.right) / 2;
+          const centerY = chartArea.bottom;
+          const radius = (chartArea.right - chartArea.left) / 2 * 0.8;
+      
+          const x = centerX + radius * Math.cos(angle - 0.5);
+          const y = centerY - radius * Math.cos(angle + 0.5);
+      
+          const marcadorComprimento = 22;
+          const inclinacao = 0.5; // controla a inclinação da marquinha
+      
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(
+            x - marcadorComprimento * Math.cos(angle - inclinacao),
+            y + marcadorComprimento * Math.sin(angle - inclinacao)
+          );
+          ctx.lineTo(
+            x + marcadorComprimento * Math.cos(angle + inclinacao),
+            y - marcadorComprimento * Math.sin(angle + inclinacao)
+          );
+          ctx.strokeStyle = 'limegreen';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          ctx.restore();
+        }
+      }]
+           
+      
+  });
+  
+
 // Adicionando gráfico criado em div na tela
 let myChart = new Chart(ctx,
     {
         type: 'line',
         data: {
-            labels: [],
+            labels: ['2018', '2019', '2020', '2021', '2022'],
             datasets: [{
-                label: 'Umidade',
-                data: [],
+                label: 'Coqueluche',
+                data: ['100', '400', '342', '298', '792'],
                 fill: false,
-                borderColor: "rgb(229, 240, 255)",
-                backgroundColor: "rgb(229, 240, 255)",
+                borderColor: '#0A4D68',
+                backgroundColor: '#0A4D68',
                 tension: 0.1
             },
             {
-                label: 'Temperatura',
+                label: 'Poliomielite',
+                data: [],
+                borderColor: "#8a8a8a",
+                backgroundColor: "#8a8a8a",
+                tension: 0.1
+            },
+            {
+                label: 'Meningite',
                 data: [],
                 borderColor: "rgb(153, 204, 255)",
                 backgroundColor: "rgb(153, 204, 255)",
@@ -57,18 +144,18 @@ let myChart = new Chart(ctx,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Variação de temperatura e umidade em tempo real',
-                    color: 'rgb(255, 255, 255)',
+                    text: 'Quantidade de casos por ano',
+                    color: '#2e2e2e',
                     font: {
                         size: 24
-                    },
-                    padding: {
-                        bottom: 40
                     }
+                    // padding: {
+                    //     bottom: 40
+                    // }
                 },
                 legend: {
                     labels: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -78,12 +165,12 @@ let myChart = new Chart(ctx,
             scales: {
                 x: {
                     ticks: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                     },
                     title: {
                         display: true,
-                        text: 'horas',
-                        color: 'rgb(255, 255, 255)',
+                        text: 'anos',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -92,12 +179,12 @@ let myChart = new Chart(ctx,
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                     },
                     title: {
                         display: true,
-                        text: 'medida',
-                        color: 'rgb(255, 255, 255)',
+                        text: 'qtde. casos',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -108,6 +195,10 @@ let myChart = new Chart(ctx,
     });
 
 var idEmpresa = sessionStorage.ID_USUARIO;
+
+function voltarHome(){
+    window.location = "index.html";
+}
 
 function abrirMenuExtendido(){
     var lateral = document.getElementsByClassName('lateral')[0];
