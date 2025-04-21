@@ -218,9 +218,9 @@ nav button {
 .chart-container {
   background-color: #eeeeee;
   border: 1px solid #adadad;
-  height: 30rem;
+  height: 20rem;
   width: 40rem;
-  padding: 40px;
+  padding: 0 40px;
   margin-bottom: 1rem;
   border-radius: 20px;
   display: flex;
@@ -237,8 +237,8 @@ nav button {
   text-align: center;
   color: #000000;
   border-radius: 15px;
-  height: 150px;
-  width: 300px;
+  height: 300px;
+  width: 400px;
   justify-content: center;
   font-size: 4rem;
   font-weight: 700;
@@ -256,6 +256,14 @@ nav button {
   border-radius: 10px;
 }
 
+.conteudo-dash-veloc {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  border-radius: 10px;
+}
+
 .chart {
   display: flex;
   flex-direction: column;
@@ -264,6 +272,13 @@ nav button {
   gap: 1rem;
 }
 
+.valor-vacina{
+  color: #00bf63 !important;
+}
+
+.valor-caso{
+  color: #ff3131 !important;
+}
 
 .titulo-legenda {
   color: rgb(17, 0, 66);

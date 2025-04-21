@@ -16,16 +16,19 @@ public class Workbook {
         Path caminhoCidades = Path.of("src/main/java/school/sptech/apachePoi/arquivos-dados/cidades-sp.xlsx");
         Path caminhoVacinas = Path.of("src/main/java/school/sptech/apachePoi/arquivos-dados/estadoSP_vacinas-19-22.xlsx");
         Path caminhoDoencas = Path.of("src/main/java/school/sptech/apachePoi/arquivos-dados/estadoSP_doencas.xlsx");
+        Path caminhoVacinasMensal = Path.of("src/main/java/school/sptech/apachePoi/arquivos-dados/estadoSP_vacinas-23-24.xlsx");
 
         // Leitura dos arquivos
         // o try é para tratar a excessão de erro, caso o arquivo não seja encontrado ou não possa ser lido
         try (InputStream arquivoCidades = Files.newInputStream(caminhoCidades);
              InputStream arquivoVacinas = Files.newInputStream(caminhoVacinas);
-             InputStream arquivoDoencas = Files.newInputStream(caminhoDoencas)
+             InputStream arquivoDoencas = Files.newInputStream(caminhoDoencas);
+             InputStream arquivoVacinasMensal = Files.newInputStream(caminhoVacinasMensal) // arquivo de vacinas mensal
              ) {
 
             leitor.extrairDados("cidades-sp.xlsx", arquivoCidades); // chama processarCidades
-            leitor.extrairDados("estadoSP_vacinas-19-22.xlsx", arquivoVacinas); // chama processarOcorrencias
+            leitor.extrairDados("estadoSP_vacinas-19-22.xlsx", arquivoVacinas);// chama processarOcorrencias
+            leitor.extrairDados("estadoSP_vacinas-23-24.xlsx", arquivoVacinasMensal); // chama processarOcorrenciasMensal
             leitor.extrairDados("estadoSP_doencas.xlsx", arquivoDoencas); // chama processarDoencas
 
             System.out.println("Arquivos processados com sucesso!"); // mensagem de sucesso

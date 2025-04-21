@@ -4,7 +4,8 @@ public class Ocorrencias {
 
     public Integer idOcorrencia;
     public Integer fkDoenca;
-    public Integer fkCidade;
+    public Long fkCidade;
+    public String mesReferencia;
     public Integer anoReferencia;
     public Integer quantidadeCasos;
     public Double coberturaVacinal;
@@ -12,10 +13,11 @@ public class Ocorrencias {
     public Ocorrencias() {
     }
 
-    public Ocorrencias(Integer idOcorrencia, Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos, Double coberturaVacinal) {
+    public Ocorrencias(Integer idOcorrencia, Integer fkDoenca, Long fkCidade, String mesReferencia, Integer anoReferencia, Integer quantidadeCasos, Double coberturaVacinal) {
         this.idOcorrencia = idOcorrencia;
         this.fkDoenca = fkDoenca;
         this.fkCidade = fkCidade;
+        this.mesReferencia = mesReferencia;
         this.anoReferencia = anoReferencia;
         this.quantidadeCasos = quantidadeCasos;
         this.coberturaVacinal = coberturaVacinal;
@@ -29,13 +31,17 @@ public class Ocorrencias {
         this.fkDoenca = fkDoenca;
     }
 
-    public Integer getFkCidade() {
+    public Long getFkCidade() {
         return fkCidade;
     }
 
-    public void setFkCidade(Integer fkCidade) {
+    public void setFkCidade(Long fkCidade) {
         this.fkCidade = fkCidade;
     }
+
+    public String getMesReferencia() { return mesReferencia;}
+
+    public void setMesReferencia(String mesReferencia) { this.mesReferencia = mesReferencia;}
 
     public Integer getAnoReferencia() {
         return anoReferencia;
@@ -75,6 +81,7 @@ public class Ocorrencias {
                 "idOcorrencia=" + idOcorrencia +
                 ", fkDoenca=" + fkDoenca +
                 ", fkCidade=" + fkCidade +
+                ", mesReferencia='" + mesReferencia +
                 ", anoReferencia=" + anoReferencia +
                 ", quantidadeCasos=" + quantidadeCasos +
                 ", coberturaVacinal=" + coberturaVacinal +

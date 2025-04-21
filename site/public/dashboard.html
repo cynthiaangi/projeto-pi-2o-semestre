@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ImmunoData</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script src="./js/sessao.js"></script>
     <script src="./js/alerta.js"></script> -->
     <link rel="stylesheet" href="css/style-dash.css" />
@@ -26,9 +26,9 @@
                 <button onclick="abrirMenuExtendido()" class="material-symbols-outlined">
                     menu
                 </button>
-                <span class="material-symbols-outlined icone-lateral">
+                <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral">
                     logout
-                </span>
+                </button>
             </nav>
             <nav class="lateral-extendido">
                 <img src="./assets/logo immunodata2.0/19.png" alt="Logo">
@@ -69,9 +69,9 @@
                             <label for="ajuda">Ajuda</label>
                         </div>
                         <div class="menu-item">
-                            <span class="material-symbols-outlined icone-lateral" id="sair">
+                            <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral" id="sair">
                                 logout
-                            </span>
+                            </button>
                             <label for="sair">Sair</label>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="info-kpi">
                                 <p>Variação da cobertura vacinal</p>
-                                <p>36% <span class="material-symbols-outlined">
+                                <p class="valor-vacina">36% <span class="material-symbols-outlined valor-vacina">
                                         arrow_upward
                                     </span></p>
                             </div>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="info-kpi">
                                 <p>Variação da quantidade de casos </p>
-                                <p>10% <span class="material-symbols-outlined">
+                                <p class="valor-caso">10% <span class="material-symbols-outlined valor-caso">
                                         arrow_downward
                                     </span></p>
                             </div>
@@ -139,8 +139,12 @@
                     </div>
                     <div class="graficos">
                         <div class="kpi">
-                            <div class="quadradinho temperatura" id="temp_kpi"></div>
-                            <div class="quadradinho umidade" id="umid_kpi"></div>
+                            <div class="quadradinho temperatura" id="temp_kpi">
+                                <canvas id="myChartCanvas2" class="conteudo-dash-veloc"></canvas>
+                            </div>
+                            <div class="quadradinho umidade" id="umid_kpi">
+                                <canvas id="myChartCanvas3" class="conteudo-dash-veloc"></canvas>
+                            </div>
                         </div>
                         <div>
                             <div class="graph" id="graficos">
@@ -163,7 +167,7 @@
                                         <span id="tituloAquario"></span>
                                     </h3>
                                     <div class="chart-container">
-                                        <canvas id="myChartCanvas" class="conteudo-dash"></canvas>
+                                        <canvas id="myChartCanvas4" class="conteudo-dash"></canvas>
                                     </div>
                                     <div class="label-captura">
                                         <p id="avisoCapturas" style="color: white"></p>

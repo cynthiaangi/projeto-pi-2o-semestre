@@ -1,6 +1,9 @@
 var ctx = myChartCanvas
+var cty = myChartCanvas2
+var ctz = myChartCanvas3
+var ctw = myChartCanvas4
 
-const anos = ["Selecione o ano","2018", "2019", "2020", "2021", "2022", "2023", "2024"];
+const anos = ["Selecione o ano", "2018", "2019", "2020", "2021", "2022", "2023", "2024"];
 
 const anoAntesInput = document.getElementById("ipt_ano_antes");
 const anoDepoisInput = document.getElementById("ipt_ano_depois");
@@ -31,25 +34,131 @@ anos.forEach((ano) => {
 anoAntesInput.replaceWith(selectAnoAntes);
 anoDepoisInput.replaceWith(selectAnoDepois);
 
+let myChart2 = new Chart(cty, {
+    type: 'doughnut',
+    data: {
+        labels: ['Onde estamos %'],
+        datasets: [{
+            data: [75, 100 - 75],
+            backgroundColor: ['#0A4D68', '#E0E0E0'],
+            borderWidth: 0,
+            circumference: 180,
+            rotation: 270,
+            cutout: '70%',
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Meta vacinal para coqueluche',
+                color: '#2e2e2e',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: '#2e2e2e',
+                    font: {
+                        size: 16
+                    }
+                }
+            },
+            tooltip: { enabled: true }
+        }
+    },
+    plugins: [{
+        id: 'marcadorMeta',
+        afterDatasetsDraw(chart) {
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return; // garante que o gráfico será desenhado apenas após a caixa dele estiver pronta
+
+            const posicao = 85; // ajuste na inclinação e posição da marca no gráfico
+            const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
+
+            const centerX = (chartArea.left + chartArea.right) / 2;
+            const centerY = chartArea.bottom;
+            const radius = (chartArea.right - chartArea.left) / 2 * 0.8;
+
+            const x = centerX + radius * Math.cos(angle - 0.5);
+            const y = centerY - radius * Math.cos(angle + 0.5);
+
+            const marcadorComprimento = 30; // comprimento da marca da meta
+            const inclinacao = 0.5; // controla a inclinação da marca da meta
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(
+                x - marcadorComprimento * Math.cos(angle - inclinacao),
+                y + marcadorComprimento * Math.sin(angle - inclinacao)
+            ); // de onde começa
+            ctx.lineTo(
+                x + marcadorComprimento * Math.cos(angle + inclinacao),
+                y - marcadorComprimento * Math.sin(angle + inclinacao)
+            ); // onde termina
+            ctx.strokeStyle = 'limegreen';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.save();
+            ctx.fillStyle = '#444';
+            ctx.font = 'bold 14px Arial';
+
+            // Posição meta
+            const posicaoMeta = Math.PI;
+            const xMeta = x + marcadorComprimento * Math.cos(angle + inclinacao);
+            const yMeta = y - marcadorComprimento * Math.sin(angle + inclinacao);
+            ctx.fillText('95', xMeta - 5, yMeta - 10);
+
+            // Posição do 0 (lado esquerdo)
+            const posicao0 = Math.PI;
+            const x0 = centerX + (radius + 30) * Math.cos(posicao0);
+            const y0 = (centerY - 20) - (radius + 15) * Math.sin(posicao0);
+            ctx.fillText('0', x0, y0); // ajustezinho fino
+
+            // Posição do 100 (lado direito)
+            const posicao100 = 0;
+            const x100 = centerX + (radius + 20) * Math.cos(posicao100);
+            const y100 = (centerY - 25) - (radius + 15) * Math.sin(posicao100);
+            ctx.fillText('100', x100 - 15, y100 + 5); // ajustezinho fino
+
+            ctx.restore();
+        }
+    }]
+
+
+});
+
+
 // Adicionando gráfico criado em div na tela
 let myChart = new Chart(ctx,
     {
         type: 'line',
         data: {
-            labels: [],
+            labels: ['2018', '2019', '2020', '2021', '2022'],
             datasets: [{
-                label: 'Umidade',
-                data: [],
+                label: 'Coqueluche',
+                data: ['100', '400', '342', '298', '792'],
                 fill: false,
-                borderColor: "rgb(229, 240, 255)",
-                backgroundColor: "rgb(229, 240, 255)",
+                borderColor: '#0A4D68',
+                backgroundColor: '#0A4D68',
                 tension: 0.1
             },
             {
-                label: 'Temperatura',
+                label: 'Poliomielite',
                 data: [],
-                borderColor: "rgb(153, 204, 255)",
-                backgroundColor: "rgb(153, 204, 255)",
+                borderColor: "#8a8a8a",
+                backgroundColor: "#8a8a8a",
+                tension: 0.1
+            },
+            {
+                label: 'Meningite',
+                data: [],
+                borderColor: "#99ccff",
+                backgroundColor: "#99ccff",
                 tension: 0.1
             }]
         },
@@ -57,18 +166,15 @@ let myChart = new Chart(ctx,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Variação de temperatura e umidade em tempo real',
-                    color: 'rgb(255, 255, 255)',
+                    text: 'Quantidade de casos por ano',
+                    color: '#2e2e2e',
                     font: {
                         size: 24
-                    },
-                    padding: {
-                        bottom: 40
                     }
                 },
                 legend: {
                     labels: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -78,12 +184,12 @@ let myChart = new Chart(ctx,
             scales: {
                 x: {
                     ticks: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                     },
                     title: {
                         display: true,
-                        text: 'horas',
-                        color: 'rgb(255, 255, 255)',
+                        text: 'anos',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -92,12 +198,12 @@ let myChart = new Chart(ctx,
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: 'rgb(255, 255, 255)',
+                        color: '#2e2e2e',
                     },
                     title: {
                         display: true,
-                        text: 'medida',
-                        color: 'rgb(255, 255, 255)',
+                        text: 'qtde. casos',
+                        color: '#2e2e2e',
                         font: {
                             size: 16
                         }
@@ -107,26 +213,141 @@ let myChart = new Chart(ctx,
         }
     });
 
+let myChart3 = new Chart(ctz, {
+    type: 'doughnut',
+    data: {
+        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        datasets: [{
+            data: ['62', '25', '13'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
+            borderWidth: 0,
+            circumference: 360,
+            rotation: 270,
+            cutout: '45%',
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Situação da cobertura vacinal no estado (%)',
+                color: '#2e2e2e',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: '#2e2e2e',
+                    font: {
+                        size: 10
+                    }
+                }
+            },
+            tooltip: { enabled: true }
+        }
+    }
+
+});
+
+
+// Adicionando gráfico criado em div na tela
+let myChart4 = new Chart(ctw, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+            label: 'Vacinados',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#0A4D68',
+            backgroundColor: '#0A4D68'
+        },
+        {
+            label: 'Não vacinados',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#99ccff',
+            backgroundColor: '#99ccff'
+        }
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Situação vacinal ao longo dos anos',
+                color: 'rgb(0,0,0)',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: 'rgb(0, 0, 0)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'anos',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'qtde. de pessoas (x1000)',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    }
+});
+
 var idEmpresa = sessionStorage.ID_USUARIO;
 
-function abrirMenuExtendido(){
-    var lateral = document.getElementsByClassName('lateral')[0];
-    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
-    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
-
-        lateralExtendido.style.display = 'flex';
-        lateral.style.display = 'none';
-        dashboard.style.marginLeft = '20%';
+function voltarHome() {
+    window.location = "index.html";
 }
 
-function recolherMenu(){
+function abrirMenuExtendido() {
     var lateral = document.getElementsByClassName('lateral')[0];
     var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
     var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
 
-        lateral.style.display = 'flex';
-        lateralExtendido.style.display = 'none';
-        dashboard.style.marginLeft = '5%';
+    lateralExtendido.style.display = 'flex';
+    lateral.style.display = 'none';
+    dashboard.style.marginLeft = '20%';
+}
+
+function recolherMenu() {
+    var lateral = document.getElementsByClassName('lateral')[0];
+    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
+    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
+
+    lateral.style.display = 'flex';
+    lateralExtendido.style.display = 'none';
+    dashboard.style.marginLeft = '5%';
 }
 
 function obterDadosGrafico(idEmpresa) {

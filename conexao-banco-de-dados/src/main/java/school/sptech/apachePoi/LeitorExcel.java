@@ -1,8 +1,8 @@
 package school.sptech.apachePoi;
 
 import java.io.InputStream;
-import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,8 +15,8 @@ import school.sptech.dao.OcorrenciasDao;
 
 public class LeitorExcel {
 
-    // método para buscar o ID da doença no banco
-    private int getFkDoenca(String nomeDoenca, DoencasDao doencasDao) {
+    // metodo para buscar o ID da doença no banco pelo nome
+    private Integer getFkDoenca(String nomeDoenca, DoencasDao doencasDao) {
         Integer id = doencasDao.buscarIdDoenca(nomeDoenca); // busca a doença pelo nome
         if (id != null) {
             return id; // retorna o ID da doença
@@ -25,7 +25,7 @@ public class LeitorExcel {
         }
     }
 
-    // método para extrair os dados do arquivo Excel
+    // metodo para extrair os dados de todos os arquivos Excel
     public void extrairDados(String nomeArquivo, InputStream arquivo) {
         DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
         JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
@@ -48,41 +48,27 @@ public class LeitorExcel {
                     continue;
                 } // pula a primeira linha (cabeçalho)
 
-//                if (nomeArquivo.contains("doencas")) {
-//                   processarDoencas(row, doencasDao, logDao, nomeArquivo, cidadesDao);
+                if (nomeArquivo.contains("doencas")) {
+                    inserirCasos(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao);
+                }
                 if (nomeArquivo.contains("cidades")) {
                     processarCidades(row, cidadesDao, logDao, nomeArquivo); // processa as cidades
-                } else if (nomeArquivo.contains("vacinas")) {
+                } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("19-22")) {
                     processarOcorrencias(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências
+                } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("23-24")) {
+                    processarOcorrenciasMensais(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências mensais
                 }
             }
-
-            logDao.inserirLogEtl( "200", LocalDateTime.now(), "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
+            logDao.inserirLogEtl("200", LocalDateTime.now(), "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
             System.out.println("\nLeitura do arquivo finalizada\n");
+
         } catch (Exception e) {
-            logDao.inserirLogEtl( "500", LocalDateTime.now(), e.getMessage(), "LeitorExcel");
+            logDao.inserirLogEtl("500", LocalDateTime.now(), e.getMessage(), "LeitorExcel");
             throw new RuntimeException(e); // trata a exceção de erro da leitura do arquivo
         }
-  }
-    // método para processar e inserir as doenças/ depois vamos alterar para inserir os casos
-//    private void processarDoencas(Row row, DoencasDao doencasDao, LogEtlDao logDao, String nomeArquivo) {
-//        try {
-//            Integer idDoenca = (int) row.getCell(0).getNumericCellValue();
-//            String nomeDoenca = row.getCell(1).getStringCellValue();
-//            String nomeVacina = row.getCell(2).getStringCellValue();
-//
-//            if (doencasDao.existsById(idDoenca) == 0) {
-//                doencasDao.inserirDoenca(idDoenca, nomeDoenca, nomeVacina);
-//                logDao.inserirLogEtl("200", LocalDateTime.now(), "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-//            } else {
-//                System.out.println("Linha " + row.getRowNum() + " já existe no banco");
-//            }
-//        } catch (Exception e) {
-//            logDao.inserirLogEtl("500", LocalDateTime.now(), "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()), "LeitorExcel");
-//        }
-//    }
+    }
 
-    // método para processar e inserir as cidades
+    // metodo para processar e inserir as cidades
     private void processarCidades(Row row, CidadesDao cidadesDao, LogEtlDao logDao, String nomeArquivo) {
         try {
             // Obtém o valor do codigoIbge
@@ -113,44 +99,44 @@ public class LeitorExcel {
             // Se não existir, insere a cidade
             if (cidadesDao.buscarPorId(codigoIbge) == null) {
                 cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
-                logDao.inserirLogEtl( "200", LocalDateTime.now(),
+                logDao.inserirLogEtl("200", LocalDateTime.now(),
                         "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
             } else {
                 System.out.println("Linha " + row.getRowNum() + " já existe no banco");
             }
         } catch (Exception e) {
-            logDao.inserirLogEtl( "500", LocalDateTime.now(),
+            logDao.inserirLogEtl("500", LocalDateTime.now(),
                     "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()), "LeitorExcel");
         } // trata a exceção de erro da leitura do arquivo
     }
 
-    // método para processar e inserir as ocorrências
+    // metodo para processar e inserir as ocorrências anuais
     private void processarOcorrencias(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
         try {
             // mapeamento dos anos, doenças e a coluna inicial da planilha
-            int[] anos = {2019, 2020, 2021, 2022};
+            Integer[] anos = {2019, 2020, 2021, 2022};
             String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
-            int colunaInicial = 2;
+            Integer colunaInicial = 2;
 
             // Obtendo o valor do código IBGE e convertendo para inteiro
             // (não tenho certeza se isso é necessário, vou verificar depois)
             DataFormatter formatter = new DataFormatter();
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-            int codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+            Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
             // for para percorrer as doenças e anos
             for (int d = 0; d < doencas.length; d++) {
                 for (int a = 0; a < anos.length; a++) {
-                    int coluna = colunaInicial + d * 4 + a;
+                    Integer coluna = colunaInicial + d * 4 + a;
                     Cell cell = row.getCell(coluna);
-                    double cobertura = 0.0;
+                    Double cobertura = 0.0;
 
                     // Verificando se a célula está vazia ou inválida
                     if (cell == null || cell.toString().trim().isEmpty()) {
                         continue; // logar o erro e pular
                     }
                     if (cell != null) {
-                        // try para converter o valor da célula para Double e retirar a vírgula
+
                         try {
                             String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                             if (!valorFormatado.isEmpty()) {
@@ -163,35 +149,153 @@ public class LeitorExcel {
                     }
 
                     // definindo a variável fkDoenca
-                    int fkDoenca = getFkDoenca(doencas[d], doencasDao);
+                    Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
 
                     // Verificando se a ocorrência já existe no banco
-                    if (ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca) == 0) {
+                    if (ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca) == false) {
                         // Inserindo a ocorrência no banco
                         ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
-                        logDao.inserirLogEtl( "200", LocalDateTime.now(),
+                        logDao.inserirLogEtl("200", LocalDateTime.now(),
                                 "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        System.out.println("Ocorrência inserida no banco (linha " + row.getRowNum() + ")");
+                        System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
                     } else {
-                        System.out.println("Ocorrência já existe no banco (linha " + row.getRowNum() + ")");
+                        System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
                     }
                 }
             }
         } catch (Exception e) {
-            logDao.inserirLogEtl( "500", LocalDateTime.now(),
+            logDao.inserirLogEtl("500", LocalDateTime.now(),
                     "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()), "LeitorExcel");
             System.out.println("Erro ao processar linha " + row.getRowNum() + ": " + e.getMessage());
         }
     }
 
+    // metodo para processar e inserir as ocorrências mensais
+    private void processarOcorrenciasMensais(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+        try {
+            DataFormatter formatter = new DataFormatter();
+            String[] doencas = {"Meningite", "Poliomielite", "Coqueluche",};
+            String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto",
+                    "Setembro", "Outubro", "Novembro", "Dezembro"};
+            Integer[] anos = {2023, 2024};
+            Integer totalMeses = 12;
+
+            // Lê o código IBGE da coluna 0 (índice 0)
+            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+            Long codigoIbge = Long.parseLong(valorIbgeStr);
+
+            Integer colunaInicial = 1;
+
+            Integer colunasPorMes = 7; // 1 população + 3 doenças x (cobertura + doses)
+            Integer colunasPorDoenca = 2; // cobertura + doses
+
+            for (int d = 0; d < doencas.length; d++) {
+                Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
+
+                for (int a = 0; a < anos.length; a++) {
+                    for (int m = 0; m < totalMeses; m++) {
+                        // Posição do mês dentro do ano
+                        Integer baseColunaMes = colunaInicial + a * totalMeses * colunasPorMes + m * colunasPorMes;
+
+                        Integer coluna = switch (d) {
+                            case 0 -> baseColunaMes + 1;
+                            case 1 -> baseColunaMes + 3;
+                            case 2 -> baseColunaMes + 5;
+                            default -> null;
+                        };
+
+                        Cell cell2 = row.getCell(coluna);
+                        if (cell2 == null || formatter.formatCellValue(cell2).trim().isEmpty()) {
+                            continue;
+                        }
+
+                        Double coberturaVacinal;
+                        try {
+                            String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
+                            coberturaVacinal = Double.parseDouble(valorFormatado);
+                            System.out.printf("Linha %d | Doença: %s | Ano: %d | Mês: %s | Coluna: %d | Valor: %s%n",
+                                    row.getRowNum(), doencas[d], anos[a], meses[m], coluna, formatter.formatCellValue(cell2));
+
+                        } catch (NumberFormatException ex) {
+                            logDao.inserirLogEtl("400", LocalDateTime.now(),
+                                    "Erro ao converter valor na linha %s, coluna %s: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel");
+                            continue;
+                        }
+
+                        String mesReferencia = meses[m];
+                        Integer anoReferencia = anos[a];
+
+                        if (ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
+                            logDao.inserirLogEtl("200", LocalDateTime.now(),
+                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
+                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
+                            System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
+                        } else {
+                            ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
+                            logDao.inserirLogEtl("200", LocalDateTime.now(),
+                                    "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+                            System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logDao.inserirLogEtl("500", LocalDateTime.now(),
+                    "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()), "LeitorExcel");
+        }
+    }
+
+    // metodo para inserir numero de casos de cada doença
+    private void inserirCasos(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+        try {
+            Integer[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
+            String[] doencas = {"Coqueluche", "Meningite", "Poliomielite"};
+            Integer colunaInicial = 1;
+
+            DataFormatter formatter = new DataFormatter();
+            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+            Integer codigoIbge = Integer.parseInt(valorIbgeStr);
+
+            for (int d = 0; d < doencas.length; d++) {
+                Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
+
+                for (int a = 0; a < anos.length; a++) {
+                    Integer coluna = colunaInicial + d * 6 + a; // calcula a coluna correta de acordo com a doença e o ano
+                    Cell cell = row.getCell(coluna);
+                    Integer numCasos = 0; // variável para armazenar o número de casos
+
+                    if (cell == null || cell.toString().trim().isEmpty()) {
+                        continue; // pula a célula vazia
+                    }
+
+                    try {
+                        String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
+                        if (!valorFormatado.isEmpty()) {
+                            numCasos = Integer.parseInt(valorFormatado);
+                        }
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                        continue;
+                    } // trata a exceção de erro da leitura do arquivo
+
+                    // Inserir ou atualizar ocorrência
+                    if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a]) == false) {
+                        ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        logDao.inserirLogEtl("200", LocalDateTime.now(),
+                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+                        System.out.println("Número de casos atualizado banco (linha " + row.getRowNum() + ")");
+                    } else {
+                        logDao.inserirLogEtl("400", LocalDateTime.now(),
+                                "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+                        System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir casos: " + e.getMessage());
+            e.printStackTrace();
+            logDao.inserirLogEtl("500", LocalDateTime.now(),
+                    "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()), "LeitorExcel");
+        }
+    }
 }
-
-// falta o arquivo de doenças de 23-24
-// falta inserir os números de casos por cidades e anos
-
-
-//Coluna 0: Código IBGE
-//Coluna 1: Nome da cidade
-//Colunas 2–5: Meningite 2019–2022
-//Colunas 6–9: Poliomielite 2019–2022
-//Colunas 10–13: Coqueluche 2019–2022
