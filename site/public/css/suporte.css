@@ -153,114 +153,158 @@ header {
 
 /* fim da nav */
 
+.topico_seringa {
+  display: flex;
+  align-items: center;
+  margin: 1vw 0vw 1vw 2vw;
+  font-size: 2.4vw;
+  font-weight: 600;
+  color: #092B43;
+  padding-top: 5vw;
+}
+
+.topico_seringa img {
+  width: 6vw;
+  height: auto;
+  margin-right: 0.6vw;
+}
+
+/* Seção Contato */
 .contato {
-    width: 100vw;
-    padding: 5vh 5vw;
-    background: #f9f9f9;
-    color: #1c1c1c;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .contato-container {
-    max-width: 90vw;
-    margin: 0 auto;
-  }
-  
-  .contato-info h4 {
-    font-size: 1.5vw;
-    color: #003355;
-    margin-bottom: 1vh;
-    text-transform: uppercase;
-  }
-  
-  .contato-info h1 {
-    font-size: 3vw;
-    margin-bottom: 2vh;
-  }
-  
-  .contato-info p {
-    font-size: 1.2vw;
-    margin-bottom: 5vh;
-    max-width: 60vw;
-  }
-  
-  .contato-conteudo {
-    display: flex;
-    flex-direction: row;
-    gap: 5vw;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .formulario-contato {
-    flex: 1;
-    min-width: 40vw;
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-  }
-  
-  .form-linha {
-    display: flex;
-    gap: 2vw;
-  }
-  
-  .form-linha input {
-    width: 100%;
-    padding: 1vh 1vw;
-    font-size: 1vw;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    background: transparent;
-  }
-  
-  textarea {
-    width: 100%;
-    height: 20vh;
-    padding: 1vh 1vw;
-    font-size: 1vw;
-    border: 1px solid #ccc;
-    resize: none;
-  }
-  
-  button {
-    width: 8vw;
-    padding: 1vh;
-    background-color: #003355;
-    color: white;
-    font-size: 1vw;
-    border: none;
-    cursor: pointer;
-    align-self: flex-end;
-  }
-  
-  .info-mapa {
-    flex: 1;
-    min-width: 40vw;
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-  }
-  
-  .info-contato h3 {
-    font-size: 1.2vw;
-    margin-bottom: 0.5vh;
-  }
-  
-  .info-contato p {
-    font-size: 1vw;
-    margin-bottom: 1.5vh;
-  }
-  
-  .redes-sociais img {
-    width: 2vw;
-    margin-right: 1vw;
-  }
-  
-  iframe {
-    width: 100%;
-    height: 30vh;
-    border: none;
-    border-radius: 8px;
-  }
-  
+  width: 100vw;
+  padding: 5vh 5vw;
+  background: #f9f9f9;
+  color: #1c1c1c;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.contato-container {
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+/* BLOCO: título + card lado a lado */
+.contato-bloco {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4vw;
+  flex-wrap: wrap;
+  margin-bottom: 5vh;
+}
+
+/* Lado esquerdo */
+.contato-info {
+  flex: 1;
+  min-width: 45%;
+}
+
+.contato-info h1 {
+  font-size: 3vw;
+  margin-bottom: 2vh;
+  color: #092B43;
+}
+
+.contato-info p {
+  font-size: 1.2vw;
+  margin-bottom: 5vh;
+  max-width: 60vw;
+}
+
+/* Card de contato */
+.card-contato {
+  flex: 1;
+  min-width: 30vw;
+  background-color: #ffffff;
+  padding: 2vw;
+  border-left: 1px solid #e0e0e0;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card-contato h3 {
+  color: #003355;
+  margin-bottom: 0.5vw;
+  font-size: 1.2vw;
+}
+
+.card-contato p {
+  font-size: 1vw;
+  margin-bottom: 1.5vh;
+}
+
+.redes-sociais {
+  margin-top: 2vh;
+}
+
+.redes-sociais img {
+  width: 2vw;
+  margin-right: 1vw;
+  cursor: pointer;
+}
+
+/* Formulário e mapa */
+.contato-conteudo {
+  display: flex;
+  flex-direction: row;
+  gap: 5vw;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.formulario-contato {
+  flex: 0.6;
+  min-width: 30vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.form-linha {
+  display: flex;
+  gap: 2vw;
+}
+
+.form-linha input {
+  width: 100%;
+  padding: 1vh 1vw;
+  font-size: 1vw;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+}
+
+textarea {
+  width: 100%;
+  height: 20vh;
+  padding: 1vh 1vw;
+  font-size: 1vw;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+button {
+  width: 8vw;
+  padding: 1vh;
+  background-color: #003355;
+  color: white;
+  font-size: 1vw;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.info-mapa {
+  flex: 0.8;
+  min-width: 35vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  justify-content: space-between;
+}
+
+iframe {
+  width: 90vh;
+  height: 50vh;
+  border: none;
+  border-radius: 8px;
+}
