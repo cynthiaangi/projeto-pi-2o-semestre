@@ -171,6 +171,7 @@ header {
 }
 
   /*  */
+  
   .sobre_home {
     width: 100%;
     background-color: white;
@@ -218,6 +219,7 @@ header {
 
 
 /* campanha de vacinação */
+
 .container_servicos_home {
     background-color: #F0EFEF;
     width: 100%;
@@ -240,9 +242,7 @@ header {
     justify-content: flex;
     align-items: center;
     overflow-x: auto;
-    /* Habilita o scroll horizontal */
     overflow-y: hidden;
-    /* Oculta o scroll vertical */
   }
   
   .box_servicos_imagens::-webkit-scrollbar {
@@ -358,78 +358,99 @@ header {
     width: 5%;
 }
 
-.rodape {
-    background-color: #ecf0f1;
-    display: flex;
-    justify-content: center;
-    height: 6vh;
-    align-items: center;
-    margin-top: auto;
-}
+/* footer */
 
 footer {
-    width: 100%;
-    background-color: #12577B;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2vw 0;
-  }
-  
-  .box_footer_rodape {
-    width: 80vw;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    color: white;
-    font-size: 1.1vw;
-    font-weight: 600;
-    flex-wrap: wrap;
-  }
-  
-  .box_footer_contato p {
-    margin: 0.5vw 0;
-  }
-  
-  .footer_title {
-    font-weight: 700;
-    font-size: 1.5vw;
-    margin-bottom: 1vw;
-  }
-  
-  .box_footer_termos p {
-    padding-bottom: 0.9vw;
-    cursor: pointer;
-  }
-  
-  .box_footer_termos a {
-    font-size: 1.1vw;
-    font-weight: 600;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .a_footer {
-    width: 17vw;
-    height: 4vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.4vw;
-    color: #092B43;
-    background-color: white;
-    font-weight: 600;
-    font-size: 1.4vw;
-    text-decoration: none;
-    margin-top: 1vw;
-  }
-  
-  .footer_final {
-    color: white;
-    font-weight: lighter;
-    margin-top: 2vw;
-    font-size: 1vw;
-  }
+  width: 100vw;
+  background-color: #c1cacf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4vh 0 2vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.box_footer_rodape {
+  width: 90vw;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2vw;
+  color: #1c1c1c;
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.footer_coluna,
+.footer_coluna_links {
+  flex: 2;
+  min-width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
+}
+
+.footer_title {
+  font-weight: 700;
+  font-size: 1.2vw;
+  margin-bottom: 0.8vh;
+  color: #003355;
+}
+
+.footer_coluna a,
+.footer_coluna_links a {
+  color: #003355;
+  text-decoration: none;
+  font-size: 1vw;
+  margin-bottom: 0.5vh;
+  margin-top: 1vw;
+}
+
+.footer_coluna a:hover,
+.footer_coluna_links a:hover {
+  text-decoration: underline;
+}
+
+.center_logo {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.footer_logo {
+  width: 13vw;
+  margin: 0 auto;
+}
+
+.footer_socials {
+  display: flex;
+  gap: 1vw;
+  margin: 1vh 0;
+}
+
+.footer_socials i {
+  font-size: 1.3vw;
+  color: #003355;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.footer_socials i:hover {
+  color: #0e4368;
+}
+
+.footer_final {
+  color: #555;
+  font-weight: 400;
+  margin-top: 3vh;
+  font-size: 0.9vw;
+  text-align: center;
+  width: 100vw;
+  border-top: 0.1vh solid #555;
+  padding-top: 1.5vh;
+}
+
 
 @media (max-width: 1150px) {
     .conteudo-principal-parte{
@@ -865,68 +886,21 @@ header {
 }
 
 footer {
-    width: 100%;
-    background-color: #12577B;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2vw 0;
-  }
-  
-  .box_footer_rodape {
-    width: 80vw;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    color: white;
-    font-size: 1.1vw;
-    font-weight: 600;
-    flex-wrap: wrap;
-  }
-  
-  .box_footer_contato p {
-    margin: 0.5vw 0;
-  }
-  
-  .footer_title {
-    font-weight: 700;
-    font-size: 1.5vw;
-    margin-bottom: 1vw;
-  }
-  
-  .box_footer_termos p {
-    padding-bottom: 0.9vw;
-    cursor: pointer;
-  }
-  
-  .box_footer_termos a {
-    font-size: 1.1vw;
-    font-weight: 600;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .a_footer {
-    width: 17vw;
-    height: 4vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.4vw;
-    color: #092B43;
-    background-color: white;
-    font-weight: 600;
-    font-size: 1.4vw;
-    text-decoration: none;
-    margin-top: 1vw;
-  }
-  
-  .footer_final {
-    color: white;
-    font-weight: lighter;
-    margin-top: 2vw;
-    font-size: 1vw;
-  }
+  background-color: #c1cacf;
+  color: #1c1c1c;
+}
+
+.footer_final {
+  color: #555;
+}
+
+.footer_socials i {
+  color: #003355;
+}
+
+.footer_coluna a {
+  color: #003355;
+}
 
 @media (max-width: 1150px) {
     .conteudo-principal-parte{

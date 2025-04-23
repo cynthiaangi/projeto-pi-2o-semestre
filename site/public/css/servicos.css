@@ -331,65 +331,97 @@ header {
   
   /* footer */
 
-.contato{
-    height: 300px;
-    background-color: #ecf0f1;
-    border-bottom: 1px solid #9f9f9f;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    font-family: "Saira";
-    font-weight: 600;
-    font-size: 1rem;
+/* footer */
+
+footer {
+  width: 100vw;
+  background-color: #c1cacf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4vh 0 2vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.informacao{
-    padding: auto;
-    display: flex;
-    gap: 100px;
+.box_footer_rodape {
+  width: 90vw;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2vw;
+  color: #1c1c1c;
+  font-size: 1vw;
+  font-weight: 500;
 }
 
-.contato-empresa{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+.footer_coluna,
+.footer_coluna_links {
+  flex: 2;
+  min-width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
 }
 
-.informacao-dados{
-    line-height: 1.50;
+.footer_title {
+  font-weight: 700;
+  font-size: 1.2vw;
+  margin-bottom: 0.8vh;
+  color: #003355;
 }
 
-.contato-empresa-titulo{
-    font-weight: 900;    
+.footer_coluna a,
+.footer_coluna_links a {
+  color: #003355;
+  text-decoration: none;
+  font-size: 1vw;
+  margin-bottom: 0.5vh;
+  margin-top: 1vw;
 }
 
-.links{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+.footer_coluna a:hover,
+.footer_coluna_links a:hover {
+  text-decoration: underline;
 }
 
-.redes-sociais{
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+.center_logo {
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
-.redes-sociais img{
-    width: 5%;
+.footer_logo {
+  width: 13vw;
+  margin: 0 auto;
 }
 
-.rodape{
-    background-color: #ecf0f1;
-    display: flex;
-    justify-content: center;
-    height: 50px;
-    align-items: center;
-    margin-top: auto;
+.footer_socials {
+  display: flex;
+  gap: 1vw;
+  margin: 1vh 0;
+}
+
+.footer_socials i {
+  font-size: 1.3vw;
+  color: #003355;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.footer_socials i:hover {
+  color: #0e4368;
+}
+
+.footer_final {
+  color: #555;
+  font-weight: 400;
+  margin-top: 3vh;
+  font-size: 0.9vw;
+  text-align: center;
+  width: 100vw;
+  border-top: 0.1vh solid #555;
+  padding-top: 1.5vh;
 }
 
 @media (max-width: 1150px) {

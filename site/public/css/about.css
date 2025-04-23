@@ -302,147 +302,97 @@ header {
   height: auto;
 }
 
-/* futuro footer */
+/* footer */
 
-
-
-.conteudo-principal-parte button{
-    background-color: #70C174;
-    padding: 16px 32px;
-    color: #fff;
-    font-family: "Roboto";
-    font-weight: 500;
-    border-radius: 4px;
-    font-size: 1rem;
-    text-align: center;
-    margin-left: 150px;
-    border: none;
-    margin-top: 40px;
+footer {
+  width: 100vw;
+  background-color: #c1cacf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4vh 0 2vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.marcas{
-    background-color: #EFF7F2;
+.box_footer_rodape {
+  width: 90vw;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2vw;
+  color: #1c1c1c;
+  font-size: 1vw;
+  font-weight: 500;
 }
 
-.marcas img{
-    margin-right: 50px;
+.footer_coluna,
+.footer_coluna_links {
+  flex: 2;
+  min-width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
 }
 
-.marcas-titulo{
-    font-size: 2.25rem;
-    font-weight: 700;
-    font-family: "Saira";
+.footer_title {
+  font-weight: 700;
+  font-size: 1.2vw;
+  margin-bottom: 0.8vh;
+  color: #003355;
 }
 
-.img-marcas{
-    margin: 0 !important;
-    width: 20% !important;
+.footer_coluna a,
+.footer_coluna_links a {
+  color: #003355;
+  text-decoration: none;
+  font-size: 1vw;
+  margin-bottom: 0.5vh;
+  margin-top: 1vw;
 }
 
-.visao-missao-valor{
-    background-color: #fff;
-    width: 450px;
-    border-radius: 70px;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 50px;
-    padding-top: 50px;
+.footer_coluna a:hover,
+.footer_coluna_links a:hover {
+  text-decoration: underline;
 }
 
-.missao{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+.center_logo {
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
-.visao{
-    padding-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
+.footer_logo {
+  width: 13vw;
+  margin: 0 auto;
 }
 
-.valor{
-    padding-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
+.footer_socials {
+  display: flex;
+  gap: 1vw;
+  margin: 1vh 0;
 }
 
-.marcas-texto{
-    width: 75%;
+.footer_socials i {
+  font-size: 1.3vw;
+  color: #003355;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.conteudo-principal-titulo img{
-    width: 9% !important;
-    margin: 0 !important;
+.footer_socials i:hover {
+  color: #0e4368;
 }
 
-.contato{
-    height: 300px;
-    background-color: #ecf0f1;
-    border-bottom: 1px solid #9f9f9f;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    font-family: "Saira";
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.informacao{
-    padding: auto;
-    display: flex;
-    gap: 100px;
-}
-
-.contato-empresa{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.informacao-dados{
-    line-height: 1.50;
-}
-
-.contato-empresa-titulo{
-    font-weight: 900;    
-}
-
-.links{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.redes-sociais{
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-.redes-sociais img{
-    width: 5%;
-}
-
-.rodape{
-    background-color: #ecf0f1;
-    display: flex;
-    justify-content: center;
-    height: 50px;
-    align-items: center;
-    margin-top: auto;
+.footer_final {
+  color: #555;
+  font-weight: 400;
+  margin-top: 3vh;
+  font-size: 0.9vw;
+  text-align: center;
+  width: 100vw;
+  border-top: 0.1vh solid #555;
+  padding-top: 1.5vh;
 }
 
 @media (max-width: 1150px) {
