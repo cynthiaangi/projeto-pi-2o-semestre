@@ -171,8 +171,7 @@ header {
 
 /* Seção Contato */
 .contato {
-  width: 100vw;
-  padding: 5vh 5vw;
+  width: 100%;
   background: #f9f9f9;
   color: #1c1c1c;
   font-family: 'Segoe UI', sans-serif;
@@ -236,11 +235,18 @@ header {
   margin-top: 2vh;
 }
 
-.redes-sociais img {
-  width: 2vw;
+.redes-sociais i {
+  font-size: 1.6vw;
+  color: #003355;
   margin-right: 1vw;
   cursor: pointer;
+  transition: 0.3s;
 }
+
+.redes-sociais i:hover {
+  color: #0077b5;
+}
+
 
 /* Formulário e mapa */
 .contato-conteudo {
