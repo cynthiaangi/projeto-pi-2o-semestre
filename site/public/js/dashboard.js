@@ -324,7 +324,66 @@ let myChart4 = new Chart(ctw, {
     }
 });
 
+const help1 = "Exibe a divisão percentual entre pessoas vacinadas e não vacinadas, apresentando um comparativo direto da cobertura vacinal na população."; 
+const titulo1 = "Total de vacinados e não vacinados";
+const help2 = "Mostra o percentual de aumento ou redução da cobertura vacinal em relação a um período anterior, indicando a tendência de adesão à vacina."; 
+const titulo2 = "Variação da cobertura vacinal";
+const help3 = "Apresenta a mudança percentual no número de casos registrados da doença em relação ao período anterior, indicando aumento ou redução."; 
+const titulo3 = "Variação da quantidade de casos";
+const help4 = "Indica a porcentagem atual da população vacinada em comparação à meta estabelecida, exibindo se o objetivo foi atingido ou não."; 
+const titulo4 = "Meta vacinal para coqueluche";
+const help5 = "Exibe a porcentagem de cidades que atingiram a meta de cobertura vacinal, segmentando os dados por níveis de risco epidemiológico."; 
+const titulo5 = "Situação da cobertura vacinal no estado (%)"
+const help6 = "Gráfico que apresenta a evolução do número de casos ao longo do tempo, exibindo comparativos mensais e tendências da doença."; 
+const titulo6 = "Quantidade de casos por ano";
+const help7 = "Gráfico com a quantidade de vacinados e não vacinados distribuída ao longo dos meses ou anos, permitindo a comparação da evolução da vacinação.";
+const titulo7 = "Situação vacinal ao longo dos anos"; 
+
 var idEmpresa = sessionStorage.ID_USUARIO;
+
+function abrirMensagem(mensagem){
+    var mensagemTitulo = document.getElementsByClassName('titulo-mensagem')[0];
+    var mensagemCorpo = document.getElementsByClassName('corpo-mensagem')[0];
+    var bottomsheet = document.getElementsByClassName('mensagem')[0];
+
+    bottomsheet.style.display = 'flex';
+    
+    if(mensagem == 'help1'){
+        mensagemTitulo.innerHTML = titulo1; 
+        mensagemCorpo.innerHTML = help1;
+    }
+    if(mensagem == 'help2'){
+        mensagemTitulo.innerHTML = titulo2; 
+        mensagemCorpo.innerHTML = help2;
+               
+    }
+    if(mensagem == 'help3'){
+        mensagemTitulo.innerHTML = titulo3; 
+        mensagemCorpo.innerHTML = help3;
+               
+    }
+    if(mensagem == 'help4'){
+        mensagemTitulo.innerHTML = titulo4; 
+        mensagemCorpo.innerHTML = help4;
+               
+    }
+    if(mensagem == 'help5'){
+        mensagemTitulo.innerHTML = titulo5; 
+        mensagemCorpo.innerHTML = help5;
+               
+    }
+    if(mensagem == 'help6'){
+        mensagemTitulo.innerHTML = titulo6; 
+        mensagemCorpo.innerHTML = help6;
+               
+    }
+    if(mensagem == 'help7'){
+        mensagemTitulo.innerHTML = titulo7; 
+        mensagemCorpo.innerHTML = help7;
+       
+    }
+
+}
 
 function voltarHome() {
     window.location = "index.html";
