@@ -3,6 +3,24 @@ var cty = myChartCanvas2
 var ctz = myChartCanvas3
 var ctw = myChartCanvas4
 
+const doencas = ['Coqueluche', 'Meningite', 'Poliomielite'];
+
+const doencaInput = document.getElementById('ipt_doencas');
+
+const doencaSelect = document.createElement("select");
+doencaSelect.name = 'doencas';
+doencaSelect.id = 'sel_doenca';
+doencaSelect.className = 'select-ano';
+
+doencas.forEach((doenca) => {
+    const escolha = document.createElement("option");
+    escolha.value = doenca;
+    escolha.textContent = doenca;
+    doencaSelect.appendChild(escolha);
+});
+
+doencaInput.replaceWith(doencaSelect);
+
 const anos = ["Selecione o ano", "2018", "2019", "2020", "2021", "2022", "2023", "2024"];
 
 const anoAntesInput = document.getElementById("ipt_ano_antes");
@@ -131,7 +149,6 @@ let myChart2 = new Chart(cty, {
 
 
 });
-
 
 // Adicionando gráfico criado em div na tela
 let myChart = new Chart(ctx,
@@ -345,8 +362,10 @@ function abrirMensagem(mensagem){
     var mensagemTitulo = document.getElementsByClassName('titulo-mensagem')[0];
     var mensagemCorpo = document.getElementsByClassName('corpo-mensagem')[0];
     var bottomsheet = document.getElementsByClassName('mensagem')[0];
+    var fundo = document.getElementsByClassName('area-mensagem')[0];
 
     bottomsheet.style.display = 'flex';
+    fundo.style.display = 'flex';
     
     if(mensagem == 'help1'){
         mensagemTitulo.innerHTML = titulo1; 
@@ -382,7 +401,14 @@ function abrirMensagem(mensagem){
         mensagemCorpo.innerHTML = help7;
        
     }
+}
 
+function fecharMensagem() {
+    var bottomsheet = document.getElementsByClassName('mensagem')[0];
+    var fundo = document.getElementsByClassName('area-mensagem')[0];
+
+    bottomsheet.style.display = 'none';
+    fundo.style.display = 'none';
 }
 
 function voltarHome() {
@@ -403,126 +429,22 @@ function recolherMenu() {
     var lateral = document.getElementsByClassName('lateral')[0];
     var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
     var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
 
     lateral.style.display = 'flex';
     lateralExtendido.style.display = 'none';
     dashboard.style.marginLeft = '5%';
+    notificacao.style.display = 'none';
 }
 
-function obterDadosGrafico(idEmpresa) {
-    console.log('Entrei na Obter')
-    fetch(`/medidas/ultimas/${idEmpresa}`, { method: 'GET' }, { cache: 'no-store' }).then(function (response) {
-        console.log(response);
+function fecharNotificacao(){
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
 
-        if (response.ok) {
-
-            response.json().then(function (resposta) {
-                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                resposta.reverse();
-
-                atualizarGrafico();
-
-            });
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-        }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
+    notificacao.style.display = 'none';
 }
 
-var umidade_atual = 0;
-var temperatura_atual = 0;
-var dataHoraAtual = 0;
+function abrirNotificacao(){
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
 
-function atualizarGrafico() {
-    fetch(`/medidas/tempo-real/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (novoRegistro) {
-                console.log('estou aqui')
-                obterdados(idEmpresa);
-                console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-                console.log(`Dados atuais do gráfico:`);
-
-
-                novoRegistro.forEach((valor) => {
-                    if (myChart.data.labels.length == 10 && myChart.data.datasets[0].data.length == 10) {
-                        myChart.data.datasets[0].data.shift();  // apagar o primeiro de umidade
-                        myChart.data.labels.shift(); // apagar o primeiro
-                        myChart.data.datasets[1].data.shift();  // apagar o primeiro de temperatura;
-                    }
-
-                    temperatura_atual = valor.temperatura;
-                    umidade_atual = valor.umidade;
-                    dataHoraAtual = new Date(valor.DataHora);
-                    var dataHoraBR = dataHoraAtual.toLocaleDateString('pt-BR', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit'
-                    });
-                    myChart.data.datasets[0].data.push(parseFloat(valor.umidade)); // incluir uma nova medida de umidade
-                    myChart.data.labels.push(dataHoraBR); // incluir um novo momento
-                    myChart.data.datasets[1].data.push(parseFloat(valor.temperatura)); // incluir uma nova medida de temperatura
-                })
-                myChart.update();
-
-                var kpi_temp = document.getElementById('temp_kpi')
-                var kpi_umid = document.getElementById('umid_kpi')
-
-                kpi_temp.innerHTML = ''
-                kpi_umid.innerHTML = ''
-                console.log(temperatura_atual)
-
-                // criando e manipulando elementos do HTML via JavaScript
-                var divPublicacao = document.createElement("div");
-                var divPublicacao2 = document.createElement("div");
-                var spankpiTemp = document.createElement("span");
-                var spankpiUmid = document.createElement("span");
-
-                spankpiTemp.innerHTML = temperatura_atual + '°C';
-                spankpiUmid.innerHTML = umidade_atual + "%";
-
-
-                divPublicacao.className = "publicacao-temp";
-                divPublicacao2.className = "publicacao-umid";
-                spankpiTemp.className = "publicacao";
-                spankpiUmid.className = "publicacao";
-
-                divPublicacao.appendChild(spankpiTemp);
-                divPublicacao2.appendChild(spankpiUmid);
-
-                kpi_temp.appendChild(divPublicacao);
-                kpi_umid.appendChild(divPublicacao2);
-
-                if (temperatura_atual <= 20) {
-                    kpi_temp.style.backgroundColor = '#00ff00'
-                } else if (temperatura_atual <= 27) {
-                    kpi_temp.style.backgroundColor = '#ffff00'
-                } else {
-                    kpi_temp.style.backgroundColor = '#ff0000'
-                }
-
-                if (umidade_atual <= 50) {
-                    kpi_umid.style.backgroundColor = '#00ff00'
-                } else if (umidade_atual <= 60) {
-                    kpi_umid.style.backgroundColor = '#ffff00'
-                } else {
-                    kpi_umid.style.backgroundColor = '#ff0000'
-                }
-
-
-            }
-            );
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-
-        }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-
+    notificacao.style.display = 'flex';
 }
-
-setInterval(() => { atualizarGrafico() }, 2000);
