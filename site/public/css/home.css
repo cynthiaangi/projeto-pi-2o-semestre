@@ -152,6 +152,124 @@ header {
     font-size: 1.3vw;
   }
 
+  /*  */
+  .menu-toggle {
+    display: none;
+    font-size: 5vw;
+    color: black;
+    cursor: pointer;
+    margin-right: 6vw;
+    z-index: 11;
+}
+
+  .box_nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  
+  }
+
+/* Menu mobile escondido em telas grandes */
+.box_nav_mobile {
+    display: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilos para mobile */
+@media (max-width: 768px) {
+    .cabecalho {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5vw 2vw;
+        position: relative;
+        z-index: 12;
+    }
+
+    .box_nav_desktop {
+        display: none;
+    }
+
+    .box_nav_mobile {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background: white;
+        width: 50%;
+        height: 100vh;
+        padding: 5vw 2vw;
+        transition: 0.3s;
+        z-index: 12;
+        opacity: 0;
+        visibility: hidden;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .box_nav_mobile.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .box_nav_mobile nav {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5vw;
+    }
+
+    .box_nav_mobile nav a {
+        font-size: 5vw;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .box_cadastro {
+        width: 100%;
+        margin-top: 8vw;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3vw;
+    }
+
+    .box_cadastro a {
+        background-color: #02254f;
+        color: white;
+        text-decoration: none;
+        padding: 3vw 5vw;
+        border-radius: 5px;
+        width: 80%;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
   /* fim da nav */
 
   .topico_seringa {

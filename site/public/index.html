@@ -12,23 +12,48 @@
 </head>
 
 <body>
+
     <header>
-        <div class="cabecalho">
-            <a href="./index.html"><img class="logo" src="assets/logo-header.png"></a>
+        <div id="overlay" class="overlay"></div>
     
-            <div class="box_nav">
+        <div class="cabecalho">
+            <a href="./index.html">
+                <img class="logo" src="assets/logo-header.png" alt="Logo">
+            </a>
+    
+            <div id="menu-toggle" class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+    
+            <!-- Menu Desktop -->
+            <div class="box_nav box_nav_desktop">
                 <nav>
                     <a href="about.html">SOBRE</a>
                     <a href="servicos.html">SERVIÇOS</a>
                     <a href="suporte.html">CONTATO</a>
                 </nav>
-                    <div id="box_cadastro" class="box_cadastro">
+                <div class="box_cadastro">
                     <a class="cadastrar" href="Cadastro.html">REGISTRE-SE</a>
                     <a class="logar" href="Login.html">ENTRAR</a>
-                    </div>
+                </div>
+            </div>
+    
+            <!-- Menu Mobile -->
+            <div id="box_nav_mobile" class="box_nav_mobile">
+                <div class="box_cadastro">
+                    <a class="cadastrar" href="Cadastro.html">REGISTRE-SE</a>
+                    <a class="logar" href="Login.html">ENTRAR</a>
+                </div>
+                <nav>
+                    <a href="about.html">SOBRE</a>
+                    <a href="servicos.html">SERVIÇOS</a>
+                    <a href="suporte.html">CONTATO</a>
+                </nav>
             </div>
         </div>
     </header>
+    
+    
 
     <div class="home">
         <div class="home_embarque">
@@ -130,11 +155,20 @@
 </html>
 
 <script>
-    function irSobre() {
-        window.location = "./about.html";
-    }
+const toggle = document.getElementById('menu-toggle'); // Seleciona o botão do menu hambúrguer
+const navMobile = document.getElementById('box_nav_mobile'); // Seleciona o menu mobile
+const overlay = document.getElementById('overlay'); // Seleciona o overlay (fundo escuro)
 
-    function irServico() {
-        window.location = "./servicos.html";
+toggle.addEventListener('click', () => { // Quando clicar no botão de menu
+    navMobile.classList.toggle('active'); // Ativa ou desativa a classe 'active' no menu mobile
+    overlay.classList.toggle('active'); // Ativa ou desativa a classe 'active' no overlay
+});
+
+document.addEventListener('click', function(e) { // Quando clicar em qualquer lugar da tela
+    if (!navMobile.contains(e.target) && !toggle.contains(e.target)) { // Se o clique não for no menu nem no botão
+        navMobile.classList.remove('active'); // Remove a classe 'active' do menu mobile
+        overlay.classList.remove('active'); // Remove a classe 'active' do overlay
     }
-</script>
+});
+    </script>
+    
