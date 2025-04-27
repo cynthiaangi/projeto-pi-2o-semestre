@@ -40,7 +40,7 @@
                             </button>
                             <label for="menu">Voltar</label>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="abrirNotificacao()">
                             <span id="notificacao" class="material-symbols-outlined">
                                 notifications
                             </span>
@@ -77,9 +77,28 @@
                     </div>
                 </div>
             </nav>
-            <div class="dashboard-conteudo">
+            <div class="dashboard-conteudo" onclick="fecharNotificacao()">
+                <div class="notificacoes">
+                    <div class="titulo-notificacao">Notificações</div>
+                    <div class="area-notificacao">
+                        <div class="notificacao"><span class="material-symbols-outlined people">
+                            account_circle
+                            </span>Mateus solicitou acesso ao Dashboard.</div>
+                        <div>Revise as permissões e libere o acesso se apropriado.</div>
+                    </div>
+                    <div class="area-notificacao">
+                        <div class="notificacao"><span class="material-symbols-outlined people">
+                            account_circle
+                            </span>Cynthia solicitou acesso ao Dashboard.</div>
+                        <div>Revise as permissões e libere o acesso se apropriado.</div>
+                    </div>
+                </div>
                 <div class="cabecalho">
                     <div>Olá, Secretário</div>
+                    <div class="periodo">
+                        <div>Doença: </div>
+                        <input type="text" id="ipt_doencas">
+                    </div>
                     <div class="periodo">
                         <div>Filtrar por período (ano)</div>
                         <label for="">De: </label>
@@ -88,9 +107,15 @@
                         <input type="text" id="ipt_ano_depois">
                     </div>
                 </div>
+                <div class="area-mensagem" onclick="fecharMensagem()"></div>
                 <div class="mensagem">
-                    <div class="titulo-mensagem">
+                    <div class="area-fechar">
+                        <button class="material-symbols-outlined fechar" onclick="fecharMensagem()">
+                            close
+                        </button>
                     </div>
+                        <div class="titulo-mensagem">
+                        </div>
                     <div class="corpo-mensagem"></div>
                 </div>
                 <div class="chart">
@@ -100,7 +125,8 @@
                                 <span class="material-symbols-outlined">
                                     vaccines
                                 </span>
-                                <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help1')">
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help1')">
                                     help
                                 </button>
                             </div>
@@ -114,7 +140,8 @@
                                 <span class="material-symbols-outlined">
                                     monitoring
                                 </span>
-                                <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help2')">
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help2')">
                                     help
                                 </button>
                             </div>
@@ -130,7 +157,8 @@
                                 <span class="material-symbols-outlined">
                                     medical_services
                                 </span>
-                                <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help3')">
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help3')">
                                     help
                                 </button>
                             </div>
@@ -146,13 +174,15 @@
                         <div class="kpi">
                             <div class="quadradinho temperatura" id="temp_kpi">
                                 <canvas id="myChartCanvas2" class="conteudo-dash-veloc"></canvas>
-                                <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help4')">
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help4')">
                                     help
                                 </button>
                             </div>
                             <div class="quadradinho umidade" id="umid_kpi">
                                 <canvas id="myChartCanvas3" class="conteudo-dash-veloc"></canvas>
-                                <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help5')">
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
                                     help
                                 </button>
                             </div>
@@ -162,7 +192,8 @@
                                 <div id="grafico" class="display-none">
                                     <div class="chart-container">
                                         <canvas id="myChartCanvas" class="conteudo-dash"></canvas>
-                                        <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help6')">
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help6')">
                                             help
                                         </button>
                                     </div>
@@ -173,7 +204,8 @@
                                 <div id="grafico" class="display-none">
                                     <div class="chart-container">
                                         <canvas id="myChartCanvas4" class="conteudo-dash"></canvas>
-                                        <button class="material-symbols-outlined ajuda" id="ajuda" onclick="abrirMensagem('help7')">
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
                                             help
                                         </button>
                                     </div>
