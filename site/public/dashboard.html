@@ -98,6 +98,7 @@
                     <div class="periodo">
                         <div>Doença: </div>
                         <input type="text" id="ipt_doencas">
+                        <button onclick="alterarDoenca()">Alterar</button>
                     </div>
                     <div class="periodo">
                         <div>Filtrar por período (ano)</div>
@@ -130,9 +131,17 @@
                                     help
                                 </button>
                             </div>
-                            <div class="info-kpi">
+                            <div class="info-kpi coqueluche">
                                 <p>Total de vacinados e não vacinados</p>
                                 <p>50% / 50%</p>
+                            </div>
+                            <div class="info-kpi meningite">
+                                <p>Total de vacinados e não vacinados</p>
+                                <p>60% / 40%</p>
+                            </div>
+                            <div class="info-kpi poliomielite">
+                                <p>Total de vacinados e não vacinados</p>
+                                <p>80% / 20%</p>
                             </div>
                         </div>
                         <div class="item-regua">
@@ -145,9 +154,21 @@
                                     help
                                 </button>
                             </div>
-                            <div class="info-kpi">
+                            <div class="info-kpi coqueluche">
                                 <p>Variação da cobertura vacinal</p>
                                 <p class="valor-vacina">36% <span class="material-symbols-outlined valor-vacina">
+                                        arrow_upward
+                                    </span></p>
+                            </div>
+                            <div class="info-kpi meningite">
+                                <p>Variação da cobertura vacinal</p>
+                                <p class="valor-vacina">15% <span class="material-symbols-outlined valor-vacina">
+                                        arrow_upward
+                                    </span></p>
+                            </div>
+                            <div class="info-kpi poliomielite">
+                                <p>Variação da cobertura vacinal</p>
+                                <p class="valor-vacina">26% <span class="material-symbols-outlined valor-vacina">
                                         arrow_upward
                                     </span></p>
                             </div>
@@ -162,9 +183,21 @@
                                     help
                                 </button>
                             </div>
-                            <div class="info-kpi">
+                            <div class="info-kpi coqueluche">
                                 <p>Variação da quantidade de casos </p>
                                 <p class="valor-caso">10% <span class="material-symbols-outlined valor-caso">
+                                        arrow_downward
+                                    </span></p>
+                            </div>
+                            <div class="info-kpi meningite">
+                                <p>Variação da quantidade de casos </p>
+                                <p class="valor-caso">12% <span class="material-symbols-outlined valor-caso">
+                                        arrow_downward
+                                    </span></p>
+                            </div>
+                            <div class="info-kpi poliomielite">
+                                <p>Variação da quantidade de casos </p>
+                                <p class="valor-caso">20% <span class="material-symbols-outlined valor-caso">
                                         arrow_downward
                                     </span></p>
                             </div>
@@ -172,15 +205,43 @@
                     </div>
                     <div class="graficos">
                         <div class="kpi">
-                            <div class="quadradinho temperatura" id="temp_kpi">
+                            <div class="quadradinho temperatura  coqueluche" id="temp_kpi">
                                 <canvas id="myChartCanvas2" class="conteudo-dash-veloc"></canvas>
                                 <button class="material-symbols-outlined ajuda" id="ajuda"
                                     onclick="abrirMensagem('help4')">
                                     help
                                 </button>
                             </div>
-                            <div class="quadradinho umidade" id="umid_kpi">
+                            <div class="quadradinho temperatura  meningite" id="temp_kpi">
+                                <canvas id="myChartCanvas6" class="conteudo-dash-veloc"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help4')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho temperatura poliomielite" id="temp_kpi">
+                                <canvas id="myChartCanvas10" class="conteudo-dash-veloc"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help4')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho umidade coqueluche" id="umid_kpi">
                                 <canvas id="myChartCanvas3" class="conteudo-dash-veloc"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho umidade meningite" id="umid_kpi">
+                                <canvas id="myChartCanvas7" class="conteudo-dash-veloc"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho umidade poliomielite" id="umid_kpi">
+                                <canvas id="myChartCanvas11" class="conteudo-dash-veloc"></canvas>
                                 <button class="material-symbols-outlined ajuda" id="ajuda"
                                     onclick="abrirMensagem('help5')">
                                     help
@@ -189,9 +250,23 @@
                         </div>
                         <div>
                             <div class="graph" id="graficos">
-                                <div id="grafico" class="display-none">
-                                    <div class="chart-container">
+                                <div id="grafico">
+                                    <div class="chart-container coqueluche">
                                         <canvas id="myChartCanvas" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help6')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container meningite">
+                                        <canvas id="myChartCanvas5" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help6')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container poliomielite">
+                                        <canvas id="myChartCanvas9" class="conteudo-dash"></canvas>
                                         <button class="material-symbols-outlined ajuda" id="ajuda"
                                             onclick="abrirMensagem('help6')">
                                             help
@@ -201,9 +276,23 @@
                             </div>
 
                             <div class="graph" id="graficos">
-                                <div id="grafico" class="display-none">
-                                    <div class="chart-container">
+                                <div id="grafico">
+                                    <div class="chart-container coqueluche">
                                         <canvas id="myChartCanvas4" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container meningite">
+                                        <canvas id="myChartCanvas8" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container poliomielite">
+                                        <canvas id="myChartCanvas12" class="conteudo-dash"></canvas>
                                         <button class="material-symbols-outlined ajuda" id="ajuda"
                                             onclick="abrirMensagem('help7')">
                                             help
