@@ -261,6 +261,18 @@ nav button {
   gap: 20px;
 }
 
+.coqueluche{
+display: flex;
+}
+
+.meningite{
+display: none;
+}
+
+.poliomielite{
+display: none;
+}
+
 /* Dashboard */
 
 .chart-container {
@@ -271,7 +283,6 @@ nav button {
   padding: 0 40px;
   margin: 1rem 0;
   border-radius: 20px;
-  display: flex;
   justify-content: center;
 }
 
@@ -331,7 +342,6 @@ nav button {
 }
 
 .quadradinho {
-  display: flex;
   border: 1px solid #adadad;
   text-align: center;
   color: #000000;
