@@ -21,9 +21,9 @@
                 <img class="logo" src="assets/logo-header.png" alt="Logo">
             </a>
     
-            <div id="menu-toggle" class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+              </div>              
     
             <!-- Menu Desktop -->
             <div class="box_nav box_nav_desktop">
@@ -45,10 +45,11 @@
                     <a class="logar" href="Login.html">ENTRAR</a>
                 </div>
                 <nav>
-                    <a href="about.html">SOBRE</a>
-                    <a href="servicos.html">SERVIÇOS</a>
-                    <a href="suporte.html">CONTATO</a>
-                </nav>
+  <a href="about.html">SOBRE <i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+  <a href="servicos.html">SERVIÇOS <i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+  <a href="suporte.html">CONTATO <i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+</nav>
+
             </div>
         </div>
     </header>
@@ -155,20 +156,36 @@
 </html>
 
 <script>
-const toggle = document.getElementById('menu-toggle'); // Seleciona o botão do menu hambúrguer
-const navMobile = document.getElementById('box_nav_mobile'); // Seleciona o menu mobile
-const overlay = document.getElementById('overlay'); // Seleciona o overlay (fundo escuro)
-
-toggle.addEventListener('click', () => { // Quando clicar no botão de menu
-    navMobile.classList.toggle('active'); // Ativa ou desativa a classe 'active' no menu mobile
-    overlay.classList.toggle('active'); // Ativa ou desativa a classe 'active' no overlay
-});
-
-document.addEventListener('click', function(e) { // Quando clicar em qualquer lugar da tela
-    if (!navMobile.contains(e.target) && !toggle.contains(e.target)) { // Se o clique não for no menu nem no botão
-        navMobile.classList.remove('active'); // Remove a classe 'active' do menu mobile
-        overlay.classList.remove('active'); // Remove a classe 'active' do overlay
-    }
-});
+    const toggle = document.getElementById('menu-toggle'); // Botão do menu hambúrguer
+    const navMobile = document.getElementById('box_nav_mobile'); // Menu mobile
+    const overlay = document.getElementById('overlay'); // Fundo escuro
+    const menuIcon = toggle.querySelector('i'); // Ícone dentro do botão
+    
+    toggle.addEventListener('click', () => {
+        navMobile.classList.toggle('active');
+        overlay.classList.toggle('active');
+    
+        // Alterna o ícone entre fa-bars e fa-xmark
+        if (menuIcon.classList.contains('fa-bars')) {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-xmark');
+        } else {
+            menuIcon.classList.remove('fa-xmark');
+            menuIcon.classList.add('fa-bars');
+        }
+    });
+    
+    document.addEventListener('click', function(e) {
+        // Se clicar fora do menu e do botão, fecha o menu
+        if (!navMobile.contains(e.target) && !toggle.contains(e.target)) {
+            navMobile.classList.remove('active');
+            overlay.classList.remove('active');
+    
+            // Garante que o ícone volte para fa-bars
+            menuIcon.classList.remove('fa-xmark');
+            menuIcon.classList.add('fa-bars');
+        }
+    });
     </script>
+    
     

@@ -153,14 +153,25 @@ header {
   }
 
   /*  */
+
   .menu-toggle {
     display: none;
-    font-size: 5vw;
-    color: black;
+    font-size: 6vw;
+    color: white;
     cursor: pointer;
     margin-right: 6vw;
-    z-index: 11;
+    margin-top: 1.5vw;
+    z-index: 13;
 }
+
+.menu-toggle i {
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle.active i {
+  transform: rotate(90deg);
+}
+
 
   .box_nav {
     width: 100%;
@@ -191,6 +202,7 @@ header {
 .overlay.active {
     opacity: 1;
     visibility: visible;
+    backdrop-filter: blur(2px);
 }
 
 /* Estilos para mobile */
@@ -210,26 +222,28 @@ header {
     }
 
     .box_nav_mobile {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        background: white;
-        width: 50%;
-        height: 100vh;
-        padding: 5vw 2vw;
-        transition: 0.3s;
-        z-index: 12;
-        opacity: 0;
-        visibility: hidden;
-        justify-content: flex-start;
-        align-items: center;
-    }
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: #02254f; /* Deixei um fundo mais escuro, se quiser */
+      width: 60%; /* Pode ser 50% ou 60% */
+      height: 100vh;
+      padding: 8vw 5vw; /* aumentei padding interno */
+      transition: 0.3s;
+      z-index: 12;
+      opacity: 0;
+      visibility: hidden;
+      justify-content: flex-start;
+      align-items: flex-start;
+  }
+  
 
     .box_nav_mobile.active {
         opacity: 1;
         visibility: visible;
+        transform: translateX(0);
     }
 
     .box_nav_mobile nav {
@@ -237,33 +251,55 @@ header {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 5vw;
+        gap: 6vw;
+        margin-top: 5vw;
     }
 
     .box_nav_mobile nav a {
-        font-size: 5vw;
-        color: #000;
+        font-size: 4vw;
+        color: white;
         text-decoration: none;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 2vw;
+        margin-top: 6vw;
+        padding: 2vw 0;
+    }
+
+    .box_nav_mobile nav a i {
+      font-size: 4vw;
+      transition: transform 0.5s;
+    }
+
+    .box_nav_mobile nav a:hover i {
+      transform: translateX(5px);
     }
 
     .box_cadastro {
         width: 100%;
-        margin-top: 8vw;
+        margin-top: 10vw;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 3vw;
+        gap: 4vw;
     }
 
     .box_cadastro a {
-        background-color: #02254f;
+        background-color: #01478c;
         color: white;
         text-decoration: none;
         padding: 3vw 5vw;
-        border-radius: 5px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 3vw;
         width: 80%;
         text-align: center;
     }
+
+    .box_cadastro a:hover {
+      background-color: #0366d6;
+  }
 
     .menu-toggle {
         display: block;
