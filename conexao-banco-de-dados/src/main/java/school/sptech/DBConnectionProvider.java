@@ -10,7 +10,7 @@ public class DBConnectionProvider {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUrl("jdbc:mysql://localhost:3306/immunodata");
         basicDataSource.setUsername("root");
-        basicDataSource.setPassword("urubu100@");
+        basicDataSource.setPassword("urubu100");
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         return new JdbcTemplate(basicDataSource);
     }
