@@ -157,7 +157,7 @@ header {
   .menu-toggle {
     display: none;
     font-size: 6vw;
-    color: white;
+    color: #021B33;
     cursor: pointer;
     margin-right: 6vw;
     margin-top: 1.5vw;
@@ -205,6 +205,11 @@ header {
     backdrop-filter: blur(2px);
 }
 
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 /* Estilos para mobile */
 @media (max-width: 768px) {
     .cabecalho {
@@ -227,16 +232,17 @@ header {
       position: fixed;
       top: 0;
       right: 0;
-      background: #02254f; /* Deixei um fundo mais escuro, se quiser */
-      width: 60%; /* Pode ser 50% ou 60% */
-      height: 100vh;
-      padding: 8vw 5vw; /* aumentei padding interno */
+      background: #F7F7F7;
+      width: 45%;
+      height: 100%;
+      padding: 8vw 5vw;
       transition: 0.3s;
       z-index: 12;
       opacity: 0;
       visibility: hidden;
       justify-content: flex-start;
       align-items: flex-start;
+      box-sizing: border-box;
   }
   
 
@@ -256,15 +262,17 @@ header {
     }
 
     .box_nav_mobile nav a {
-        font-size: 4vw;
-        color: white;
+        font-size: 5vw;
+        color: #021B33;
         text-decoration: none;
-        width: 100%;
+        width: 90%;
         display: flex;
         align-items: center;
         gap: 2vw;
-        margin-top: 6vw;
+        margin-top: 1vw;
         padding: 2vw 0;
+        font-weight: bold;
+        justify-content: space-between;
     }
 
     .box_nav_mobile nav a i {
@@ -281,29 +289,54 @@ header {
         margin-top: 10vw;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 4vw;
     }
 
     .box_cadastro a {
-        background-color: #01478c;
+        background-color: #021B33;
         color: white;
         text-decoration: none;
-        padding: 3vw 5vw;
-        border-radius: 10px;
+        padding: 4vw 6vw;
+        border-radius: 15px;
         font-weight: bold;
-        font-size: 3vw;
-        width: 80%;
+        font-size: 4vw;
+        width: 70%;
         text-align: center;
+        font-weight: bold;
     }
 
     .box_cadastro a:hover {
-      background-color: #0366d6;
+      background-color: #12577B;
   }
 
     .menu-toggle {
         display: block;
     }
+
+    .configuracoes-link {
+      margin-top: auto;
+      width: 100%;
+      padding-top: 4vw;
+      border-top: 1px solid #ccc;
+    }
+    
+    .configuracoes-link a {
+      display: flex;
+      align-items: center;
+      gap: 2vw;
+      font-size: 4vw;
+      color: #021B33;
+      text-decoration: none;
+      font-weight: normal;
+      opacity: 0.8;
+    }
+    
+    .configuracoes-link a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    
 }
 
   /* fim da nav */
