@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 public class DBConnectionProvider {
     public JdbcTemplate getJdbcTemplate() {
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/immunodata");
+        basicDataSource.setUrl("jdbc:mysql://172-31-94-139:3306/immunodata");
         basicDataSource.setUsername("immuno");
         basicDataSource.setPassword("urubu100@");
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -18,4 +18,25 @@ public class DBConnectionProvider {
     public JdbcTemplate getConnection() {
         return null;
     }
+//}
+//public class DBConnectionProvider {
+//
+//    private final JdbcTemplate jdbcTemplate;
+//    private final BasicDataSource basicDataSource;
+//
+//    public DBConnectionProvider() {
+//        BasicDataSource basicDataSource = new BasicDataSource();
+//        basicDataSource.setUrl(System.getenv("DB_HOST"));
+//        basicDataSource.setUsername(System.getenv("DB_USERNAME"));
+//        basicDataSource.setPassword(System.getenv("DB_PASSWORD"));
+//
+//        this.basicDataSource = basicDataSource;
+//        this.jdbcTemplate = new JdbcTemplate(basicDataSource);
+//    }
+//
+//    public BasicDataSource getBasicDataSource() {
+//        return basicDataSource;
+//    }
+//
+//    public JdbcTemplate getJdbcTemplate(){ return jdbcTemplate; }
 }
