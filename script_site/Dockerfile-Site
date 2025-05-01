@@ -1,7 +1,7 @@
 # Usar a imagem do nodeJs 
 FROM node:22
 
-COPY ./script_site/config.txt /app/ 
+COPY ./config.txt /app/ 
  
 # Definir o diretorio de trabalho onde o repositorio sera clonado 
 WORKDIR /app
