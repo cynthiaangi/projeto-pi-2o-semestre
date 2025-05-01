@@ -19,4 +19,13 @@ public class LogEtlDao {
             jdbcTemplate.update("INSERT INTO logetl (status, dataHora, detalhes, classeQueOcorreu) VALUES (?, ?, ?, ?)",
                     status, LocalDateTime.now(), detalhes, classeQueOcorreu);
         }
+
+        // Busca todos os logs
+        public List<LogEtl> findAll() {
+            List<LogEtl> logs = jdbcTemplate.query(
+                    "SELECT * FROM logEtl", new BeanPropertyRowMapper<>(LogEtl.class)
+            );
+
+            return logs;
+        }
 }

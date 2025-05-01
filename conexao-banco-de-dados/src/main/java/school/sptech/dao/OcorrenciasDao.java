@@ -13,12 +13,12 @@ public class OcorrenciasDao {
 
     // Insere as ocorrências no banco de dados
     public void inserirOcorrencia(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Double coberturaVacinal) {
-        jdbcTemplate.update("INSERT INTO ocorrencias (fkDoenca, fkCidade, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?) ",
+        jdbcTemplate.update("INSERT IGNORE INTO ocorrencias (fkDoenca, fkCidade, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?) ",
                 fkDoenca, fkCidade, anoReferencia, coberturaVacinal);
     }
 
     public void inserirOcorrenciaMensal(Integer fkDoenca, Long fkCidade, String mesReferencia, Integer anoReferencia, Double coberturaVacinal) {
-        jdbcTemplate.update("INSERT INTO ocorrencias (fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?, ?) ",
+        jdbcTemplate.update("INSERT IGNORE INTO ocorrencias (fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?, ?) ",
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
@@ -29,6 +29,12 @@ public class OcorrenciasDao {
                 quantidadeCasos, fkDoenca, fkCidade, anoReferencia
         );
     }
+
+    // busca todas as ocorrências existentes
+//    public void findAll() {
+//        jdbcTemplate.query("SELECT * FROM ocorrencias", new BeanPropertyRowMapper<>(Ocorrencias.class));
+//
+//    }
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFks(Integer codigoIbge, Integer ano, Integer fkDoenca) {

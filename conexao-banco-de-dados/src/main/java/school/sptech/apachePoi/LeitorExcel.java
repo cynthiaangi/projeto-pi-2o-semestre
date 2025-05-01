@@ -2,8 +2,6 @@ package school.sptech.apachePoi;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -14,8 +12,6 @@ import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.LogEtlDao;
 import school.sptech.dao.OcorrenciasDao;
-import school.sptech.models.Cidades;
-import school.sptech.models.Ocorrencias;
 
 public class LeitorExcel {
 
@@ -52,14 +48,14 @@ public class LeitorExcel {
                     continue;
                 } // pula a primeira linha (cabeçalho)
 
-                if (nomeArquivo.contains("cidades")) {
+                if (nomeArquivo.contains("doencas")) {
+                    inserirCasos(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao);
+                } else if (nomeArquivo.contains("cidades")) {
                     processarCidades(row, cidadesDao, logDao, nomeArquivo); // processa as cidades
                 } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("19-22")) {
                     processarOcorrencias(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências
                 } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("23-24")) {
                     processarOcorrenciasMensais(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências mensais
-                } else if (nomeArquivo.contains("doencas")) {
-                    inserirCasos(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao);
                 }
             }
             logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
@@ -86,7 +82,7 @@ public class LeitorExcel {
             }
 
             // Verifique se o código da cidade está correto
-//            System.out.println("Processando cidade com código IBGE: " + codigoIbge);
+            System.out.println("Processando cidade com código IBGE: " + codigoIbge);
 
             String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
 
@@ -102,6 +98,8 @@ public class LeitorExcel {
             // Se não existir, insere a cidade
             if (cidadesDao.buscarPorId(codigoIbge) == null) {
                 cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
+                logDao.inserirLogEtl("200",
+                        "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
             } else {
                 System.out.println("Linha " + row.getRowNum() + " já existe no banco");
             }
@@ -156,6 +154,9 @@ public class LeitorExcel {
                     if (ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca) == false) {
                         // Inserindo a ocorrência no banco
                         ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
+                        logDao.inserirLogEtl("200",
+                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+                        System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
                     } else {
                         System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
                     }
@@ -221,12 +222,15 @@ public class LeitorExcel {
                         Integer anoReferencia = anos[a];
 
                         if (ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
-
+                            logDao.inserirLogEtl("200",
+                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
+                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
+                            System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
                         } else {
                             ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
                             logDao.inserirLogEtl("200",
                                     "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                            //System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
+                            System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
                         }
                     }
                 }
@@ -273,10 +277,13 @@ public class LeitorExcel {
                     // Inserir ou atualizar ocorrência
                     if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a]) == false) {
                         ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        logDao.inserirLogEtl("200",
+                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+                        System.out.println("Número de casos atualizado banco (linha " + row.getRowNum() + ")");
                     } else {
                         logDao.inserirLogEtl("400",
                                 "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        //System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
+                        System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
                     }
                 }
             }
