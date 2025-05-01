@@ -43,7 +43,7 @@ echo "rodando imagem docker"
 sudo docker run -d --name ContainerBanco -p 3306:3306 imagem-bancoimmuno
 
 echo "buildando site"
-sudo docker build -f ./script_site/Dockerfile-Site -t imagem-siteimmuno .
+sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno .
 
 echo "rodando imagem docker site"
 sudo docker run -d --name ContainerSite -p 3333:3333 imagem-siteimmuno
