@@ -48,15 +48,14 @@ public class LeitorExcel {
                     continue;
                 } // pula a primeira linha (cabeçalho)
 
-                if (nomeArquivo.contains("doencas")) {
-                    inserirCasos(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao);
-                }
                 if (nomeArquivo.contains("cidades")) {
                     processarCidades(row, cidadesDao, logDao, nomeArquivo); // processa as cidades
                 } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("19-22")) {
                     processarOcorrencias(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências
                 } else if (nomeArquivo.contains("vacinas") && nomeArquivo.contains("23-24")) {
                     processarOcorrenciasMensais(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao); // processa as ocorrências mensais
+                } else if (nomeArquivo.contains("doencas")) {
+                    inserirCasos(row, ocorrenciasDao, logDao, nomeArquivo, doencasDao);
                 }
             }
             logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");

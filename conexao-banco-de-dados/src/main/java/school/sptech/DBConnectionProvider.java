@@ -19,25 +19,3 @@ public class DBConnectionProvider {
         return null;
     }
 }
-//public class DBConnectionProvider {
-//
-//    private final JdbcTemplate jdbcTemplate;
-//    private final BasicDataSource basicDataSource;
-//
-//    public DBConnectionProvider() {
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(System.getenv("DB_HOST"));
-//        basicDataSource.setUsername(System.getenv("DB_USERNAME"));
-//        basicDataSource.setPassword(System.getenv("DB_PASSWORD"));
-//        basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//
-//        this.basicDataSource = basicDataSource;
-//        this.jdbcTemplate = new JdbcTemplate(basicDataSource);
-//    }
-//
-//    public BasicDataSource getBasicDataSource() {
-//        return basicDataSource;
-//    }
-//
-//    public JdbcTemplate getJdbcTemplate(){ return jdbcTemplate; }
-//}
