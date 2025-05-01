@@ -26,7 +26,7 @@ public class CidadesDao {
 
     // insere as cidades no banco de dados
     public void inserirCidade(Long codigoIbge, String nomeCidade, Float qtdPopulacional) {
-        String sql = "INSERT INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)";
+        String sql = "INSERT IGNORE INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, codigoIbge, nomeCidade, qtdPopulacional);
     }
 

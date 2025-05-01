@@ -16,7 +16,7 @@ public class LogEtlDao {
 
         // Insere os logs no banco de dados
         public void inserirLogEtl(String status, String detalhes, String classeQueOcorreu) {
-            jdbcTemplate.update("INSERT INTO logEtl (status, dataHora, detalhes, classeQueOcorreu) VALUES (?, ?, ?, ?)",
+            jdbcTemplate.update("INSERT INTO logetl (status, dataHora, detalhes, classeQueOcorreu) VALUES (?, ?, ?, ?)",
                     status, LocalDateTime.now(), detalhes, classeQueOcorreu);
         }
 

@@ -15,7 +15,7 @@ public class DoencasDao {
     }
 
     public void inserirDoenca(Integer idDoenca, String nome, String descricao) {
-        jdbcTemplate.update("INSERT INTO doencas (nomeDoenca, nomeVacina) VALUES (?, ?)",
+        jdbcTemplate.update("INSERT IGNORE INTO doencas (nomeDoenca, nomeVacina) VALUES (?, ?)",
                 nome, descricao);
     }
 
