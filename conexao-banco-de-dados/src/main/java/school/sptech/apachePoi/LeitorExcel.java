@@ -83,7 +83,7 @@ public class LeitorExcel {
             }
 
             // Verifique se o código da cidade está correto
-            System.out.println("Processando cidade com código IBGE: " + codigoIbge);
+//            System.out.println("Processando cidade com código IBGE: " + codigoIbge);
 
             String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
 
@@ -157,9 +157,9 @@ public class LeitorExcel {
                         ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
                         logDao.inserirLogEtl("200",
                                 "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
+                        //System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
                     } else {
-                        System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
+                        //System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
                     }
                 }
             }
@@ -213,8 +213,8 @@ public class LeitorExcel {
                         try {
                             String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
                             coberturaVacinal = Double.parseDouble(valorFormatado);
-                            System.out.printf("Linha %d | Doença: %s | Ano: %d | Mês: %s | Coluna: %d | Valor: %s%n",
-                                    row.getRowNum(), doencas[d], anos[a], meses[m], coluna, formatter.formatCellValue(cell2));
+                            // System.out.printf("Linha %d | Doença: %s | Ano: %d | Mês: %s | Coluna: %d | Valor: %s%n",
+                                    // row.getRowNum(), doencas[d], anos[a], meses[m], coluna, formatter.formatCellValue(cell2));
 
                         } catch (NumberFormatException ex) {
                             logDao.inserirLogEtl("400",
@@ -229,12 +229,12 @@ public class LeitorExcel {
                             logDao.inserirLogEtl("200",
                                     "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
                                             row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
-                            System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
+                            //System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
                         } else {
                             ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
                             logDao.inserirLogEtl("200",
                                     "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                            System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
+                            //System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
                         }
                     }
                 }
@@ -283,11 +283,11 @@ public class LeitorExcel {
                         ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                         logDao.inserirLogEtl("200",
                                 "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        System.out.println("Número de casos atualizado banco (linha " + row.getRowNum() + ")");
+                        //System.out.println("Número de casos atualizado banco (linha " + row.getRowNum() + ")");
                     } else {
                         logDao.inserirLogEtl("400",
                                 "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
+                        //System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
                     }
                 }
             }
