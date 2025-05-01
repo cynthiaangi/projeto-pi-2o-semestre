@@ -37,13 +37,13 @@ echo "excluindo imagens"
 sudo docker image prune -a -f
 
 echo "buildando docker BD"
-sudo docker build -f ./script_banco/Dockerfile-Sql -t imagem-bancoimmuno .
+sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
 echo "rodando imagem docker"
 sudo docker run -d --name ContainerBanco -p 3306:3306 imagem-bancoimmuno
 
 echo "buildando site"
-sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno .
+sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
 echo "rodando imagem docker site"
 sudo docker run -d --name ContainerSite -p 3333:3333 imagem-siteimmuno
