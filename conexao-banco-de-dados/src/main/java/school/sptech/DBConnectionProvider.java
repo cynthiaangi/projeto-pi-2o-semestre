@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 public class DBConnectionProvider {
     public JdbcTemplate getJdbcTemplate() {
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/immunodata");
+        basicDataSource.setUrl("jdbc:mysql://ContainerBanco:3306/immunoData");
         basicDataSource.setUsername("root");
         basicDataSource.setPassword("urubu100");
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
