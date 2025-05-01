@@ -3,28 +3,27 @@
 java -version
 
 if [ $? = 0 ];
-      then
-            echo "java instalado"
+	then
+		echo "java instalado"
 
-      else
-            echo "java não instalado"
-            echo "gostaria de instalar o java?"
+	else 
+		echo "java não instalado"
+		echo "gostaria de instalar o java [s/n]"
 
-            read get
+		read get
 
-      if [\"$get\" == \"s\"];
+	if [ \"$get\" == \"s\" ];
+		then
+		sudo apt install openjdk-17-jre -y
 
-            then
-                  sudo apt install openjdk-17-jre -y
-
-      fi 
+	fi
 fi
 
 echo "atualizando instância"
-apt-get update
+sudo apt-get update
 
 echo "instalando o git"
-apt-get install -y git 
+sudo apt-get install -y git
 
 echo "baixando repositorio"
 git clone "git@github.com:cynthiaangi/projeto-pi-2o-semestre.git"
@@ -32,19 +31,19 @@ git clone "git@github.com:cynthiaangi/projeto-pi-2o-semestre.git"
 echo "extraindo arquivos docker"
 
 echo "limpando containers parados"
-docker container prune -f
+sudo docker container prune -f
 
 echo "excluindo imagens"
-docker image prune -a -f
+sudo docker image prune -a -f
 
 echo "buildando docker BD"
-sudo docker build -f ./script_banco/Dockerfile-Sql -t imagem-bancoImmuno
+sudo docker build -f ./script_banco/Dockerfile-Sql -t imagem-bancoimmuno .
 
 echo "rodando imagem docker"
-sudo docker run -d -name ContainerBanco -p 3306:3306 imagem-bancoImmuno
+sudo docker run -d --name ContainerBanco -p 3306:3306 imagem-bancoimmuno
 
 echo "buildando site"
-sudo docker build -f ./script_site/Dockerfile-Site -t imagem-siteImmuno
+sudo docker build -f ./script_site/Dockerfile-Site -t imagem-siteimmuno .
 
-echo "rodando imagem docker"
-sudo docker run -d -name ContainerSite -p 3333:3333 imagem-siteImmuno
+echo "rodando imagem docker site"
+sudo docker run -d --name ContainerSite -p 3333:3333 imagem-siteimmuno

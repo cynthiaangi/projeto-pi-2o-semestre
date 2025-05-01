@@ -1,10 +1,10 @@
-CREATE DATABASE IF NOT EXISTS immunoData;
+CREATE DATABASE immunoData;
 USE immunoData;
 
 CREATE TABLE cidades (
-    codigoIbge INT PRIMARY KEY,
+    codigoIbge BIGINT PRIMARY KEY,
     nome VARCHAR(90) NOT NULL,
-    qtdPopulacional FLOAT(6,1)
+    qtdPopulacional FLOAT
 );
 
 CREATE TABLE usuarios (
@@ -14,7 +14,7 @@ CREATE TABLE usuarios (
     cargoExercido VARCHAR(45),
     numConselho CHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
-    fkCidadeResidente INT,
+    fkCidadeResidente BIGINT,
     CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
 );
 
@@ -24,21 +24,28 @@ CREATE TABLE doencas (
     nomeVacina VARCHAR(45) NOT NULL
 );
 
+INSERT INTO doencas (nomeDoenca, nomeVacina) VALUES
+("Coqueluche", "Pentavalente"),
+("Meningite", "Meningocócica"),
+("Poliomielite", "Vacina Oral Poliomielite - VOP");
+
+
 CREATE TABLE ocorrencias (
+	idOcorrencia INT primary key auto_increment,
     fkDoenca INT,
-    fkCidade INT,
+    fkCidade BIGINT,
+    mesReferencia VARCHAR(40),
     anoReferencia YEAR NOT NULL,
-    quantidadeCasos INT NOT NULL,
+    quantidadeCasos INT,
     coberturaVacinal DOUBLE,
-    PRIMARY KEY (fkDoenca, fkCidade, anoReferencia),
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
 );
 
-CREATE TABLE logsEtl (
+CREATE TABLE logetl (
     idLog INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(100) NOT NULL,
     dataHora DATETIME NOT NULL,
-    detalhes VARCHAR(200),
+    detalhes TEXT,
     classeQueOcorreu VARCHAR(100)
-);
+); 

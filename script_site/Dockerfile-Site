@@ -1,7 +1,7 @@
 # Usar a imagem do nodeJs 
 FROM node:22
 
-COPY config.txt /app/ 
+COPY ./script_site/config.txt /app/ 
  
 # Definir o diretorio de trabalho onde o repositorio sera clonado 
 WORKDIR /app
@@ -25,12 +25,6 @@ EXPOSE 3030
 
 # Mudando configurações de ambiente do site 
 RUN cat ../../config.txt > ./.env.dev 
-
-# Definindo o diretorio de trabalho para atualizar o repo
-WORKDIR /app/projeto-pi-2o-semestre
-
-# Atualizando o repo
-CMD ["git", "pull"]
 
 # Iniciar o site
 CMD ["npm", "start"]
