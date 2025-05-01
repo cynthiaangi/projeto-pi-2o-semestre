@@ -22,7 +22,7 @@ public class Workbook{
         S3Client s3Client = new school.sptech.S3Provider().getS3Client();
         String bucketName = "s3-immunodata";
 
-        List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_doencas.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP+vacinas-23-24.xlsx");
+        List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_doencas.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx");
 
         for (int i = 0; i < arquivos.size(); i++) {
             String nomeArquivo = arquivos.get(i);
