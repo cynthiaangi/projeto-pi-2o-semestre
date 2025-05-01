@@ -19,16 +19,6 @@ if [ $? = 0 ];
 	fi
 fi
 
-echo "atualizando instância"
-sudo apt-get update
-
-echo "instalando o git"
-sudo apt-get install -y git
-
-echo "baixando repositorio"
-git clone "git@github.com:cynthiaangi/projeto-pi-2o-semestre.git"
-
-echo "extraindo arquivos docker"
 
 echo "limpando containers parados"
 sudo docker container prune -f
