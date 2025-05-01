@@ -1,7 +1,7 @@
 AMBIENTE_PROCESSO=desenvolvimento
 
 # Configurações de conexão com o banco de dados
-DB_HOST=localhost
+DB_HOST=ContainerBanco
 DB_DATABASE='immunodata'
 DB_USER='immuno'
 DB_PASSWORD='urubu100@'
