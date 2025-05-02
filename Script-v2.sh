@@ -38,6 +38,10 @@ sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t ima
 echo "rodando imagem docker"
 sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno
 
+echo "definindo ipv4 da instancia"
+echo "APP_HOST=$(curl -s ifconfig.me)"
+echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
+
 echo "buildando site"
 sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
