@@ -21,10 +21,11 @@ RUN npm install
 RUN npm install express 
 
 # Expondo a porta do site 
-EXPOSE 3030
+EXPOSE 80
 
 # Mudando configurações de ambiente do site 
 RUN cat ../../config.txt > ./.env.dev 
 
 # Iniciar o site
 CMD ["npm", "start"]
+

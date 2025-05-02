@@ -8,4 +8,4 @@ DB_PASSWORD='urubu100@'
 DB_PORT=3306
 
 # Configurações do servidor de aplicação
-APP_PORT=3030
+APP_PORT=80

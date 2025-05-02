@@ -46,4 +46,4 @@ echo "buildando site"
 sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
 echo "rodando imagem docker site"
-sudo docker run -d --name ContainerSite --network network-immuno -p 3333:3333 imagem-siteimmuno
+sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
