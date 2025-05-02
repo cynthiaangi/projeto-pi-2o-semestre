@@ -2,12 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&family=Saira:ital,wght@0,100..900;1,100..900&family=Ultra&display=swap');
 
-body{
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
     background-color: #fff;
     font-family: "Roboto";
     color: #000;
     height: 100vh;
 }
+
 
 header {
     width: 100%;
@@ -99,6 +106,32 @@ header {
     font-weight: 600;
     font-family: "Poppins", sans-serif;
   }
+
+
+  @media (max-width: 768px) {
+    .logo {
+      width: 25vw;
+    }
+
+    .home {
+      height: 30vh;
+      border-radius: 0 0 5vw 5vw;
+      padding: 5vw 0;
+    }
+  
+    .home_embarque {
+      height: auto;
+      width: 90vw;
+      margin-top: 0;
+      padding: 2vw;
+    }
+  
+    .home_embarque h2 {
+      font-size: 3vw;
+      margin-bottom: 2vw;
+    }
+  }
+
 
   .home_embarque a {
     background-color: #e2e2e2a8;
@@ -414,6 +447,75 @@ body.no-scroll {
   margin-top: 11vw;
 }
 
+.img_mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .topico_seringa {
+    display: flex;
+    align-items: center;
+    margin: 1vw 0vw 1vw 2vw;
+    font-size: 4vw;
+    font-weight: 600;
+    color: #092B43;
+    padding-top: 5vw;
+  }
+
+  .topico_seringa img {
+    width: 10vw;
+    height: auto;
+    margin-right: 0.6vw;
+  }
+
+  .img_mobile {
+    display: block;
+    
+  }
+
+  .img_desktop {
+    display: none;
+  }
+
+  .container_sobre_home {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 4vw;
+    text-align: center;
+  }
+
+  .container_sobre_home img {
+    padding-top: 4vw;
+    width: 80vw;
+    height: auto;
+    margin-bottom: 4vw;
+  }
+
+  .box_sobre_home {
+    width: 90vw;
+    margin-left: 0;
+    padding-top: 0;
+  }
+
+  .box_sobre_home p {
+    font-size: 4.2vw;
+    margin-top: 2vw;
+  }
+
+  .box_sobre_home a {
+    width: 50vw;
+    height: 10vw;
+    font-size: 4vw;
+    margin: 5vw auto 0;
+  }
+}
+
+.box_sobre_home h3 {
+  font-size: 4vw;
+  margin-bottom: 5vw;
+}
+
 /* pq escolher a immunodata */
 
 .card-principal {
@@ -474,6 +576,44 @@ body.no-scroll {
     color: #333;
   }
 
+  @media (max-width: 768px) {
+    .card-principal {
+      padding: 6vw 4vw;
+    }
+  
+    .titulo-principal {
+      font-size: 6vw;
+      margin-bottom: 5vw;
+    }
+  
+    .missao-visao-valores {
+      flex-direction: column;
+      align-items: center;
+      gap: 4vw;
+    }
+  
+    .card {
+      max-width: 90%;
+      padding: 6vw;
+      margin: 4vw 0;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    }
+  
+    .card img {
+      width: 20vw;
+      margin-bottom: 4vw;
+    }
+  
+    .card h3 {
+      font-size: 5vw;
+      margin-bottom: 2vw;
+    }
+  
+    .card p {
+      font-size: 4.2vw;
+      line-height: 5vw;
+    }
+  }  
 
   /* nossa motivação */
 
@@ -514,13 +654,38 @@ body.no-scroll {
     border-radius: 8px;
     object-fit: contain;
   }
+
+  @media (max-width: 768px) {
+    .motivacao-layout {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
   
-  /* footer */
+    .motivacao-texto {
+      max-width: 90%;
+    }
+  
+    .motivacao-texto h2 {
+      font-size: 6vw;
+      margin-bottom: 3vw;
+    }
+  
+    .motivacao-texto p {
+      font-size: 4.2vw;
+      line-height: 5vw;
+    }
+  
+    .motivacao-img img {
+      width: 80vw;
+      margin-top: 5vw;
+    }
+  }
 
 /* footer */
 
 footer {
-  width: 100vw;
+  width: 100%;
   background-color: #c1cacf;
   display: flex;
   flex-direction: column;
@@ -605,63 +770,52 @@ footer {
   margin-top: 3vh;
   font-size: 0.9vw;
   text-align: center;
-  width: 100vw;
+  width: 100%;
   border-top: 0.1vh solid #555;
   padding-top: 1.5vh;
 }
 
-@media (max-width: 1150px) {
-    .conteudo-principal-parte{
-        gap: 40px;
-    }
+@media (max-width: 768px) {
+  .box_footer_rodape {
+    flex-direction: column;
+    align-items: center;
+    font-size: 3.5vw;
+    gap: 5vw;
+  }
 
-    .conteudo-principal-titulo img{
-        display: none;
+  .center_logo {
+    display: none;
+  }
 
-    }
+  .footer_coluna,
+  .footer_coluna_links {
+    min-width: 80vw;
+    font-size: 4vw;
+    align-items: center;
+    text-align: center;
+  }
 
-    .conteudo-principal-sobre{
-        margin-left: 50px;
-        gap: 50px;
-    }
+  .footer_coluna a,
+  .footer_coluna_links a {
+    font-size: 4vw;
+    margin-top: 2vw;
+  }
 
-    .sobre{
-        display: flex;
-        flex-direction: column;
-        gap: 50px;
-    }
+  .footer_title {
+    font-size: 5vw;
+  }
 
-    .conteudo-principal-titulo{
-        margin-left: 200px;
-    }
+  .footer_logo {
+    width: 40vw;
+  }
 
-    .contato-empresa{
-        padding-left: 20px;
-    }
-}
+  .footer_socials i {
+    font-size: 5vw;
+  }
 
-@media (max-width: 810px){
-    .conteudo-principal-titulo{
-        display: none;
-    }
-
-    .conteudo-principal-parte img{
-        width: 40%;
-        margin: 0;
-    }
-
-    .conteudo-principal-parte{
-        display: flex;
-        flex-direction: column;
-        justify-items: center;
-        text-align: center;
-    }
-
-    .conteudo-principal-sobre{
-        width: 80%;
-    }
-
-    .sobre{
-        align-items: center;
-    }
+  .footer_final {
+    font-size: 3vw;
+    padding: 2vh 2vw;
+    margin-top: 4vh;
+  }
 }

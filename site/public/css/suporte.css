@@ -2,12 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&family=Saira:ital,wght@0,100..900;1,100..900&family=Ultra&display=swap');
 
-body{
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
     background-color: #fff;
     font-family: "Roboto";
     color: #000;
     height: 100vh;
 }
+
 
 header {
     width: 100%;
@@ -100,6 +107,30 @@ header {
     font-family: "Poppins", sans-serif;
   }
 
+
+  @media (max-width: 768px) {
+    .logo {
+      width: 25vw;
+    }
+
+    .home {
+      height: 30vh;
+      border-radius: 0 0 5vw 5vw;
+      padding: 5vw 0;
+    }
+  
+    .home_embarque {
+      height: auto;
+      width: 90vw;
+      margin-top: 0;
+      padding: 2vw;
+    }
+  
+    .home_embarque h2 {
+      font-size: 3vw;
+      margin-bottom: 2vw;
+    }
+  }
   .home_embarque a {
     background-color: #e2e2e2a8;
     color: white;
@@ -354,6 +385,24 @@ body.no-scroll {
   margin-right: 0.6vw;
 }
 
+@media (max-width: 768px) {
+  .topico_seringa {
+    display: flex;
+    align-items: center;
+    margin: 1vw 0vw 1vw 2vw;
+    font-size: 4vw;
+    font-weight: 600;
+    color: #092B43;
+    padding-top: 5vw;
+  }
+
+  .topico_seringa img {
+    width: 10vw;
+    height: auto;
+    margin-right: 0.6vw;
+  }
+}
+
 /* Seção Contato */
 .contato {
   width: 100%;
@@ -494,12 +543,103 @@ button {
 }
 
 iframe {
-  width: 70vh;
-  height: 40vh;
+  width: 100vh;
+  height: 60vh;
   border: none;
   border-radius: 8px;
   padding-bottom: 5vh;
 }
+
+.contato_mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .contato_mobile {
+    display: block;
+  }
+
+  .contato_desktop {
+    display: none;
+  }
+    
+  .contato-bloco {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contato-info {
+    min-width: 100%;
+  }
+
+  .contato-info h1 {
+    font-size: 6vw;
+  }
+
+  .contato-info p {
+    font-size: 4vw;
+    max-width: 90vw;
+  }
+
+  .card-contato {
+    min-width: 90%;
+    padding: 5vw;
+  }
+
+  .card-contato h3 {
+    font-size: 4.2vw;
+  }
+
+  .card-contato p {
+    font-size: 3.8vw;
+  }
+
+  .redes-sociais i {
+    font-size: 6vw;
+    margin-right: 3vw;
+  }
+
+  .contato-conteudo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .formulario-contato {
+    min-width: 90%;
+  }
+
+  .form-linha {
+    flex-direction: column;
+    gap: 2vh;
+  }
+
+  .form-linha input {
+    font-size: 4vw;
+  }
+
+  textarea {
+    font-size: 4vw;
+  }
+
+  button {
+    width: 40vw;
+    font-size: 4vw;
+    align-self: center;
+  }
+
+  .info-mapa {
+    min-width: 90%;
+    align-items: center;
+  }
+
+  iframe {
+    width: 90vw;
+    height: 40vh;
+  }
+}
+
 
 
 /* footer */
@@ -594,3 +734,49 @@ footer {
   border-top: 0.1vh solid #555;
   padding-top: 1.5vh;
 }
+
+@media (max-width: 768px) {
+  .box_footer_rodape {
+    flex-direction: column;
+    align-items: center;
+    font-size: 3.5vw;
+    gap: 5vw;
+  }
+
+  .center_logo {
+    display: none;
+  }
+
+  .footer_coluna,
+  .footer_coluna_links {
+    min-width: 80vw;
+    font-size: 4vw;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer_coluna a,
+  .footer_coluna_links a {
+    font-size: 4vw;
+    margin-top: 2vw;
+  }
+
+  .footer_title {
+    font-size: 5vw;
+  }
+
+  .footer_logo {
+    width: 40vw;
+  }
+
+  .footer_socials i {
+    font-size: 5vw;
+  }
+
+  .footer_final {
+    font-size: 3vw;
+    padding: 2vh 2vw;
+    margin-top: 4vh;
+  }
+}
+
