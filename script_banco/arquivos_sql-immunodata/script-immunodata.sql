@@ -1,4 +1,4 @@
-CREATE DATABASE immunoData;
+CREATE DATABASE immunodata;
 USE immunoData;
 
 CREATE TABLE cidades (
