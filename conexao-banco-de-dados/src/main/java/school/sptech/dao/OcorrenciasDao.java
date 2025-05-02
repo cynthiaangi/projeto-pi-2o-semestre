@@ -30,11 +30,13 @@ public class OcorrenciasDao {
         );
     }
 
-    // busca todas as ocorrências existentes
-//    public void findAll() {
-//        jdbcTemplate.query("SELECT * FROM ocorrencias", new BeanPropertyRowMapper<>(Ocorrencias.class));
-//
-//    }
+    public void iniciarInserts() {
+        jdbcTemplate.update("BEGIN TRANSACTION");
+    }
+
+    public void finalizarInserts() {
+        jdbcTemplate.update("COMMIT");
+    }
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFks(Integer codigoIbge, Integer ano, Integer fkDoenca) {

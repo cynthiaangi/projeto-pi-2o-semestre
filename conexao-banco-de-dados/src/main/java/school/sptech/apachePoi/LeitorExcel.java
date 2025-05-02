@@ -123,6 +123,8 @@ public class LeitorExcel {
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
             Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao.iniciarInserts();
             // for para percorrer as doenças e anos
             for (int d = 0; d < doencas.length; d++) {
                 for (int a = 0; a < anos.length; a++) {
@@ -154,13 +156,13 @@ public class LeitorExcel {
                     if (ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca) == false) {
                         // Inserindo a ocorrência no banco
                         ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
-                        logDao.inserirLogEtl("200",
-                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+//                        logDao.inserirLogEtl("200",
+//                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
                         System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
                     } else {
                         System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
                     }
-                }
+                } OcorrenciasDao.finalizarInserts();
             }
         } catch (Exception e) {
             logDao.inserirLogEtl("500",
@@ -188,6 +190,8 @@ public class LeitorExcel {
             Integer colunasPorMes = 7; // 1 população + 3 doenças x (cobertura + doses)
             Integer colunasPorDoenca = 2; // cobertura + doses
 
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao.iniciarInserts();
             for (int d = 0; d < doencas.length; d++) {
                 Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
 
@@ -222,9 +226,9 @@ public class LeitorExcel {
                         Integer anoReferencia = anos[a];
 
                         if (ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
-                            logDao.inserirLogEtl("200",
-                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
-                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
+//                            logDao.inserirLogEtl("200",
+//                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
+//                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
                             System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
                         } else {
                             ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
@@ -233,7 +237,7 @@ public class LeitorExcel {
                             System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
                         }
                     }
-                }
+                } OcorrenciasDao.finalizarInserts();
             }
         } catch (Exception e) {
             logDao.inserirLogEtl("500",
@@ -252,6 +256,8 @@ public class LeitorExcel {
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
             Integer codigoIbge = Integer.parseInt(valorIbgeStr);
 
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao.iniciarInserts();
             for (int d = 0; d < doencas.length; d++) {
                 Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
 
@@ -275,10 +281,10 @@ public class LeitorExcel {
                     } // trata a exceção de erro da leitura do arquivo
 
                     // Inserir ou atualizar ocorrência
-                    if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a]) == false) {
+                    if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a])) {
                         ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
-                        logDao.inserirLogEtl("200",
-                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
+//                        logDao.inserirLogEtl("200",
+//                                "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
                         System.out.println("Número de casos atualizado banco (linha " + row.getRowNum() + ")");
                     } else {
                         logDao.inserirLogEtl("400",
@@ -286,7 +292,8 @@ public class LeitorExcel {
                         System.out.println("Ocorrência não encontrada no banco (linha " + row.getRowNum() + ")");
                     }
                 }
-            }
+            } OcorrenciasDao.finalizarInserts();
+
         } catch (Exception e) {
             System.out.println("Erro ao inserir casos: " + e.getMessage());
             e.printStackTrace();
