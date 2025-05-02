@@ -12,23 +12,50 @@
 </head>
 
 <body>
-    <header>
-        <div class="cabecalho">
-            <a href="./index.html"><img class="logo" src="assets/logo-header.png"></a>
-    
-            <div class="box_nav">
-                <nav>
-                    <a href="about.html">SOBRE</a>
-                    <a href="servicos.html">SERVIÇOS</a>
-                    <a href="suporte.html">CONTATO</a>
-                </nav>
-                    <div id="box_cadastro" class="box_cadastro">
-                    <a class="cadastrar" href="Cadastro.html">REGISTRE-SE</a>
-                    <a class="logar" href="Login.html">ENTRAR</a>
-                    </div>
+  
+  <header>
+    <div id="overlay" class="overlay"></div>
+
+    <div class="cabecalho">
+        <a href="./index.html">
+            <img class="logo" src="assets/logo-header.png" alt="Logo">
+        </a>
+
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </div>              
+
+        <!-- Menu Desktop -->
+        <div class="box_nav box_nav_desktop">
+            <nav>
+                <a href="about.html">SOBRE</a>
+                <a href="servicos.html">SERVIÇOS</a>
+                <a href="suporte.html">CONTATO</a>
+            </nav>
+            <div class="box_cadastro">
+                <a class="cadastrar" href="Cadastro.html">REGISTRE-SE</a>
+                <a class="logar" href="Login.html">ENTRAR</a>
             </div>
         </div>
-    </header>
+
+        <!-- Menu Mobile -->
+        <div id="box_nav_mobile" class="box_nav_mobile">
+            <div class="box_cadastro">
+                <a class="cadastrar" href="Cadastro.html">Registre-se</a>
+                <a class="logar" href="Login.html">Entrar</a>
+            </div>
+            <nav>
+                <a href="about.html">Sobre<i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+                <a href="servicos.html">Serviços<i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+                <a href="suporte.html">Contato<i class="fa-solid fa-chevron-up fa-rotate-90"></i></a>
+            </nav>
+            <div class="configuracoes-link">
+                <a href="#"><i class="fa-solid fa-gear"></i> Configurações</a>
+              </div>
+
+        </div>
+    </div>
+</header>
 
     <div class="home">
         <div class="home_embarque">
@@ -133,5 +160,7 @@
   <p class="footer_final">© 2025 ImmunoData - Todos os direitos reservados.</p>
 </footer>
 
-      </section>
+</section>
 </body>
+
+<script src="./js/burguer.js"></script>
