@@ -42,15 +42,10 @@ CREATE TABLE ocorrencias (
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
 );
 
-CREATE TABLE logEtl (
+CREATE TABLE logetl (
     idLog INT PRIMARY KEY AUTO_INCREMENT,
     status VARCHAR(100) NOT NULL,
     dataHora DATETIME NOT NULL,
     detalhes TEXT,
     classeQueOcorreu VARCHAR(100)
 ); 
-
-select * from cidades;
-select * from doencas;
-select * from ocorrencias WHERE mesReferencia is not null;
-select * from logetl;
