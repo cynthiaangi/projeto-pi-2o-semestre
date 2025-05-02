@@ -31,7 +31,7 @@ public class OcorrenciasDao {
     }
 
     public void iniciarInserts() {
-        jdbcTemplate.update("BEGIN TRANSACTION");
+        jdbcTemplate.update("START TRANSACTION");
     }
 
     public void finalizarInserts() {
