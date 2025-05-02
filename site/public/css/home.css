@@ -2,6 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Kavoon&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&family=Saira:ital,wght@0,100..900;1,100..900&family=Ultra&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
     background-color: #fff;
     font-family: "Roboto";
@@ -101,26 +107,31 @@ header {
     font-family: "Poppins", sans-serif;
   }
 
-  .home_embarque a {
-    background-color: #e2e2e2a8;
-    color: white;
-    border-radius: 0.5vw;
-    width: 24vw;
-    height: 5.3vw;
-    text-align: center;
-    padding-top: 1vw;
-    font-size: 1.8vw;
-    font-weight: 600;
-    font-family: "Poppins", sans-serif;
-    margin-top: 2vw;
+
+  @media (max-width: 768px) {
+    .logo {
+      width: 25vw;
+    }
+
+    .home {
+      height: 30vh;
+      border-radius: 0 0 5vw 5vw;
+      padding: 5vw 0;
+    }
+  
+    .home_embarque {
+      height: auto;
+      width: 90vw;
+      margin-top: 0;
+      padding: 2vw;
+    }
+  
+    .home_embarque h2 {
+      font-size: 3vw;
+      margin-bottom: 2vw;
+    }
   }
   
-  .home_embarque span {
-    font-weight: 700;
-    padding-left: 0.2vw;
-    padding-right: 0.2vw;
-    font-family: "Poppins", sans-serif;
-  }
 
   .box_cadastro {
     display: flex;
@@ -402,6 +413,70 @@ body.no-scroll {
     margin-top: 5vw;
   }
 
+  .botao_mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .botao_mobile {
+      display: block;
+    }
+
+    .botao_desktop {
+      display: none;
+    }
+    
+    .topico_seringa {
+      display: flex;
+      align-items: center;
+      margin: 1vw 0vw 1vw 2vw;
+      font-size: 4vw;
+      font-weight: 600;
+      color: #092B43;
+      padding-top: 5vw;
+    }
+  
+    .topico_seringa img {
+      width: 10vw;
+      height: auto;
+      margin-right: 0.6vw;
+    }
+  
+    .container_sobre_home {
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      padding: 4vw;
+      text-align: center;
+    }
+  
+    .container_sobre_home img {
+      padding-top: 2vw;
+      width: 80vw;
+      height: auto;
+      margin-bottom: 4vw;
+    }
+  
+    .box_sobre_home {
+      width: 90vw;
+      margin-left: 0;
+      padding-top: 0;
+    }
+  
+    .box_sobre_home p {
+      font-size: 4.2vw;
+      margin-top: 2vw;
+    }
+  
+    .box_sobre_home a {
+      width: 50vw;
+      height: 10vw;
+      font-size: 4vw;
+      margin: 5vw auto 0;
+    }
+  }
+  
+
 
 /* campanha de vacinação */
 
@@ -476,77 +551,61 @@ body.no-scroll {
     transform: scale(1.1);
     cursor: pointer;
   }
+
+  @media (max-width: 768px) {
+    .container_servicos_home {
+      height: auto;
+      padding-bottom: 4vw;
+      padding-left: 2vw;
+      overflow-x: auto;
+    }
   
-  .box_servicos_home img {
-    cursor: pointer;
-  }
-
-.marcas {
-    background-color: #EFF7F2;
-}
-
-.marcas img {
-    margin-right: 3vw;
-}
-
-
-
-.contato {
-    height: 37.5vh;
-    background-color: #ecf0f1;
-    border-bottom: 1px solid #9f9f9f;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    font-family: "Saira";
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.informacao {
-    padding: auto;
-    display: flex;
-    gap: 6vw;
-}
-
-.contato-empresa {
-    display: flex;
-    flex-direction: column;
-    gap: 4vh;
-}
-
-.informacao-dados {
-    line-height: 1.5;
-}
-
-.contato-empresa-titulo {
-    font-weight: 900;
-}
-
-.links {
-    display: flex;
-    flex-direction: column;
-    gap: 4vh;
-}
-
-.redes-sociais {
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5vh;
-}
-
-.redes-sociais img {
-    width: 5%;
-}
+    .box_servicos_imagens {
+      display: flex;
+      justify-content: flex-start;
+      width: max-content;
+      padding: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      cursor: grab;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* Suaviza o scroll no iOS */
+    }
+  
+    .box_servicos_imagens:active {
+      cursor: grabbing;
+    }
+  
+    /* Barra de rolagem visível e estilizada */
+    .box_servicos_imagens::-webkit-scrollbar {
+      height: 6px;
+    }
+  
+    .box_servicos_imagens::-webkit-scrollbar-thumb {
+      background-color: #999;
+      border-radius: 10px;
+    }
+  
+    .box_servicos_imagens::-webkit-scrollbar-track {
+      background-color: #eee;
+    }
+  
+    .div_imagem1,
+    .div_imagem2,
+    .div_imagem3,
+    .div_imagem4 {
+      width: 60vw;
+      height: 40vw;
+      font-size: 4vw;
+      margin-right: 5vw;
+      flex-shrink: 0; /* Impede que as divs diminuam */
+    }
+  }  
 
 /* footer */
 
 footer {
-  width: 100vw;
+  width: 100%;
   background-color: #c1cacf;
   display: flex;
   flex-direction: column;
@@ -631,7 +690,52 @@ footer {
   margin-top: 3vh;
   font-size: 0.9vw;
   text-align: center;
-  width: 100vw;
+  width: 100%;
   border-top: 0.1vh solid #555;
   padding-top: 1.5vh;
+}
+
+@media (max-width: 768px) {
+  .box_footer_rodape {
+    flex-direction: column;
+    align-items: center;
+    font-size: 3.5vw;
+    gap: 5vw;
+  }
+
+  .center_logo {
+    display: none;
+  }
+
+  .footer_coluna,
+  .footer_coluna_links {
+    min-width: 80vw;
+    font-size: 4vw;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer_coluna a,
+  .footer_coluna_links a {
+    font-size: 4vw;
+    margin-top: 2vw;
+  }
+
+  .footer_title {
+    font-size: 5vw;
+  }
+
+  .footer_logo {
+    width: 40vw;
+  }
+
+  .footer_socials i {
+    font-size: 5vw;
+  }
+
+  .footer_final {
+    font-size: 3vw;
+    padding: 2vh 2vw;
+    margin-top: 4vh;
+  }
 }

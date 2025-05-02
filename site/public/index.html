@@ -96,11 +96,16 @@
                                     <p>Nosso objetivo é oferecer uma <span>ferramenta completa e intuitiva</span> para profissionais da saúde, 
                                         gestores públicos e pesquisadores que buscam compreender melhor o cenário da imunização e 
                                         atuar de maneira estratégica na ampliação da cobertura vacinal.</p>
+                                    <div class="botao_desktop">
                                     <a href="servicos.html">LEIA MAIS</a>
+                                    </div>
                                 </div>
                                 <img src="assets/istockphoto-1369602887-612x612.jpg">
+                                <di v class="botao_mobile">
+                                    <div class="box_sobre_home"><a href="servicos.html">LEIA MAIS</a></div>
+                                </div>
                             </div>
-                            </div>
+                        </div>
 
 <!-- campanha de vacinação -->
                 <div class="topico_seringa">
@@ -119,44 +124,77 @@
 <!-- footer -->
 
 <footer>
-  <div class="box_footer_rodape">
-    
-    <div class="footer_coluna">
-      <p class="footer_title">ImmunoData</p>
-      <p><strong>contato@immunodata.com</strong></p>
-      <p>(11) 95863-6788</p>
-      <p>CEP: 14404000</p>
-      <p>Razão Social: ImmunoData LTDA</p>
-      <p>CNPJ 12.345.678/0001-90</p>
-    </div>
-
-    <div class="footer_coluna center_logo">
-        <img src="assets/logo immunodata2.0/1.png" alt="Logo ImmunoData" class="footer_logo">
+    <div class="box_footer_rodape">
+      
+      <div class="footer_coluna">
+        <p class="footer_title">ImmunoData</p>
+        <p><strong>contato@immunodata.com</strong></p>
+        <p>(11) 95863-6788</p>
+        <p>CEP: 14404000</p>
+        <p>Razão Social: ImmunoData LTDA</p>
+        <p>CNPJ 12.345.678/0001-90</p>
       </div>
-
-    <div class="footer_coluna_links">
-      <a href="#">Política de Privacidade</a>
-      <a href="#">Termos de Uso</a>
-      <a href="#">Fale Conosco</a>
-    </div>
-
-    <div class="footer_coluna right">
-      <p class="footer_title">Redes sociais:</p>
-      <div class="footer_socials">
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-facebook-f"></i>
-        <i class="fab fa-linkedin-in"></i>
+  
+      <div class="footer_coluna center_logo">
+          <img src="assets/logo immunodata2.0/1.png" alt="Logo ImmunoData" class="footer_logo">
+        </div>
+  
+      <div class="footer_coluna_links">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">Termos de Uso</a>
+        <a href="#">Fale Conosco</a>
       </div>
-      <p>Endereço: Rua Haddock Lobo, 595<br> Cerqueira César, SP - São Paulo</p>
+  
+      <div class="footer_coluna right">
+        <p class="footer_title">Redes sociais:</p>
+        <div class="footer_socials">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-linkedin-in"></i>
+        </div>
+        <p>Endereço: Rua Haddock Lobo, 595<br> Cerqueira César, SP - São Paulo</p>
+      </div>
+  
     </div>
-
-  </div>
-
-  <p class="footer_final">© 2025 ImmunoData - Todos os direitos reservados.</p>
-</footer>
+  
+    <p class="footer_final">© 2025 ImmunoData - Todos os direitos reservados.</p>
+  </footer>
 
 </body>
 </html>
+
+<script>
+  const slider = document.querySelector('.box_servicos_imagens');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidade de arraste
+    slider.scrollLeft = scrollLeft - walk;
+  });
+</script>
+
 
 <script src="./js/burguer.js"></script>
 
