@@ -111,6 +111,8 @@ public class LeitorExcel {
 
     // metodo para processar e inserir as ocorrências anuais
     private void processarOcorrencias(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
         try {
             // mapeamento dos anos, doenças e a coluna inicial da planilha
             Integer[] anos = {2019, 2020, 2021, 2022};
@@ -123,7 +125,7 @@ public class LeitorExcel {
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
             Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
-            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
             OcorrenciasDao.iniciarInserts();
             // for para percorrer as doenças e anos
             for (int d = 0; d < doencas.length; d++) {
@@ -173,6 +175,8 @@ public class LeitorExcel {
 
     // metodo para processar e inserir as ocorrências mensais
     private void processarOcorrenciasMensais(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
         try {
             DataFormatter formatter = new DataFormatter();
             String[] doencas = {"Meningite", "Poliomielite", "Coqueluche",};
@@ -190,7 +194,7 @@ public class LeitorExcel {
             Integer colunasPorMes = 7; // 1 população + 3 doenças x (cobertura + doses)
             Integer colunasPorDoenca = 2; // cobertura + doses
 
-            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
             OcorrenciasDao.iniciarInserts();
             for (int d = 0; d < doencas.length; d++) {
                 Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
@@ -226,15 +230,16 @@ public class LeitorExcel {
                         Integer anoReferencia = anos[a];
 
                         if (ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
-//                            logDao.inserirLogEtl("200",
-//                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
-//                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
-                            System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
-                        } else {
                             ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
                             logDao.inserirLogEtl("200",
                                     "Linha %s do arquivo %s processada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
                             System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
+
+                      } else {
+//                        {logDao.inserirLogEtl("200",
+//                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
+//                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
+                                System.out.println("Ocorrência mensal já existe no banco (linha " + row.getRowNum() + ")");
                         }
                     }
                 } OcorrenciasDao.finalizarInserts();
@@ -247,6 +252,8 @@ public class LeitorExcel {
 
     // metodo para inserir numero de casos de cada doença
     private void inserirCasos(Row row, OcorrenciasDao ocorrenciasDao, LogEtlDao logDao, String nomeArquivo, DoencasDao doencasDao) {
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
         try {
             Integer[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
             String[] doencas = {"Coqueluche", "Meningite", "Poliomielite"};
@@ -256,7 +263,7 @@ public class LeitorExcel {
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
             Integer codigoIbge = Integer.parseInt(valorIbgeStr);
 
-            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(new JdbcTemplate()); // conexão com o banco para as ocorrências
+            OcorrenciasDao OcorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
             OcorrenciasDao.iniciarInserts();
             for (int d = 0; d < doencas.length; d++) {
                 Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
