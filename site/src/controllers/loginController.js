@@ -20,10 +20,10 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
 
                                     res.json({
-                                        id: resultadoAutenticar[0].idCadastro,
+                                        id: resultadoAutenticar[0].idUsuario,
                                         conselho: resultadoAutenticar[0].conselho,
                                         nome: resultadoAutenticar[0].nome,
-
+                                        codigoCidade: resultadoAutenticar[0].codigoCidade
                                     });
                                 
                     } else if (resultadoAutenticar.length == 0) {

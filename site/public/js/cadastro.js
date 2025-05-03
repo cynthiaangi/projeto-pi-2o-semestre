@@ -153,8 +153,8 @@ function cadastrar() {
 
     if (nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || senha == "" || dataNasc == '') {
         alert("Todos os campos devem ser preenchidos");
-    } else if (conselho != num_conselho || tam_conselho != 5) {
-        alert("O número de conselho deve conter 5 números apenas");
+    } else if (conselho != num_conselho || tam_conselho >= 3) {
+        alert("O número de conselho deve conter apenas números, com pelo menos 3 digitos");
     } else if (tam_nome < 3) {
         alert("Digite um nome válido")
     } else if (tam_senha < 8) {
