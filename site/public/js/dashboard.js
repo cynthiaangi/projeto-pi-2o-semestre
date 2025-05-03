@@ -553,39 +553,62 @@ let myChart9 = new Chart(cti,
     });
 
 let myChart3 = new Chart(ctz, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
         datasets: [{
-            data: ['62', '25', '13'],
+            data: ['152', '403', '90'],
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
-            borderWidth: 0,
-            circumference: 360,
-            rotation: 270,
-            cutout: '45%',
+            borderWidth: 1,
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
         }]
     },
     options: {
         responsive: true,
+        barThickness: 30,
+        maxBarThickness: 30,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação da cobertura vacinal no estado (%)',
+                text: 'Situação da cobertura vacinal no estado',
                 color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
+                },
+                padding: {
+                    bottom: 20
                 }
             },
             legend: {
-                labels: {
+                display: false
+            },
+            
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    minRotation: 30,
+                    maxRotation: 30,
                     color: '#2e2e2e',
-                    font: {
-                        size: 10
-                    }
+                    align: 'center',
                 }
             },
-            tooltip: { enabled: true }
-        }
+            y: {
+                ticks: {
+                    color: '#2e2e2e'
+                },
+                title: {
+                    display: true,
+                    text: 'qtd. de cidades',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }  
     }
 
 });

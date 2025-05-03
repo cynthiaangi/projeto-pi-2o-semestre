@@ -67,7 +67,7 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está undefined!"); 
     }else{
 
-        loginModel.cadastrar(nome, dtNasc, cargo, conselho, cidade, senha)
+        loginModel.cadastrar(nome, dtNasc, cargo, conselho, senha, cidade)
             .then(
                 function (resultado) {
                     res.json(resultado);
