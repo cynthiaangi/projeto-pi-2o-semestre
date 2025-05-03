@@ -1,3 +1,8 @@
+var idUsuario = sessionStorage.ID_USUARIO;
+var nomeUser = sessionStorage.NOME_USUARIO;
+var bemVinda = document.getElementById("nome_usuario");
+bemVinda.innerHTML = `${nomeUser}`;
+
 // graficos Coqueluche
 var ctx = myChartCanvas
 var cty = myChartCanvas2
@@ -568,6 +573,7 @@ let myChart3 = new Chart(ctz, {
         indexAxis: 'y',
         barThickness: 15,
         maxBarThickness: 20,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
@@ -587,36 +593,33 @@ let myChart3 = new Chart(ctz, {
 });
 
 let myChart7 = new Chart(ctc, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
         datasets: [{
-            data: ['45', '35', '20'],
-            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
-            borderWidth: 0,
-            circumference: 360,
-            rotation: 270,
-            cutout: '45%',
+            data: ['87', '83', '81', '78', '72', '66'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderWidth: 1
         }]
     },
     options: {
         responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
-                text: 'Relação situação vacinal cidade/estado',
+                text: 'Ranking de vacinação',
                 color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
                 }
             },
             legend: {
-                labels: {
-                    color: '#2e2e2e',
-                    font: {
-                        size: 10
-                    }
-                }
+                display: false
             },
             tooltip: { enabled: true }
         }
@@ -624,36 +627,33 @@ let myChart7 = new Chart(ctc, {
 
 });
 let myChart11 = new Chart(ctk, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
         datasets: [{
-            data: ['34', '49', '17'],
-            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
-            borderWidth: 0,
-            circumference: 360,
-            rotation: 270,
-            cutout: '45%',
+            data: ['87', '83', '81', '78', '72', '66'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderWidth: 1
         }]
     },
     options: {
         responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
-                text: 'Relação situação vacinal cidade/estado',
+                text: 'Ranking de vacinação',
                 color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
                 }
             },
             legend: {
-                labels: {
-                    color: '#2e2e2e',
-                    font: {
-                        size: 10
-                    }
-                }
+                display: false
             },
             tooltip: { enabled: true }
         }

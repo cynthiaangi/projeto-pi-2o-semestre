@@ -1,3 +1,8 @@
+var idUsuario = sessionStorage.ID_USUARIO;
+var nomeUser = sessionStorage.NOME_USUARIO;
+var bemVinda = document.getElementById("nome_usuario");
+bemVinda.innerHTML = `${nomeUser}`;
+
 // graficos Coqueluche
 var ctx = myChartCanvas
 var cty = myChartCanvas2
@@ -168,7 +173,7 @@ let myChart6 = new Chart(ctb, {
         labels: ['Onde estamos %'],
         datasets: [{
             data: [75, 100 - 75],
-            backgroundColor: ['#0A4D68', '#E0E0E0'],
+            backgroundColor: ['#99ccff', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
             rotation: 270,
@@ -266,7 +271,7 @@ let myChart10 = new Chart(ctj, {
         labels: ['Onde estamos %'],
         datasets: [{
             data: [75, 100 - 75],
-            backgroundColor: ['#0A4D68', '#E0E0E0'],
+            backgroundColor: ['#8a8a8a', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
             rotation: 270,
@@ -614,76 +619,123 @@ let myChart3 = new Chart(ctz, {
 });
 
 let myChart7 = new Chart(ctc, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
         datasets: [{
-            data: ['45', '35', '20'],
+            data: ['152', '403', '90'],
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
-            borderWidth: 0,
-            circumference: 360,
-            rotation: 270,
-            cutout: '45%',
+            borderWidth: 1,
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
         }]
     },
     options: {
         responsive: true,
+        barThickness: 30,
+        maxBarThickness: 30,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação da cobertura vacinal no estado (%)',
+                text: 'Situação da cobertura vacinal no estado',
                 color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
+                },
+                padding: {
+                    bottom: 20
                 }
             },
             legend: {
-                labels: {
+                display: false
+            },
+            
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    minRotation: 30,
+                    maxRotation: 30,
                     color: '#2e2e2e',
-                    font: {
-                        size: 10
-                    }
+                    align: 'center',
                 }
             },
-            tooltip: { enabled: true }
-        }
+            y: {
+                ticks: {
+                    color: '#2e2e2e'
+                },
+                title: {
+                    display: true,
+                    text: 'qtd. de cidades',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }  
     }
 
 });
+
 let myChart11 = new Chart(ctk, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Com risco epidemiológico'],
+        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
         datasets: [{
-            data: ['34', '49', '17'],
+            data: ['152', '403', '90'],
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
-            borderWidth: 0,
-            circumference: 360,
-            rotation: 270,
-            cutout: '45%',
+            borderWidth: 1,
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
         }]
     },
     options: {
         responsive: true,
+        barThickness: 30,
+        maxBarThickness: 30,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação da cobertura vacinal no estado (%)',
+                text: 'Situação da cobertura vacinal no estado',
                 color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
+                },
+                padding: {
+                    bottom: 20
                 }
             },
             legend: {
-                labels: {
+                display: false
+            },
+            
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    minRotation: 30,
+                    maxRotation: 30,
                     color: '#2e2e2e',
-                    font: {
-                        size: 10
-                    }
+                    align: 'center',
                 }
             },
-            tooltip: { enabled: true }
-        }
+            y: {
+                ticks: {
+                    color: '#2e2e2e'
+                },
+                title: {
+                    display: true,
+                    text: 'qtd. de cidades',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }  
     }
 
 });
@@ -693,214 +745,103 @@ let myChart11 = new Chart(ctk, {
 let myChart4 = new Chart(ctw, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
         datasets: [{
-            label: 'Vacinados',
-            data: [15, 85, 5, 80, 20],
-            borderWidth: 1,
-            borderColor: '#0A4D68',
-            backgroundColor: '#0A4D68'
-        },
-        {
-            label: 'Não vacinados',
-            data: [15, 85, 5, 80, 20],
-            borderWidth: 1,
-            borderColor: '#99ccff',
-            backgroundColor: '#99ccff'
-        }
-        ]
+            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderWidth: 1
+        }]
     },
     options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação vacinal ao longo dos anos',
-                color: 'rgb(0,0,0)',
+                text: 'Ranking de alerta na vacinação',
+                color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
                 }
             },
             legend: {
-                labels: {
-                    color: 'rgb(0, 0, 0)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'anos',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
+                display: false
             },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'qtde. de pessoas (x1000)',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
+            tooltip: { enabled: true }
         }
     }
+
 });
 
 let myChart8 = new Chart(ctd, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
         datasets: [{
-            label: 'Vacinados',
-            data: [25, 15, 10, 8, 24],
-            borderWidth: 1,
-            borderColor: '#0A4D68',
-            backgroundColor: '#0A4D68'
-        },
-        {
-            label: 'Não vacinados',
-            data: [15, 85, 5, 80, 20],
-            borderWidth: 1,
-            borderColor: '#99ccff',
-            backgroundColor: '#99ccff'
-        }
-        ]
+            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderWidth: 1
+        }]
     },
     options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação vacinal ao longo dos anos',
-                color: 'rgb(0,0,0)',
+                text: 'Ranking de alerta na vacinação',
+                color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
                 }
             },
             legend: {
-                labels: {
-                    color: 'rgb(0, 0, 0)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'anos',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
+                display: false
             },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'qtde. de pessoas (x1000)',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
+            tooltip: { enabled: true }
         }
     }
+
 });
 
 let myChart12 = new Chart(ctl, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
         datasets: [{
-            label: 'Vacinados',
-            data: [45, 15, 50, 68, 79],
-            borderWidth: 1,
-            borderColor: '#0A4D68',
-            backgroundColor: '#0A4D68'
-        },
-        {
-            label: 'Não vacinados',
-            data: [15, 85, 5, 80, 20],
-            borderWidth: 1,
-            borderColor: '#99ccff',
-            backgroundColor: '#99ccff'
-        }
-        ]
+            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
+            borderWidth: 1
+        }]
     },
     options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
         plugins: {
             title: {
                 display: true,
-                text: 'Situação vacinal ao longo dos anos',
-                color: 'rgb(0,0,0)',
+                text: 'Ranking de alerta na vacinação',
+                color: '#2e2e2e',
                 font: {
-                    size: 24
+                    size: 20
                 }
             },
             legend: {
-                labels: {
-                    color: 'rgb(0, 0, 0)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'anos',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
+                display: false
             },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: 'rgb(9, 9, 9)',
-                },
-                title: {
-                    display: true,
-                    text: 'qtde. de pessoas (x1000)',
-                    color: 'rgb(9, 9, 9)',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
+            tooltip: { enabled: true }
         }
     }
+
 });
 
 const help1 = "Exibe a divisão percentual entre pessoas vacinadas e não vacinadas, apresentando um comparativo direto da cobertura vacinal na população."; 
@@ -915,8 +856,8 @@ const help5 = "Exibe a porcentagem de cidades que atingiram a meta de cobertura 
 const titulo5 = "Situação da cobertura vacinal no estado (%)"
 const help6 = "Gráfico que apresenta a evolução do número de casos ao longo do tempo, exibindo comparativos mensais e tendências da doença."; 
 const titulo6 = "Quantidade de casos por ano";
-const help7 = "Gráfico com a quantidade de vacinados e não vacinados distribuída ao longo dos meses ou anos, permitindo a comparação da evolução da vacinação.";
-const titulo7 = "Situação vacinal ao longo dos anos"; 
+const help7 = "Exibe as 10 cidades com menor valor de cobertura vacinal atualmente.";
+const titulo7 = "Ranking de alerta na vacinação"; 
 
 var idEmpresa = sessionStorage.ID_USUARIO;
 

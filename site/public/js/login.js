@@ -95,7 +95,8 @@ const cidadesSP = ["Selecione sua cidade",
 function entrar(){
     var conselho = number.value;
     var senha = password.value;
-    var cidadeSelecionada = '';
+    var codigoCidade = Math.floor(Math.random() * 646) + 1;
+    var cidadeSelecionada = "";
     // var mensagem = document.getElementById("div_mensagem")
 
 
@@ -107,34 +108,36 @@ function entrar(){
     console.log("FORM LOGIN: ", conselho);
     console.log("FORM SENHA: ", senha);
 
-    // fetch("/login/autenticar", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         conselhoServer: conselho,
-    //         senhaServer: senha,
-    //         cidadeServer: fk
-    //     })
-    // }).then(function (resposta) {
-    //     console.log("ESTOU NO THEN DO entrar()!")
+    fetch("/login/autenticar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            conselhoServer: conselho,
+            senhaServer: senha,
+            cidadeServer: fk
+        })
+    }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO entrar()!")
 
-    //     if (resposta.ok) {
-    //         console.log(resposta);
+        if (resposta.ok) {
+            console.log(resposta);
 
-    //         resposta.json().then(json => {
-    //             console.log(json);
-    //             console.log(JSON.stringify(json));
-    //             sessionStorage.CONSELHO_USUARIO = json.conselho;
-    //             sessionStorage.NOME_USUARIO = json.nome;
-    //             sessionStorage.ID_USUARIO = json.id;
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
 
-                for(var i = 0; i < codigosCidade.length; i++){
-                    if(json.codigoCidade == codigosCidade[i]){
-                        cidadeSelecionada = cidadesSP[i];
-                    }
-                }
+    for(var i = 0; i < codigosCidade.length; i++){
+        if(codigoCidade == i){
+            cidadeSelecionada = cidadesSP[i];
+        }
+    }
+                sessionStorage.CONSELHO_USUARIO = json.conselho;
+                sessionStorage.NOME_USUARIO = json.nome;
+                sessionStorage.ID_USUARIO = json.id;
+                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
+
 
                 setTimeout(function () {
                     console.log(cidadeSelecionada);
@@ -146,21 +149,21 @@ function entrar(){
                     }
                 }, 2000); // apenas para exibir o loading
 
-    //         });
+            });
 
-    //     } else {
+        } else {
 
-    //         console.log("Houve um erro ao tentar realizar o login!");
+            console.log("Houve um erro ao tentar realizar o login!");
 
-    //         resposta.text().then(texto => {
-    //             console.error(texto);
-    //             // finalizarAguardar(texto);
-    //         });
-    //     }
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
 
-    // }).catch(function (erro) {
-    //     console.log(erro);
-    // })
+    }).catch(function (erro) {
+        console.log(erro);
+    })
 
-    // return false;
+    return false;
 }
