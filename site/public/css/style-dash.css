@@ -355,7 +355,7 @@ display: none;
 
 .quadradinho button{
   margin-top: 1rem;
-  padding-left: 2rem;
+  padding-left: 1rem;
   height: 0;
 }
 
@@ -381,9 +381,10 @@ display: none;
 
 .conteudo-dash-medico {
   display: flex;
-  height: 100% !important;
-  width: 90% !important;
+  height: 17rem !important;
+  width: 22rem !important;
   margin-left: 10px;
+  margin-top: 13px;
   border-radius: 10px;
 }
 
