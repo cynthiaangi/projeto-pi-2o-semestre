@@ -17,15 +17,15 @@ function autenticar(req, res) {
                     console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
 
                     if (resultadoAutenticar.length == 1) {
-                        console.log('testando');
-
-                                    res.json({
-                                        id: resultadoAutenticar[0].idUsuario,
-                                        conselho: resultadoAutenticar[0].conselho,
-                                        nome: resultadoAutenticar[0].nome,
-                                        codigoCidade: resultadoAutenticar[0].codigoCidade
-                                    });
-                                
+                        
+                        res.json({
+                            id: resultadoAutenticar[0].idUsuario,
+                            conselho: resultadoAutenticar[0].conselho,
+                            nome: resultadoAutenticar[0].nomeCompleto,
+                            codigoCidade: resultadoAutenticar[0].codigoCidade
+                        });
+                        
+                        console.log(res.json);
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Número do conselho e/ou senha inválido(s)");
                     } else {
