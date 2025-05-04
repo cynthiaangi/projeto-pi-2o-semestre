@@ -138,10 +138,10 @@ function entrar() {
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
 
                 console.log(cidadeSelecionada);
-                if (conselho.length == 5) {
+                if (conselho.length == 4) {
                     window.location = "./dashboard.html";
                 }
-                else if(conselho.length == 4) {
+                else if(conselho.length == 5) {
                     window.location = "./dash-medico.html";
                 }
 
