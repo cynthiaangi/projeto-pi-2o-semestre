@@ -19,8 +19,12 @@ import java.util.List;
 
 public class Workbook{
     public static void main(String[] args) throws IOException, SQLException {
-        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+        System.out.println(System.getenv("AWS_ACCESS_KEY_ID"));
+        System.out.println(System.getenv("AWS_SECRET_ACCESS_KEY"));
+        System.out.println(System.getenv("AWS_SESSION_TOKEN"));
         String bucketName = "bucket-immunodata";
+        System.out.println(bucketName);
+        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
 
         List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx");
 
