@@ -95,7 +95,7 @@ const cidadesSP = ["Selecione sua cidade",
 function entrar() {
     var conselho = number.value;
     var senha = password.value;
-    var codigoCidade = Math.floor(Math.random() * 646) + 1;
+    var codigoCidade = 0;
     var cidadeSelecionada = "";
     // var mensagem = document.getElementById("div_mensagem")
 
@@ -128,7 +128,7 @@ function entrar() {
                 console.log(JSON.stringify(json));
 
                 for (var i = 0; i < codigosCidade.length; i++) {
-                    if (codigoCidade == i) {
+                    if (codigosCidade[i] == json.codigoCidade) {
                         cidadeSelecionada = cidadesSP[i];
                     }
                 }

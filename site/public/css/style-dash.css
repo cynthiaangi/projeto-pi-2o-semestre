@@ -209,8 +209,8 @@ nav button {
   border-radius: 10px;
   border: 1px solid #adadad;
   background-color: #eeeeee;
-  gap: 10px;
-  padding: 20px;
+  gap: 5px;
+  padding: 30px 20px;
 }
 
 .identificacao{
@@ -223,7 +223,7 @@ nav button {
   display: flex;
   flex-direction: column;
   text-align: start;
-  gap: 12px;
+  gap: 5px;
 }
 
 .ajuda{
