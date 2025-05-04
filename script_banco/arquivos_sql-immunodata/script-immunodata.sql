@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS immunodata;
-USE immunoData;
+USE immunodata;
 
 CREATE TABLE cidades (
     codigoIbge BIGINT PRIMARY KEY,
