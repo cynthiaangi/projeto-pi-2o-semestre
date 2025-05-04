@@ -25,7 +25,7 @@ function autenticar(req, res) {
                             codigoCidade: resultadoAutenticar[0].codigoCidade
                         });
                         
-                        console.log(res);
+                        console.log(`resposta: ${resultadoAutenticar[0]}`);
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Número do conselho e/ou senha inválido(s)");
                     } else {
