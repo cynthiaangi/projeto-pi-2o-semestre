@@ -173,7 +173,7 @@ let myChart6 = new Chart(ctb, {
         labels: ['Onde estamos %'],
         datasets: [{
             data: [75, 100 - 75],
-            backgroundColor: ['#0A4D68', '#E0E0E0'],
+            backgroundColor: ['#99ccff', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
             rotation: 270,
@@ -271,7 +271,7 @@ let myChart10 = new Chart(ctj, {
         labels: ['Onde estamos %'],
         datasets: [{
             data: [75, 100 - 75],
-            backgroundColor: ['#0A4D68', '#E0E0E0'],
+            backgroundColor: ['#8a8a8a', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
             rotation: 270,
@@ -587,6 +587,21 @@ let myChart3 = new Chart(ctz, {
                 display: false
             },
             tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
         }
     }
 
@@ -622,6 +637,21 @@ let myChart7 = new Chart(ctc, {
                 display: false
             },
             tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
         }
     }
 
@@ -656,6 +686,21 @@ let myChart11 = new Chart(ctk, {
                 display: false
             },
             tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
         }
     }
 
