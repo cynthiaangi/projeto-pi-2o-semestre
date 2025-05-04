@@ -10,7 +10,7 @@ function autenticar(req, res) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
 
-        loginModel.autenticar(email, senha)
+        loginModel.autenticar(conselho, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
