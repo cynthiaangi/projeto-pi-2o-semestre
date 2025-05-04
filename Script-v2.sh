@@ -51,4 +51,35 @@ if [ $? = 0 ];
 		sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
 fi
 
+# Verificando a presença do Java
+
+if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
+        then
+                echo "arquivo java presente"
+
+        else
+                echo "arquivo java ausente"
+                git checkout main
+
+		# Verificando se o Maven está instalado
+		mvn --version
+
+		if [ $? = 0 ];
+			then
+				echo "maven instalado"
+
+			else
+				echo "maven não instalado"
+				echo "instalando maven"
+				sudo apt install maven
+		fi
+
+		cd conexao-banco-de-dados
+		echo "compilando java"
+		mvn clean install
+
+		cp ./target/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ../../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+fi
+
 echo "processo finalizado"
