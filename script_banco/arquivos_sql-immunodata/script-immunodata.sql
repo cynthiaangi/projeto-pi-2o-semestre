@@ -1,5 +1,3 @@
-DROP DATABASE immunodata;
-
 CREATE DATABASE immunodata;
 USE immunoData;
 
