@@ -12,7 +12,7 @@ CREATE TABLE usuarios (
     nomeCompleto VARCHAR(90) NOT NULL,
     dataNascimento DATE NOT NULL,
     cargoExercido VARCHAR(45),
-    numConselho CHAR(5) NOT NULL,
+    numConselho VARCHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
     fkCidadeResidente BIGINT,
     CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
