@@ -39,36 +39,36 @@ doencas.forEach((doenca) => {
 
 doencaInput.replaceWith(doencaSelect);
 
-const anos = ["Selecione o ano", "2018", "2019", "2020", "2021", "2022", "2023", "2024"];
+// const anos = ["Selecione o ano", "2018", "2019", "2020", "2021", "2022", "2023", "2024"];
 
-const anoAntesInput = document.getElementById("ipt_ano_antes");
-const anoDepoisInput = document.getElementById("ipt_ano_depois");
+// const anoAntesInput = document.getElementById("ipt_ano_antes");
+// const anoDepoisInput = document.getElementById("ipt_ano_depois");
 
-const selectAnoAntes = document.createElement("select");
-const selectAnoDepois = document.createElement("select");
-selectAnoAntes.name = "ano_antes";
-selectAnoAntes.id = "sel_ano_antes";
-selectAnoAntes.className = "select-ano";
-selectAnoDepois.name = "ano";
-selectAnoDepois.id = "sel_ano_depois";
-selectAnoDepois.className = "select-ano";
+// const selectAnoAntes = document.createElement("select");
+// const selectAnoDepois = document.createElement("select");
+// selectAnoAntes.name = "ano_antes";
+// selectAnoAntes.id = "sel_ano_antes";
+// selectAnoAntes.className = "select-ano";
+// selectAnoDepois.name = "ano";
+// selectAnoDepois.id = "sel_ano_depois";
+// selectAnoDepois.className = "select-ano";
 
-anos.forEach((ano) => {
-    const opcao = document.createElement("option");
-    opcao.value = ano;
-    opcao.textContent = ano;
-    selectAnoAntes.appendChild(opcao);
-});
+// anos.forEach((ano) => {
+//     const opcao = document.createElement("option");
+//     opcao.value = ano;
+//     opcao.textContent = ano;
+//     selectAnoAntes.appendChild(opcao);
+// });
 
-anos.forEach((ano) => {
-    const opcao = document.createElement("option");
-    opcao.value = ano;
-    opcao.textContent = ano;
-    selectAnoDepois.appendChild(opcao);
-});
+// anos.forEach((ano) => {
+//     const opcao = document.createElement("option");
+//     opcao.value = ano;
+//     opcao.textContent = ano;
+//     selectAnoDepois.appendChild(opcao);
+// });
 
-anoAntesInput.replaceWith(selectAnoAntes);
-anoDepoisInput.replaceWith(selectAnoDepois);
+// anoAntesInput.replaceWith(selectAnoAntes);
+// anoDepoisInput.replaceWith(selectAnoDepois);
 
 let myChart2 = new Chart(cty, {
     type: 'doughnut',
