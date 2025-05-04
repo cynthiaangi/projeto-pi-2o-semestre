@@ -76,7 +76,7 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 				sudo apt install maven
 		fi
 
-		cd ./projeto-pi-2o-semestre/conexao-banco-de-dados
+		cd ./conexao-banco-de-dados
 		ls
 		echo "compilando java"
 		mvn clean install
