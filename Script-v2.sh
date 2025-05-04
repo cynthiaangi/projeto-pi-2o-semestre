@@ -61,7 +61,6 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
                 echo "arquivo java ausente"
 		cd ./projeto-pi-2o-semestre
                 git checkout main
-		ls
 
 		# Verificando se o Maven está instalado
 		mvn --version
@@ -77,7 +76,6 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 		fi
 
 		cd ./conexao-banco-de-dados
-		ls
 		echo "compilando java"
 		mvn clean install
 
