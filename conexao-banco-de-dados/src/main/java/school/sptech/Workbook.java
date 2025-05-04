@@ -20,7 +20,7 @@ import java.util.List;
 public class Workbook{
     public static void main(String[] args) throws IOException, SQLException {
         S3Client s3Client = new school.sptech.S3Provider().getS3Client();
-        String bucketName = "s3-immunodata";
+        String bucketName = "bucket-immunodata";
 
         List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx");
 
