@@ -59,6 +59,7 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
         else
                 echo "arquivo java ausente"
+		cd ./projeto-pi-2o-semestre
                 git checkout main
 		ls
 
