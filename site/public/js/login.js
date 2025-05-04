@@ -115,8 +115,7 @@ function entrar(){
         },
         body: JSON.stringify({
             conselhoServer: conselho,
-            senhaServer: senha,
-            cidadeServer: fk
+            senhaServer: senha
         })
     }).then(function (resposta) {
         console.log("ESTOU NO THEN DO entrar()!")
