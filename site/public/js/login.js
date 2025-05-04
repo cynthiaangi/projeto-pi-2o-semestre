@@ -141,7 +141,7 @@ function entrar() {
                 if (conselho.length == 5) {
                     window.location = "./dashboard.html";
                 }
-                else {
+                else if(conselho.length == 4) {
                     window.location = "./dash-medico.html";
                 }
 
