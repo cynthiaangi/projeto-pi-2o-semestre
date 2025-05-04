@@ -11,6 +11,14 @@ public class OcorrenciasDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void iniciarInserts() {
+        jdbcTemplate.update("START TRANSACTION");
+    }
+
+    public void finalizarInserts() {
+        jdbcTemplate.update("COMMIT");
+    }
+
     // Insere as ocorrências no banco de dados
     public void inserirOcorrencia(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Double coberturaVacinal) {
         jdbcTemplate.update("INSERT IGNORE INTO ocorrencias (fkDoenca, fkCidade, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?) ",
@@ -28,14 +36,6 @@ public class OcorrenciasDao {
                 "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
                 quantidadeCasos, fkDoenca, fkCidade, anoReferencia
         );
-    }
-
-    public void iniciarInserts() {
-        jdbcTemplate.update("START TRANSACTION");
-    }
-
-    public void finalizarInserts() {
-        jdbcTemplate.update("COMMIT");
     }
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
