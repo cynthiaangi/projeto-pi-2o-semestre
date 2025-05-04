@@ -20,9 +20,9 @@ function autenticar(req, res) {
                         
                         res.json({
                             id: resultadoAutenticar[0].idUsuario,
-                            conselho: resultadoAutenticar[0].conselho,
+                            conselho: resultadoAutenticar[0].numConselho,
                             nome: resultadoAutenticar[0].nomeCompleto,
-                            codigoCidade: resultadoAutenticar[0].codigoCidade
+                            codigoCidade: resultadoAutenticar[0].fkCidadeResidente
                         });
                         
                         console.log(`resposta: ${resultadoAutenticar[0].conselho}`);
