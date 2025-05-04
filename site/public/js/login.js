@@ -132,17 +132,17 @@ function entrar() {
                         cidadeSelecionada = cidadesSP[i];
                     }
                 }
-                sessionStorage.CONSELHO_USUARIO = json.conselho;
+                sessionStorage.CONSELHO_USUARIO = conselho;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
 
                 console.log(cidadeSelecionada);
                 if (conselho.length == 5) {
-                    window.location = "./dash-medico.html";
+                    window.location = "./dashboard.html";
                 }
                 else {
-                    window.location = "./dashboard.html";
+                    window.location = "./dash-medico.html";
                 }
 
             });
