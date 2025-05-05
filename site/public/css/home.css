@@ -516,9 +516,9 @@ body.no-scroll {
   .div_imagem4 {
     margin-right: 1vw;
     background-size: cover;
-    width: 20vw;
+    width: 40vw;
     border-radius: 0.4vw;
-    height: 34vw;
+    height: 20vw;
     color: white;
     display: flex;
     justify-content: center;
@@ -534,16 +534,16 @@ body.no-scroll {
    
   }
   .div_imagem2{
-    background-image: url('../assets/doctor-vaccinating-patient-clinic.jpg');
+    background-image: url('../assets/campanha_vacinacao_gripe.png');
    
   }
   .div_imagem3{
-    background-image: url('../assets/istockphoto-1369602887-612x612.jpg');
+    background-image: url('../assets/camapanha_coqueluche.jpg');
    
     
   }
   .div_imagem4{
-    background-image: url('../assets/istockphoto-1413603540-612x612.jpg');
+    background-image: url('../assets/campanha_vacinacao_meningite.jpeg');
     
   }
   
@@ -738,4 +738,5 @@ footer {
     padding: 2vh 2vw;
     margin-top: 4vh;
   }
+
 }
