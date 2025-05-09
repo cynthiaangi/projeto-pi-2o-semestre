@@ -116,7 +116,7 @@ fi
 # Verificando se o Docker-Compose está instalado
 docker-compose -version
 
-if [ $? = 0];
+if [ $? = 0 ];
 	then
 		log "docker-compose instalado"
 
