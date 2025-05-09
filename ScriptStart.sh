@@ -13,6 +13,31 @@ sudo docker network rm network-immuno
 echo "iniciando docker network"
 sudo docker network create network-immuno
 
+# Verificando se está conectano no Docker
+
+if docker info | grep -q Username;
+	then
+		echo "Logado no Docker"
+
+	else
+		echo "Não logado no Docker"
+
+		echo "Logando no Docker"
+
+		if [[ -n $DOCKER_TOKEN ]];
+        		then
+                		echo "docker token configurado"
+
+        		else
+		                echo "access key não configurada"
+                		read -p "Insira o docker token: " DOCKER_TOKEN_INSERIDO
+				export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO
+                		echo "export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO" >> env.sh # esse echo também não é log
+		fi
+
+		echo "$DOCKER_TOKEN" | docker login -u fabiamdamaceno --password-stdin # esse echo não é log
+fi
+
 # Verificando se o Banco está rodando
 sudo docker ps --filter "name=ContainerBanco" --filter "status=running" | grep "ContainerBanco" > /dev/null
 
@@ -26,7 +51,11 @@ if [ $? = 0 ];
 		echo "buildando docker BD"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
-		echo "tentando subir compose"
+		echo "Atribuindo tag à imagem site"
+		sudo docker image tag imagem-bancoimmuno:latest fabiamdamaceno/imagem-bancoimmuno:latest
+
+		echo "Subindo imagem no docker hub"
+		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:lastest
 
 		echo "rodando imagem docker"
 		sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno

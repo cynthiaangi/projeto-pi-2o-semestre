@@ -4,6 +4,10 @@
 # TODO: Substituir (programa instalado) para (programa já está instalado) e (programa não está instalado)
 # TODO: Também adicionar função log nos outros scripts
 # TODO: Adicionar arquivo .txt com todos na função log. Diretorio com logs, com titulo do horario da execução 
+# TODO: Validar as permissões dentro da instância. Para não precisar rodar tudo com sudo
+# TODO: Adicionar container do Java
+# TODO: Adcicionar buscar arquivos xlsx e subir automanticamente na S3 durante a primeira execução da instância
+# TODO: 'Deixar o código mais bonito
 
 # Define função log
 
