@@ -1,9 +1,17 @@
 #!/bin/bash
 
+# Define função log
+
+log() {
+  horario=$(date +"%Y-%m-%d %T")
+  mensagem="$horario - $@"
+  echo "$mensagem"
+}
+
 # Verifica se o usuário adm-immunodata está criado
 if id "adm-immunodata" &>/dev/null;
 	then
-		echo "usuário adm-immunodata existe"
+		log "usuário adm-immunodata existe"
 
 	else
 		echo "usuário adm-immunodata não existe"
@@ -20,7 +28,8 @@ aws --version
 
 if [ $? = 0 ];
 	then
-		echo "aws cli instalado"
+		log "aws cli instalado"
+
 	else
 		# Se não tiver instalado, logo é o primeiro login
                 echo "configurando EC2 pela primeira vez"
@@ -116,7 +125,7 @@ echo "apagando versão antiga dos scripts"
 rm -r ./projeto-pi-2o-semestre
 
 echo "baixando nova versão"
-git clone --branch deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
+git clone --branch release/deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
 
 echo "rodando script inicialização dos dockers"
-sudo bash ./projeto-pi-2o-semestre/Script-v2.sh
+sudo bash ./projeto-pi-2o-semestre/ScriptStart.sh

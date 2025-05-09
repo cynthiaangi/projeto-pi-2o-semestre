@@ -26,6 +26,8 @@ if [ $? = 0 ];
 		echo "buildando docker BD"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
+		echo "tentando subir compose"
+
 		echo "rodando imagem docker"
 		sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno
 fi
