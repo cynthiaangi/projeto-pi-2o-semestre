@@ -90,13 +90,13 @@ if [ $? = 0 ];
 		log "Container BD não encontra-se em execução"
 
 		log "Buildando docker BD"
-		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
+		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno:latest ./projeto-pi-2o-semestre/script_banco
 
 		log "Atribuindo tag à imagem banco"
-		sudo docker image tag imagem-bancoimmuno:banco-latest linyaalves/teste-so:banco-latest
+		sudo docker image tag imagem-bancoimmuno:latest imagem-banco:banco-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:banco-latest
+		sudo docker push imagem-banco:banco-latest
 
 		# Comando 'outdated
 		# log "Rodando imagem docker
@@ -124,13 +124,13 @@ if [ $? = 0 ];
 		echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
 
 		log "Buildando site"
-		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
+		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno:latest ./projeto-pi-2o-semestre/script_site
 
 		log "Atribuindo tag à imagem site"
-		sudo docker image tag imagem-siteimmuno:banco-site-latest linyaalves/teste-so:banco-site-latest
+		sudo docker image tag imagem-siteimmuno:latest imagem-site:site-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:banco-site-latest
+		sudo docker push imagem-site:site-latest
 
 		# Comando 'outdated
 		# log "Rodando imagem docker site
