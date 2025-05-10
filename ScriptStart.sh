@@ -93,10 +93,10 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
 		log "Atribuindo tag à imagem banco"
-		sudo docker image tag imagem-bancoimmuno:latest linyaalves/teste-so:lastest
+		sudo docker image tag imagem-bancoimmuno:banco-latest linyaalves/teste-so:banco-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:lastest
+		sudo docker push linyaalves/teste-so:banco-latest
 
 		# Comando 'outdated
 		# log "Rodando imagem docker
@@ -127,10 +127,10 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
 		log "Atribuindo tag à imagem site"
-		sudo docker image tag imagem-siteimmuno:latest linyaalves/teste-so:lastest
+		sudo docker image tag imagem-siteimmuno:banco-site-latest linyaalves/teste-so:banco-site-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:latest
+		sudo docker push linyaalves/teste-so:banco-site-latest
 
 		# Comando 'outdated
 		# log "Rodando imagem docker site
