@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# TODO: Também adicionar função log nos outros scripts
 # TODO: Adicionar arquivo .txt com todos na função log. Diretorio com logs, com titulo do horario da execução
 # TODO: Validar as permissões dentro da instância. Para não precisar rodar tudo com sudo
 # TODO: Adicionar container do Java
@@ -8,7 +7,7 @@
 # TODO: ScriptStart atualizar a versão do ScriptSetup.sh
 # TODO: Definir versão sql no Dockerfile, lastest não é bom
 # TODO: Verificar se docker network está rodando, antes de iniciar outra - Verificar como ficará o Docker Network com o Docker Compose
-# TODO: Terminar de comentar código do ScriptStar.sh
+# TODO: Terminar de comentar código do ScriptStart.sh
 
 #########################################################
 #                                                       #
@@ -39,6 +38,7 @@ sleep 2 # Aguarda alguns segundos para o usuário apreciar a logo
 log() {
   	horario=$(date +"%Y-%m-%d %T")
   	mensagem="[LOG SHELL] [$horario] - $@"
+	echo ""
   	echo "$mensagem"
 }
 

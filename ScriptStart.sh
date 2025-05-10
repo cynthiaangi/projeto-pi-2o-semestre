@@ -14,21 +14,29 @@ log() {
 
 log "Inicializado o Script de Instalação"
 
+
+#######################################################
+#                                                     #
+#     Apaga containers parados para atualizar-los     #
+#                                                     #
+#######################################################
+
 log "Limpando containers parados"
 sudo docker container prune -f
 
 log "Excluindo imagens sem utilizar"
 sudo docker image prune -a -f
 
+
+###################################################################
+#                                                                 #
+#     Inicia Docker network para os containers se comunicarem     #
+#                                                                 #
+###################################################################
+
 log "Reiniciando docker network"
 sudo docker network rm network-immuno
 
-
-############################################################
-#                                                          #
-#     Docker network para os containers se comunicarem     #
-#                                                          #
-############################################################
 
 log "Iniciando docker network"
 sudo docker network create network-immuno
@@ -135,7 +143,7 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
                 log "Arquivo .JAR encontrado"
 
         else
-                log "Arquivo .JAR naõ encontrado"
+                log "Arquivo .JAR não encontrado"
 		cd ./projeto-pi-2o-semestre
                 git checkout main
 
