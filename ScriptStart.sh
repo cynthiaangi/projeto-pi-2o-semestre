@@ -143,8 +143,9 @@ fi
 #     Executa o Docker Compose     #
 #                                  #
 ####################################
-ls 
-pwd 
+
+log "Entrando na pasta do projeto"
+cd projeto-pi-2o-semestre/
 
 log "Executando Docker-Compose com o comando up"
 sudo docker-compose up -d
@@ -161,7 +162,6 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
         else
                 log "Arquivo .JAR não encontrado"
-		cd ./projeto-pi-2o-semestre
                 git checkout main
 
 		# Verificando se o Maven está instalado
