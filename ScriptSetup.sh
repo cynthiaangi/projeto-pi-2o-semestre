@@ -1,54 +1,92 @@
 #!/bin/bash
 
-# TODO: Capitalizar a primeira letra de todos os logs
-# TODO: Substituir (programa instalado) para (programa já está instalado) e (programa não está instalado)
 # TODO: Também adicionar função log nos outros scripts
-# TODO: Adicionar arquivo .txt com todos na função log. Diretorio com logs, com titulo do horario da execução 
+# TODO: Adicionar arquivo .txt com todos na função log. Diretorio com logs, com titulo do horario da execução
 # TODO: Validar as permissões dentro da instância. Para não precisar rodar tudo com sudo
 # TODO: Adicionar container do Java
-# TODO: Adcicionar buscar arquivos xlsx e subir automanticamente na S3 durante a primeira execução da instância
-# TODO: 'Deixar o código mais bonito
+# TODO: Adcionar buscar arquivos xlsx e subir automanticamente na S3 durante a primeira execução da instância
+# TODO: ScriptStart atualizar a versão do ScriptSetup.sh
+# TODO: Definir versão sql no Dockerfile, lastest não é bom
+# TODO: Verificar se docker network está rodando, antes de iniciar outra - Verificar como ficará o Docker Network com o Docker Compose
+# TODO: Terminar de comentar código do ScriptStar.sh
 
-# Define função log
+#########################################################
+#                                                       #
+#     Ínicio do Script de Configuração da Instância     #
+#                                                       #
+#########################################################
+
+cat << 'EOF'
+________ _______  _______           _        _______  ______   _______ _________ _______ 
+\__   __/(       )(       )|\     /|( (    /|(  ___  )(  __  \ (  ___  )\__   __/(  ___  )
+   ) (   | () () || () () || )   ( ||  \  ( || (   ) || (  \  )| (   ) |   ) (   | (   ) |
+   | |   | || || || || || || |   | ||   \ | || |   | || |   ) || (___) |   | |   | (___) |
+   | |   | |(_)| || |(_)| || |   | || (\ \) || |   | || |   | ||  ___  |   | |   |  ___  |
+   | |   | |   | || |   | || |   | || | \   || |   | || |   ) || (   ) |   | |   | (   ) |
+___) (___| )   ( || )   ( || (___) || )  \  || (___) || (__/  )| )   ( |   | |   | )   ( |
+\_______/|/     \||/     \|(_______)|/    )_)(_______)(______/ |/     \|   )_(   |/     \|
+                                                                                          
+EOF # Printa Immunodata
+sleep 2 # Aguarda alguns segundos para o usuário apreciar a logo
+
+
+#############################
+#                           #
+#     Define função log     #
+#                           #
+#############################
 
 log() {
   horario=$(date +"%Y-%m-%d %T")
-  mensagem="[LOG] [$horario] - $@"
+  mensagem="[LOG SHELL] [$horario] - $@"
   echo "$mensagem"
 }
 
-# Verifica se o usuário adm-immunodata está criado
+log "Inicializado o Script de Instalação"
+
+
+############################################################
+#                                                          #
+#     Verifica se o usuário adm-immunodata está criado     #
+#                                                          #
+############################################################
+
 if id "adm-immunodata" &>/dev/null;
 	then
-		log "usuário adm-immunodata existe"
+		log "Usuário adm-immunodata encontrado"
 
 	else
-		log "usuário adm-immunodata não existe"
-		log "criando usuário adm-immunodata"
+                log "Configurando EC2 pela primeira vez"
+                sudo apt update && sudo apt upgrade -y
+
+                log "Definindo senhas do sistema"
+                echo "ubuntu:urubu100" | sudo chpasswd
+                echo "root:urubu100" | sudo chpasswd
+
+
+		log "Usuário adm-immunodata não encontrado"
+		log "Criando usuário adm-immunodata"
 		sudo adduser --disabled-password --gecos "" adm-immunodata
-		log "adm-immunodata:urubu100" | sudo chpasswd
+		echo "Adm-immunodata:urubu100" | sudo chpasswd
 		sudo usermod -aG sudo adm-immunodata
-		log "usuário adm-immunodata criado"
+		log "Usuário adm-immunodata criado"
 fi
 
 
-# Verifica se AWS CLI está instalado
+##############################################
+#                                            #
+#     Verifica se AWS CLI está instalado     #
+#                                            #
+##############################################
+
 aws --version
 
 if [ $? = 0 ];
 	then
-		log "aws cli instalado"
+		log "Ferramenta AWS CLI encontrada"
 
 	else
-		# Se não tiver instalado, logo é o primeiro login
-                log "configurando EC2 pela primeira vez"
-                sudo apt update && sudo apt upgrade -y
-
-		log "definindo senhas do sistema"
-                log "ubuntu:urubu100" | sudo chpasswd
-                log "root:urubu100" | sudo chpasswd
-
-                log "aws cli não instalado"
+                log "Ferramenta AWS CLI  não encontrada"
                 log "inicializando instalação AWS CLI"
 
 		curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -57,8 +95,8 @@ if [ $? = 0 ];
 
 		if [ $? != 0 ];
 			then
-				log "unzip não instalado"
-				log "instalando unzip"
+				log "Utilidade Unzip não encontrada"
+				log "Instalando Unzip"
 				sudo apt install unzip
 
 		fi
@@ -68,73 +106,106 @@ if [ $? = 0 ];
 		sudo ./aws/install
 fi
 
-# Verificando se o Java está instalado
+
+#############################################
+#                                           #
+#     Verifica se o Java está instalado     #
+#                                           #
+#############################################
+
 java -version
 
 if [ $? = 0 ];
 	then
-		log "java instalado"
+		log "Kit Java encontrado"
 
 	else
-		log "java não instalado"
-		log "gostaria de instalar o java? [s/n]"
+		log "Kit Java não encontrado"
+		log "Instalando o Java"
+		sudo apt install openjdk-21-jre
 
-		read get
-
-		if [ \"$get\" == \"s\" ];
-			then
-				sudo apt install openjdk-21-jre
-
-		fi
 fi
 
-# Verificando se o Git está instalado
+
+###############################################
+#                                             #
+#     Verificando se o Git está instalado     #
+#                                             #
+###############################################
+
 git --version
 
 if [ $? = 0 ];
 	then
-		log "git instalado"
+		log "Ferramenta Git encontrada"
 
 	else
-		log "git não instalado"
-		log "instalando git"
+		log "Ferramenta Git não encontrada"
 
+		log "Instalando Git"
 		sudo apt install -y git
 fi
 
-# Verificando se o Docker está instalado
+
+##################################################
+#                                                #
+#     Verificando se o Docker está instalado     #
+#                                                #
+##################################################
+
 docker --version
 
 if [ $? = 0 ];
 	then
-		log "docker instalado"
+		log "Ferramenta Docker encontrada"
 
 	else
-		log "docker não instalado"
+		log "Ferramenta Docker não encontrada"
 
+		log "Instalando Docker"
 		sudo apt install docker.io
 		sudo systemctl start docker
 		sudo systemctl enable docker
 fi
 
-# Verificando se o Docker-Compose está instalado
+
+##########################################################
+#                                                        #
+#     Verificando se o Docker-Compose está instalado     #
+#                                                        #
+##########################################################
+
 docker-compose -version
 
 if [ $? = 0 ];
 	then
-		log "docker-compose instalado"
+		log "Ferramenta Docker-compose encontrada"
 
 	else
-		log "docker-compose não instalado"
+		log "Ferramenta docker-compose não instalado"
 		sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 		sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-log "apagando versão antiga dos scripts"
+
+##############################################
+#                                            #
+#     Busca as novas versões dos scripts     #
+#                                            #
+##############################################
+
+log "Apagando versão antiga dos scripts"
 rm -r ./projeto-pi-2o-semestre
 
-log "baixando nova versão"
+log "Baixando nova versão dos scripts"
 git clone --branch release/deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
 
-log "rodando script inicialização dos dockers"
+
+###########################################################
+#                                                         #
+#     Inicializa o Script de Configuração dos Dockers     #
+#                                                         #
+###########################################################
+
+log "Inicializado script de construção dos dockers"
 sudo bash ./projeto-pi-2o-semestre/ScriptStart.sh

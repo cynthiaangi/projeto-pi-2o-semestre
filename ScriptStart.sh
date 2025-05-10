@@ -1,95 +1,141 @@
 #!/bin/bash
 
-echo "limpando containers parados"
+#############################
+#                           #
+#     Define função log     #
+#                           #
+#############################
+
+log() {
+  horario=$(date +"%Y-%m-%d %T")
+  mensagem="[LOG SHELL] [$horario] - $@"
+  echo "$mensagem"
+}
+
+log "Inicializado o Script de Instalação"
+
+log "Limpando containers parados"
 sudo docker container prune -f
 
-echo "excluindo imagens sem utilizar"
+log "Excluindo imagens sem utilizar"
 sudo docker image prune -a -f
 
-echo "reiniciando docker network"
+Log "Reiniciando docker network"
 sudo docker network rm network-immuno
 
-# Docker network para os containers se comunicarem
-echo "iniciando docker network"
+
+############################################################
+#                                                          #
+#     Docker network para os containers se comunicarem     #
+#                                                          #
+############################################################
+
+log "Iniciando docker network"
 sudo docker network create network-immuno
 
-# Verificando se está conectano no Docker
+
+############################################
+#                                          #
+#     Verifica a conexão ao Docker Hub     #
+#                                          #
+############################################
 
 if docker info | grep -q Username;
 	then
-		echo "Logado no Docker"
+		log "Conexão Docker Hub detectada"
 
 	else
-		echo "Não logado no Docker"
+		log "Conexão Docker Hub não detectada"
 
-		echo "Logando no Docker"
+		log "Logando no Docker"
 
 		if [[ -n $DOCKER_TOKEN ]];
         		then
-                		echo "docker token configurado"
+                		log "Docker Token encontrado na instância"
 
         		else
-		                echo "access key não configurada"
+		                log "Docker Token não encontrado na instância"
                 		read -p "Insira o docker token: " DOCKER_TOKEN_INSERIDO
 				export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO
-                		echo "export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO" >> env.sh # esse echo também não é log
+l				log "Configurando o Docker Token na instância"
+                		echo "export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO" >> env.sh
 		fi
 
-		echo "$DOCKER_TOKEN" | docker login -u fabiamdamaceno --password-stdin # esse echo não é log
+		log "Estabelecendo conexão Docker Hub"
+		echo "$DOCKER_TOKEN" | docker login -u fabiamdamaceno --password-stdin
 fi
 
-# Verificando se o Banco está rodando
+
+######################################################
+#                                                    #
+#     Verifica se o Container Banco está rodando     #
+#                                                    #
+######################################################
+
 sudo docker ps --filter "name=ContainerBanco" --filter "status=running" | grep "ContainerBanco" > /dev/null
 
 if [ $? = 0 ];
 	then
-		echo "container BD rodando"
+		log "Container BD encontra-se em execução"
 
 	else
-		echo "container BD não rodando"
+		log "Container BD não encontra-se em execução"
 
-		echo "buildando docker BD"
+		log "Buildando docker BD"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
-		echo "Atribuindo tag à imagem site"
+		log "Atribuindo tag à imagem site"
 		sudo docker image tag imagem-bancoimmuno:latest fabiamdamaceno/imagem-bancoimmuno:latest
 
-		echo "Subindo imagem no docker hub"
+		log "Subindo imagem no docker hub"
 		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:lastest
 
-		echo "rodando imagem docker"
-		sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno
+		# Comando 'outdated
+		# log "Rodando imagem docker
+		# sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno
 fi
 
-# Verificando se o Site está rodando
+
+#####################################################
+#                                                   #
+#     Verifica se o Container Site está rodando     #
+#                                                   #
+#####################################################
+
 sudo docker ps --filter "name=ContainerSite" --filter "status=running" | grep "ContainerSite" > /dev/null
 
 if [ $? = 0 ];
 	then
-		echo "container site rodando"
+		log "Container site encontra-se em execução"
 
 	else
-		echo "container site não rodando"
+		log "Container site não encontra-se em execução"
 
-		echo "definindo ipv4 da instancia"
+		log "Definindo ipv4 da instancia"
 		echo "APP_HOST=$(curl -s ifconfig.me)"
 		echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
 
-		echo "buildando site"
+		log "Buildando site"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
-		echo "rodando imagem docker site"
-		sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
+		# Comando 'outdated
+		# log "Rodando imagem docker site
+		# sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
 fi
 
-# Verificando a presença do Java
+
+##############################################
+#                                            #
+#     Verifica a presença do .JAR do ETL     #
+#                                            #
+##############################################
 
 if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
         then
-                echo "arquivo java presente"
+                log "Arquivo .JAR encontrado"
 
         else
-                echo "arquivo java ausente"
+                log "Arquivo .JAR naõ encontrado"
 		cd ./projeto-pi-2o-semestre
                 git checkout main
 
@@ -98,20 +144,32 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
 		if [ $? = 0 ];
 			then
-				echo "maven instalado"
+				log "Ferramenta Maven encontrada"
 
 			else
-				echo "maven não instalado"
-				echo "instalando maven"
+				log "Ferramenta Maven não encontrada"
+				log "Instalando maven"
 				sudo apt install maven
 		fi
 
 		cd ./conexao-banco-de-dados
-		echo "compilando java"
+		log "Compilando o código java para .JAR"
 		mvn clean install
 
 		cp ./target/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ../../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 fi
 
-echo "processo finalizado"
+log "Processo finalizado"
+
+cat << 'EOF'
+________ _______  _______           _        _______  ______   _______ _________ _______ 
+\__   __/(       )(       )|\     /|( (    /|(  ___  )(  __  \ (  ___  )\__   __/(  ___  )
+   ) (   | () () || () () || )   ( ||  \  ( || (   ) || (  \  )| (   ) |   ) (   | (   ) |
+   | |   | || || || || || || |   | ||   \ | || |   | || |   ) || (___) |   | |   | (___) |
+   | |   | |(_)| || |(_)| || |   | || (\ \) || |   | || |   | ||  ___  |   | |   |  ___  |
+   | |   | |   | || |   | || |   | || | \   || |   | || |   ) || (   ) |   | |   | (   ) |
+___) (___| )   ( || )   ( || (___) || )  \  || (___) || (__/  )| )   ( |   | |   | )   ( |
+\_______/|/     \||/     \|(_______)|/    )_)(_______)(______/ |/     \|   )_(   |/     \|
+
+EOF # Printa Immunodata
