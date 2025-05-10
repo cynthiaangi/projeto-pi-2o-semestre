@@ -70,7 +70,7 @@ if docker info | grep -q Username;
 		fi
 
 		log "Estabelecendo conexão Docker Hub"
-		echo "$DOCKER_TOKEN" | docker login -u fabiamdamaceno --password-stdin
+		echo "$DOCKER_TOKEN" | docker login -u linyaalves --password-stdin
 fi
 
 
@@ -92,11 +92,11 @@ if [ $? = 0 ];
 		log "Buildando docker BD"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
-		log "Atribuindo tag à imagem site"
-		sudo docker image tag imagem-bancoimmuno:latest fabiamdamaceno/imagem-bancoimmuno:latest
+		log "Atribuindo tag à imagem banco"
+		sudo docker image tag imagem-bancoimmuno:latest linyaalves/imagem-bancoimmuno:latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:lastest
+		sudo docker push linyaalves/teste-so:lastest
 
 		# Comando 'outdated
 		# log "Rodando imagem docker
@@ -126,11 +126,26 @@ if [ $? = 0 ];
 		log "Buildando site"
 		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
+		log "Atribuindo tag à imagem site"
+		sudo docker image tag imagem-siteimmuno:latest linyaalves/imagem-siteimmuno:latest
+
+		log "Subindo imagem no docker hub"
+		sudo docker push linyaalves/teste-so:latest
+
 		# Comando 'outdated
 		# log "Rodando imagem docker site
 		# sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
+
 fi
 
+####################################
+#                                  #
+#     Executa o Docker Compose     #
+#                                  #
+####################################
+
+log "Executando Docker-Compose com o comando up"
+sudo docker-compose up -d
 
 ##############################################
 #                                            #
