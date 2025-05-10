@@ -143,6 +143,8 @@ fi
 #     Executa o Docker Compose     #
 #                                  #
 ####################################
+ls 
+pwd 
 
 log "Executando Docker-Compose com o comando up"
 sudo docker-compose up -d
