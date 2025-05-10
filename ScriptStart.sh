@@ -93,7 +93,7 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno ./projeto-pi-2o-semestre/script_banco
 
 		log "Atribuindo tag à imagem banco"
-		sudo docker image tag imagem-bancoimmuno:latest linyaalves/imagem-bancoimmuno:latest
+		sudo docker image tag imagem-bancoimmuno:latest linyaalves/teste-so:lastest
 
 		log "Subindo imagem no docker hub"
 		sudo docker push linyaalves/teste-so:lastest
@@ -127,7 +127,7 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno ./projeto-pi-2o-semestre/script_site
 
 		log "Atribuindo tag à imagem site"
-		sudo docker image tag imagem-siteimmuno:latest linyaalves/imagem-siteimmuno:latest
+		sudo docker image tag imagem-siteimmuno:latest linyaalves/teste-so:lastest
 
 		log "Subindo imagem no docker hub"
 		sudo docker push linyaalves/teste-so:latest
