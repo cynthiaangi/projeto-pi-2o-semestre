@@ -26,7 +26,7 @@ ________ _______  _______           _        _______  ______   _______ _________
 ___) (___| )   ( || )   ( || (___) || )  \  || (___) || (__/  )| )   ( |   | |   | )   ( |
 \_______/|/     \||/     \|(_______)|/    )_)(_______)(______/ |/     \|   )_(   |/     \|
                                                                                           
-EOF # Printa Immunodata
+EOF
 sleep 2 # Aguarda alguns segundos para o usuário apreciar a logo
 
 
@@ -37,9 +37,9 @@ sleep 2 # Aguarda alguns segundos para o usuário apreciar a logo
 #############################
 
 log() {
-  horario=$(date +"%Y-%m-%d %T")
-  mensagem="[LOG SHELL] [$horario] - $@"
-  echo "$mensagem"
+  	horario=$(date +"%Y-%m-%d %T")
+  	mensagem="[LOG SHELL] [$horario] - $@"
+  	echo "$mensagem"
 }
 
 log "Inicializado o Script de Instalação"
@@ -175,14 +175,14 @@ fi
 #                                                        #
 ##########################################################
 
-docker-compose -version
+docker-compose --version
 
 if [ $? = 0 ];
 	then
 		log "Ferramenta Docker-compose encontrada"
 
 	else
-		log "Ferramenta docker-compose não instalado"
+		log "Ferramenta docker-compose não encontrada"
 		sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 		sudo chmod +x /usr/local/bin/docker-compose
 fi

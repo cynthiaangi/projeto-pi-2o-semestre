@@ -7,9 +7,9 @@
 #############################
 
 log() {
-  horario=$(date +"%Y-%m-%d %T")
-  mensagem="[LOG SHELL] [$horario] - $@"
-  echo "$mensagem"
+ 	horario=$(date +"%Y-%m-%d %T")
+ 	mensagem="[LOG SHELL] [$horario] - $@"
+ 	echo "$mensagem"
 }
 
 log "Inicializado o Script de Instalação"
@@ -20,7 +20,7 @@ sudo docker container prune -f
 log "Excluindo imagens sem utilizar"
 sudo docker image prune -a -f
 
-Log "Reiniciando docker network"
+log "Reiniciando docker network"
 sudo docker network rm network-immuno
 
 
@@ -57,7 +57,7 @@ if docker info | grep -q Username;
 		                log "Docker Token não encontrado na instância"
                 		read -p "Insira o docker token: " DOCKER_TOKEN_INSERIDO
 				export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO
-l				log "Configurando o Docker Token na instância"
+				log "Configurando o Docker Token na instância"
                 		echo "export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO" >> env.sh
 		fi
 
@@ -172,4 +172,4 @@ ________ _______  _______           _        _______  ______   _______ _________
 ___) (___| )   ( || )   ( || (___) || )  \  || (___) || (__/  )| )   ( |   | |   | )   ( |
 \_______/|/     \||/     \|(_______)|/    )_)(_______)(______/ |/     \|   )_(   |/     \|
 
-EOF # Printa Immunodata
+EOF
