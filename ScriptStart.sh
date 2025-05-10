@@ -147,8 +147,13 @@ fi
 log "Entrando na pasta do projeto"
 cd projeto-pi-2o-semestre/
 
-log "Executando Docker-Compose com o comando up"
-sudo docker-compose up -d
+if docker-compose ps --status running | grep -q "Up"; then
+	log "Docker Compose está rodando."
+else
+	log "Docker Compose não está rodando."
+	log "Executando Docker-Compose com o comando up"
+	sudo docker-compose up -d
+fi
 
 ##############################################
 #                                            #
