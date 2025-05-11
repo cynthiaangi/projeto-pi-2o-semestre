@@ -1,11 +1,9 @@
 package school.sptech.dao;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.models.LogEtl;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class LogEtlDao {
         private final JdbcTemplate jdbcTemplate;
@@ -16,16 +14,15 @@ public class LogEtlDao {
 
         // Insere os logs no banco de dados
         public void inserirLogEtl(String status, String detalhes, String classeQueOcorreu) {
-            jdbcTemplate.update("INSERT INTO logetl (status, dataHora, detalhes, classeQueOcorreu) VALUES (?, ?, ?, ?)",
-                    status, LocalDateTime.now(), detalhes, classeQueOcorreu);
-        }
+            DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String dateTimeAgora = LocalDateTime.now().format(formatoData);
 
-        // Busca todos os logs
-        public List<LogEtl> findAll() {
-            List<LogEtl> logs = jdbcTemplate.query(
-                    "SELECT * FROM logEtl", new BeanPropertyRowMapper<>(LogEtl.class)
-            );
+            // Printa log no terminal
+            System.out.printf("[LOG] [%s] [%s] - %s (%s)%n", status, dateTimeAgora, detalhes, classeQueOcorreu);
 
-            return logs;
+            // Insere log no banco de dados
+            jdbcTemplate.
+                    update("INSERT INTO logetl (status, dataHora, detalhes, classeQueOcorreu)" + " VALUES (?, ?, ?, ?)",
+                    status, dateTimeAgora, detalhes, classeQueOcorreu);
         }
 }

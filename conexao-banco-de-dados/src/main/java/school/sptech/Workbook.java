@@ -14,68 +14,64 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Workbook{
     public static void main(String[] args) throws IOException, SQLException {
-        System.out.println(System.getenv("AWS_ACCESS_KEY_ID"));
-        System.out.println(System.getenv("AWS_SECRET_ACCESS_KEY"));
-        System.out.println(System.getenv("AWS_SESSION_TOKEN"));
-        String bucketName = "bucket-immunodata";
-        System.out.println(bucketName);
+        String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
+        // String bucketName = System.getenv("BUCKET_NAME");
         S3Client s3Client = new school.sptech.S3Provider().getS3Client();
 
-        List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx");
+        // Lista dos nomes dos arquivos
+        String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 
-        for (int i = 0; i < arquivos.size(); i++) {
-            String nomeArquivo = arquivos.get(i);
+        //Fazendo download dos arquivos do Bucket
+        try {
+            // Lista de arquivos no S3
+            List<S3Object> arquivos = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketNome).build()).contents();
+            for (S3Object arquivoS3 : arquivos) {
+                // Constroi requisição para buscar o arquivo
+                GetObjectRequest requisicaoArquivo = GetObjectRequest.builder()
+                        .bucket(bucketNome)
+                        .key(arquivoS3.key())
+                        .build();
 
-            // Apagando o arquivo existente do bucket para atualiza-lo
-            // Caminho do arquivo que você quer excluir
+                // Busca o arquivo S3 com base na requisição
+                s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
+                System.out.printf("Arquivo baixado: %s %n", arquivoS3.key());
+            }
+        } catch (S3Exception e) {
+            System.err.printf("Erro ao fazer download dos arquivos:%s %n", e.getMessage());
+        }
+
+        // Inicializa a leitura dos arquivos
+        for (String arquivoNome : nomeArquivos) {
+            System.out.printf("Início da leitura do arquivo: %s %n", arquivoNome);
+
+            // Inicializa métodos de leitura do arquivo
+            LeitorExcel leitor = new LeitorExcel();
+
+            leitor.extrairDados(arquivoNome);
+
+            // Fecha arquivo após leitura
+            //arquivoLocal.close(); - C01 Provavelmente apagar
+        }
+
+        // Apaga os arquivos xlsx após execução do ETL
+        for (String nomeArquivo : nomeArquivos) {
             Path caminhoGet = Path.of(nomeArquivo);
 
             if (Files.exists(caminhoGet)) {
                 try {
-                    Files.delete(caminhoGet); // Deleta o arquivo
-                    System.out.println("Arquivo deletado com sucesso!");
+                    // Deleta o arquivo
+                    Files.delete(caminhoGet);
+                    System.out.printf("Arquivo %s deletado com sucesso!%n", nomeArquivo);
                 } catch (IOException e) {
-                    System.out.println("Erro ao deletar o arquivo: " + e.getMessage());
+                    System.out.printf("Erro ao deletar o arquivo %s: %s %n", nomeArquivo, e.getMessage());
                 }
             }
-        }
-
-        //Fazendo download dos arquivos do Bucket
-        try {
-            List<S3Object> objects = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketName).build()).contents();
-            for (S3Object object : objects) {
-                GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                        .bucket(bucketName)
-                        .key(object.key())
-                        .build();
-
-                InputStream inputStream = s3Client.getObject(getObjectRequest, ResponseTransformer.toInputStream());
-                Files.copy(inputStream, new File(object.key()).toPath());
-                System.out.println("Arquivo baixado: " + object.key());
-            }
-        } catch (IOException | S3Exception e) {
-            System.err.println("Erro ao fazer download dos arquivos: " + e.getMessage());
-        }
-
-
-        for (int i = 0; i < arquivos.size(); i++) {
-            System.out.println("Início da leitura do arquivo: " + arquivos.get(i));
-            String nomeArquivo = arquivos.get(i);
-            // Coloque o caminho para a pasta que estão os arquivos
-            Path caminho = Path.of(nomeArquivo);
-
-            InputStream arquivo = Files.newInputStream(caminho);
-
-            LeitorExcel leitor = new LeitorExcel();
-            leitor.extrairDados(nomeArquivo, arquivo);
-
-            // Para quando parar de ler
-            arquivo.close();
         }
 
         // Esse arquivo faz a conexão como banco de dados

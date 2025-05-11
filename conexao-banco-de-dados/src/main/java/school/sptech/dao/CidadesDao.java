@@ -15,6 +15,14 @@ public class CidadesDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void iniciarInserts() {
+        jdbcTemplate.update("START TRANSACTION");
+    }
+
+    public void finalizarInserts() {
+        jdbcTemplate.update("COMMIT");
+    }
+
     // lista todas as cidades
     public List<Cidades> findAll(){
         List<Cidades> cidades = jdbcTemplate.query(

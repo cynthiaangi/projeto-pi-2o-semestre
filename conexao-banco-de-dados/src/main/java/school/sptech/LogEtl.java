@@ -1,5 +1,7 @@
-package school.sptech.models;
+package school.sptech;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import school.sptech.dao.LogEtlDao;
 import java.time.LocalDateTime;
 
 public class LogEtl {
@@ -9,15 +11,15 @@ public class LogEtl {
     public String detalhes;
     public String classeQueOcorreu;
 
-    public LogEtl() {
-    }
 
-    public LogEtl(Integer idLog, String status, LocalDateTime dataHora, String detalhes, String classeQueOcorreu) {
+    public LogEtl(Integer idLog, String status, String detalhes, String classeQueOcorreu) {
         this.idLog = idLog;
         this.status = status;
-        this.dataHora = dataHora;
+        this.dataHora = LocalDateTime.now();
         this.detalhes = detalhes;
         this.classeQueOcorreu = classeQueOcorreu;
+
+        System.out.println();
     }
 
     public Integer getIdLog() {
