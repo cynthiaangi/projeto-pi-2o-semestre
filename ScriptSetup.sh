@@ -38,7 +38,7 @@ log() {
   	horario=$(date +"%Y-%m-%d %T")
   	mensagem="[LOG SHELL] [$horario] - $@"
 	echo ""
-  	echo "$mensagem"
+  	echo -e "\e[34m $mensagem \e[0m"
 }
 
 log "Inicializado o Script de Instalação"
