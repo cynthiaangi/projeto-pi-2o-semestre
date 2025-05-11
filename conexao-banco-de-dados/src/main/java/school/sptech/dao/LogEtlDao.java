@@ -18,7 +18,7 @@ public class LogEtlDao {
             String dateTimeAgora = LocalDateTime.now().format(formatoData);
 
             // Printa log no terminal
-            System.out.printf("[LOG] [%s] [%s] - %s (%s)%n", status, dateTimeAgora, detalhes, classeQueOcorreu);
+            System.out.printf("\n[LOG] [%s] [%s] - %s (%s)%n", status, dateTimeAgora, detalhes, classeQueOcorreu);
 
             // Insere log no banco de dados
             jdbcTemplate.

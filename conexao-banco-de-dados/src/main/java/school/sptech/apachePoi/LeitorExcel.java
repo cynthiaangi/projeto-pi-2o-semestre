@@ -175,12 +175,14 @@ public class LeitorExcel {
         for (Row row : sheet) {
             // Obtendo o valor do código IBGE e convertendo para inteiro
             // (não tenho certeza se isso é necessário, vou verificar depois)
+            System.out.println("entrou no for row");
             String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
             Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
             // for para percorrer as doenças e anos
             for (int d = 0; d < doencas.length; d++) {
                 for (int a = 0; a < anos.length; a++) {
+                    System.out.println("entrou no for doencas e anos");
                     Integer coluna = colunaInicial + d * 4 + a;
                     Cell cell = row.getCell(coluna);
                     Double cobertura = 0.0;
@@ -192,6 +194,7 @@ public class LeitorExcel {
 
                     if (!isNull(cell)) {
                         try {
+                            System.out.println("entrei no try");
                             String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                             if (!valorFormatado.isEmpty()) {
                                 cobertura = Double.parseDouble(valorFormatado);
