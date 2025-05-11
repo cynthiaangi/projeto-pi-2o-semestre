@@ -9,10 +9,20 @@
 log() {
  	horario=$(date +"%Y-%m-%d %T")
  	mensagem="[LOG SHELL] [$horario] - $@"
+	echo ""
  	echo "$mensagem"
 }
 
 log "Inicializado o Script de Instalação"
+
+
+#############################################################
+#                                                           #
+#     Atualizando o ScritpSetup (presença temp no repo)     #
+#                                                           #
+#############################################################
+
+cp ./projeto-pi-2o-semestre/ScriptSetup.sh ./ScriptSetup.sh
 
 
 #######################################################
@@ -26,20 +36,6 @@ sudo docker container prune -f
 
 log "Excluindo imagens sem utilizar"
 sudo docker image prune -a -f
-
-
-###################################################################
-#                                                                 #
-#     Inicia Docker network para os containers se comunicarem     #
-#                                                                 #
-###################################################################
-
-log "Reiniciando docker network"
-sudo docker network rm network-immuno
-
-
-log "Iniciando docker network"
-sudo docker network create network-immuno
 
 
 ############################################
@@ -63,14 +59,14 @@ if docker info | grep -q Username;
 
         		else
 		                log "Docker Token não encontrado na instância"
-                		read -p "Insira o docker token: " DOCKER_TOKEN_INSERIDO
+				DOCKER_TOKEN_INSERIDO=$(grep '^DOCKER_TOKEN=' ./vars/env.txt | cut -d'=' -f2-)
 				export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO
 				log "Configurando o Docker Token na instância"
                 		echo "export DOCKER_TOKEN=$DOCKER_TOKEN_INSERIDO" >> env.sh
 		fi
 
 		log "Estabelecendo conexão Docker Hub"
-		echo "$DOCKER_TOKEN" | docker login -u linyaalves --password-stdin
+		echo "$DOCKER_TOKEN" | docker login -u fabiamdamaceno --password-stdin
 fi
 
 
@@ -93,14 +89,10 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno:latest ./projeto-pi-2o-semestre/script_banco
 
 		log "Atribuindo tag à imagem banco"
-		sudo docker image tag imagem-bancoimmuno:latest linyaalves/teste-so:banco-latest
+		sudo docker image tag imagem-bancoimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:banco-latest
-
-		# Comando 'outdated
-		# log "Rodando imagem docker
-		# sudo docker run -d --name ContainerBanco --network network-immuno -p 3306:3306 imagem-bancoimmuno
+		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
 fi
 
 
@@ -127,16 +119,12 @@ if [ $? = 0 ];
 		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno:latest ./projeto-pi-2o-semestre/script_site
 
 		log "Atribuindo tag à imagem site"
-		sudo docker image tag imagem-siteimmuno:latest  linyaalves/teste-so:site-latest
+		sudo docker image tag imagem-siteimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:site-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push linyaalves/teste-so:site-latest
-
-		# Comando 'outdated
-		# log "Rodando imagem docker site
-		# sudo docker run -d --name ContainerSite --network network-immuno -p 80:80 imagem-siteimmuno
-
+		sudo docker push fabiamdamaceno/projeto-2o-semestre:site-latest
 fi
+
 
 ####################################
 #                                  #
@@ -147,34 +135,42 @@ fi
 log "Entrando na pasta do projeto"
 cd projeto-pi-2o-semestre/
 
-if docker-compose ps --status running | grep -q "Up"; then
-	log "Docker Compose está rodando."
+if docker-compose ps --status running | grep -q "Up";
+	then
+		log "Docker Compose está rodando."
 
-	log "Verificando serviços que estão rodando"
-	SERVICO=mysql
-	STATUS=$(docker-compose ps --status running --services | grep -w "$SERVICO")
-	
-	if [ "$STATUS" = "$SERVICO" ]; then
-		log "Serviço $SERVICO está rodando."
-	else
-		log "Serviço $SERVICO não está rodando."
-		sudo docker-compose up -d "$SERVICO"
-	fi
+		log "Verificando quais serviços que estão rodando"
+		SERVICO=mysql
+		STATUS=$(docker-compose ps --status running --services | grep -w "$SERVICO")
 
-	SERVICO=web
-	STATUS=$(docker-compose ps --status running --services | grep -w "$SERVICO")
-	
-	if [ "$STATUS" = "$SERVICO" ]; then
-		log "Serviço $SERVICO está rodando."
+		if [ "$STATUS" = "$SERVICO" ];
+			then
+				log "Serviço $SERVICO está rodando."
+
+			else
+				log "Serviço $SERVICO não está rodando."
+				log "Inicializando o serviço $SERVICO"
+				sudo docker-compose up -d "$SERVICO"
+		fi
+
+		SERVICO=web
+		STATUS=$(docker-compose ps --status running --services | grep -w "$SERVICO")
+
+		if [ "$STATUS" = "$SERVICO" ]; then
+			log "Serviço $SERVICO está rodando."
+
+		else
+			log "Serviço $SERVICO não está rodando."
+			log "Inicializando o serviço $SERVICO"
+			sudo docker-compose up -d "$SERVICO"
+		fi
+
 	else
-		log "Serviço $SERVICO não está rodando."
-		sudo docker-compose up -d "$SERVICO"
-	fi
-else
-	log "Docker Compose não está rodando."
-	log "Executando Docker-Compose com o comando up"
-	sudo docker-compose up -d
+		log "Docker Compose não está rodando."
+		log "Executando Docker-Compose com o comando up"
+		sudo docker-compose up -d
 fi
+
 
 ##############################################
 #                                            #
@@ -188,7 +184,7 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
         else
                 log "Arquivo .JAR não encontrado"
-                git checkout main
+                git checkout -f main
 
 		# Verificando se o Maven está instalado
 		mvn --version

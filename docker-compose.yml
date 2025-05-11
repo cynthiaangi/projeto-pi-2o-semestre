@@ -8,18 +8,18 @@ services:
       MYSQL_DATABASE: immunodata
       MYSQL_USER: immuno
       MYSQL_PASSWORD: urubu100@
-    volumes: 
-      - mysql_data:/var/lib/mysql
-      - ./init-scripts:/docker-entrypoint-initdb.d
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#      - ./init-scripts:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
-  web: 
+  web:
     container_name: ContainerSite
     image: imagem-siteimmuno:latest
     restart: always
     ports:
       - "80:80"
 
-volumes:
-  mysql_data:
+#volumes:
+#  mysql_data:
