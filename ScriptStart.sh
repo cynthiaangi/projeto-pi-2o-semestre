@@ -184,7 +184,7 @@ if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
         else
                 log "Arquivo .JAR não encontrado"
-                git checkout -f main
+                git checkout -f release/java
 
 		# Verificando se o Maven está instalado
 		mvn --version
