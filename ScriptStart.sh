@@ -178,7 +178,7 @@ fi
 #                                            #
 ##############################################
 
-if [[ -f "conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
+if [[ -f "../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
         then
                 log "Arquivo .JAR encontrado"
 
