@@ -25,7 +25,7 @@ ___) (___| )   ( || )   ( || (___) || )  \  || (___) || (__/  )| )   ( |   | |  
 \_______/|/     \||/     \|(_______)|/    )_)(_______)(______/ |/     \|   )_(   |/     \|
                                                                                           
 EOF
-sleep 2 # Aguarda alguns segundos para o usuário apreciar a logo
+sleep 1 # Aguarda alguns segundos para o usuário apreciar a logo
 
 
 #############################
