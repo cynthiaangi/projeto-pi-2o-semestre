@@ -97,6 +97,10 @@ const cargos = ["Selecione seu cargo", "Assistente de Saúde", "Médico", "Secre
 console.log(cidadesSP.length);
 console.log(codigosCidade.length);
 
+function entrarLogin() {
+    window.open("./Login.html", "_self");
+}
+
 // Cria um <select> para as cidades
 const cidadeInput = document.getElementById("cidade");
 

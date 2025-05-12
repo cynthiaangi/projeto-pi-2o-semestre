@@ -90,6 +90,8 @@ body {
 
 .login-button button {
     border: none;
+    font-weight: 500;
+    color: #fff;
     background-color: #0e3950;
     padding: 0.5rem 1.2rem;
     border-radius: 5px;
@@ -99,12 +101,6 @@ body {
 
 .login-button button:hover {
     background-color: #165c89;
-}
-
-.login-button button a {
-    text-decoration: none;
-    font-weight: 500;
-    color: #fff;
 }
 
 .input-group {

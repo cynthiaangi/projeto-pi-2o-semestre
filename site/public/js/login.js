@@ -92,6 +92,10 @@ const cidadesSP = ["Selecione sua cidade",
     "Vargem", "Vargem Grande do Sul", "Vargem Grande Paulista", "Várzea Paulista", "Vera Cruz", "Vinhedo", "Viradouro", "Vista Alegre do Alto",
     "Vitória Brasil", "Votorantim", "Votuporanga", "Zacarias", "Chavantes", "Estiva Gerbi"];
 
+function entrarCadastro() {
+    window.open("./Cadastro.html", "_self");
+}
+
 function entrar() {
     var conselho = number.value;
     var senha = password.value;
