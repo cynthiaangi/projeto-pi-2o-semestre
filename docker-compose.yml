@@ -1,7 +1,7 @@
 services:
   mysql:
     container_name: ContainerBanco
-    image: fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
+    image: imagem-bancoimmuno:latest
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: urubu100
@@ -16,14 +16,14 @@ services:
 
   web:
     container_name: ContainerSite
-    image: fabiamdamaceno/projeto-pi-2o-semestre:site:latest
+    image: imagem-siteimmuno:latest
     restart: always
     ports:
       - "80:80"
 
   javaapp: 
     container_name: ContainerJava
-    image: fabiamdamaceno/projeto-pi-2o-semestre:java-latest
+    image: imagem-javaimmuno:latest
     restart: no
 
 #volumes:
