@@ -123,7 +123,7 @@ if [ $? = 0 ];
 		sudo docker image tag imagem-siteimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:site-latest
 
 		log "Subindo imagem no docker hub"
-		sudo docker push fabiamdamaceno/projeto-2o-semestre:site-latest
+		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:site-latest
 fi
 
 
@@ -178,7 +178,6 @@ if [ $? = 0 ];
 
 		log "Subindo imagem no docker hub"
 		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:java-latest
-
 fi
 
 
@@ -228,6 +227,7 @@ if docker-compose ps --status running | grep -q "Up";
 			else
 				log "Serviço $SERVICO não está rodando."
 				log "Inicializando o serviço $SERVICO"
+
 				sudo docker-compose up -d "$SERVICO"
 		fi
 
