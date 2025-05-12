@@ -127,11 +127,11 @@ if [ $? = 0 ];
 fi
 
 
-##############################################
-#                                            #
-#     Verifica a presença do .JAR do ETL     #
-#                                            #
-##############################################
+####################################################
+#                                                   #
+#     Verifica se o Container Java está rodando     #
+#                                                   #
+#####################################################
 
 log "Acessando o diretório do projeto"
 cd ./projeto-pi-2o-semestre
@@ -171,6 +171,7 @@ if [ $? = 0 ];
 		mv ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 		log "Buildando docker Java"
+		ls
 		sudo docker build -f ./projeto-pi-2o-semestre/script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./projeto-pi-2o-semestre/script_java
 
 		log "Atribuindo tag à imagem java"
