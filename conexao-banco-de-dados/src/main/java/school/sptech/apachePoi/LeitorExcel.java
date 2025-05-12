@@ -113,44 +113,47 @@ public class LeitorExcel {
 
         cidadesDao.iniciarInserts();
         for (Row row : sheet) {
-            if (row.getRowNum() == 1) {
-                System.out.println("\nLendo cabeçalho");
-                continue;
-            } // pula a primeira linha (cabeçalho)
+            try {
+                if (row.getRowNum() == 1) {
+                    System.out.println("\nLendo cabeçalho");
+                    continue;
+                } // pula a primeira linha (cabeçalho)
 
-            // Obtém o valor do codigoIbge
-            Cell cellCodigoIbge = row.getCell(0);
-            Long codigoIbge; // transforma o valor para Long pq no banco é BigInt
+                // Obtém o valor do codigoIbge
+                Cell cellCodigoIbge = row.getCell(0);
+                Long codigoIbge; // transforma o valor para Long pq no banco é BigInt
 
-            // Verifica o tipo da célula e converte para Long
-            if (cellCodigoIbge.getCellType() == CellType.STRING) {
-                codigoIbge = Long.parseLong(cellCodigoIbge.getStringCellValue()); // transforma o valor para Long
-            } else {
-                codigoIbge = (long) cellCodigoIbge.getNumericCellValue(); // transforma o valor para Long
+                // Verifica o tipo da célula e converte para Long
+                if (cellCodigoIbge.getCellType() == CellType.STRING) {
+                    codigoIbge = Long.parseLong(cellCodigoIbge.getStringCellValue()); // transforma o valor para Long
+                } else {
+                    codigoIbge = (long) cellCodigoIbge.getNumericCellValue(); // transforma o valor para Long
+                }
+
+                // Verifique se o código da cidade está correto
+                System.out.println("Processando cidade com código IBGE: " + codigoIbge);
+
+                String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
+
+                Float qtdPopulacional; // quantidade populacional
+                Cell cellPopulacao = row.getCell(2); // célula da população no Excel
+                if (cellPopulacao.getCellType() == CellType.STRING) {
+                    qtdPopulacional = Float.parseFloat(cellPopulacao.getStringCellValue().replace(".", "").replace(",", "."));
+                } else {
+                    qtdPopulacional = (float) cellPopulacao.getNumericCellValue();
+                } // esse if é para verificar se a célula é String ou Numeric
+
+                // Verifica se a cidade já existe no banco
+                // Se não existir, insere a cidade
+                if (cidadesDao.buscarPorId(codigoIbge) == null) {
+                    cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
+                    System.out.println("Cidade " + nomeCidade + " inserida no banco (linha " + row.getRowNum() + ")");
+                } else {
+                    System.out.println("Linha " + row.getRowNum() + " já existe no banco");
+                }
+            } catch (Exception e) {
+                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
-
-            // Verifique se o código da cidade está correto
-            System.out.println("Processando cidade com código IBGE: " + codigoIbge);
-
-            String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
-
-            Float qtdPopulacional; // quantidade populacional
-            Cell cellPopulacao = row.getCell(2); // célula da população no Excel
-            if (cellPopulacao.getCellType() == CellType.STRING) {
-                qtdPopulacional = Float.parseFloat(cellPopulacao.getStringCellValue().replace(".", "").replace(",", "."));
-            } else {
-                qtdPopulacional = (float) cellPopulacao.getNumericCellValue();
-            } // esse if é para verificar se a célula é String ou Numeric
-
-            // Verifica se a cidade já existe no banco
-            // Se não existir, insere a cidade
-            if (cidadesDao.buscarPorId(codigoIbge) == null) {
-                cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
-                System.out.println("Cidade " + nomeCidade + " inserida no banco (linha " + row.getRowNum() + ")");
-            } else {
-                System.out.println("Linha " + row.getRowNum() + " já existe no banco");
-            }
-
         }
         cidadesDao.finalizarInserts();
 
@@ -173,50 +176,56 @@ public class LeitorExcel {
 
         ocorrenciasDao.iniciarInserts();
         for (Row row : sheet) {
-            // Obtendo o valor do código IBGE e convertendo para inteiro
-            // (não tenho certeza se isso é necessário, vou verificar depois)
-            System.out.println("entrou no for row");
-            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-            Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+            try {
 
-            // for para percorrer as doenças e anos
-            for (int d = 0; d < doencas.length; d++) {
-                for (int a = 0; a < anos.length; a++) {
-                    System.out.println("entrou no for doencas e anos");
-                    Integer coluna = colunaInicial + d * 4 + a;
-                    Cell cell = row.getCell(coluna);
-                    Double cobertura = 0.0;
+                // Obtendo o valor do código IBGE e convertendo para inteiro
+                // (não tenho certeza se isso é necessário, vou verificar depois)
+                System.out.println("entrou no for row");
+                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
-                    // Verificando se a célula está vazia ou inválida
-                    if (isNull(cell) || cell.toString().trim().isEmpty()) {
-                        continue; // logar o erro e pular
-                    }
+                // for para percorrer as doenças e anos
+                for (int d = 0; d < doencas.length; d++) {
+                    for (int a = 0; a < anos.length; a++) {
+                        System.out.println("entrou no for doencas e anos");
+                        Integer coluna = colunaInicial + d * 4 + a;
+                        Cell cell = row.getCell(coluna);
+                        Double cobertura = 0.0;
 
-                    if (!isNull(cell)) {
-                        try {
-                            System.out.println("entrei no try");
-                            String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
-                            if (!valorFormatado.isEmpty()) {
-                                cobertura = Double.parseDouble(valorFormatado);
+                        // Verificando se a célula está vazia ou inválida
+                        if (isNull(cell) || cell.toString().trim().isEmpty()) {
+                            continue; // logar o erro e pular
+                        }
+
+                        if (!isNull(cell)) {
+                            try {
+                                System.out.println("entrei no try");
+                                String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
+                                if (!valorFormatado.isEmpty()) {
+                                    cobertura = Double.parseDouble(valorFormatado);
+                                }
+                            } catch (NumberFormatException ex) {
+                                System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                                continue;
                             }
-                        } catch (NumberFormatException ex) {
-                            System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
-                            continue;
+                        }
+
+                        // definindo a variável fkDoenca
+                        Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
+
+                        // Verificando se a ocorrência já existe no banco
+                        if (!ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca)) {
+                            ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
+                            System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
+                        } else {
+                            System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
                         }
                     }
-
-                    // definindo a variável fkDoenca
-                    Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
-
-                    // Verificando se a ocorrência já existe no banco
-                    if (!ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca)) {
-                        ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
-                        System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
-                    } else {
-                        System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
-                    }
                 }
+            } catch (Exception e) {
+                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
+
         }
         ocorrenciasDao.finalizarInserts();
         logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
@@ -243,55 +252,62 @@ public class LeitorExcel {
         Sheet sheet = workbook.getSheetAt(0);
 
         ocorrenciasDao.iniciarInserts();
+
         for (Row row : sheet) {
-            // Lê o código IBGE da coluna 0 (índice 0)
-            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-            Long codigoIbge = Long.parseLong(valorIbgeStr);
+            try {
+                // Lê o código IBGE da coluna 0 (índice 0)
+                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+                Long codigoIbge = Long.parseLong(valorIbgeStr);
 
-            for (int d = 0; d < doencas.length; d++) {
-                Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
+                for (int d = 0; d < doencas.length; d++) {
+                    Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
 
-                for (int a = 0; a < anos.length; a++) {
-                    for (int m = 0; m < totalMeses; m++) {
-                        // Posição do mês dentro do ano
-                        Integer baseColunaMes = colunaInicial + a * totalMeses * colunasPorMes + m * colunasPorMes;
+                    for (int a = 0; a < anos.length; a++) {
+                        for (int m = 0; m < totalMeses; m++) {
+                            // Posição do mês dentro do ano
+                            Integer baseColunaMes = colunaInicial + a * totalMeses * colunasPorMes + m * colunasPorMes;
 
-                        Integer coluna = switch (d) {
-                            case 0 -> baseColunaMes + 1;
-                            case 1 -> baseColunaMes + 3;
-                            case 2 -> baseColunaMes + 5;
-                            default -> null;
-                        };
+                            Integer coluna = switch (d) {
+                                case 0 -> baseColunaMes + 1;
+                                case 1 -> baseColunaMes + 3;
+                                case 2 -> baseColunaMes + 5;
+                                default -> null;
+                            };
 
-                        Cell cell2 = row.getCell(coluna);
-                        if (cell2 == null || formatter.formatCellValue(cell2).trim().isEmpty()) {
-                            continue;
-                        }
+                            Cell cell2 = row.getCell(coluna);
+                            if (cell2 == null || formatter.formatCellValue(cell2).trim().isEmpty()) {
+                                continue;
+                            }
 
-                        Double coberturaVacinal;
-                        try {
-                            String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
-                            coberturaVacinal = Double.parseDouble(valorFormatado);
-                        } catch (NumberFormatException ex) {
-                            logDao.inserirLogEtl("400",
-                                    "Erro ao converter valor na linha %s, coluna %s: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel");
-                            continue;
-                        }
+                            Double coberturaVacinal;
+                            try {
+                                String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
+                                coberturaVacinal = Double.parseDouble(valorFormatado);
+                            } catch (NumberFormatException ex) {
+                                logDao.inserirLogEtl(
+                                        "400", "Erro ao converter valor na linha %s, coluna %s: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel"
+                                );
+                                continue;
+                            }
 
-                        String mesReferencia = meses[m];
-                        Integer anoReferencia = anos[a];
+                            String mesReferencia = meses[m];
+                            Integer anoReferencia = anos[a];
 
-                        if (!ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
-                            ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
-                            System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
+                            if (!ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
+                                ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
+                                System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
 
-                        } else {
-                            logDao.inserirLogEtl("200",
-                                    "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
-                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel");
+                            } else {
+                                logDao.inserirLogEtl(
+                                        "200", "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
+                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel"
+                                );
+                            }
                         }
                     }
                 }
+            } catch (Exception e) {
+                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();
@@ -313,41 +329,46 @@ public class LeitorExcel {
 
         ocorrenciasDao.iniciarInserts();
         for (Row row : sheet) {
-            String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-            Integer codigoIbge = Integer.parseInt(valorIbgeStr);
+            try {
 
-            for (int d = 0; d < doencas.length; d++) {
-                Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
+                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
+                Integer codigoIbge = Integer.parseInt(valorIbgeStr);
 
-                for (int a = 0; a < anos.length; a++) {
-                    Integer coluna = colunaInicial + d * 6 + a; // calcula a coluna correta de acordo com a doença e o ano
-                    Cell cell = row.getCell(coluna);
-                    Integer numCasos = 0; // variável para armazenar o número de casos
+                for (int d = 0; d < doencas.length; d++) {
+                    Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
 
-                    if (isNull(cell) || cell.toString().trim().isEmpty()) {
-                        continue; // pula a célula vazia
-                    }
+                    for (int a = 0; a < anos.length; a++) {
+                        Integer coluna = colunaInicial + d * 6 + a; // calcula a coluna correta de acordo com a doença e o ano
+                        Cell cell = row.getCell(coluna);
+                        Integer numCasos = 0; // variável para armazenar o número de casos
 
-                    try {
-                        String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
-                        if (!valorFormatado.isEmpty()) {
-                            numCasos = Integer.parseInt(valorFormatado);
+                        if (isNull(cell) || cell.toString().trim().isEmpty()) {
+                            continue; // pula a célula vazia
                         }
-                    } catch (NumberFormatException ex) {
-                        System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
-                        continue;
-                    } // trata a exceção de erro da leitura do arquivo
 
-                    // Inserir ou atualizar ocorrência
-                    if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a])) {
-                        ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
-                        System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
-                    } else {
-                        logDao.inserirLogEtl("400",
-                                "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
-                        System.out.println("Nenhuma ocorrência foi encontrada (linha " + row.getRowNum() + ")");
+                        try {
+                            String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
+                            if (!valorFormatado.isEmpty()) {
+                                numCasos = Integer.parseInt(valorFormatado);
+                            }
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                            continue;
+                        } // trata a exceção de erro da leitura do arquivo
+
+                        // Inserir ou atualizar ocorrência
+                        if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a])) {
+                            ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                            System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
+                        } else {
+                            logDao.inserirLogEtl(
+                                    "400", "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel"
+                            );
+                        }
                     }
                 }
+            } catch (Exception e) {
+                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();
