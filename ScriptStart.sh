@@ -172,7 +172,7 @@ if [ $? = 0 ];
 
 		log "Buildando docker Java"
 		ls
-		sudo docker build -f ./projeto-pi-2o-semestre/script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./projeto-pi-2o-semestre/script_java
+		sudo docker build -f ./script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./script_java
 
 		log "Atribuindo tag à imagem java"
 		sudo docker image tag imagem-javaimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:java-latest
