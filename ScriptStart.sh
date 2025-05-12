@@ -127,14 +127,66 @@ if [ $? = 0 ];
 fi
 
 
+##############################################
+#                                            #
+#     Verifica a presença do .JAR do ETL     #
+#                                            #
+##############################################
+
+log "Acessando o diretório do projeto"
+cd ./projeto-pi-2o-semestre
+
+sudo docker ps --filter "name=ContainerJava" --filter "status=running" | grep "ContainerJava" > /dev/null
+
+if [ $? = 0 ];
+	then
+		log "Container Java encontra-se em execução"
+
+	else
+        log "Container Java não encontra-se em execução"
+        git checkout -f release/java
+
+		# Verificando se o Maven está instalado
+		mvn --version
+
+		if [ $? = 0 ];
+			then
+				log "Ferramenta Maven encontrada"
+
+			else
+				log "Ferramenta Maven não encontrada"
+				log "Instalando maven"
+				sudo apt install maven
+		fi
+
+		cd ./conexao-banco-de-dados
+		log "Compilando o código java para .JAR"
+		mvn clean install
+
+		cp ./target/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ../../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+		# Retorna para o inicio do repositório
+		cd ../
+		git checkout -f release/deployment
+		mv ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+		log "Buildando docker Java"
+		sudo docker build -f ./projeto-pi-2o-semestre/script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./projeto-pi-2o-semestre/script_java
+
+		log "Atribuindo tag à imagem java"
+		sudo docker image tag imagem-javaimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:java-latest
+
+		log "Subindo imagem no docker hub"
+		sudo docker push fabiamdamaceno/projeto-pi-2o-semestre:java-latest
+
+fi
+
+
 ####################################
 #                                  #
 #     Executa o Docker Compose     #
 #                                  #
 ####################################
-
-log "Entrando na pasta do projeto"
-cd projeto-pi-2o-semestre/
 
 if docker-compose ps --status running | grep -q "Up";
 	then
@@ -171,48 +223,6 @@ if docker-compose ps --status running | grep -q "Up";
 		log "Executando Docker-Compose com o comando up"
 		sudo docker-compose up -d
 fi
-
-
-##############################################
-#                                            #
-#     Verifica a presença do .JAR do ETL     #
-#                                            #
-##############################################
-
-if [[ -f "../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
-        then
-                log "Arquivo .JAR encontrado"
-
-        else
-                log "Arquivo .JAR não encontrado"
-                git checkout -f release/java
-
-		# Verificando se o Maven está instalado
-		mvn --version
-
-		if [ $? = 0 ];
-			then
-				log "Ferramenta Maven encontrada"
-
-			else
-				log "Ferramenta Maven não encontrada"
-				log "Instalando maven"
-				sudo apt install maven
-		fi
-
-		cd ./conexao-banco-de-dados
-		log "Compilando o código java para .JAR"
-		mvn clean install
-
-		cp ./target/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ../../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
-
-		# Retorna para o inicio do repositório
-		cd ../
-		git checkout -f release/deployment
-		mv ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
-fi
-
-
 
 log "Processo finalizado"
 
