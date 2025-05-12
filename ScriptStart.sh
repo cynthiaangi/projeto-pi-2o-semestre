@@ -218,6 +218,19 @@ if docker-compose ps --status running | grep -q "Up";
 			sudo docker-compose up -d "$SERVICO"
 		fi
 
+		SERVICO=javaapp
+		STATUS=$(docker-compose ps --status running --services | grep -w "$SERVICO")
+
+		if [ "$STATUS" = "$SERVICO" ];
+			then
+				log "Serviço $SERVICO está rodando."
+
+			else
+				log "Serviço $SERVICO não está rodando."
+				log "Inicializando o serviço $SERVICO"
+				sudo docker-compose up -d "$SERVICO"
+		fi
+
 	else
 		log "Docker Compose não está rodando."
 		log "Executando Docker-Compose com o comando up"
