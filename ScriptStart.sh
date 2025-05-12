@@ -206,7 +206,13 @@ if [[ -f "../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar" ]];
 
 		cp ./target/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ../../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
+		# Retorna para o inicio do repositório
+		cd ../
+		git checkout -f release/deployment
+		mv ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 fi
+
+
 
 log "Processo finalizado"
 

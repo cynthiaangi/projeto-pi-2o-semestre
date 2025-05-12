@@ -1,0 +1,13 @@
+# Usar a imagem do java
+FROM openjdk:21-jdk
+
+# Copiar o JAR para dentro do container
+COPY conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependecies.jar /app/
+
+# Definir as variveis de ambiente
+ENV MYSQL_ROOT_PASSWORD=urubu100
+ENV MYSQL_DATABASE=immunodata
+ENV MYSQL_USER=immuno
+ENV MYSQL_PASSWORD=urubu100@
+
+
