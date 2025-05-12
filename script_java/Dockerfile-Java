@@ -2,7 +2,7 @@
 FROM openjdk:21-jdk
 
 # Copiar o JAR para dentro do container
-COPY conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependecies.jar /app/
+COPY ./conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar /app/
 
 # Definir as variveis de ambiente
 ENV MYSQL_ROOT_PASSWORD=urubu100
