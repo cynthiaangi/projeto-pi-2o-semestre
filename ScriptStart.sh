@@ -168,7 +168,7 @@ if [ $? = 0 ];
 		# Retorna para o inicio do repositório
 		cd ../
 		git checkout -f release/deployment
-		mv ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
+		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 		log "Buildando docker Java"
 		ls
