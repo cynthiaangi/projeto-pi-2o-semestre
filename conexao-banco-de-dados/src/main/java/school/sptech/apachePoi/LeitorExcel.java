@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -166,7 +167,16 @@ public class LeitorExcel {
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
+
         String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
+        HashMap<String, Integer> doencasFK = new HashMap<>();
+
+        // Busca as FKs das doenças e as relaciona num HashMap
+        for (String doencaDaVez : doencas) {
+            doencasFK.put(doencaDaVez, getFkDoenca(doencaDaVez, doencasDao));
+        }
+
+
         Integer colunaInicial = 2;
 
         DataFormatter formatter = new DataFormatter();
@@ -180,14 +190,15 @@ public class LeitorExcel {
 
                 // Obtendo o valor do código IBGE e convertendo para inteiro
                 // (não tenho certeza se isso é necessário, vou verificar depois)
-                System.out.println("entrou no for row");
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
                 // for para percorrer as doenças e anos
                 for (int d = 0; d < doencas.length; d++) {
+                    // definindo a variável fkDoenca
+                    Integer fkDoenca = doencasFK.get(doencas[d]);
+
                     for (int a = 0; a < anos.length; a++) {
-                        System.out.println("entrou no for doencas e anos");
                         Integer coluna = colunaInicial + d * 4 + a;
                         Cell cell = row.getCell(coluna);
                         Double cobertura = 0.0;
@@ -199,7 +210,6 @@ public class LeitorExcel {
 
                         if (!isNull(cell)) {
                             try {
-                                System.out.println("entrei no try");
                                 String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                                 if (!valorFormatado.isEmpty()) {
                                     cobertura = Double.parseDouble(valorFormatado);
@@ -210,8 +220,6 @@ public class LeitorExcel {
                             }
                         }
 
-                        // definindo a variável fkDoenca
-                        Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
 
                         // Verificando se a ocorrência já existe no banco
                         if (!ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca)) {
@@ -238,7 +246,14 @@ public class LeitorExcel {
         DataFormatter formatter = new DataFormatter();
 
         // Mapeamento das variáveis da planilha
-        String[] doencas = {"Meningite", "Poliomielite", "Coqueluche",};
+        String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
+        HashMap<String, Integer> doencasFK = new HashMap<>();
+
+        // Busca as FKs das doenças e as relaciona num HashMap
+        for (String doencaDaVez : doencas) {
+            doencasFK.put(doencaDaVez, getFkDoenca(doencaDaVez, doencasDao));
+        }
+
         String[] meses = {
                 "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
         };
@@ -248,19 +263,18 @@ public class LeitorExcel {
         Integer colunasPorMes = 7; // 1 população + 3 doenças x (cobertura + doses)
         // Integer colunasPorDoenca = 2; // cobertura + doses
 
-
         Sheet sheet = workbook.getSheetAt(0);
 
         ocorrenciasDao.iniciarInserts();
-
         for (Row row : sheet) {
             try {
                 // Lê o código IBGE da coluna 0 (índice 0)
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
                 Long codigoIbge = Long.parseLong(valorIbgeStr);
 
+
                 for (int d = 0; d < doencas.length; d++) {
-                    Integer fkDoenca = getFkDoenca(doencas[d], doencasDao);
+                    Integer fkDoenca = doencasFK.get(doencas[d]); // Está buscando o id das doenças a cell, pode-se buscar isso antes num for de 3 iterações (por nome de doenca) e salvar num array ou num key value com os nomes das doenças
 
                     for (int a = 0; a < anos.length; a++) {
                         for (int m = 0; m < totalMeses; m++) {
@@ -295,7 +309,6 @@ public class LeitorExcel {
 
                             if (!ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
                                 ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
-                                System.out.println("Ocorrência mensal inserida no banco (linha " + row.getRowNum() + ")");
 
                             } else {
                                 logDao.inserirLogEtl(
