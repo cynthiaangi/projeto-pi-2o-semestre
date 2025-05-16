@@ -98,7 +98,7 @@ console.log(cidadesSP.length);
 console.log(codigosCidade.length);
 
 function entrarLogin() {
-    window.open("./Login.html", "_self");
+    window.location = "./Login.html"
 }
 
 // Cria um <select> para as cidades
@@ -215,7 +215,7 @@ console.log(codigoCidade);
                         // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                         setTimeout(() => {
-                            window.location = "Login.html";
+                            window.location.href = "Login.html";
                         }, "2000");
 
                         //   finalizarAguardar();

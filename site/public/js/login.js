@@ -93,7 +93,7 @@ const cidadesSP = ["Selecione sua cidade",
     "Vitória Brasil", "Votorantim", "Votuporanga", "Zacarias", "Chavantes", "Estiva Gerbi"];
 
 function entrarCadastro() {
-    window.open("./Cadastro.html", "_self");
+    window.location = "./Cadastro.html"
 }
 
 function entrar() {
@@ -143,10 +143,10 @@ function entrar() {
 
                 console.log(cidadeSelecionada);
                 if (conselho.length == 4) {
-                    window.location = "./dashboard.html";
+                    window.location.href = "./dashboard.html";
                 }
                 else if(conselho.length == 5) {
-                    window.location = "./dash-medico.html";
+                    window.location.href = "./dash-medico.html";
                 }
 
             });
