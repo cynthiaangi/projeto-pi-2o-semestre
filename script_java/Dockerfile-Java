@@ -15,6 +15,4 @@ ENV JAVA_PASSWORD="urubu100"
 ENV JAVA_CLASS_NAME="com.mysql.cj.jdbc.Driver"
 
 # Definindo inicialização do java com o container
-CMD ["ls"]
-
-ENTRYPOINT ["java", "-jar", "elt-java.jar"]
+ENTRYPOINT ["java", "-jar", "elt-app.jar"]
