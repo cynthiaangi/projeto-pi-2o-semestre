@@ -19,6 +19,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Workbook{
+    public static void apagarArquivos(String[] nomeArquivos) {
+        for (String nomeArquivo : nomeArquivos) {
+            Path caminhoGet = Path.of(nomeArquivo);
+
+            if (Files.exists(caminhoGet)) {
+                try {
+                    // Deleta o arquivo
+                    Files.delete(caminhoGet);
+                    System.out.printf("Arquivo %s deletado com sucesso!%n", nomeArquivo);
+                } catch (IOException e) {
+                    System.out.printf("Erro ao deletar o arquivo %s: %s %n", nomeArquivo, e.getMessage());
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException, SQLException {
         String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
         // String bucketName = System.getenv("BUCKET_NAME");
@@ -26,7 +42,8 @@ public class Workbook{
 
         // Lista dos nomes dos arquivos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
-
+        // Verificando se xlsx já estão presentes, e apagar
+        apagarArquivos(nomeArquivos);
         //Fazendo download dos arquivos do Bucket
         try {
             // Lista de arquivos no S3
@@ -60,19 +77,7 @@ public class Workbook{
         }
 
         // Apaga os arquivos xlsx após execução do ETL
-        for (String nomeArquivo : nomeArquivos) {
-            Path caminhoGet = Path.of(nomeArquivo);
-
-            if (Files.exists(caminhoGet)) {
-                try {
-                    // Deleta o arquivo
-                    Files.delete(caminhoGet);
-                    System.out.printf("Arquivo %s deletado com sucesso!%n", nomeArquivo);
-                } catch (IOException e) {
-                    System.out.printf("Erro ao deletar o arquivo %s: %s %n", nomeArquivo, e.getMessage());
-                }
-            }
-        }
+        apagarArquivos(nomeArquivos);
 
         // Esse arquivo faz a conexão como banco de dados
         // Configure as variaveis de ambiente no IntelliJ
