@@ -101,6 +101,13 @@
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>1.12.261</version> <!-- Verifique a versão mais recente -->
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20250517</version>
+        </dependency>
     </dependencies>
 
     <build>
