@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class DBConnectionProvider {
     public JdbcTemplate getJdbcTemplate() {
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/immunodata");
-        basicDataSource.setUsername("root");
-        basicDataSource.setPassword("urubu100");
-        basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        basicDataSource.setUrl(System.getenv("JAVA_URL"));
+        basicDataSource.setUsername(System.getenv("JAVA_USERNAME"));
+        basicDataSource.setPassword(System.getenv("JAVA_PASSWORD"));
+        basicDataSource.setDriverClassName(System.getenv("JAVA_CLASS_NAME"));
         return new JdbcTemplate(basicDataSource);
     }
 

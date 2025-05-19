@@ -149,11 +149,12 @@ public class LeitorExcel {
 
                 // Verifica se a cidade já existe no banco
                 // Se não existir, insere a cidade
-                if (cidadesDao.buscarPorId(codigoIbge) == null) {
+                if (isNull(cidadesDao.buscarPorId(codigoIbge))) {
                     cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
-                    System.out.println("Cidade " + nomeCidade + " inserida no banco (linha " + row.getRowNum() + ")");
                 } else {
                     System.out.println("Linha " + row.getRowNum() + " já existe no banco");
+                    logDao.inserirLogEtl("500", "Erro ao processar linha %s: Linha já exist no banco".formatted(row.getRowNum()),"LeitorExcel");
+
                 }
             } catch (Exception e) {
                 logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
@@ -186,14 +187,22 @@ public class LeitorExcel {
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
 
-        for (String doencaDaVez : doencas) {
-            String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
-            Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
-            if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
-                logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
-                return;
+        for (String doencaDaVez : doencas) {
+            try {
+                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
+                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+
+                if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
+                    logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    return;
+                }
+
+            } catch (Exception e) {
+                logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
+
             }
+
         }
 
         ocorrenciasDao.iniciarInserts();
@@ -285,7 +294,7 @@ public class LeitorExcel {
                 }
             }
         } catch (Exception e) {
-            logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais", "LeitorExcel");
+            logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
 
         }
 
