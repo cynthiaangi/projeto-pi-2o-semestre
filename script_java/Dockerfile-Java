@@ -10,4 +10,7 @@ ENV MYSQL_DATABASE=immunodata
 ENV MYSQL_USER=immuno
 ENV MYSQL_PASSWORD=urubu100@
 
-
+ENV JAVA_URL="jdbc:mysql://ContainerBanco:3306/immunodata"
+ENV JAVA_USERNAME="root"
+ENV JAVA_PASSWORD="urubu100"
+ENV JAVA_CLASS_NAME="com.mysql.cj.jdbc.Driver"

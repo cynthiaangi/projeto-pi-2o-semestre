@@ -8,6 +8,7 @@
 # TODO: Definir versão sql no Dockerfile, lastest não é bom
 # TODO: Verificar se docker network está rodando, antes de iniciar outra - Verificar como ficará o Docker Network com o Docker Compose
 # TODO: Temporariamente fiz o .jar ser copiado e não movido para o script_java
+# TODO: Retirar as Envs do Scripts e passar a buscar num txt dentro da EC2
 
 #########################################################
 #                                                       #
