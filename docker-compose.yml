@@ -1,0 +1,30 @@
+services:
+  mysql:
+    container_name: ContainerBanco
+    image: imagem-bancoimmuno:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: urubu100
+      MYSQL_DATABASE: immunodata
+      MYSQL_USER: immuno
+      MYSQL_PASSWORD: urubu100@
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  web:
+    container_name: ContainerSite
+    image: imagem-siteimmuno:latest
+    restart: always
+    ports:
+      - "80:80"
+
+  javaapp: 
+    container_name: ContainerJava
+    image: imagem-javaimmuno:latest
+    restart: no
+
+#volumes:
+#  mysql_data:
