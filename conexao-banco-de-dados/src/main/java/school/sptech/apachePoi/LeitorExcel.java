@@ -6,6 +6,9 @@ package school.sptech.apachePoi;
 // TODO: Adicionar em todas as funções a função Log
 // TODO: Criar o super método do Dao?
 // TODO: Validar os try catch
+// TODO: Testar validação de ocorrênciais mensais
+// TODO: Validar Processar casos
+
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
 // Criar instância workbook e fornecer o row pedido
@@ -176,7 +179,6 @@ public class LeitorExcel {
             doencasFK.put(doencaDaVez, getFkDoenca(doencaDaVez, doencasDao));
         }
 
-
         Integer colunaInicial = 2;
 
         DataFormatter formatter = new DataFormatter();
@@ -184,10 +186,19 @@ public class LeitorExcel {
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
 
+        for (String doencaDaVez : doencas) {
+            String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
+            Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+
+            if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
+                logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                return;
+            }
+        }
+
         ocorrenciasDao.iniciarInserts();
         for (Row row : sheet) {
             try {
-
                 // Obtendo o valor do código IBGE e convertendo para inteiro
                 // (não tenho certeza se isso é necessário, vou verificar depois)
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
@@ -197,9 +208,13 @@ public class LeitorExcel {
                 for (int d = 0; d < doencas.length; d++) {
                     // definindo a variável fkDoenca
                     Integer fkDoenca = doencasFK.get(doencas[d]);
+                    Integer colunaBase = colunaInicial + (d * 4);
 
                     for (int a = 0; a < anos.length; a++) {
-                        Integer coluna = colunaInicial + d * 4 + a;
+                        // Conta refatorada para ser mais rápido
+                        // Integer coluna = colunaInicial + a + (d * 4);
+                        Integer coluna = colunaBase + a;
+
                         Cell cell = row.getCell(coluna);
                         Double cobertura = 0.0;
 
@@ -220,14 +235,7 @@ public class LeitorExcel {
                             }
                         }
 
-
-                        // Verificando se a ocorrência já existe no banco
-                        if (!ocorrenciasDao.existsByFks(codigoIbge, anos[a], fkDoenca)) {
-                            ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
-                            System.out.println("Ocorrência anual inserida no banco (linha " + row.getRowNum() + ")");
-                        } else {
-                            System.out.println("Ocorrência anual já existe no banco (linha " + row.getRowNum() + ")");
-                        }
+                        ocorrenciasDao.inserirOcorrencia(fkDoenca, codigoIbge, anos[a], cobertura);
                     }
                 }
             } catch (Exception e) {
@@ -261,9 +269,25 @@ public class LeitorExcel {
         Integer totalMeses = 12;
         Integer colunaInicial = 1;
         Integer colunasPorMes = 7; // 1 população + 3 doenças x (cobertura + doses)
+        Integer totalMeses_X_colunasPorMes = 84;
         // Integer colunasPorDoenca = 2; // cobertura + doses
-
         Sheet sheet = workbook.getSheetAt(0);
+
+        // Validação se os dados já foram inseridos
+        try {
+            for (String doencaDaVez : doencas) {
+                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
+                Long codigoIbge = Long.parseLong(valorIbgeStr);
+
+                if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
+                    logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais", "LeitorExcel");
+
+        }
 
         ocorrenciasDao.iniciarInserts();
         for (Row row : sheet) {
@@ -275,21 +299,18 @@ public class LeitorExcel {
 
                 for (int d = 0; d < doencas.length; d++) {
                     Integer fkDoenca = doencasFK.get(doencas[d]); // Está buscando o id das doenças a cell, pode-se buscar isso antes num for de 3 iterações (por nome de doenca) e salvar num array ou num key value com os nomes das doenças
+                    Integer baseColunaDoenca = colunaInicial + (1 + d * 2);
 
                     for (int a = 0; a < anos.length; a++) {
-                        for (int m = 0; m < totalMeses; m++) {
-                            // Posição do mês dentro do ano
-                            Integer baseColunaMes = colunaInicial + a * totalMeses * colunasPorMes + m * colunasPorMes;
+                        Integer baseColunaAno = baseColunaDoenca + (a * totalMeses_X_colunasPorMes);
 
-                            Integer coluna = switch (d) {
-                                case 0 -> baseColunaMes + 1;
-                                case 1 -> baseColunaMes + 3;
-                                case 2 -> baseColunaMes + 5;
-                                default -> null;
-                            };
+                        for (int m = 0; m < totalMeses; m++) {
+                            // Posição do mês dentro do ano, conta refatorada para ser mais performático
+                            // Integer coluna = colunaInicial + a * totalMeses * colunasPorMes + m * colunasPorMes + (1 + d * 2); - conta não refatorada
+                            Integer coluna = baseColunaAno + (m * colunasPorMes);
 
                             Cell cell2 = row.getCell(coluna);
-                            if (cell2 == null || formatter.formatCellValue(cell2).trim().isEmpty()) {
+                            if ( isNull(cell2) || formatter.formatCellValue(cell2).trim().isEmpty()) {
                                 continue;
                             }
 
@@ -304,18 +325,7 @@ public class LeitorExcel {
                                 continue;
                             }
 
-                            String mesReferencia = meses[m];
-                            Integer anoReferencia = anos[a];
-
-                            if (!ocorrenciasDao.existsByFksMensal(codigoIbge, mesReferencia, anoReferencia, fkDoenca)) {
-                                ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, mesReferencia, anoReferencia, coberturaVacinal);
-
-                            } else {
-                                logDao.inserirLogEtl(
-                                        "200", "Ocorrência já existe no banco (linha %s, coluna %s, doenca %s, mesReferencia %s, anoReferencia %d, codigoIbge %d)".formatted(
-                                            row.getRowNum(), coluna, doencas[d], mesReferencia, anoReferencia, codigoIbge), "LeitorExcel"
-                                );
-                            }
+                            ocorrenciasDao.inserirOcorrenciaMensal(fkDoenca, codigoIbge, meses[m], anos[a], coberturaVacinal);
                         }
                     }
                 }
@@ -336,6 +346,13 @@ public class LeitorExcel {
 
         Integer[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
         String[] doencas = {"Coqueluche", "Meningite", "Poliomielite"};
+        HashMap<String, Integer> doencasFK = new HashMap<>();
+
+        // Busca as FKs das doenças e as relaciona num HashMap
+        for (String doencaDaVez : doencas) {
+            doencasFK.put(doencaDaVez, getFkDoenca(doencaDaVez, doencasDao));
+        }
+
         Integer colunaInicial = 1;
 
         Sheet sheet = workbook.getSheetAt(0);
@@ -343,15 +360,18 @@ public class LeitorExcel {
         ocorrenciasDao.iniciarInserts();
         for (Row row : sheet) {
             try {
-
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr);
 
                 for (int d = 0; d < doencas.length; d++) {
-                    Integer fkDoenca = doencasDao.buscarIdDoenca(doencas[d]);
+                    Integer fkDoenca = doencasFK.get(doencas[d]);
+                    Integer colunaBase = colunaInicial + (d * 6);
 
                     for (int a = 0; a < anos.length; a++) {
-                        Integer coluna = colunaInicial + d * 6 + a; // calcula a coluna correta de acordo com a doença e o ano
+                        // Conta refatorada para ser mais performático
+                        // Integer coluna = colunaInicial + d * 6 + a; -> calcula a coluna correta de acordo com a doença e o ano
+                        Integer coluna = colunaBase + a;
+
                         Cell cell = row.getCell(coluna);
                         Integer numCasos = 0; // variável para armazenar o número de casos
 
@@ -370,7 +390,7 @@ public class LeitorExcel {
                         } // trata a exceção de erro da leitura do arquivo
 
                         // Inserir ou atualizar ocorrência
-                        if (ocorrenciasDao.existsByFks(fkDoenca, codigoIbge, anos[a])) {
+                        if (ocorrenciasDao.existsByFksAnual(fkDoenca, codigoIbge, anos[a])) {
                             ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                             System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
                         } else {

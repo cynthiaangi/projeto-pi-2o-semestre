@@ -39,7 +39,7 @@ public class OcorrenciasDao {
     }
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
-    public Boolean existsByFks(Integer codigoIbge, Integer ano, Integer fkDoenca) {
+    public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe",
                 Boolean.class, codigoIbge, ano, fkDoenca
