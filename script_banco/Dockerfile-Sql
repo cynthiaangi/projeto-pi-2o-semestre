@@ -1,5 +1,5 @@
 # Buscando imagem base mysql
-FROM mysql:9.3.0
+FROM mysql:8.0
 
 # Definindo configurações de ambiente
 ENV MYSQL_ROOT_PASSWORD=urubu100
