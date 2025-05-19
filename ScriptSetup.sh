@@ -2,14 +2,11 @@
 
 # TODO: Adicionar arquivo .txt com todos na função log. Diretorio com logs, com titulo do horario da execução
 # TODO: Validar as permissões dentro da instância. Para não precisar rodar tudo com sudo
-# TODO: Adicionar container do Java
 # TODO: Adcionar buscar arquivos xlsx e subir automanticamente na S3 durante a primeira execução da instância
-# TODO: ScriptStart atualizar a versão do ScriptSetup.sh
-# TODO: Definir versão sql no Dockerfile, lastest não é bom
-# TODO: Verificar se docker network está rodando, antes de iniciar outra - Verificar como ficará o Docker Network com o Docker Compose
-# TODO: Temporariamente fiz o .jar ser copiado e não movido para o script_java
 # TODO: Retirar as Envs do Scripts e passar a buscar num txt dentro da EC2
 # TODO: Mudar a validação de java já existente (voltar para a antiga?)
+# TODO: Imagens .yml estão vindo do local, mudar isso
+# TODO: Mudar validação de conexão do DockerHub
 
 #########################################################
 #                                                       #
