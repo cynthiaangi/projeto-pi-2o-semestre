@@ -969,8 +969,6 @@ const titulo6 = "Quantidade de casos por ano";
 const help7 = "Exibe as 10 cidades com menor valor de cobertura vacinal atualmente.";
 const titulo7 = "Ranking de alerta na vacinação"; 
 
-var idEmpresa = sessionStorage.ID_USUARIO;
-
 function abrirMensagem(mensagem){
     var mensagemTitulo = document.getElementsByClassName('titulo-mensagem')[0];
     var mensagemCorpo = document.getElementsByClassName('corpo-mensagem')[0];

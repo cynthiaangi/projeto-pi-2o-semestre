@@ -92,7 +92,7 @@ const cidadesSP = ["Selecione sua cidade",
     "Vargem", "Vargem Grande do Sul", "Vargem Grande Paulista", "Várzea Paulista", "Vera Cruz", "Vinhedo", "Viradouro", "Vista Alegre do Alto",
     "Vitória Brasil", "Votorantim", "Votuporanga", "Zacarias", "Chavantes", "Estiva Gerbi"];
 
-const cargos = ["Selecione seu cargo", "Assistente de Saúde", "Médico", "Secretaria de Saúde"];
+const cargos = ["Selecione seu cargo", "Agente de Saúde", "Médico", "Secretaria de Saúde"];
 
 console.log(cidadesSP.length);
 console.log(codigosCidade.length);
