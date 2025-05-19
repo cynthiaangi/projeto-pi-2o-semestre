@@ -235,7 +235,9 @@ if docker-compose ps --status running | grep -q "Up";
 	else
 		log "Docker Compose não está rodando."
 		log "Executando Docker-Compose com o comando up"
-		sudo docker-compose up -d
+		sudo docker-compose up -d mysql
+		sudo docker-compose up -d web
+		sudo docker-compose up -d javaapp
 fi
 
 log "Processo finalizado"
