@@ -21,10 +21,20 @@ services:
     ports:
       - "80:80"
 
-  javaapp: 
+  javaapp:
     container_name: ContainerJava
     image: imagem-javaimmuno:latest
     restart: no
+    enviroment:
+      MYSQL_ROOT_PASSWORD: urubu100
+      MYSQL_DATABASE: immunodata
+      MYSQL_USER: immuno
+      MYSQL_PASSWORD: urubu100@
+      JAVA_URL: "jdbc:mysql://mysql:3306/immunodata"
+      JAVA_USERNAME: "root"
+      JAVA_PASSWORD: "urubu100"
+      JAVA_CLASS_NAME: "com.mysql.cj.jdbc.Driver"
+
 
 #volumes:
 #  mysql_data:
