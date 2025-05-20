@@ -16,14 +16,14 @@ services:
 
   web:
     container_name: ContainerSite
-    image: imagem-siteimmuno:latest
+    image: fabiamdamaceno/projeto-pi-2o-semestre:site-latest
     restart: always
     ports:
       - "80:80"
 
   javaapp:
     container_name: ContainerJava
-    image: imagem-javaimmuno:latest
+    image: fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
     restart: no
 
 #volumes:
