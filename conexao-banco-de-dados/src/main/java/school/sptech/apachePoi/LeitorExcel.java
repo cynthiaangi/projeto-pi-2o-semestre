@@ -8,6 +8,9 @@ package school.sptech.apachePoi;
 // TODO: Validar os try catch
 // TODO: Testar validação de ocorrênciais mensais
 // TODO: Validar Processar casos
+// TODO: Mudar os numeros do status
+// TODO: Criar ID por log
+// TODO: mudar rows para fori
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
@@ -21,18 +24,10 @@ package school.sptech.apachePoi;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.SpreadsheetVersion;
-import org.apache.poi.ss.formula.EvaluationWorkbook;
-import org.apache.poi.ss.formula.udf.UDFFinder;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -116,9 +111,11 @@ public class LeitorExcel {
         Sheet sheet = workbook.getSheetAt(0);
 
         cidadesDao.iniciarInserts();
+        // for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+        // Row row = sheet.getRow(i);
         for (Row row : sheet) {
             try {
-                if (row.getRowNum() == 1) {
+                if (row.getRowNum() == 1 ) {
                     System.out.println("\nLendo cabeçalho");
                     continue;
                 } // pula a primeira linha (cabeçalho)
@@ -133,9 +130,6 @@ public class LeitorExcel {
                 } else {
                     codigoIbge = (long) cellCodigoIbge.getNumericCellValue(); // transforma o valor para Long
                 }
-
-                // Verifique se o código da cidade está correto
-                System.out.println("Processando cidade com código IBGE: " + codigoIbge);
 
                 String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
 
@@ -152,12 +146,11 @@ public class LeitorExcel {
                 if (isNull(cidadesDao.buscarPorId(codigoIbge))) {
                     cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
                 } else {
-                    System.out.println("Linha " + row.getRowNum() + " já existe no banco");
-                    logDao.inserirLogEtl("500", "Erro ao processar linha %s: Linha já exist no banco".formatted(row.getRowNum()),"LeitorExcel");
+                    logDao.inserirLogEtl("400", "Erro ao processar linha %s: Cidade já exist no banco".formatted(row.getRowNum()),"LeitorExcel");
 
                 }
             } catch (Exception e) {
-                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logDao.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         cidadesDao.finalizarInserts();

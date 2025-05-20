@@ -1,75 +1,9 @@
 package school.sptech;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.dao.LogEtlDao;
-import java.time.LocalDateTime;
+// LOGS: 200 - OK; 201 - Criado; 204 sucesso mas sem resposta ou sem ação mas tudo bem;
+// 400 - requisição mal formatada; 403 - acesso negado; 404 - recurso não encontrado
+// 503 - serviço não encontrad0; 500 - erro inesperado; 504 - timeout
 
 public class LogEtl {
-    public Integer idLog;
-    public String status;
-    public LocalDateTime dataHora;
-    public String detalhes;
-    public String classeQueOcorreu;
-
-
-    public LogEtl(Integer idLog, String status, String detalhes, String classeQueOcorreu) {
-        this.idLog = idLog;
-        this.status = status;
-        this.dataHora = LocalDateTime.now();
-        this.detalhes = detalhes;
-        this.classeQueOcorreu = classeQueOcorreu;
-
-        System.out.println();
-    }
-
-    public Integer getIdLog() {
-        return idLog;
-    }
-
-    public void setIdLog(Integer idLog) {
-        this.idLog = idLog;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDataHora() {
-        return dataHora;
-    }
-
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
-    }
-
-    public String getDetalhes() {
-        return detalhes;
-    }
-
-    public void setDetalhes(String detalhes) {
-        this.detalhes = detalhes;
-    }
-
-    public String getClasseQueOcorreu() {
-        return classeQueOcorreu;
-    }
-
-    public void setClasseQueOcorreu(String classeQueOcorreu) {
-        this.classeQueOcorreu = classeQueOcorreu;
-    }
-
-    @Override
-    public String toString() {
-        return "LogEtl{" +
-                "idLog=" + idLog +
-                ", status='" + status + '\'' +
-                ", dataHora=" + dataHora +
-                ", detalhes='" + detalhes + '\'' +
-                ", classeQueOcorreu='" + classeQueOcorreu + '\'' +
-                '}';
-    }
+    
 }

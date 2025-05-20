@@ -1,8 +1,6 @@
 package school.sptech.dao;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.models.Ocorrencias;
 
 public class OcorrenciasDao {
     private final JdbcTemplate jdbcTemplate;

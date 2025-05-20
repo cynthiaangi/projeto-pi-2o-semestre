@@ -12,8 +12,4 @@ public class DBConnectionProvider {
         basicDataSource.setDriverClassName(System.getenv("JAVA_CLASS_NAME"));
         return new JdbcTemplate(basicDataSource);
     }
-
-    public JdbcTemplate getConnection() {
-        return null;
-    }
 }
