@@ -1,7 +1,7 @@
 services:
   mysql:
     container_name: ContainerBanco
-    image: imagem-bancoimmuno:latest
+    image: fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: urubu100
