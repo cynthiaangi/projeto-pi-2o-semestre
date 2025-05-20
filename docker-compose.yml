@@ -24,7 +24,7 @@ services:
   javaapp:
     container_name: ContainerJava
     image: imagem-javaimmuno:latest
-    restart: no
+    restart: on-failure:5
     enviroment:
       MYSQL_ROOT_PASSWORD: urubu100
       MYSQL_DATABASE: immunodata
