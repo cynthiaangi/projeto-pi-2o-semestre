@@ -11,6 +11,7 @@ package school.sptech.apachePoi;
 // TODO: Mudar os numeros do status
 // TODO: Criar ID por log
 // TODO: mudar rows para fori
+// TODO: Mudar bucketname no Workbook para env
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
@@ -32,6 +33,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.DBConnectionProvider;
+import school.sptech.LogEtl;
 import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.LogEtlDao;
@@ -56,7 +58,8 @@ public class LeitorExcel {
     public void extrairDados(String nomeArquivo) {
         DBConnectionProvider dbConnectionProvider = new DBConnectionProvider(); // TODO: Colocar conexão pra fora do for do Workbook main
         JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
-        LogEtlDao logDao = new LogEtlDao(connection); // conexão com o banco para os logs
+        LogEtlDao logEltDao = new LogEtlDao(connection); // conexão com o banco para os logs
+        LogEtl logEtl = new LogEtl(logEltDao); // instãncia de log
 
         // Busca endereço do arquivo
         Path caminhoArquivo = Path.of(nomeArquivo);
@@ -72,7 +75,7 @@ public class LeitorExcel {
             if (nomeArquivo.contains("cidades")) {
                 CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
 
-                processarCidades(logDao, cidadesDao, nomeArquivo, workbook); // Processa as cidades
+                processarCidades(logEtl, cidadesDao, nomeArquivo, workbook); // Processa as cidades
 
             } else {
                 OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
@@ -80,17 +83,17 @@ public class LeitorExcel {
 
                 // Lê o arquivo estadoSP_doencas.xlsx
                 if (nomeArquivo.contains("doencas")) {
-                    processarCasosDoencas(logDao, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa caso das doenças
+                    processarCasosDoencas(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa caso das doenças
 
                 } else if (nomeArquivo.contains("vacinas")) {
 
                     // Lê o arquivo estadoSP_vacinas-19-22.xlsx
                     if (nomeArquivo.contains("19-22")) {
-                        processarOcorrenciasAnuais(logDao, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas anuais/antigas
+                        processarOcorrenciasAnuais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas anuais/antigas
 
                         // Lẽ o arquivo estadoSP_vacinas-23-24.xlsx
                     } else if (nomeArquivo.contains("23-24")) {
-                        processarOcorrenciasMensais(logDao, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas mensais/recentes
+                        processarOcorrenciasMensais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas mensais/recentes
 
                     }
                 }
@@ -98,14 +101,14 @@ public class LeitorExcel {
             arquivoLocal.close();
 
         } catch (Exception e) {
-            logDao.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
+            logEtl.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
             throw new RuntimeException(e);
         }
     }
 
     // metodo para processar e inserir as cidades
-    private void processarCidades(LogEtlDao logDao, CidadesDao cidadesDao, String nomeArquivo, Workbook workbook) {
-        logDao.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+    private void processarCidades(LogEtl logEtl, CidadesDao cidadesDao, String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
@@ -140,21 +143,21 @@ public class LeitorExcel {
                 if (isNull(cidadesDao.buscarPorId(codigoIbge))) {
                     cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
                 } else {
-                    logDao.inserirLogEtl("400", "Erro ao processar linha %s: Cidade já exist no banco".formatted(row.getRowNum()),"LeitorExcel");
+                    logEtl.inserirLogEtl("400", "Erro ao processar linha %s: Cidade já exist no banco".formatted(row.getRowNum()),"LeitorExcel");
 
                 }
             } catch (Exception e) {
-                logDao.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         cidadesDao.finalizarInserts();
 
-        logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
 
     // metodo para processar e inserir as ocorrências anuais
-    private void processarOcorrenciasAnuais(LogEtlDao logDao, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
-        logDao.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+    private void processarOcorrenciasAnuais(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
@@ -181,12 +184,12 @@ public class LeitorExcel {
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
-                    logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
                     return;
                 }
 
             } catch (Exception e) {
-                logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("500", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
 
             }
 
@@ -236,17 +239,17 @@ public class LeitorExcel {
                     }
                 }
             } catch (Exception e) {
-                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
 
         }
         ocorrenciasDao.finalizarInserts();
-        logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
 
     // metodo para processar e inserir as ocorrências mensais
-    private void processarOcorrenciasMensais(LogEtlDao logDao, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
-        logDao.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+    private void processarOcorrenciasMensais(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
 
         DataFormatter formatter = new DataFormatter();
 
@@ -277,12 +280,12 @@ public class LeitorExcel {
                 Long codigoIbge = Long.parseLong(valorIbgeStr);
 
                 if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
-                    logDao.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
                     return;
                 }
             }
         } catch (Exception e) {
-            logDao.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
+            logEtl.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
 
         }
 
@@ -317,7 +320,7 @@ public class LeitorExcel {
                                 String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
                                 coberturaVacinal = Double.parseDouble(valorFormatado);
                             } catch (NumberFormatException ex) {
-                                logDao.inserirLogEtl(
+                                logEtl.inserirLogEtl(
                                         "400", "Erro ao converter valor na linha %s, coluna %s: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel"
                                 );
                                 continue;
@@ -328,17 +331,17 @@ public class LeitorExcel {
                     }
                 }
             } catch (Exception e) {
-                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();
-        logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
 
 
     // metodo para inserir numero de casos de cada doença
-    private void processarCasosDoencas(LogEtlDao logDao, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
-        logDao.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+    private void processarCasosDoencas(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
 
         DataFormatter formatter = new DataFormatter();
 
@@ -394,18 +397,18 @@ public class LeitorExcel {
                             ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                             System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
                         } else {
-                            logDao.inserirLogEtl(
+                            logEtl.inserirLogEtl(
                                     "400", "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel"
                             );
                         }
                     }
                 }
             } catch (Exception e) {
-                logDao.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();
-        logDao.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
 
 }

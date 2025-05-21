@@ -4,6 +4,26 @@ package school.sptech;
 // 400 - requisição mal formatada; 403 - acesso negado; 404 - recurso não encontrado
 // 503 - serviço não encontrad0; 500 - erro inesperado; 504 - timeout
 
-public class LogEtl {
+import school.sptech.dao.LogEtlDao;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class LogEtl {
+    private final LogEtlDao logEtlDao;
+
+    public LogEtl(LogEtlDao logEtlDao) {
+        this.logEtlDao = logEtlDao;
+    }
+
+    public void inserirLogEtl(String status, String detalhes, String classeQueOcorreu) {
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dateTimeAgora = LocalDateTime.now().format(formatoData);
+
+        // Printa log no terminal
+        System.out.printf("\n[LOG] [%s] [%s] - %s (%s)%n", status, dateTimeAgora, detalhes, classeQueOcorreu);
+
+        // Insere log no banco de dados
+        logEtlDao.inserirLogBD(dateTimeAgora, status, detalhes, classeQueOcorreu);
+    }
 }
