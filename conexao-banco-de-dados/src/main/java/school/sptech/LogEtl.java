@@ -5,5 +5,5 @@ package school.sptech;
 // 503 - serviço não encontrad0; 500 - erro inesperado; 504 - timeout
 
 public class LogEtl {
-    
+
 }

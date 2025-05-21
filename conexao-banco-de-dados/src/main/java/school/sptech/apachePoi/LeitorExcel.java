@@ -111,15 +111,9 @@ public class LeitorExcel {
         Sheet sheet = workbook.getSheetAt(0);
 
         cidadesDao.iniciarInserts();
-        // for (int i = 2; i <= sheet.getLastRowNum(); i++) {
-        // Row row = sheet.getRow(i);
-        for (Row row : sheet) {
+        for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+        Row row = sheet.getRow(i);
             try {
-                if (row.getRowNum() == 1 ) {
-                    System.out.println("\nLendo cabeçalho");
-                    continue;
-                } // pula a primeira linha (cabeçalho)
-
                 // Obtém o valor do codigoIbge
                 Cell cellCodigoIbge = row.getCell(0);
                 Long codigoIbge; // transforma o valor para Long pq no banco é BigInt
@@ -199,7 +193,8 @@ public class LeitorExcel {
         }
 
         ocorrenciasDao.iniciarInserts();
-        for (Row row : sheet) {
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
             try {
                 // Obtendo o valor do código IBGE e convertendo para inteiro
                 // (não tenho certeza se isso é necessário, vou verificar depois)
@@ -292,7 +287,8 @@ public class LeitorExcel {
         }
 
         ocorrenciasDao.iniciarInserts();
-        for (Row row : sheet) {
+        for (int i = 3; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
             try {
                 // Lê o código IBGE da coluna 0 (índice 0)
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
@@ -360,7 +356,9 @@ public class LeitorExcel {
         Sheet sheet = workbook.getSheetAt(0);
 
         ocorrenciasDao.iniciarInserts();
-        for (Row row : sheet) {
+
+        for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
             try {
                 String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr);
