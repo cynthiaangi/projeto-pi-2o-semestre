@@ -56,11 +56,9 @@ public class LeitorExcel {
     }
 
     // metodo para extrair os dados de todos os arquivos Excel
-    public void extrairDados(String nomeArquivo) {
+    public void extrairDados(LogEtl logEtl, String nomeArquivo) {
         DBConnectionProvider dbConnectionProvider = new DBConnectionProvider(); // TODO: Colocar conexão pra fora do for do Workbook main
         JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
-        LogEtlDao logEltDao = new LogEtlDao(connection); // conexão com o banco para os logs
-        LogEtl logEtl = new LogEtl(logEltDao); // instãncia de log
 
         // Busca endereço do arquivo
         Path caminhoArquivo = Path.of(nomeArquivo);

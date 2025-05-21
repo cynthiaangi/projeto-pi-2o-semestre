@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Workbook{
-    public static void apagarArquivos(String[] nomeArquivos) {
+    public static void apagarArquivos(LogEtl logEtl, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
             Path caminhoGet = Path.of(nomeArquivo);
 
@@ -26,9 +26,9 @@ public class Workbook{
                 try {
                     // Deleta o arquivo
                     Files.delete(caminhoGet);
-                    System.out.printf("Arquivo %s deletado com sucesso!%n", nomeArquivo);
                 } catch (IOException e) {
-                    System.out.printf("Erro ao deletar o arquivo %s: %s %n", nomeArquivo, e.getMessage());
+                    logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main");
+
                 }
             }
         }
@@ -41,7 +41,7 @@ public class Workbook{
         LogEtlDao logEltDao = new LogEtlDao(connection); // conexão com o banco para os logs
         LogEtl logEtl = new LogEtl(logEltDao);
 
-        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java", "Main");
+        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
         logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
 
         String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
@@ -51,7 +51,7 @@ public class Workbook{
         // Lista dos nomes dos arquivos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
         // Verificando se xlsx já estão presentes, e apagar
-        apagarArquivos(nomeArquivos);
+        apagarArquivos(logEtl, nomeArquivos);
         //Fazendo download dos arquivos do Bucket
         try {
             // Lista de arquivos no S3
@@ -69,32 +69,28 @@ public class Workbook{
             }
             logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
         } catch (S3Exception e) {
-            System.err.printf("Erro ao fazer download dos arquivos:%s %n", e.getMessage());
             logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main");
-
         }
 
         // Inicializa a leitura dos arquivos
         for (String arquivoNome : nomeArquivos) {
-            System.out.printf("Início da leitura do arquivo: %s %n", arquivoNome);
+            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(arquivoNome), "Main");
 
             // Inicializa métodos de leitura do arquivo
             LeitorExcel leitor = new LeitorExcel();
-
-            leitor.extrairDados(arquivoNome);
-
-            // Fecha arquivo após leitura
-            //arquivoLocal.close(); - C01 Provavelmente apagar
+            leitor.extrairDados(logEtl, arquivoNome);
         }
 
         // Apaga os arquivos xlsx após execução do ETL
-        apagarArquivos(nomeArquivos);
+        apagarArquivos(logEtl, nomeArquivos);
 
-        // Esse arquivo faz a conexão como banco de dados
-        // Configure as variaveis de ambiente no IntelliJ
-        // A pasta models é onde estão os objetos (tabelas do banco de dados que vamos usar)
-        // A pasta dao é onde estão os métodos que interajem com o banco de dados dos objetos
-        // O Workook é o executavel do projeto, ele é quem chama o LeitorExcel
-        // O LeitorExcel é quem extrai os dados do arquivos .xlsx e insere no banco de dados, juntamente com os logs
+        logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
     }
 }
+
+// Esse arquivo faz a conexão como banco de dados
+// Configure as variaveis de ambiente no IntelliJ
+// A pasta models é onde estão os objetos (tabelas do banco de dados que vamos usar)
+// A pasta dao é onde estão os métodos que interajem com o banco de dados dos objetos
+// O Workook é o executavel do projeto, ele é quem chama o LeitorExcel
+// O LeitorExcel é quem extrai os dados do arquivos .xlsx e insere no banco de dados, juntamente com os logs
