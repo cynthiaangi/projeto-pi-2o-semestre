@@ -1,6 +1,8 @@
 package school.sptech;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
+import school.sptech.dao.LogEtlDao;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -33,6 +35,15 @@ public class Workbook{
     }
 
     public static void main(String[] args) throws IOException, SQLException {
+        // Inicializando o Log e a conexão do Log com BD
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
+        LogEtlDao logEltDao = new LogEtlDao(connection); // conexão com o banco para os logs
+        LogEtl logEtl = new LogEtl(logEltDao);
+
+        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java", "Main");
+        logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
+
         String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
         // String bucketName = System.getenv("BUCKET_NAME");
         S3Client s3Client = new school.sptech.S3Provider().getS3Client();
@@ -56,8 +67,11 @@ public class Workbook{
                 s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
                 System.out.printf("Arquivo baixado: %s %n", arquivoS3.key());
             }
+            logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
         } catch (S3Exception e) {
             System.err.printf("Erro ao fazer download dos arquivos:%s %n", e.getMessage());
+            logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main");
+
         }
 
         // Inicializa a leitura dos arquivos

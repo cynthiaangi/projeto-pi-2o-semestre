@@ -9,9 +9,10 @@ package school.sptech.apachePoi;
 // TODO: Testar validação de ocorrênciais mensais
 // TODO: Validar Processar casos
 // TODO: Mudar os numeros do status
-// TODO: Criar ID por log
+// TODO: Criar ID por execução do ETL no LOG
 // TODO: mudar rows para fori
 // TODO: Mudar bucketname no Workbook para env
+// TODO: Mudar de classe para metodo no log BD e no Java
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
