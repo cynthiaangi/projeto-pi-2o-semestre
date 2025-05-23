@@ -1060,6 +1060,10 @@ function abrirNotificacao(){
     notificacao.style.display = 'flex';
 }
 
+function acessarGerenciamento(){
+    window.location = 'gerenciamento.html';
+}
+
 function alterarCidade(){
     window.location = 'dash-medico.html';
 }
