@@ -4,26 +4,74 @@ package school.sptech;
 // 400 - requisição mal formatada; 403 - acesso negado; 404 - recurso não encontrado
 // 503 - serviço não encontrado; 500 - erro inesperado; 504 - timeout
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.LogEtlDao;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class LogEtl {
     private final LogEtlDao logEtlDao;
+    private final DateTimeFormatter formatoHorarioLog;
+    private final LocalDateTime horarioInicio;
+    private final String idExecucao;
 
-    public LogEtl(LogEtlDao logEtlDao) {
+    private LogEtl(LogEtlDao logEtlDao, DateTimeFormatter formatoHorarioLog, LocalDateTime horarioInicio, String idExecucao) {
         this.logEtlDao = logEtlDao;
+        this.formatoHorarioLog = formatoHorarioLog;
+        this.horarioInicio = horarioInicio;
+        this.idExecucao = idExecucao;
     }
 
     public void inserirLogEtl(String status, String detalhes, String classeQueOcorreu) {
-        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dateTimeAgora = LocalDateTime.now().format(formatoData);
+        String dateTimeAgora = LocalDateTime.now().format(formatoHorarioLog);
 
         // Printa log no terminal
-        System.out.printf("\n[LOG] [%s] [%s] - %s (%s)%n", status, dateTimeAgora, detalhes, classeQueOcorreu);
+        System.out.printf("\n[LOG] [%s] [%s] - %s (%s) - $s%n", status, dateTimeAgora, detalhes, classeQueOcorreu, this.idExecucao);
 
         // Insere log no banco de dados
         logEtlDao.inserirLogBD(dateTimeAgora, status, detalhes, classeQueOcorreu);
+    }
+
+    public static String criarIdExecucao(LocalDateTime horarioInicio) {
+        DateTimeFormatter formatoDataIdExecucao = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        String idExecucao = "J" + horarioInicio.format(formatoDataIdExecucao);
+
+        return idExecucao;
+    }
+
+    public static LogEtl iniciarLog(JdbcTemplate connection) {
+        LogEtlDao logEtlDao = new LogEtlDao(connection); // Conecta o log com o Banco
+        LocalDateTime horarioInicio = LocalDateTime.now(); // Busca horario de início do processo de ETL
+        DateTimeFormatter formatoHorarioLog = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
+        // Usa o horario de início para criar um id para a execução do Java: J + horarioInicio
+        String idExecucao = criarIdExecucao(horarioInicio);
+
+        // Instancia o log
+        LogEtl logEtl = new LogEtl(logEtlDao, formatoHorarioLog, horarioInicio, idExecucao);
+
+        return logEtl;
+    }
+
+    public String calcularTempoExecucao(LocalDateTime horarioFim) {
+        Duration tempoDeExecucao = Duration.between(this.horarioInicio, horarioFim);
+
+        long minutos = tempoDeExecucao.toMinutes();
+        long segundos = tempoDeExecucao.getSeconds() % 60;
+
+        return "%02dm %02ds".formatted(minutos, segundos);
+    }
+
+    public void encerrarLog() {
+        LocalDateTime horarioFim = LocalDateTime.now();
+
+        String textoTempoDeExecucao = this.calcularTempoExecucao(horarioFim);
+
+        System.out.println("Base de dados atualizada com sucesso!");
+        System.out.println("Tempo total de execução: %s%n".formatted(textoTempoDeExecucao));
     }
 }

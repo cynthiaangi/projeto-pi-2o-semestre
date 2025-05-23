@@ -17,6 +17,8 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.List;
 
+import static school.sptech.LogEtl.iniciarLog;
+
 public class Workbook{
     public static void apagarArquivos(LogEtl logEtl, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
@@ -38,10 +40,10 @@ public class Workbook{
         // Inicializando o Log e a conexão do Log com BD
         DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
         JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
-        LogEtlDao logEltDao = new LogEtlDao(connection); // conexão com o banco para os logs
-        LogEtl logEtl = new LogEtl(logEltDao);
 
+        LogEtl logEtl = iniciarLog(connection);
         logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
+
         logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
 
         String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
@@ -85,6 +87,7 @@ public class Workbook{
         apagarArquivos(logEtl, nomeArquivos);
 
         logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
+        logEtl.encerrarLog();
     }
 }
 

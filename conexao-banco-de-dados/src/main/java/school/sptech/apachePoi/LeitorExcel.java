@@ -13,6 +13,7 @@ package school.sptech.apachePoi;
 // TODO: mudar rows para fori
 // TODO: Mudar bucketname no Workbook para env
 // TODO: Mudar de classe para metodo no log BD e no Java
+// TODO: Adicionar ENUM para os status ?
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
