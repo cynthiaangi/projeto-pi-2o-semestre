@@ -6,7 +6,8 @@
 # TODO: Retirar as Envs do Scripts e passar a buscar num txt dentro da EC2
 # TODO: Mudar a validação de java já existente (voltar para a antiga?)
 # TODO: Imagens .yml estão vindo do local, mudar isso
-# TODO: Mudar validação de conexão do DockerHub
+# TODO: Mudar validação de conexão do DockerHub, e mudar a conexão automatica para maneira não inteirativa (pois não esta funcionando automaticamente)
+# TODO: Mudar tempo do log do bash para timezone brasil
 
 #########################################################
 #                                                       #

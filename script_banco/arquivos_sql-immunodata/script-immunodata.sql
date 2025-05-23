@@ -47,5 +47,6 @@ CREATE TABLE logetl (
     status VARCHAR(100) NOT NULL,
     dataHora DATETIME NOT NULL,
     detalhes TEXT,
-    classeQueOcorreu VARCHAR(100)
-); 
+    classeQueOcorreu VARCHAR(100),
+    idDaExecucaoEtl VARCHAR(20)
+);
