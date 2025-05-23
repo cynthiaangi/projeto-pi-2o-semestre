@@ -14,6 +14,7 @@ package school.sptech.apachePoi;
 // TODO: Mudar bucketname no Workbook para env
 // TODO: Mudar de classe para metodo no log BD e no Java
 // TODO: Adicionar ENUM para os status ?
+// TODO: Adicionar classeQueOcorreu no banco de dados e no Java
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
@@ -38,7 +39,6 @@ import school.sptech.DBConnectionProvider;
 import school.sptech.LogEtl;
 import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
-import school.sptech.dao.LogEtlDao;
 import school.sptech.dao.OcorrenciasDao;
 
 import static java.util.Objects.isNull;

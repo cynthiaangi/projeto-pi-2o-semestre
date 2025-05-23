@@ -2,7 +2,6 @@ package school.sptech;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
-import school.sptech.dao.LogEtlDao;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -20,7 +19,20 @@ import java.util.List;
 import static school.sptech.LogEtl.iniciarLog;
 
 public class Workbook{
-    public static void apagarArquivos(LogEtl logEtl, String[] nomeArquivos) {
+    public static LogEtl iniciarAplicacaoJava(JdbcTemplate connection) {
+        LogEtl logEtl = iniciarLog(connection);
+
+        return logEtl;
+    }
+
+    public static JdbcTemplate conectarBanco () {
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
+
+        return connection;
+    }
+
+    public static void apagarArquivosAntigos(LogEtl logEtl, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
             Path caminhoGet = Path.of(nomeArquivo);
 
@@ -29,32 +41,17 @@ public class Workbook{
                     // Deleta o arquivo
                     Files.delete(caminhoGet);
                 } catch (IOException e) {
-                    logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main");
+                    logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main.apagarArquivosAntigos");
 
                 }
             }
         }
     }
 
-    public static void main(String[] args) throws IOException, SQLException {
-        // Inicializando o Log e a conexão do Log com BD
-        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
-        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
-
-        LogEtl logEtl = iniciarLog(connection);
-        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
-
-        logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
-
-        String bucketNome = "bucket-immunodata"; // TO DO: Mudar para .env
-        // String bucketName = System.getenv("BUCKET_NAME");
+    public static void baixarArquivosParaExtracao(LogEtl logEtl) {
         S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+        String bucketNome = System.getenv("BUCKET_NAME");
 
-        // Lista dos nomes dos arquivos
-        String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
-        // Verificando se xlsx já estão presentes, e apagar
-        apagarArquivos(logEtl, nomeArquivos);
-        //Fazendo download dos arquivos do Bucket
         try {
             // Lista de arquivos no S3
             List<S3Object> arquivos = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketNome).build()).contents();
@@ -67,27 +64,58 @@ public class Workbook{
 
                 // Busca o arquivo S3 com base na requisição
                 s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
-                System.out.printf("Arquivo baixado: %s %n", arquivoS3.key());
+                logEtl.inserirLogEtl("200", "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "Main.baixarArquivosParaExtracao");
             }
-            logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
         } catch (S3Exception e) {
-            logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main");
+            logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main.baixarArquivosParaExtracao");
+            throw new RuntimeException("Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()));
         }
+    }
 
-        // Inicializa a leitura dos arquivos
+    public static void executarProcessoETL(LogEtl logEtl, String[] nomeArquivos) {
         for (String arquivoNome : nomeArquivos) {
-            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(arquivoNome), "Main");
+            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(arquivoNome), "Main.executarProcessoETL");
 
             // Inicializa métodos de leitura do arquivo
             LeitorExcel leitor = new LeitorExcel();
             leitor.extrairDados(logEtl, arquivoNome);
         }
+    }
+
+    public static void finalizarAplicacaoJava(LogEtl logEtl) {
+        logEtl.encerrarLog();
+    }
+
+    public static void main(String[] args) throws IOException, SQLException {
+        // Arquivos que serão extraídos
+        String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
+
+        // Conexão com o Banco de Dados
+        JdbcTemplate connection = conectarBanco();
+
+        // Inicializa a aplicação Java
+        LogEtl logEtl = iniciarAplicacaoJava(connection);
+        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
+        logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
+
+        // Apagar arquivos antigos remanescentes
+        apagarArquivosAntigos(logEtl, nomeArquivos);
+
+        //Fazendo download dos arquivos do Bucket
+        baixarArquivosParaExtracao(logEtl);
+        logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
+
+        // Executa o processo de ETL
+        logEtl.inserirLogEtl("200", "Inicializado processo de ETL", "Main");
+        executarProcessoETL(logEtl, nomeArquivos);
+        logEtl.inserirLogEtl("200", "Finalizado processo de ETL", "Main");
 
         // Apaga os arquivos xlsx após execução do ETL
-        apagarArquivos(logEtl, nomeArquivos);
+        apagarArquivosAntigos(logEtl, nomeArquivos);
 
+        // Finaliza a aplicação Java
         logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
-        logEtl.encerrarLog();
+        finalizarAplicacaoJava(logEtl);
     }
 }
 

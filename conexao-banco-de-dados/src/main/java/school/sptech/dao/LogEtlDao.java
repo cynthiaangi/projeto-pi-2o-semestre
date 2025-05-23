@@ -10,10 +10,10 @@ public class LogEtlDao {
         }
 
         // Insere os logs no banco de dados
-        public void inserirLogBD(String dateTimeAgora, String status, String detalhes, String classeQueOcorreu) {
+        public void inserirLogBD(String dateTimeAgora, String status, String detalhes, String metodoQueOcorreu) {
             // Insere log no banco de dados
             jdbcTemplate.
-                    update("INSERT INTO logetl (status, dataHora, detalhes, classeQueOcorreu)" + " VALUES (?, ?, ?, ?)",
-                    status, dateTimeAgora, detalhes, classeQueOcorreu);
+                    update("INSERT INTO logetl (status, dataHora, detalhes, metodoQueOcorreu)" + " VALUES (?, ?, ?, ?)",
+                    status, dateTimeAgora, detalhes, metodoQueOcorreu);
         }
 }
