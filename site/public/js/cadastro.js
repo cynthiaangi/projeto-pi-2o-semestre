@@ -1,4 +1,4 @@
-const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
+const codigosCidade = ["", 3550308, 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
     3501509, 3501608, 3501707, 3501806, 3501905, 3502002, 3502101, 3502200, 3502309, 3502408, 3502507, 3502606, 3502705, 3502754, 3502804, 3502903, 3503000, 3503109, 3503158, 3503208, 3503307,
     3503356, 3503406, 3503505, 3503604, 3503703, 3503802, 3503901, 3503950, 3504008, 3504107, 3504206, 3504305, 3504404, 3504503, 3504602, 3504701, 3504800, 3504909, 3505005, 3505104,
     3505203, 3505302, 3505351, 3505401, 3505500, 3505609, 3505708, 3505807, 3505906, 3506003, 3506102, 3506201, 3506300,3506359, 3506409, 3506508, 3506607, 3506706, 3506805, 3506904, 3507001,
@@ -32,14 +32,14 @@ const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550,
      3546009, 3546108, 3546207, 3546256, 3546306, 3546405, 3546504, 3546603, 3546702, 3546801, 3546900, 3547007, 3547106, 3547205, 3547304, 
      3547403, 3547502, 3547601, 3547650, 3547700, 3547809, 3547908, 3548005, 3548054, 3548104, 3548203, 3548302, 3548401, 3548500, 3548609, 
      3548708, 3548807, 3548906, 3549003, 3549102, 3549201, 3549250, 3549300, 3549409, 3549508, 3549607, 3549706, 3549805, 3549904, 3549953, 
-     3550001, 3550100, 3550209, 3550308, 3550407, 3550506, 3550605, 3550704, 3550803, 3550902, 3551009, 3551108, 3551207, 3551306, 3551405, 
+     3550001, 3550100, 3550209, 3550407, 3550506, 3550605, 3550704, 3550803, 3550902, 3551009, 3551108, 3551207, 3551306, 3551405, 
      3551504, 3551603, 3551702, 3551801, 3551900, 3552007, 3552106, 3552205, 3552304, 3552403, 3552502, 3552551, 3552601, 3552700, 3552809, 
      3552908, 3553005, 3553104, 3553203, 3553302, 3553401, 3553500, 3553609, 3553658, 3553708, 3553807, 3553856, 3553906, 3553955, 3554003, 
      3554102, 3554201, 3554300, 3554409, 3554508, 3554607, 3554656, 3554706, 3554755, 3554805, 3554904, 3554953, 3555000, 3555109, 3555208, 
      3555307, 3555356, 3555406, 3555505, 3555604, 3555703, 3555802, 3555901, 3556008, 3556107, 3556206, 3556305, 3556354, 3556404, 3556453, 
      3556503, 3556602, 3556701, 3556800, 3556909, 3556958, 3557006, 3557105, 3557154, 3557204, 3557303];
 
-const cidadesSP = ["Selecione sua cidade",
+const cidadesSP = ["Selecione sua cidade", "São Paulo",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
     "Américo de Campos", "Amparo", "Analândia", "Andradina", "Angatuba", "Anhembi", "Anhumas", "Aparecida", "Aparecida d'Oeste", "Apiaí", "Araçariguama", "Araçatuba", "Araçoiaba da Serra", "Aramina", "Arandu", "Arapeí", "Araraquara", "Araras", "Arco-Íris", "Arealva", "Areias",
     "Areiópolis", "Ariranha", "Artur Nogueira", "Arujá", "Aspásia", "Assis", "Atibaia", "Auriflama", "Avaí", "Avanhandava", "Avaré", "Bady Bassitt", "Balbinos", "Bálsamo", "Bananal", "Barão de Antonina", "Barbosa", "Bariri", "Barra Bonita", "Barra do Chapéu", "Barra do Turvo", "Barretos", "Barrinha", "Barueri", "Bastos", "Batatais", "Bauru", "Bebedouro", "Bento de Abreu", "Bernardino de Campos",
@@ -82,7 +82,7 @@ const cidadesSP = ["Selecione sua cidade",
     "São Caetano do Sul", "São Carlos", "São Francisco", "São João da Boa Vista", "São João das Duas Pontes", "São João de Iracema",
     "São João do Pau d'Alho", "São Joaquim da Barra", "São José da Bela Vista", "São José do Barreiro", "São José do Rio Pardo",
     "São José do Rio Preto", "São José dos Campos", "São Lourenço da Serra", "São Luís do Paraitinga", "São Manuel", "São Miguel Arcanjo",
-    "São Paulo", "São Pedro", "São Pedro do Turvo", "São Roque", "São Sebastião", "São Sebastião da Grama", "São Simão", "São Vicente",
+     "São Pedro", "São Pedro do Turvo", "São Roque", "São Sebastião", "São Sebastião da Grama", "São Simão", "São Vicente",
     "Sarapuí", "Sarutaiá", "Sebastianópolis do Sul", "Serra Azul", "Serra Negra", "Serrana", "Sertãozinho", "Sete Barras", "Severínia",
     "Silveiras", "Socorro", "Sorocaba", "Sud Mennucci", "Sumaré", "Suzanápolis", "Suzano", "Tabapuã", "Tabatinga", "Taboão da Serra",
     "Taciba", "Taguaí", "Taiaçu", "Taiúva", "Tambaú", "Tanabi", "Tapiraí", "Tapiratiba", "Taquaral", "Taquaritinga", "Taquarituba",
@@ -96,6 +96,7 @@ const cargos = ["Selecione seu cargo", "Agente de Saúde", "Médico", "Secretari
 
 console.log(cidadesSP.length);
 console.log(codigosCidade.length);
+console.log(codigosCidade[0])
 
 function entrarLogin() {
     window.location = "./Login.html"
