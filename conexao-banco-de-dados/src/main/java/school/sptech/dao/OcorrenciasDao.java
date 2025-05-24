@@ -38,6 +38,7 @@ public class OcorrenciasDao {
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
+        System.out.println("Select feito :SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = %d AND anoReferencia = %d AND fkDoenca = %d) AS existe".formatted(codigoIbge, ano, fkDoenca));
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe",
                 Boolean.class, codigoIbge, ano, fkDoenca

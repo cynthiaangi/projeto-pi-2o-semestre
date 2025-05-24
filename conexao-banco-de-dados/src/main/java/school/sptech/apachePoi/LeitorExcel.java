@@ -56,54 +56,60 @@ public class LeitorExcel {
         }
     }
 
-    // metodo para extrair os dados de todos os arquivos Excel
-    public void extrairDados(LogEtl logEtl, String nomeArquivo) {
-        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider(); // TODO: Colocar conexão pra fora do for do Workbook main
-        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate(); // conexão com o banco
-
-        // Busca endereço do arquivo
+    public static InputStream abrirArquivo(String nomeArquivo) throws IOException {
         Path caminhoArquivo = Path.of(nomeArquivo);
+        InputStream arquivoLocal = Files.newInputStream(caminhoArquivo);
 
-        try {
-            // Abre arquivo e inicia a leitura
-            InputStream arquivoLocal = Files.newInputStream(caminhoArquivo);
-            Workbook workbook = new XSSFWorkbook(arquivoLocal);
+        return arquivoLocal;
+    }
 
+    // metodo para extrair os dados de todos os arquivos Excel
+    public void extrairDados(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
+        for (String nomeArquivo : nomeArquivos) {
+            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "Main.executarProcessoETL");
 
-            // Identifica o arquivo da vez e cria a conexão necessária com o banco de dados para inserir os valores
-            // Lẽ o arquivo cidades-sp.xlsx
-            if (nomeArquivo.contains("cidades")) {
-                CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
+            try {
+                // Abre arquivo
+                InputStream arquivoLocal = abrirArquivo(nomeArquivo);
 
-                processarCidades(logEtl, cidadesDao, nomeArquivo, workbook); // Processa as cidades
+                Workbook workbook = new XSSFWorkbook(arquivoLocal);
 
-            } else {
-                OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
-                DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
+                // Identifica o arquivo da vez e cria a conexão necessária com o banco de dados para inserir os valores
+                // Lẽ o arquivo cidades-sp.xlsx
+                if (nomeArquivo.contains("cidades")) {
+                    CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
 
-                // Lê o arquivo estadoSP_doencas.xlsx
-                if (nomeArquivo.contains("doencas")) {
-                    processarCasosDoencas(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa caso das doenças
+                    processarCidades(logEtl, cidadesDao, nomeArquivo, workbook); // Processa as cidades
 
-                } else if (nomeArquivo.contains("vacinas")) {
+                } else {
+                    OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
+                    DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
 
-                    // Lê o arquivo estadoSP_vacinas-19-22.xlsx
-                    if (nomeArquivo.contains("19-22")) {
-                        processarOcorrenciasAnuais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas anuais/antigas
+                    // Lê o arquivo estadoSP_doencas.xlsx
+                    if (nomeArquivo.contains("doencas")) {
+                        processarCasosDoencas(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa caso das doenças
 
-                        // Lẽ o arquivo estadoSP_vacinas-23-24.xlsx
-                    } else if (nomeArquivo.contains("23-24")) {
-                        processarOcorrenciasMensais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas mensais/recentes
+                    } else if (nomeArquivo.contains("vacinas")) {
 
+                        // Lê o arquivo estadoSP_vacinas-19-22.xlsx
+                        if (nomeArquivo.contains("19-22")) {
+                            processarOcorrenciasAnuais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas anuais/antigas
+
+                            // Lẽ o arquivo estadoSP_vacinas-23-24.xlsx
+                        } else if (nomeArquivo.contains("23-24")) {
+                            processarOcorrenciasMensais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas mensais/recentes
+
+                        }
                     }
                 }
-            }
-            arquivoLocal.close();
+                arquivoLocal.close();
 
-        } catch (Exception e) {
-            logEtl.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                logEtl.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     // metodo para processar e inserir as cidades

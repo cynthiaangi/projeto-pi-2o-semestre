@@ -32,7 +32,7 @@ public class Workbook{
         return connection;
     }
 
-    public static void apagarArquivosAntigos(LogEtl logEtl, String[] nomeArquivos) {
+    public static void apagarArquivosRemanescentes(LogEtl logEtl, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
             Path caminhoGet = Path.of(nomeArquivo);
 
@@ -72,14 +72,9 @@ public class Workbook{
         }
     }
 
-    public static void executarProcessoETL(LogEtl logEtl, String[] nomeArquivos) {
-        for (String arquivoNome : nomeArquivos) {
-            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(arquivoNome), "Main.executarProcessoETL");
-
-            // Inicializa métodos de leitura do arquivo
-            LeitorExcel leitor = new LeitorExcel();
-            leitor.extrairDados(logEtl, arquivoNome);
-        }
+    public static void executarProcessoETL(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
+        LeitorExcel leitor = new LeitorExcel();
+        leitor.extrairDados(logEtl, connection, nomeArquivos);
     }
 
     public static void finalizarAplicacaoJava(LogEtl logEtl) {
@@ -99,7 +94,7 @@ public class Workbook{
         logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
 
         // Apagar arquivos antigos remanescentes
-        apagarArquivosAntigos(logEtl, nomeArquivos);
+        apagarArquivosRemanescentes(logEtl, nomeArquivos);
 
         //Fazendo download dos arquivos do Bucket
         baixarArquivosParaExtracao(logEtl);
@@ -107,11 +102,11 @@ public class Workbook{
 
         // Executa o processo de ETL
         logEtl.inserirLogEtl("200", "Inicializado processo de ETL", "Main");
-        executarProcessoETL(logEtl, nomeArquivos);
+        executarProcessoETL(logEtl, connection, nomeArquivos);
         logEtl.inserirLogEtl("200", "Finalizado processo de ETL", "Main");
 
         // Apaga os arquivos xlsx após execução do ETL
-        apagarArquivosAntigos(logEtl, nomeArquivos);
+        apagarArquivosRemanescentes(logEtl, nomeArquivos);
 
         // Finaliza a aplicação Java
         logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
