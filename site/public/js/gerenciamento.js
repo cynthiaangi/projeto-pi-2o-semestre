@@ -202,28 +202,84 @@ cargoInput2.replaceWith(selectCargo2);
 
 window.onload = listarFuncionarios();
 
-function listarFuncionarios(){
+function listarFuncionarios() {
     var tabela = document.getElementsByClassName("tabela-usuario")[0];
 
     fetch("/funcionarios/listar").then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    var mensagem = document.createElement("span");
-                    mensagem.innerHTML = "Nenhum resultado encontrado."
-                    tabela.appendChild(mensagem);
-                    throw "Nenhum resultado encontrado!!";
-                }
-
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                });
-            } else {
-                throw ('Houve um erro na API!');
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                var mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado."
+                tabela.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!!";
             }
-        }).catch(function (resposta) {
-            console.error(resposta);
-        });
+
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                var titulo_instancia = document.createElement('tr');
+                var titulo_id = document.createElement('th');
+                var titulo_name = document.createElement('th');
+                var titulo_atividade = document.createElement('th');
+                var titulo_numberConselho = document.createElement('th');
+                var titulo_city = document.createElement('th');
+                var titulo_button = document.createElement('th');
+
+                titulo_id.innerHTML = "ID Funcionário";
+                titulo_name.innerHTML = "Nome completo";
+                titulo_atividade.innerHTML = "Cargo";
+                titulo_numberConselho.innerHTML = "CRM/ID Agente";
+                titulo_city.innerHTML = "Cidade";
+                titulo_button.innerHTML = "Edição";
+
+                titulo_instancia.appendChild(titulo_id);
+                titulo_instancia.appendChild(titulo_name);
+                titulo_instancia.appendChild(titulo_atividade);
+                titulo_instancia.appendChild(titulo_numberConselho);
+                titulo_instancia.appendChild(titulo_city);
+                titulo_instancia.appendChild(titulo_button);
+                tabela.appendChild(titulo_instancia);
+
+                for (let i = 0; i < resposta.length; i++) {
+                    if (resposta.numConselho.length == 5) {
+                        var instancia = document.createElement('tr');
+                        var id = document.createElement('td');
+                        var name = document.createElement('td');
+                        var atividade = document.createElement('td');
+                        var numberConselho = document.createElement('td');
+                        var city = document.createElement('td');
+                        var button = document.createElement('td');
+                        var cidade_funcionario = "";
+
+                        for (let j = 0; j < cidadesSP.length; j++) {
+                            if (codigosCidade[j] == resposta.fkCidadeResidente) {
+                                cidade_funcionario = cidadesSP[j];
+                            }
+                        }
+
+                        id.innerHTML = `${resposta.idUsuario}`;
+                        name.innerHTML = `${resposta.nomeCompleto}`;
+                        atividade.innerHTML = `${resposta.cargoExercido}`;
+                        numberConselho.innerHTML = `${resposta.numConselho}`;
+                        city.innerHTML = `${cidade_funcionario}`;
+                        button.innerHTML = `<button onclick="habilitarEdicao()">Editar</button>`;
+
+                        instancia.appendChild(id);
+                        instancia.appendChild(name);
+                        instancia.appendChild(atividade);
+                        instancia.appendChild(numberConselho);
+                        instancia.appendChild(city);
+                        instancia.appendChild(button);
+                        tabela.appendChild(instancia);
+
+                    }
+                }
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
 }
 
 function cadastrarFuncionarios() {
@@ -298,7 +354,7 @@ function cadastrar() {
     var conselho = ipt_number_cadastro.value;
     var cidadeAtuante = sel_cidade_cadastro.value;
     var codigoCidade = 0;
-    var senhaPadrao =  `${conselho}@Immuno`;
+    var senhaPadrao = `${conselho}@Immuno`;
 
     var num_conselho = parseInt(conselho);
     var tam_nome = nome.length;
@@ -363,9 +419,9 @@ function cadastrar() {
 }
 
 
-    // Enviando o valor da nova input
+// Enviando o valor da nova input
 
-    // window.open("Login.html", "_self");
+// window.open("Login.html", "_self");
 
 
 
