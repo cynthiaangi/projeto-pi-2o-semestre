@@ -7,6 +7,15 @@ function listar(req, res) {
   });
 }
 
+function excluir(req, res){
+  var id = req.params.id;
+
+  funcionarioModel.excluir(id).then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
 module.exports = {
   listar,
+  excluir
 };

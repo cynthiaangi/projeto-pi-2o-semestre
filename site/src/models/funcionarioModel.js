@@ -7,4 +7,10 @@ function listar() {
   return database.executar(instrucaoSql);
 }
 
-module.exports = { listar };
+function excluir(id){
+  var instrucaoSql = `DELETE FROM usuarios WHERE idUsuario = ${id};`;
+
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { listar, excluir };
