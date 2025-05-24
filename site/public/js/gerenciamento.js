@@ -205,7 +205,7 @@ window.onload = listarFuncionarios();
 function listarFuncionarios(){
     var tabela = document.getElementsByClassName("tabela-usuario")[0];
 
-    fetch("/funcionarios/listar/").then(function (resposta) {
+    fetch("/funcionarios/listar").then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var mensagem = document.createElement("span");
