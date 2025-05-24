@@ -240,6 +240,7 @@ function listarFuncionarios() {
                 tabela.appendChild(titulo_instancia);
 
                 for (let i = 0; i < resposta.length; i++) {
+                    if (resposta[i].numConselho.length == 5) {
                         var instancia = document.createElement('tr');
                         var id = document.createElement('td');
                         var name = document.createElement('td');
@@ -270,6 +271,7 @@ function listarFuncionarios() {
                         instancia.appendChild(button);
                         tabela.appendChild(instancia);
 
+                    }
                 }
             });
         } else {
