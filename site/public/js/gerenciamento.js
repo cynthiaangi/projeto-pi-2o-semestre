@@ -200,6 +200,33 @@ cargos.forEach((cargo) => {
 
 cargoInput2.replaceWith(selectCargo2);
 
+window.onload = listarFuncionarios();
+
+function listarFuncionarios(){
+    var tabela = document.getElementsByClassName("tabela-usuario")[0];
+
+    fetch("/funcionarios/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado."
+                    tabela.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+            finalizarAguardar();
+        });
+}
+
 function cadastrarFuncionarios() {
     var areaCadastro = document.getElementsByClassName('cadastro')[0];
 
@@ -272,7 +299,7 @@ function cadastrar() {
     var conselho = ipt_number_cadastro.value;
     var cidadeAtuante = sel_cidade_cadastro.value;
     var codigoCidade = 0;
-    var senhaPadrao =  `${conselho}@Imunno`;
+    var senhaPadrao =  `${conselho}@Immuno`;
 
     var num_conselho = parseInt(conselho);
     var tam_nome = nome.length;
@@ -315,11 +342,11 @@ function cadastrar() {
                 if (resposta.ok) {
                     // cardErro.style.display = "block";
 
-                    alert("Cadastro realizado com sucesso! Redirecionando para a tela de login");
+                    alert("Cadastro realizado com sucesso! Atualizando lista de funcionários");
                     // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                     setTimeout(() => {
-                        window.location.href = "Login.html";
+                        window.location.href = "gerenciamento.html";
                     }, "2000");
 
                     //   finalizarAguardar();
