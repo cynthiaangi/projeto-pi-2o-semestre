@@ -401,7 +401,7 @@ public class LeitorExcel {
 
                         Integer qtdLinhasAtualizas = ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                         if (qtdLinhasAtualizas != 1) {
-                            logEtl.inserirLogEtl("400", "Arquivo %s, linha %s, fkDoenca %d, codigoIBGE %d, anoAtualizado %d, resposta %d".formatted(nomeArquivo, row.getRowNum(), fkDoenca, codigoIbge, anos[a], numCasos ,qtdLinhasAtualizas), "LeitorExcel");
+                            logEtl.inserirLogEtl("400", "Arquivo %s, linha %s, fkDoenca %d, codigoIBGE %d, anoAtualizado %d, numCasos %d, resposta %d".formatted(nomeArquivo, row.getRowNum(), fkDoenca, codigoIbge, anos[a], numCasos ,qtdLinhasAtualizas), "LeitorExcel");
                             // comentado para debbug logEtl.inserirLogEtl("400", "Ocorrência da linha %s do arquivo %s mal atualizada: %d".formatted(row.getRowNum(), nomeArquivo, qtdLinhasAtualizas), "LeitorExcel");
                         }
                     }
