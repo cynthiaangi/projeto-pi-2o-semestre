@@ -249,6 +249,7 @@ function listarFuncionarios() {
                         var city = document.createElement('td');
                         var button = document.createElement('td');
                         var cidade_funcionario = "";
+                        const funcionarioJSON = encodeURIComponent(JSON.stringify(resposta[i]));
 
                         for (let j = 0; j < cidadesSP.length; j++) {
                             if (codigosCidade[j] == resposta[i].fkCidadeResidente) {
@@ -260,8 +261,8 @@ function listarFuncionarios() {
                         name.innerHTML = `${resposta[i].nomeCompleto}`;
                         atividade.innerHTML = `${resposta[i].cargoExercido}`;
                         numberConselho.innerHTML = `${resposta[i].numConselho}`;
-                        city.innerHTML = `${cidade_funcionario}`;
-                        button.innerHTML = `<button onclick="habilitarEdicao(${resposta[i]})">Editar</button>`;
+                        city.innerHTML = `${cidade_funcionario}`;                      
+                        button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
 
                         instancia.appendChild(id);
                         instancia.appendChild(name);
@@ -360,8 +361,8 @@ function habilitarEdicao(funcionario) {
     document.getElementById("ipt_number").value = funcionario.numConselho;
 
     const selCidade = document.getElementById("cidade");
-    for(let option of selCidade.option){
-        if(option.value === cidade_funcionario){
+    for (let option of selCidade.option) {
+        if (option.value === cidade_funcionario) {
             option.selected = true;
             break;
         }
@@ -369,7 +370,7 @@ function habilitarEdicao(funcionario) {
 
 }
 
-function excluir(){
+function excluir() {
     var nome = document.getElementById("ipt_nome");
     var idFuncionario = 0;
 
@@ -385,7 +386,7 @@ function excluir(){
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 for (let i = 0; i < resposta.length; i++) {
-                    if(resposta[i].nomeCompleto === nome){
+                    if (resposta[i].nomeCompleto === nome) {
                         idFuncionario = resposta[i].idUsuario;
                     }
 
@@ -400,30 +401,30 @@ function excluir(){
     });
 
     fetch(`/funcionarios/excluir/${idFuncionario}`, {
-            method: "DELETE",
-            
+        method: "DELETE",
+
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+
+                setTimeout(() => {
+                    window.location.href = "gerenciamento.html";
+                }, "2000");
+
+
+            } else {
+                throw alert("Houve um erro ao tentar excluir funcionário!");
+            }
         })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
 
-                if (resposta.ok) {
+        });
 
-                    alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
-
-                    setTimeout(() => {
-                        window.location.href = "gerenciamento.html";
-                    }, "2000");
-
-                    
-                } else {
-                    throw alert("Houve um erro ao tentar excluir funcionário!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                
-            });
-    
 }
 
 function cadastrar() {
