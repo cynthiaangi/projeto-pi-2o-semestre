@@ -29,8 +29,8 @@ public class OcorrenciasDao {
     }
 
     // atualiza os casos no banco de dados caso já exista
-    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
-        jdbcTemplate.update(
+    public Integer atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
+        return jdbcTemplate.update(
                 "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
                 quantidadeCasos, fkDoenca, fkCidade, anoReferencia
         );
@@ -38,7 +38,6 @@ public class OcorrenciasDao {
 
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
-        System.out.println("Select feito :SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = %d AND anoReferencia = %d AND fkDoenca = %d) AS existe".formatted(codigoIbge, ano, fkDoenca));
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe",
                 Boolean.class, codigoIbge, ano, fkDoenca

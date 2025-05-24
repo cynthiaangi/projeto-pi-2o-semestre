@@ -399,14 +399,9 @@ public class LeitorExcel {
                             continue;
                         } // trata a exceção de erro da leitura do arquivo
 
-                        // Inserir ou atualizar ocorrência
-                        if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[a], fkDoenca)) {
-                            ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
-                            System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
-                        } else {
-                            logEtl.inserirLogEtl(
-                                    "400", "Ocorrência da linha %s do arquivo %s não encontrada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel"
-                            );
+                        Integer qtdLinhasAtualizas = ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        if (qtdLinhasAtualizas != 1) {
+                            logEtl.inserirLogEtl("400", "Ocorrência da linha %s do arquivo %s mal atualizada".formatted(row.getRowNum(), nomeArquivo), "LeitorExcel");
                         }
                     }
                 }
