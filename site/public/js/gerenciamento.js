@@ -223,7 +223,6 @@ function listarFuncionarios(){
             }
         }).catch(function (resposta) {
             console.error(resposta);
-            finalizarAguardar();
         });
 }
 
