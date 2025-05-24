@@ -68,6 +68,7 @@ public class LeitorExcel {
         for (String nomeArquivo : nomeArquivos) {
             logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "Main.executarProcessoETL");
 
+
             try {
                 // Abre arquivo
                 InputStream arquivoLocal = abrirArquivo(nomeArquivo);
@@ -399,7 +400,7 @@ public class LeitorExcel {
                         } // trata a exceção de erro da leitura do arquivo
 
                         // Inserir ou atualizar ocorrência
-                        if (ocorrenciasDao.existsByFksAnual(fkDoenca, codigoIbge, anos[a])) {
+                        if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[a], fkDoenca)) {
                             ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                             System.out.println("Número de casos inseridos no banco (linha " + row.getRowNum() + ")");
                         } else {

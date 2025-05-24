@@ -23,15 +23,6 @@ public class CidadesDao {
         jdbcTemplate.update("COMMIT");
     }
 
-    // lista todas as cidades
-    public List<Cidades> findAll(){
-        List<Cidades> cidades = jdbcTemplate.query(
-                "SELECT * FROM cidades", new BeanPropertyRowMapper<>(Cidades.class)
-        );
-
-        return cidades;
-    }
-
     // insere as cidades no banco de dados
     public void inserirCidade(Long codigoIbge, String nomeCidade, Float qtdPopulacional) {
         String sql = "INSERT IGNORE INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)";
@@ -48,15 +39,4 @@ public class CidadesDao {
             return null; // Retorna null se a cidade não for encontrada
         }
     }
-
-    public Integer buscarCodigoIbgePorNome(String nomeCidade) {
-        try {
-            String sql = "SELECT codigoIbge FROM cidades WHERE LOWER(nome) = LOWER(?)";
-            return jdbcTemplate.queryForObject(sql, Integer.class, nomeCidade);
-        } catch (EmptyResultDataAccessException e) {
-            return null; // cidade não encontrada
-        }
-    }
-
-
 }
