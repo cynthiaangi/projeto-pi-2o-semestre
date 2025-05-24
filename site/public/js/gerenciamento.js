@@ -261,7 +261,7 @@ function listarFuncionarios() {
                         atividade.innerHTML = `${resposta[i].cargoExercido}`;
                         numberConselho.innerHTML = `${resposta[i].numConselho}`;
                         city.innerHTML = `${cidade_funcionario}`;
-                        button.innerHTML = `<button onclick="habilitarEdicao()">Editar</button>`;
+                        button.innerHTML = `<button onclick="habilitarEdicao(${resposta[i]})">Editar</button>`;
 
                         instancia.appendChild(id);
                         instancia.appendChild(name);
@@ -338,12 +338,92 @@ function mostrarFuncionarios() {
     window.location = 'dash-medico.html';
 }
 
-function habilitarEdicao() {
+function habilitarEdicao(funcionario) {
+    console.log(funcionario);
+
     var bottomsheet = document.getElementsByClassName('mensagem')[0];
     var fundo = document.getElementsByClassName('area-mensagem')[0];
 
     bottomsheet.style.display = 'flex';
     fundo.style.display = 'flex';
+
+    var cidade_funcionario = "";
+
+    for (let j = 0; j < cidadesSP.length; j++) {
+        if (codigosCidade[j] == funcionario.fkCidadeResidente) {
+            cidade_funcionario = cidadesSP[j];
+        }
+    }
+
+    document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
+    document.getElementById("ipt_cargo").value = funcionario.cargoExercido;
+    document.getElementById("ipt_number").value = funcionario.numConselho;
+
+    const selCidade = document.getElementById("cidade");
+    for(let option of selCidade.option){
+        if(option.value === cidade_funcionario){
+            option.selected = true;
+            break;
+        }
+    }
+
+}
+
+function excluir(){
+    var nome = document.getElementById("ipt_nome");
+    var idFuncionario = 0;
+
+    fetch("/funcionarios/listar").then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                var mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado."
+                tabela.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!!";
+            }
+
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                for (let i = 0; i < resposta.length; i++) {
+                    if(resposta[i].nomeCompleto === nome){
+                        idFuncionario = resposta[i].idUsuario;
+                    }
+
+                    break;
+                }
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+
+    fetch(`/funcionarios/excluir/${idFuncionario}`, {
+            method: "DELETE",
+            
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+
+                    setTimeout(() => {
+                        window.location.href = "gerenciamento.html";
+                    }, "2000");
+
+                    
+                } else {
+                    throw alert("Houve um erro ao tentar excluir funcionário!");
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                
+            });
+    
 }
 
 function cadastrar() {
@@ -417,39 +497,3 @@ function cadastrar() {
         return false;
     }
 }
-
-
-// Enviando o valor da nova input
-
-// window.open("Login.html", "_self");
-
-
-
-// function cadastrarFuncionarios(){
-//     var doenca = doencaSelect.value;
-//     var coqueluche = document.getElementsByClassName('coqueluche');
-//     var meningite = document.getElementsByClassName('meningite');
-//     var poliomielite = document.getElementsByClassName('poliomielite');
-//     console.log(doenca);
-
-// if(doenca == 'Coqueluche'){
-//     for(var i = 0; i < coqueluche.length; i++){
-//         coqueluche[i].style.display = 'flex';
-//         meningite[i].style.display = 'none';
-//         poliomielite[i].style.display = 'none';
-//     }
-// }else if(doenca == 'Meningite'){
-//     for(var j = 0; j < meningite.length; j++){
-//         coqueluche[j].style.display = 'none';
-//         meningite[j].style.display = 'flex';
-//         poliomielite[j].style.display = 'none';
-//     }
-// }else{
-//     for(var k = 0; k < poliomielite.length; k++){
-//         coqueluche[k].style.display = 'none';
-//         meningite[k].style.display = 'none';
-//         poliomielite[k].style.display = 'flex';
-//     }
-// }
-
-// }
