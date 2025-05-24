@@ -250,15 +250,15 @@ function listarFuncionarios() {
                         var cidade_funcionario = "";
 
                         for (let j = 0; j < cidadesSP.length; j++) {
-                            if (codigosCidade[j] == resposta.fkCidadeResidente) {
+                            if (codigosCidade[j] == resposta[i].fkCidadeResidente) {
                                 cidade_funcionario = cidadesSP[j];
                             }
                         }
 
-                        id.innerHTML = `${resposta.idUsuario}`;
-                        name.innerHTML = `${resposta.nomeCompleto}`;
-                        atividade.innerHTML = `${resposta.cargoExercido}`;
-                        numberConselho.innerHTML = `${resposta.numConselho}`;
+                        id.innerHTML = `${resposta[i].idUsuario}`;
+                        name.innerHTML = `${resposta[i].nomeCompleto}`;
+                        atividade.innerHTML = `${resposta[i].cargoExercido}`;
+                        numberConselho.innerHTML = `${resposta[i].numConselho}`;
                         city.innerHTML = `${cidade_funcionario}`;
                         button.innerHTML = `<button onclick="habilitarEdicao()">Editar</button>`;
 
