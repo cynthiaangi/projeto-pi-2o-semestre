@@ -53,7 +53,7 @@ log "Inicializado o Script de Instalação"
 
 if id "adm-immunodata" &>/dev/null;
 	then
-		log "Usuário adm-immunodata encontrado"
+			log "Usuário adm-immunodata encontrado"
 
 	else
                 log "Configurando EC2 pela primeira vez"
