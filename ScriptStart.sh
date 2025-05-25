@@ -251,6 +251,11 @@ if [ $? = 0 ];
                 variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV SLACK_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
+                variavelEnv=$(grep "ENV BUCKET_NAME=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV BUCKET_NAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
 		log "Buildando docker Java"
 		sudo docker build -f "$caminhoPastaDockerJava/Dockerfile-Java" -t imagem-javaimmuno:latest "$caminhoPastaDockerJava"
 
