@@ -414,7 +414,7 @@ function alterarFuncionario(){
             }
 
             fetch(`/funcionarios/alterar`, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
