@@ -15,6 +15,8 @@ body {
     align-items: center;
     background: linear-gradient(to right, #0e3950, #165c89);
     position: relative;
+    background: linear-gradient(to right, #0e3950, #165c89);
+    position: relative;
 }
 
 .container {
@@ -22,6 +24,9 @@ body {
     height: 80vh;
     display: flex;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
@@ -34,11 +39,14 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    overflow: hidden;
 }
 
 .form-image img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
     object-fit: cover;
     object-position: center;
 }
@@ -48,7 +56,11 @@ body {
     top: 20px;
     left: 20px;
     width: 120px;
+    top: 20px;
+    left: 20px;
+    width: 120px;
     cursor: pointer;
+    z-index: 10;
     z-index: 10;
 }
 
@@ -63,14 +75,32 @@ body {
     flex-direction: column;
     justify-content: center;
     padding: 2rem 3rem;
+    padding: 2rem 3rem;
     background-color: #fff;
 }
 
 .form-header {
     margin-bottom: 2rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.form-header .title h1 {
+    font-size: 1.8rem;
+    color: #092B43;
+    position: relative;
+}
+
+.form-header .title h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: #165c89;
+    margin-top: 10px;
+    border-radius: 4px;
 }
 
 .form-header .title h1 {
@@ -98,6 +128,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+    transition: 0.3s;
 }
 
 .login-button button:hover {
@@ -110,14 +141,20 @@ body {
     gap: 1rem;
     width: 100%;
     margin: auto;
+    margin: auto;
 }
 
 .input-box {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
+.input-box label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.3rem;
 .input-box label {
     font-size: 0.9rem;
     color: #333;
@@ -131,8 +168,18 @@ body {
     border-radius: 8px;
     font-size: 1rem;
     transition: border 0.3s;
+.input-box input,
+.input-box select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
 }
 
+.input-box input:hover,
+.input-box select:hover {
+    background-color: #f0f0f0;
 .input-box input:hover,
 .input-box select:hover {
     background-color: #f0f0f0;
@@ -142,12 +189,19 @@ body {
 .input-box select:focus {
     border-color: #165c89;
     outline: none;
+.input-box input:focus,
+.input-box select:focus {
+    border-color: #165c89;
+    outline: none;
 }
 
 .input-box input::placeholder {
     color: #aaa;
+    color: #aaa;
 }
 
+.continue-button {
+    margin-top: 2rem;
 .continue-button {
     margin-top: 2rem;
 }
@@ -159,32 +213,46 @@ body {
     font-weight: 600;
     background-color: #165c89;
     color: white;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #165c89;
+    color: white;
     border: none;
     border-radius: 8px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
     transition: background-color 0.3s ease;
 }
 
 .continue-button button:hover {
     background-color: #0e3950;
+    background-color: #0e3950;
 }
 
+/* RESPONSIVO */
 /* RESPONSIVO */
 @media screen and (max-width: 1330px) {
     .form-image {
         display: none;
     }
 
+
     .container {
         width: 90%;
         height: auto;
+        width: 90%;
+        height: auto;
     }
+
 
     .form {
         width: 100%;
     }
 }
 
+@media screen and (max-width: 768px) {
 @media screen and (max-width: 768px) {
     .input-group {
         grid-template-columns: 1fr;
