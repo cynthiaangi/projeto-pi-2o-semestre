@@ -35,7 +35,6 @@ import java.util.HashMap;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.DBConnectionProvider;
 import school.sptech.LogEtl;
 import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
@@ -191,12 +190,12 @@ public class LeitorExcel {
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
-                    logEtl.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl("204", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
                     return;
                 }
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("404", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
 
             }
 
@@ -237,7 +236,7 @@ public class LeitorExcel {
                                     cobertura = Double.parseDouble(valorFormatado);
                                 }
                             } catch (NumberFormatException ex) {
-                                System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                                logEtl.inserirLogEtl("400", "Erro ao ler valor da célula (linha %d, coluna %d): %s".formatted(row.getRowNum(), coluna), ex.getMessage());
                                 continue;
                             }
                         }
@@ -246,7 +245,7 @@ public class LeitorExcel {
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
 
         }
@@ -287,12 +286,12 @@ public class LeitorExcel {
                 Long codigoIbge = Long.parseLong(valorIbgeStr);
 
                 if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
-                    logEtl.inserirLogEtl("200", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl("204", "Arquivo já inserido anteriormente: %s".formatted(nomeArquivo), "LeitorExcel");
                     return;
                 }
             }
         } catch (Exception e) {
-            logEtl.inserirLogEtl("500", "Erro ao processar validação das ocorrências mensais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
+            logEtl.inserirLogEtl("404", "Erro ao processar validação das ocorrências mensais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
 
         }
 
@@ -338,7 +337,7 @@ public class LeitorExcel {
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();
@@ -364,6 +363,11 @@ public class LeitorExcel {
         Integer colunaInicial = 1;
 
         Sheet sheet = workbook.getSheetAt(0);
+
+        if (!ocorrenciasDao.verificarCasoAnualInserido()) {
+            logEtl.inserirLogEtl("204", "Planilha do %s já inserida".formatted(nomeArquivo), "LeitorExcel.processarCasosDoencas");
+            return;
+        }
 
         ocorrenciasDao.iniciarInserts();
 
@@ -395,19 +399,15 @@ public class LeitorExcel {
                                 numCasos = Integer.parseInt(valorFormatado);
                             }
                         } catch (NumberFormatException ex) {
-                            System.out.println("Erro ao ler valor da célula (linha " + row.getRowNum() + ", coluna " + coluna + "): " + ex.getMessage());
+                            logEtl.inserirLogEtl("400", "Erro ao ler valor da célula (linha %d, coluna %d): %s".formatted(row.getRowNum(), coluna), ex.getMessage());
                             continue;
                         } // trata a exceção de erro da leitura do arquivo
 
-                        Integer qtdLinhasAtualizadas = ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
-                        if (qtdLinhasAtualizadas != 11 || qtdLinhasAtualizadas != 12) {
-                            logEtl.inserirLogEtl("400", "Arquivo %s, linha %s, fkDoenca %d, codigoIBGE %d, anoAtualizado %d, numCasos %d, resposta %d".formatted(nomeArquivo, row.getRowNum(), fkDoenca, codigoIbge, anos[a], numCasos ,qtdLinhasAtualizadas), "LeitorExcel");
-                            // comentado para debbug logEtl.inserirLogEtl("400", "Ocorrência da linha %s do arquivo %s mal atualizada: %d".formatted(row.getRowNum(), nomeArquivo, qtdLinhasAtualizas), "LeitorExcel");
-                        }
+                        ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();

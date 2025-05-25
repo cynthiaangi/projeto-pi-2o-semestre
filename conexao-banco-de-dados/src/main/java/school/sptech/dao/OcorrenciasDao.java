@@ -29,8 +29,8 @@ public class OcorrenciasDao {
     }
 
     // atualiza os casos no banco de dados caso já exista
-    public Integer atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
-        return jdbcTemplate.update(
+    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
+        jdbcTemplate.update(
                 "UPDATE ocorrencias SET quantidadeCasosNoAno = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
                 quantidadeCasosNoAno, fkDoenca, fkCidade, anoReferencia
         );
@@ -39,7 +39,7 @@ public class OcorrenciasDao {
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
-                "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe",
+                "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) ",
                 Boolean.class, codigoIbge, ano, fkDoenca
         );
     }
@@ -47,9 +47,13 @@ public class OcorrenciasDao {
     // busca 1 ocorrência pelos campos fkDoenca, fkCidade, mesReferencia e anoReferencia
     public Boolean existsByFksMensal(Long codigoIbge, String mesReferencia, Integer anoReferencia, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
-                "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?) AS existe2",
+                "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?)",
                 Boolean.class, codigoIbge, mesReferencia, anoReferencia, fkDoenca
         );
+    }
+
+    public Boolean verificarCasoAnualInserido() {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE quantidadeCasosNoAno IS NULL)", Boolean.class);
     }
 
 }
