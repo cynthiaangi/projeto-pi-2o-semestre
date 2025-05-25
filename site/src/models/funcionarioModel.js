@@ -14,7 +14,7 @@ function excluir(id){
 }
 
 function alterar(id, nome, cargo, conselho, cidade){
-  var instrucaoSql = `UPDATE usuario SET nomeCompleto = '${nome}', cargoExercido = '${cargo}', numConselho = '${conselho}', fkCidadeResidente = '${cidade}' WHERE idUsuario =  ${id}`;
+  var instrucaoSql = `UPDATE usuarios SET nomeCompleto = '${nome}', cargoExercido = '${cargo}', numConselho = '${conselho}', fkCidadeResidente = '${cidade}' WHERE idUsuario =  ${id}`;
 
   return database.executar(instrucaoSql);
 }
