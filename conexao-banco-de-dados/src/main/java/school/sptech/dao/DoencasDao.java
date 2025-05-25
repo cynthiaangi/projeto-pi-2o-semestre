@@ -1,16 +1,11 @@
 package school.sptech.dao;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.models.Doencas;
-
-import java.util.List;
 
 public class DoencasDao {
     private final JdbcTemplate jdbcTemplate;
 
     public DoencasDao(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 

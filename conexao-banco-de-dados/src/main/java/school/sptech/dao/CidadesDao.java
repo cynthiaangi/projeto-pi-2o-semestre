@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.models.Cidades;
 
-import java.util.List;
 
 public class CidadesDao {
 

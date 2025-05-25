@@ -15,7 +15,7 @@ package school.sptech.apachePoi;
 // TODO: Mudar de classe para metodo no log BD e no Java
 // TODO: Adicionar ENUM para os status ?
 // TODO: Corrigir antigo classQueOcorreu
-// TOOO: Corrigir planilhas de dados
+// TODO: Corrigir planilhas de dados
 // TODO: Adicionar classeQueOcorreu no banco de dados e no Java
 // TODO: Adicionar verificar inserção cidade ??
 
@@ -418,5 +418,4 @@ public class LeitorExcel {
         ocorrenciasDao.finalizarInserts();
         logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
-
 }
