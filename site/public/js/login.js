@@ -147,7 +147,7 @@ function entrar() {
                     sessionStorage.SENHA_USUARIO = senha;
                     window.location.href = "./alterar-senha.html";
                 }
-                if (conselho.length == 4) {
+                else if (conselho.length == 4) {
                     window.location.href = "./dashboard.html";
                 }
                 else if(conselho.length == 5) {
