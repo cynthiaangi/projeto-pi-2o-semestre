@@ -36,10 +36,19 @@ CREATE TABLE ocorrencias (
     fkCidade BIGINT,
     mesReferencia VARCHAR(40),
     anoReferencia YEAR NOT NULL,
-    quantidadeCasosNoAno INT,
     coberturaVacinal DOUBLE,
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
+);
+
+CREATE TABLE casos (
+	idCaso INT PRIMARY KEY auto_increment,
+	fkCasos_Doenca INT,
+	fkCasos_Cidade BIGINT,
+	anoReferencia YEAR NOT NULL,
+	quantidadeCasos INT,
+	CONSTRAINT constraint_fkCasos_Doenca FOREIGN KEY (fkCasos_Doenca) REFERENCES doencas(idDoenca),
+	CONSTRAINT constraint_fkCasos_Cidade FOREIGN KEY (fkCasos_Cidade) REFERENCES cidades(codigoIbge)
 );
 
 CREATE TABLE logetl (
