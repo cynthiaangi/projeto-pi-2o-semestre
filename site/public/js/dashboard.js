@@ -1093,13 +1093,13 @@ fetch("/medidas/alterarDoenca", {
             console.log(json);
             console.log(JSON.stringify(json));
 
-            if( resposta[0].nomeDoenca == 'Coqueluche'){
+            if( resposta.nomeDoenca == 'Coqueluche'){
                 for(var i = 0; i < coqueluche.length; i++){
                     coqueluche[i].style.display = 'flex';
                     meningite[i].style.display = 'none';
                     poliomielite[i].style.display = 'none';
                 }
-            }else if(resposta[0].nomeDoenca == 'Meningite'){
+            }else if(resposta.nomeDoenca == 'Meningite'){
                 for(var j = 0; j < meningite.length; j++){
                     coqueluche[j].style.display = 'none';
                     meningite[j].style.display = 'flex';
