@@ -39,5 +39,6 @@ function alterarDoenca(doenca) {
 
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarMedidasEmTempoReal,
+    alterarDoenca
 }

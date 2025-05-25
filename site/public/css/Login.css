@@ -15,13 +15,20 @@ body {
     align-items: center;
     background: linear-gradient(to right, #0e3950, #165c89);
     overflow: hidden;
+    background: linear-gradient(to right, #0e3950, #165c89);
+    overflow: hidden;
 }
 
 .container {
     width: 80%;
     max-width: 1000px;
+    max-width: 1000px;
     height: 80vh;
     display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
@@ -41,10 +48,15 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    object-fit: cover;
+    object-position: center;
 }
 
 .logo-button {
     position: absolute;
+    top: 10px;
+    left: 15px;
+    width: 120px;
     top: 10px;
     left: 15px;
     width: 120px;
@@ -59,17 +71,36 @@ body {
 .form {
     width: 50%;
     padding: 3rem;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #f9f9f9;
     background-color: #f9f9f9;
 }
 
 .form-header {
     margin-bottom: 2rem;
+    margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.form-header .title h1 {
+    font-size: 1.8rem;
+    color: #092B43;
+    position: relative;
+}
+
+.form-header .title h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background-color: #165c89;
+    margin-top: 10px;
+    border-radius: 4px;
 }
 
 .form-header .title h1 {
@@ -97,6 +128,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+    transition: 0.3s;
 }
 
 .login-button button:hover {
@@ -104,6 +136,8 @@ body {
 }
 
 .input-group {
+    display: flex;
+    flex-direction: column;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -120,7 +154,18 @@ body {
     margin-bottom: 0.3rem;
 }
 
+.input-box label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.3rem;
+}
+
 .input-box input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
     padding: 0.75rem 1rem;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -130,13 +175,18 @@ body {
 
 .input-box input:hover {
     background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .input-box input:focus-visible {
     border-color: #165c89;
     outline: none;
+    border-color: #165c89;
+    outline: none;
 }
 
+.continue-button {
+    margin-top: 2rem;
 .continue-button {
     margin-top: 2rem;
 }
@@ -148,15 +198,29 @@ body {
     font-weight: 600;
     background-color: #165c89;
     color: white;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #165c89;
+    color: white;
     border: none;
     border-radius: 8px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
     transition: background-color 0.3s ease;
 }
 
 .continue-button button:hover {
     background-color: #0e3950;
+    background-color: #0e3950;
 }
+
+@media screen and (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
 
 @media screen and (max-width: 900px) {
     .container {
@@ -168,8 +232,16 @@ body {
         display: none;
     }
 
+
     .form {
         width: 100%;
+        padding: 2rem;
+    }
+
+    .logo-button {
+        top: 10px;
+        left: 10px;
+        width: 100px;
         padding: 2rem;
     }
 
