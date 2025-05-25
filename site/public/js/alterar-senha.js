@@ -18,9 +18,11 @@ function alterarSenha() {
     var especial = "!@#$%&*";
     var senhaOk = 0;
 
-    if (senhaNova == "" || senhaPadrão == "") {
+    if (senhaNova == "" || senhaPadrao == "") {
         alert("Todos os campos devem ser preenchidos");
         return;
+    } else if(senhaPadrao != senhaUser){
+        alert("A senha padrão não está correta, digite a mesma senha que usou para acessar.")
     } else if (tam_senha < 8) {
         alert("A senha deve conter no mínimo 8 caracteres");
         return;
