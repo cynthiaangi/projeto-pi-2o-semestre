@@ -11,4 +11,8 @@ router.delete("/excluir/:id", function (req, res){
   funcionarioController.excluir(req, res);
 });
 
+router.put("alterar/:id", function (req, res){
+  funcionarioController.alterar(req, res);
+})
+
 module.exports = router;

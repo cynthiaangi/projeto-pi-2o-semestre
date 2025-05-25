@@ -13,4 +13,10 @@ function excluir(id){
   return database.executar(instrucaoSql);
 }
 
-module.exports = { listar, excluir };
+function alterar(id, nome, cargo, conselho, cidade){
+  var instrucaoSql = `UPDATE usuario SET nomeCompleto = '${nome}', cargoExercido = '${cargo}', numConselho = '${conselho}', fkCidadeResidente = '${cidade}' WHERE idUsuario =  ${id}`;
+
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { listar, excluir, alterar };
