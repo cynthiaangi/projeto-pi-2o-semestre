@@ -381,11 +381,11 @@ function habilitarEdicao(funcionario) {
 }
 
 function alterarFuncionario() {
-    var nome = document.getElementById("ipt_nome");
-    var cidadeAtuante = document.getElementById("sel_cidade");
+    var nome = document.getElementById("ipt_nome").value;
+    var cidadeAtuante = document.getElementById("sel_cidade").value;
     var codigoCidade = 0;
-    var cargo = document.getElementById("sel_cargo");
-    var conselho = document.getElementById("ipt_number");
+    var cargo = document.getElementById("sel_cargo").value;
+    var conselho = document.getElementById("ipt_number").value;
     var id = idFuncionario;
 
 
