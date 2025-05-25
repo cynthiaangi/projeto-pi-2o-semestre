@@ -36,10 +36,19 @@ CREATE TABLE ocorrencias (
     fkCidade BIGINT,
     mesReferencia VARCHAR(40),
     anoReferencia YEAR NOT NULL,
-    quantidadeCasos INT,
     coberturaVacinal DOUBLE,
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
+);
+
+CREATE TABLE casos (
+	idCaso INT PRIMARY KEY auto_increment,
+	fkCasos_Doenca INT,
+	fkCasos_Cidade BIGINT,
+	anoReferencia YEAR NOT NULL,
+	quantidadeCasos INT,
+	CONSTRAINT constraint_fkCasos_Doenca FOREIGN KEY (fkCasos_Doenca) REFERENCES doencas(idDoenca),
+	CONSTRAINT constraint_fkCasos_Cidade FOREIGN KEY (fkCasos_Cidade) REFERENCES cidades(codigoIbge)
 );
 
 CREATE TABLE logetl (
@@ -47,5 +56,6 @@ CREATE TABLE logetl (
     status VARCHAR(100) NOT NULL,
     dataHora DATETIME NOT NULL,
     detalhes TEXT,
-    classeQueOcorreu VARCHAR(100)
-); 
+    metodoQueOcorreu VARCHAR(100),
+    idDaExecucaoEtl VARCHAR(20)
+);

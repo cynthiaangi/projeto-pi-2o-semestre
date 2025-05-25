@@ -5,6 +5,7 @@ FROM openjdk:21-jdk
 COPY ./conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar /app/elt-app.jar
 
 # Definir as variveis de ambiente
+ENV BUCKET_NAME=bucket-immunodata
 ENV MYSQL_ROOT_PASSWORD=urubu100
 ENV MYSQL_DATABASE=immunodata
 ENV MYSQL_USER=immuno
