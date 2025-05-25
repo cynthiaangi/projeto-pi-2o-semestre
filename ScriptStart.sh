@@ -220,7 +220,7 @@ if [ $? = 0 ];
 		cd ../
 		git checkout -f release/deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
-		ls
+
                 # Buscando e definindo as variáveis de ambiente
                 log "Definindo as variáveis de ambiente do java"
 
@@ -251,14 +251,7 @@ if [ $? = 0 ];
                 variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV SLACK_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
-		# Retorna para o início do repositório
-		ls
-		cd ../
-		git checkout -f deployment
-		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
-
 		log "Buildando docker Java"
-		ls
 		sudo docker build -f "$caminhoPastaDockerJava/Dockerfile-Java" -t imagem-javaimmuno:latest "$caminhoPastaDockerJava"
 
 		log "Atribuindo tag à imagem java"
