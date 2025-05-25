@@ -1,5 +1,6 @@
 package school.sptech;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -10,79 +11,112 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
+import static school.sptech.LogEtl.iniciarLog;
+
 public class Workbook{
-    public static void main(String[] args) throws IOException, SQLException {
-        System.out.println(System.getenv("AWS_ACCESS_KEY_ID"));
-        System.out.println(System.getenv("AWS_SECRET_ACCESS_KEY"));
-        System.out.println(System.getenv("AWS_SESSION_TOKEN"));
-        String bucketName = "bucket-immunodata";
-        System.out.println(bucketName);
-        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+    public static LogEtl iniciarAplicacaoJava(JdbcTemplate connection) {
+        LogEtl logEtl = iniciarLog(connection);
 
-        List<String> arquivos = Arrays.asList("cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx");
+        return logEtl;
+    }
 
-        for (int i = 0; i < arquivos.size(); i++) {
-            String nomeArquivo = arquivos.get(i);
+    public static JdbcTemplate conectarBanco () {
+        DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
+        JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
 
-            // Apagando o arquivo existente do bucket para atualiza-lo
-            // Caminho do arquivo que você quer excluir
+        return connection;
+    }
+
+    public static void apagarArquivosRemanescentes(LogEtl logEtl, String[] nomeArquivos) {
+        for (String nomeArquivo : nomeArquivos) {
             Path caminhoGet = Path.of(nomeArquivo);
 
             if (Files.exists(caminhoGet)) {
                 try {
-                    Files.delete(caminhoGet); // Deleta o arquivo
-                    System.out.println("Arquivo deletado com sucesso!");
+                    // Deleta o arquivo
+                    Files.delete(caminhoGet);
                 } catch (IOException e) {
-                    System.out.println("Erro ao deletar o arquivo: " + e.getMessage());
+                    logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main.apagarArquivosAntigos");
+
                 }
             }
         }
+    }
 
-        //Fazendo download dos arquivos do Bucket
+    public static void baixarArquivosParaExtracao(LogEtl logEtl) {
+        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+        String bucketNome = System.getenv("BUCKET_NAME");
+
         try {
-            List<S3Object> objects = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketName).build()).contents();
-            for (S3Object object : objects) {
-                GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                        .bucket(bucketName)
-                        .key(object.key())
+            // Lista de arquivos no S3
+            List<S3Object> arquivos = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucketNome).build()).contents();
+            for (S3Object arquivoS3 : arquivos) {
+                // Constroi requisição para buscar o arquivo
+                GetObjectRequest requisicaoArquivo = GetObjectRequest.builder()
+                        .bucket(bucketNome)
+                        .key(arquivoS3.key())
                         .build();
 
-                InputStream inputStream = s3Client.getObject(getObjectRequest, ResponseTransformer.toInputStream());
-                Files.copy(inputStream, new File(object.key()).toPath());
-                System.out.println("Arquivo baixado: " + object.key());
+                // Busca o arquivo S3 com base na requisição
+                s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
+                logEtl.inserirLogEtl("200", "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "Main.baixarArquivosParaExtracao");
             }
-        } catch (IOException | S3Exception e) {
-            System.err.println("Erro ao fazer download dos arquivos: " + e.getMessage());
+        } catch (S3Exception e) {
+            logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main.baixarArquivosParaExtracao");
+            throw new RuntimeException("Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()));
         }
+    }
 
+    public static void executarProcessoETL(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
+        LeitorExcel leitor = new LeitorExcel();
+        leitor.extrairDados(logEtl, connection, nomeArquivos);
+    }
 
-        for (int i = 0; i < arquivos.size(); i++) {
-            System.out.println("Início da leitura do arquivo: " + arquivos.get(i));
-            String nomeArquivo = arquivos.get(i);
-            // Coloque o caminho para a pasta que estão os arquivos
-            Path caminho = Path.of(nomeArquivo);
+    public static void finalizarAplicacaoJava(LogEtl logEtl) {
+        logEtl.encerrarLog();
+    }
 
-            InputStream arquivo = Files.newInputStream(caminho);
+    public static void main(String[] args) throws IOException, SQLException {
+        // Arquivos que serão extraídos
+        String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 
-            LeitorExcel leitor = new LeitorExcel();
-            leitor.extrairDados(nomeArquivo, arquivo);
+        // Conexão com o Banco de Dados
+        JdbcTemplate connection = conectarBanco();
 
-            // Para quando parar de ler
-            arquivo.close();
-        }
+        // Inicializa a aplicação Java
+        LogEtl logEtl = iniciarAplicacaoJava(connection);
+        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
+        logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
 
-        // Esse arquivo faz a conexão como banco de dados
-        // Configure as variaveis de ambiente no IntelliJ
-        // A pasta models é onde estão os objetos (tabelas do banco de dados que vamos usar)
-        // A pasta dao é onde estão os métodos que interajem com o banco de dados dos objetos
-        // O Workook é o executavel do projeto, ele é quem chama o LeitorExcel
-        // O LeitorExcel é quem extrai os dados do arquivos .xlsx e insere no banco de dados, juntamente com os logs
+        // Apagar arquivos antigos remanescentes
+        apagarArquivosRemanescentes(logEtl, nomeArquivos);
+
+        //Fazendo download dos arquivos do Bucket
+        baixarArquivosParaExtracao(logEtl);
+        logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
+
+        // Executa o processo de ETL
+        logEtl.inserirLogEtl("200", "Inicializado processo de ETL", "Main");
+        executarProcessoETL(logEtl, connection, nomeArquivos);
+        logEtl.inserirLogEtl("200", "Finalizado processo de ETL", "Main");
+
+        // Apaga os arquivos xlsx após execução do ETL
+        apagarArquivosRemanescentes(logEtl, nomeArquivos);
+
+        // Finaliza a aplicação Java
+        logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
+        finalizarAplicacaoJava(logEtl);
     }
 }
+
+// Esse arquivo faz a conexão como banco de dados
+// Configure as variaveis de ambiente no IntelliJ
+// A pasta models é onde estão os objetos (tabelas do banco de dados que vamos usar)
+// A pasta dao é onde estão os métodos que interajem com o banco de dados dos objetos
+// O Workook é o executavel do projeto, ele é quem chama o LeitorExcel
+// O LeitorExcel é quem extrai os dados do arquivos .xlsx e insere no banco de dados, juntamente com os logs
