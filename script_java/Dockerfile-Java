@@ -10,6 +10,7 @@ ENV MYSQL_USERNAME=usarioBanco
 ENV MYSQL_PASSWORD=senhaUsuarioBanco
 ENV MYSQL_CLASS_NAME=classNameBanco
 ENV SLACK_URL=urlSlack
+ENV BUCKET_NAME=nomeS3
 
 # Definindo inicialização do java com o container
 ENTRYPOINT ["java", "-jar", "/app/elt-app.jar"]
