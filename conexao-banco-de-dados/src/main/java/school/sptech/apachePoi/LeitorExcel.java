@@ -14,6 +14,8 @@ package school.sptech.apachePoi;
 // TODO: Mudar bucketname no Workbook para env
 // TODO: Mudar de classe para metodo no log BD e no Java
 // TODO: Adicionar ENUM para os status ?
+// TODO: Corrigir antigo classQueOcorreu
+// TOOO: Corrigir planilhas de dados
 // TODO: Adicionar classeQueOcorreu no banco de dados e no Java
 // TODO: Adicionar verificar inserção cidade ??
 
@@ -63,46 +65,40 @@ public class LeitorExcel {
         return arquivoLocal;
     }
 
+    public void processarDadosDoArquivo(LogEtl logEtl, JdbcTemplate connection, Workbook planilhaExcel, String nomeArquivo) {
+        switch (nomeArquivo) {
+            case "cidades-sp.xlsx" -> {
+                processarCidades(logEtl, connection, nomeArquivo, planilhaExcel); // Processa as cidades
+            }
+            case "estadoSP_vacinas-19-22.xlsx" -> {
+                processarCasosDoencas(logEtl, connection, nomeArquivo, planilhaExcel); // Processa caso das doenças
+            }
+            case "estadoSP_vacinas-23-24.xlsx" -> {
+                processarOcorrenciasAnuais(logEtl, connection, nomeArquivo, planilhaExcel); // Processa as vacinas anuais/antigas
+            }
+            case "estadoSP_doencas.xlsx" -> {
+                processarOcorrenciasMensais(logEtl, connection, nomeArquivo, planilhaExcel); // Processa as vacinas mensais/recentes
+            }
+            default -> {
+                logEtl.inserirLogEtl("404", "Arquivo não reconhecido: %s".formatted(nomeArquivo), "LeitorExcel.extraisDados");
+            }
+        }
+    }
+
+
     // metodo para extrair os dados de todos os arquivos Excel
     public void extrairDados(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
             logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "Main.executarProcessoETL");
 
-
             try {
                 // Abre arquivo
                 InputStream arquivoLocal = abrirArquivo(nomeArquivo);
 
-                Workbook workbook = new XSSFWorkbook(arquivoLocal);
+                Workbook planilhaExcel = new XSSFWorkbook(arquivoLocal);
 
-                // Identifica o arquivo da vez e cria a conexão necessária com o banco de dados para inserir os valores
-                // Lẽ o arquivo cidades-sp.xlsx
-                if (nomeArquivo.contains("cidades")) {
-                    CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
+                this.processarDadosDoArquivo(logEtl, connection, planilhaExcel, nomeArquivo);
 
-                    processarCidades(logEtl, cidadesDao, nomeArquivo, workbook); // Processa as cidades
-
-                } else {
-                    OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
-                    DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
-
-                    // Lê o arquivo estadoSP_doencas.xlsx
-                    if (nomeArquivo.contains("doencas")) {
-                        processarCasosDoencas(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa caso das doenças
-
-                    } else if (nomeArquivo.contains("vacinas")) {
-
-                        // Lê o arquivo estadoSP_vacinas-19-22.xlsx
-                        if (nomeArquivo.contains("19-22")) {
-                            processarOcorrenciasAnuais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas anuais/antigas
-
-                            // Lẽ o arquivo estadoSP_vacinas-23-24.xlsx
-                        } else if (nomeArquivo.contains("23-24")) {
-                            processarOcorrenciasMensais(logEtl, ocorrenciasDao, doencasDao, nomeArquivo, workbook); // Processa as vacinas mensais/recentes
-
-                        }
-                    }
-                }
                 arquivoLocal.close();
 
             } catch (Exception e) {
@@ -110,12 +106,13 @@ public class LeitorExcel {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     // metodo para processar e inserir as cidades
-    private void processarCidades(LogEtl logEtl, CidadesDao cidadesDao, String nomeArquivo, Workbook workbook) {
+    private void processarCidades(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+
+        CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
@@ -163,8 +160,11 @@ public class LeitorExcel {
     }
 
     // metodo para processar e inserir as ocorrências anuais
-    private void processarOcorrenciasAnuais(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+    private void processarOcorrenciasAnuais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+
+        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
+        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
@@ -253,8 +253,11 @@ public class LeitorExcel {
     }
 
     // metodo para processar e inserir as ocorrências mensais
-    private void processarOcorrenciasMensais(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+    private void processarOcorrenciasMensais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+
+        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
+        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
 
         DataFormatter formatter = new DataFormatter();
 
@@ -345,8 +348,11 @@ public class LeitorExcel {
 
 
     // metodo para inserir numero de casos de cada doença
-    private void processarCasosDoencas(LogEtl logEtl, OcorrenciasDao ocorrenciasDao, DoencasDao doencasDao, String nomeArquivo, Workbook workbook) {
+    private void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", "Iniciando leitura do arquivo: %s".formatted(nomeArquivo), "leitorExcel");
+
+        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
+        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
 
         DataFormatter formatter = new DataFormatter();
 
