@@ -36,7 +36,7 @@ CREATE TABLE ocorrencias (
     fkCidade BIGINT,
     mesReferencia VARCHAR(40),
     anoReferencia YEAR NOT NULL,
-    quantidadeCasos INT,
+    quantidadeCasosNoAno INT,
     coberturaVacinal DOUBLE,
     CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
     CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
