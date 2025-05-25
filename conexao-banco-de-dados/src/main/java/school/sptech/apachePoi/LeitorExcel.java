@@ -18,6 +18,7 @@ package school.sptech.apachePoi;
 // TODO: Corrigir planilhas de dados
 // TODO: Adicionar classeQueOcorreu no banco de dados e no Java
 // TODO: Adicionar verificar inserção cidade ??
+// TODO: Trocar user banco para immuno
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo
