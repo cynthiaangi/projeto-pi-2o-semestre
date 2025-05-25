@@ -20,7 +20,7 @@ function alterar(id, nome, cargo, conselho, cidade){
 }
 
 function alterarSenha(id, senha){
-  var instrucaoSql = `UPDATE usuarios SET senha = '${senha}' WHERE idUsuario =  ${id}`;
+  var instrucaoSql = `UPDATE usuarios SET senha = MD5('${senha}') WHERE idUsuario =  ${id}`;
 
   return database.executar(instrucaoSql);
 }
