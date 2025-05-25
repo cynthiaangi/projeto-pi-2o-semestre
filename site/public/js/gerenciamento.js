@@ -359,7 +359,7 @@ function habilitarEdicao(funcionario) {
     document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
     document.getElementById("ipt_number").value = funcionario.numConselho;
 
-    const selCargo = document.getElementById("ipt_cargo");
+    const selCargo = document.getElementById("sel_cargo");
     for(let opcao of selCargo.option){
         if(opcao.value == funcionario.cargoExercido){
             opcao.selected = true;
@@ -367,7 +367,7 @@ function habilitarEdicao(funcionario) {
         }
     }
 
-    const selCidade = document.getElementById("cidade");
+    const selCidade = document.getElementById("sel_cidade");
     for (let option of selCidade.option) {
         if (option.value === cidade_funcionario) {
             option.selected = true;
@@ -375,6 +375,84 @@ function habilitarEdicao(funcionario) {
         }
     }
 
+}
+
+function alterarFuncionario(){
+    var nome = document.getElementById("ipt_nome");
+    var idFuncionario = 0;
+    var cidadeAtuante = document.getElementById("sel_cidade");
+    var codigoCidade = 0;
+    var cargo = document.getElementById("sel_cargo");
+    var conselho = document.getElementById("ipt_number");
+
+
+    fetch("/funcionarios/listar").then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                var mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado."
+                tabela.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!!";
+            }
+
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                for (let i = 0; i < resposta.length; i++) {
+                    if (resposta[i].nomeCompleto === nome) {
+                        idFuncionario = resposta[i].idUsuario;
+                    }
+
+                    break;
+                }
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+
+    for(let k = 0; k < cidadesSP.length; k++){
+                if(cidadesSP[k] == cidadeAtuante){
+                    codigoCidade = codigosCidade[k];
+                }
+            }
+
+    fetch(`/funcionarios/alterar/${idFuncionario}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer: nome,
+                cargoServer: cargo,
+                conselhoServer: conselho,
+                cidadeServer: codigoCidade
+
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    // cardErro.style.display = "block";
+
+                    alert("Funcionário atualizado com sucesso! Atualizando lista de funcionários");
+                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                    setTimeout(() => {
+                        window.location.href = "gerenciamento.html";
+                    }, "2000");
+
+                    //   finalizarAguardar();
+                } else {
+                    throw alert("Houve um erro ao tentar realizar o cadastro!");
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                // finalizarAguardar();
+            });
 }
 
 function excluir() {
