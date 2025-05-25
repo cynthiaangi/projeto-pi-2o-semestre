@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ImmunoData</title>
+    <!-- <script src="./js/sessao.js"></script>
+    <script src="./js/alerta.js"></script> -->
+    <link rel="stylesheet" href="css/gerenciamento.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+
+    <!-- <script data-jsd-embedded data-key="58caf5ec-06eb-4795-b41f-4f28b9a17f44"
+    data-base-url="https://jsd-widget.atlassian.com"
+    src="https://jsd-widget.atlassian.com/assets/embed.js"></script> -->
+</head>
+
+<body>
+    <main class="dash">
+
+        <section class="conteudo-dash">
+            <nav class="lateral">
+                <button onclick="abrirMenuExtendido()" class="material-symbols-outlined">
+                    menu
+                </button>
+                <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral">
+                    logout
+                </button>
+            </nav>
+            <nav class="lateral-extendido">
+                <img src="./assets/logo immunodata2.0/19.png" alt="Logo">
+                <div class="menu">
+                    <div class="menu-principal">
+                        <div class="menu-item">
+                            <button onclick="recolherMenu()" id="menu" class="material-symbols-outlined">
+                                chevron_left
+                            </button>
+                            <label for="menu">Voltar</label>
+                        </div>
+                        <div class="menu-item" onclick="abrirNotificacao()">
+                            <span id="notificacao" class="material-symbols-outlined">
+                                notifications
+                            </span>
+                            <label for="notificacao">Notificações</label>
+                        </div>
+                    </div>
+                    <div class="menu-ajuste">
+                        <div class="menu-item">
+                            <span class="material-symbols-outlined" id="conta">
+                                person
+                            </span>
+                            <label for="conta">Conta</label>
+                        </div>
+                        <div class="menu-item">
+                            <span class="material-symbols-outlined" id="funcionarios">
+                                manage_accounts
+                            </span>
+                            <label for="funcionarios">Lista de funcionários</label>
+                        </div>
+                    </div>
+                    <div class="menu-sair">
+                        <div class="menu-item">
+                            <span class="material-symbols-outlined" id="ajuda">
+                                help
+                            </span>
+                            <label for="ajuda">Ajuda</label>
+                        </div>
+                        <div class="menu-item">
+                            <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral" id="sair">
+                                logout
+                            </button>
+                            <label for="sair">Sair</label>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="dashboard-conteudo" onclick="fecharNotificacao()">
+                <div class="notificacoes">
+                    <div class="titulo-notificacao">Notificações</div>
+                    <div class="area-notificacao">
+                        <div class="notificacao"><span class="material-symbols-outlined people">
+                                account_circle
+                            </span>Mateus solicitou acesso ao Dashboard.</div>
+                        <div>Revise as permissões e libere o acesso se apropriado.</div>
+                    </div>
+                    <div class="area-notificacao">
+                        <div class="notificacao"><span class="material-symbols-outlined people">
+                                account_circle
+                            </span>Cynthia solicitou acesso ao Dashboard.</div>
+                        <div>Revise as permissões e libere o acesso se apropriado.</div>
+                    </div>
+                </div>
+                <div class="cabecalho">
+                    <div>Olá, <span id="nome_usuario"></span></div>
+                </div>
+                <div class="area-mensagem" onclick="fecharMensagem()"></div>
+                <div class="mensagem">
+                    <div class="titulo-mensagem">
+                        Editar Funcionário
+                    </div>
+                    <div class="corpo-mensagem">
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_nome">Nome Completo</label>
+                                <input id="ipt_nome" name="nomeCompleto" type="text"
+                                    placeholder="Digite seu nome completo">
+                            </div>
+
+                            <div class="input-box">
+                                <label for="ipt_cargo">Cargo atuante</label>
+                                <input id="ipt_cargo" name="cargo" type="text" placeholder="Digite seu cargo">
+                            </div>
+                        </div>
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_number">Número de conselho</label>
+                                <input id="ipt_number" name="numeroConselho" type="text" placeholder="Apenas números">
+                            </div>
+
+                            <div class="input-box">
+                                <label for="cidade">Cidade onde atua</label>
+                                <select id="cidade" name="cidade">
+                                    <option value="">Selecione uma cidade</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="alterarFuncionario()">Confirmar</button>
+                        <button onclick="excluir()">Excluir Conta</button>
+                        <button onclick="habilitarMudaSenha()">Alterar Senha</button>
+                    </div>
+                </div>
+                <div class="altera-senha">
+                    <div class="titulo-mensagem">
+                        Alterar Senha
+                    </div>
+                    <div class="corpo-mensagem">
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_senha">Senha atual:</label>
+                                <input id="ipt_senha" name="nomeCompleto" type="password"
+                                    placeholder="Digite a senha padrão">
+                            </div>
+
+                            <div class="input-box">
+                                <label for="ipt_nova">Nova senha:</label>
+                                <input id="ipt_nova" name="cargo" type="password" placeholder="Digite uma nova senha">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="alterarSenha()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="js/gerenciamento.js"></script>
+</body>
+
+</html>
+
+<!-- onload="atualizarGrafico()" -->

@@ -140,11 +140,11 @@ function entrar() {
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
+                sessionStorage.SENHA_USUARIO = senha;
 
                 console.log(cidadeSelecionada);
 
                 if(senha == `${conselho}@Immuno`){
-                    sessionStorage.SENHA_USUARIO = senha;
                     window.location.href = "./alterar-senha.html";
                 }
                 else if (conselho.length == 4) {
