@@ -29,10 +29,10 @@ public class OcorrenciasDao {
     }
 
     // atualiza os casos no banco de dados caso já exista
-    public Integer atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasos) {
+    public Integer atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
         return jdbcTemplate.update(
-                "UPDATE ocorrencias SET quantidadeCasos = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
-                quantidadeCasos, fkDoenca, fkCidade, anoReferencia
+                "UPDATE ocorrencias SET quantidadeCasosNoAno = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
+                quantidadeCasosNoAno, fkDoenca, fkCidade, anoReferencia
         );
     }
 

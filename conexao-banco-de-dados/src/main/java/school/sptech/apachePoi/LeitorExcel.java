@@ -399,9 +399,9 @@ public class LeitorExcel {
                             continue;
                         } // trata a exceção de erro da leitura do arquivo
 
-                        Integer qtdLinhasAtualizas = ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
-                        if (qtdLinhasAtualizas != 1) {
-                            logEtl.inserirLogEtl("400", "Arquivo %s, linha %s, fkDoenca %d, codigoIBGE %d, anoAtualizado %d, numCasos %d, resposta %d".formatted(nomeArquivo, row.getRowNum(), fkDoenca, codigoIbge, anos[a], numCasos ,qtdLinhasAtualizas), "LeitorExcel");
+                        Integer qtdLinhasAtualizadas = ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        if (qtdLinhasAtualizadas != 11 || qtdLinhasAtualizadas != 12) {
+                            logEtl.inserirLogEtl("400", "Arquivo %s, linha %s, fkDoenca %d, codigoIBGE %d, anoAtualizado %d, numCasos %d, resposta %d".formatted(nomeArquivo, row.getRowNum(), fkDoenca, codigoIbge, anos[a], numCasos ,qtdLinhasAtualizadas), "LeitorExcel");
                             // comentado para debbug logEtl.inserirLogEtl("400", "Ocorrência da linha %s do arquivo %s mal atualizada: %d".formatted(row.getRowNum(), nomeArquivo, qtdLinhasAtualizas), "LeitorExcel");
                         }
                     }
