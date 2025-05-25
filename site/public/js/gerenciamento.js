@@ -357,8 +357,15 @@ function habilitarEdicao(funcionario) {
     }
 
     document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
-    document.getElementById("ipt_cargo").value = funcionario.cargoExercido;
     document.getElementById("ipt_number").value = funcionario.numConselho;
+
+    const selCargo = document.getElementById("ipt_cargo");
+    for(let opcao of selCargo.option){
+        if(opcao.value == funcionario.cargoExercido){
+            opcao.selected = true;
+            break;
+        }
+    }
 
     const selCidade = document.getElementById("cidade");
     for (let option of selCidade.option) {
