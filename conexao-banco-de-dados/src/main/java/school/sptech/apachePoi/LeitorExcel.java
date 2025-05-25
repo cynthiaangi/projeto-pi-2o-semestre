@@ -15,6 +15,7 @@ package school.sptech.apachePoi;
 // TODO: Mudar de classe para metodo no log BD e no Java
 // TODO: Adicionar ENUM para os status ?
 // TODO: Adicionar classeQueOcorreu no banco de dados e no Java
+// TODO: Adicionar verificar inserção cidade ??
 
 // Lembrete DEV:
 // Leitura interna do arquivo, praticamente não mexer. Só precisa abrir o InputStream, com o Path do arquivo

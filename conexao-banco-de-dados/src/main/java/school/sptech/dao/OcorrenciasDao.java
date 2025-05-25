@@ -31,7 +31,7 @@ public class OcorrenciasDao {
     // atualiza os casos no banco de dados caso já exista
     public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
         jdbcTemplate.update(
-                "INSERT IGNORE INTO casos SET (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos)",
+                "INSERT IGNORE INTO casos SET (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos) VALUES (?, ?, ?, ?)",
                 fkDoenca, fkCidade, anoReferencia, quantidadeCasosNoAno
         );
     }
