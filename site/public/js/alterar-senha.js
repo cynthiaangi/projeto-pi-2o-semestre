@@ -23,6 +23,7 @@ function alterarSenha() {
         return;
     } else if(senhaPadrao != senhaUser){
         alert("A senha padrão não está correta, digite a mesma senha que usou para acessar.")
+        return;
     } else if (tam_senha < 8) {
         alert("A senha deve conter no mínimo 8 caracteres");
         return;
@@ -47,7 +48,7 @@ function alterarSenha() {
             return;
         } else {
             fetch(`/funcionarios/alterarSenha/${idUsuario}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },

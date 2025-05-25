@@ -54,7 +54,7 @@ function alterarSenha(req, res) {
     res.status(400).send("Seu senha está undefined!");
   } else {
 
-    funcionarioModel.alterar(id, senha)
+    funcionarioModel.alterarSenha(id, senha)
       .then(
         function (resultado) {
           res.json(resultado);
