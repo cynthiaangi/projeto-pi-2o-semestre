@@ -142,6 +142,11 @@ function entrar() {
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
 
                 console.log(cidadeSelecionada);
+
+                if(senha == `${conselho}@Immuno`){
+                    sessionStorage.SENHA_USUARIO = senha;
+                    window.location.href = "./alterar-senha.html";
+                }
                 if (conselho.length == 4) {
                     window.location.href = "./dashboard.html";
                 }
