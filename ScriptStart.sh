@@ -167,7 +167,7 @@ if [ $? = 0 ];
 		echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
 
 		log "Buildando site"
-		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno:latest ./projeto-pi-2o-semestre/script_site
+		sudo docker build -f ".$caminhoPastaDockerSite/Dockerfile-Site" -t imagem-siteimmuno:latest "$caminhoPastaDockerSite"
 
 		log "Atribuindo tag à imagem site"
 		sudo docker image tag imagem-siteimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:site-latest
@@ -258,7 +258,7 @@ if [ $? = 0 ];
 
 		log "Buildando docker Java"
 		ls
-		sudo docker build -f ./script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./script_java
+		sudo docker build -f "$caminhoPastaDockerJava/Dockerfile-Java" -t imagem-javaimmuno:latest "$caminhoPastaDockerJava"
 
 		log "Atribuindo tag à imagem java"
 		sudo docker image tag imagem-javaimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:java-latest
