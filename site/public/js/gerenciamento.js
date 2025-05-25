@@ -406,22 +406,15 @@ function alterarFuncionario(){
 
                     break;
                 }
-            });
-        } else {
-            throw ('Houve um erro na API!');
-        }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
 
-    for(let k = 0; k < cidadesSP.length; k++){
+                 for(let k = 0; k < cidadesSP.length; k++){
                 if(cidadesSP[k] == cidadeAtuante){
                     codigoCidade = codigosCidade[k];
                 }
             }
 
-    fetch(`/funcionarios/alterar/${idFuncionario}`, {
-            method: "PUT",
+            fetch(`/funcionarios/alterar`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -455,6 +448,15 @@ function alterarFuncionario(){
                 console.log(`#ERRO: ${resposta}`);
                 // finalizarAguardar();
             });
+
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+   
 }
 
 function excluir() {
