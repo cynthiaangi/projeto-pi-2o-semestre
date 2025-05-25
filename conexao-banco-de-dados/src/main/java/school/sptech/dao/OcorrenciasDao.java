@@ -17,7 +17,6 @@ public class OcorrenciasDao {
         jdbcTemplate.update("COMMIT");
     }
 
-    // Insere as ocorrências no banco de dados
     public void inserirOcorrencia(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Double coberturaVacinal) {
         jdbcTemplate.update("INSERT IGNORE INTO ocorrencias (fkDoenca, fkCidade, anoReferencia, coberturaVacinal) VALUES (?, ?, ?, ?) ",
                 fkDoenca, fkCidade, anoReferencia, coberturaVacinal);
@@ -28,7 +27,6 @@ public class OcorrenciasDao {
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
-    // atualiza os casos no banco de dados caso já exista
     public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
         jdbcTemplate.update(
                 "INSERT IGNORE INTO casos (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos) VALUES (?, ?, ?, ?)",
@@ -36,7 +34,6 @@ public class OcorrenciasDao {
         );
     }
 
-    // busca 1 ocorrência pelos campos fkDoenca, fkCidade e anoReferencia
     public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) ",
@@ -44,7 +41,6 @@ public class OcorrenciasDao {
         );
     }
 
-    // busca 1 ocorrência pelos campos fkDoenca, fkCidade, mesReferencia e anoReferencia
     public Boolean existsByFksMensal(Long codigoIbge, String mesReferencia, Integer anoReferencia, Integer fkDoenca) {
         return jdbcTemplate.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?)",
@@ -56,5 +52,4 @@ public class OcorrenciasDao {
         return jdbcTemplate.queryForObject(
                 "SELECT NOT EXISTS(SELECT 1 FROM casos)", Boolean.class);
     }
-
 }

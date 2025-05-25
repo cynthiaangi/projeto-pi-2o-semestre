@@ -9,7 +9,6 @@ public class LogEtlDao {
             this.jdbcTemplate = jdbcTemplate;
         }
 
-        // Insere os logs no banco de dados
         public void inserirLogBD(String dateTimeAgora, String status, String detalhes, String metodoQueOcorreu) {
             // Insere log no banco de dados
             jdbcTemplate.

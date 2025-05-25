@@ -85,7 +85,6 @@ public class LeitorExcel {
         }
     }
 
-
     // metodo para extrair os dados de todos os arquivos Excel
     public void extrairDados(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
@@ -345,7 +344,6 @@ public class LeitorExcel {
         ocorrenciasDao.finalizarInserts();
         logEtl.inserirLogEtl("200", "Leitura do arquivo %s completa".formatted(nomeArquivo), "LeitorExcel");
     }
-
 
     // metodo para inserir numero de casos de cada doença
     private void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {

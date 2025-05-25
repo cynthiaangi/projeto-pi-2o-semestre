@@ -47,7 +47,6 @@ public class LogEtl {
         LocalDateTime horarioInicio = LocalDateTime.now(); // Busca horario de início do processo de ETL
         DateTimeFormatter formatoHorarioLog = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-
         // Usa o horario de início para criar um id para a execução do Java: J + horarioInicio
         String idExecucao = criarIdExecucao(horarioInicio);
 
