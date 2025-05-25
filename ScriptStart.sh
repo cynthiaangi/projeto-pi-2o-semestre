@@ -144,7 +144,7 @@ if [ $? = 0 ];
 
 	else
         log "Container Java não encontra-se em execução"
-        git checkout -f release/java
+        git checkout -f main
 
 		# Verificando se o Maven está instalado
 		mvn --version
@@ -167,7 +167,7 @@ if [ $? = 0 ];
 
 		# Retorna para o inicio do repositório
 		cd ../
-		git checkout -f release/deployment
+		git checkout -f deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 		log "Buildando docker Java"
@@ -222,7 +222,6 @@ if docker-compose ps --status running | grep -q "Up";
 		log "Executando Docker-Compose com o comando up"
 		sudo docker-compose up -d mysql
 		sudo docker-compose up -d web
-		# sudo docker-compose up -d javaapp
 fi
 
 log "Processo finalizado"

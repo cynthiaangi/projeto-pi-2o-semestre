@@ -198,7 +198,7 @@ log "Apagando versão antiga dos scripts"
 rm -r ./projeto-pi-2o-semestre
 
 log "Baixando nova versão dos scripts"
-git clone --branch release/deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
+git clone --branch deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
 
 
 ###########################################################
