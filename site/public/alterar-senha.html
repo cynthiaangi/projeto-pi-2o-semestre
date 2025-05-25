@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ImmunoData</title>
+    <!-- <script src="./js/sessao.js"></script>
+    <script src="./js/alerta.js"></script> -->
+    <link rel="stylesheet" href="css/alterar-senha.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+
+    <!-- <script data-jsd-embedded data-key="58caf5ec-06eb-4795-b41f-4f28b9a17f44"
+    data-base-url="https://jsd-widget.atlassian.com"
+    src="https://jsd-widget.atlassian.com/assets/embed.js"></script> -->
+</head>
+
+<body>
+    <main class="dash">
+
+        <section class="conteudo-dash">
+            <nav class="lateral">
+                <img src="./assets/logo immunodata2.0/7.png" alt="Logo">
+                <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral">
+                    logout
+                </button>
+            </nav>
+            <div class="dashboard-conteudo">
+                <div class="cabecalho">
+                    <div>Olá, <span id="nome_usuario"></span></div>
+                </div>
+                <div class="area-mensagem"></div>
+                <div class="mensagem">
+                    <div class="titulo-mensagem">
+                        Alterar Senha
+                    </div>
+                    <div class="corpo-mensagem">
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_senha">Senha atual:</label>
+                                <input id="ipt_senha" name="nomeCompleto" type="text"
+                                    placeholder="Digite a senha padrão">
+                            </div>
+
+                            <div class="input-box">
+                                <label for="ipt_nova">Nova senha:</label>
+                                <input id="ipt_nova" name="cargo" type="text" placeholder="Digite uma nova senha">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="alterarSenha()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="js/alterar-senha.js"></script>
+</body>
+
+</html>
+
+<!-- onload="atualizarGrafico()" -->

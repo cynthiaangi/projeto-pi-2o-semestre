@@ -45,6 +45,35 @@ function alterar(req, res) {
 
 }
 
+function alterarSenha(req, res) {
+  var id = req.params.id;
+
+  var senha = req.body.senhaServer;
+
+  if (senha == undefined) {
+    res.status(400).send("Seu senha está undefined!");
+  } else {
+
+    funcionarioModel.alterar(id, senha)
+      .then(
+        function (resultado) {
+          res.json(resultado);
+        }
+      ).catch(
+        function (erro) {
+
+          console.log(erro);
+          console.log(
+            "\nHouve um erro ao alterar a senha! Erro: ",
+            erro.sqlMessage
+          );
+          res.status(500).json(erro.sqlMessage);
+        }
+      );
+  }
+
+}
+
 function excluir(req, res) {
   var id = req.params.id;
 
@@ -56,5 +85,6 @@ function excluir(req, res) {
 module.exports = {
   listar,
   excluir,
-  alterar
+  alterar,
+  alterarSenha
 };

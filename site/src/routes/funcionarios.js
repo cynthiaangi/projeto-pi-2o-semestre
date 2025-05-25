@@ -15,4 +15,8 @@ router.put("/alterar/:id", function (req, res){
   funcionarioController.alterar(req, res);
 })
 
+router.put("/alterarSenha/:id", function (req, res){
+  funcionarioController.alterarSenha(req, res);
+})
+
 module.exports = router;

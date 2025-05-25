@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-size: cover;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-size: 1.2rem;
+}
+
+.lateral {
+  font-size: 1.6rem;
+  display: flex;
+  position: fixed;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 5%;
+  background-repeat: repeat-y;
+  background-color: #cdcdcd;
+}
+
+.material-symbols-outlined {
+  font-size: 2.2rem !important;
+  color: #8a8a8a !important;
+}
+
+.icone-lateral {
+  margin: 1rem 0;
+}
+
+.lateral img {
+  width: 90%;
+}
+
+nav button {
+  background: none;
+  border: none;
+}
+
+.dashboard-conteudo {
+  background-color: #fdfcfc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-left: 5%;
+}
+
+.cabecalho {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  border-bottom: 1px solid #adadad;
+  height: 56px;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+button{
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 1px solid #595959;
+}
+
+.edicao-parte{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.3rem;
+}
+
+.input-box input {
+  width: 85%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+.input-box input:hover {
+    background-color: #f0f0f0;
+}
+
+.input-box input:focus-visible {
+    border-color: #165c89;
+    outline: none;
+}
+
+.botoes{
+  display: flex;
+  gap: 40px;
+}
+
+.area-mensagem{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: #2e2e2e1e;
+  position: fixed;
+  top: 0;
+}
+
+.mensagem{
+  padding: 30px;
+  background-color: #cdcdcd;
+  width: 35%;
+  height: 40%;
+  display: flex;
+  position: fixed;
+  top: 25%;
+  left: 30%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border-radius: 10px;
+  box-shadow: -10px 10px 10px #adadad;
+  font-size: 1rem;
+  color: #eeeeee;
+  font-weight: 900;
+  text-align: center;
+}
+
+.mensagem button{
+  padding: 10px 20px;
+}
+
+.titulo-mensagem{
+  font-size: 1.5rem;
+  color: #2e2e2e;
+}
+
+.corpo-mensagem{
+  font-weight: 500;
+  display: flex;
+  gap: 10px;
+}
+
+.conteudo-dash {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  border-radius: 10px;
+}
+
+.dash {
+  flex-grow: 1;
+}

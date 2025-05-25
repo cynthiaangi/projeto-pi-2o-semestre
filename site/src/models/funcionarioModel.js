@@ -19,4 +19,10 @@ function alterar(id, nome, cargo, conselho, cidade){
   return database.executar(instrucaoSql);
 }
 
-module.exports = { listar, excluir, alterar };
+function alterarSenha(id, senha){
+  var instrucaoSql = `UPDATE usuarios SET senha = '${senha}' WHERE idUsuario =  ${id}`;
+
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { listar, excluir, alterar, alterarSenha };
