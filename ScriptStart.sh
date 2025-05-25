@@ -220,38 +220,39 @@ if [ $? = 0 ];
 		cd ../
 		git checkout -f release/deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
-
+		ls
                 # Buscando e definindo as variáveis de ambiente
                 log "Definindo as variáveis de ambiente do java"
 
                 caminhoPastaDockerJava="./script_java"
 
-                variavelEnv=$(grep "ENV MYSQL_URL=" ./vars/envJava.txt)
+                variavelEnv=$(grep "ENV MYSQL_URL=" ../vars/envJava.txt)
                 echo "$variavelEnv"
 		variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV MYSQL_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
-                variavelEnv=$(grep "ENV MYSQL_USERNAME=" ./vars/envJava.txt)
+                variavelEnv=$(grep "ENV MYSQL_USERNAME=" ../vars/envJava.txt)
 		variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 echo "$variavelEnv"
                 sed -i "s/^.*ENV MYSQL_USERNAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
-                variavelEnv=$(grep "ENV MYSQL_PASSWORD=" ./vars/envJava.txt)
+                variavelEnv=$(grep "ENV MYSQL_PASSWORD=" ../vars/envJava.txt)
                 echo "$variavelEnv"
                 variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV MYSQL_PASSWORD=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
-                variavelEnv=$(grep "ENV MYSQL_CLASS_NAME=" ./vars/envJava.txt)
+                variavelEnv=$(grep "ENV MYSQL_CLASS_NAME=" ../vars/envJava.txt)
                 echo "$variavelEnv"
                 variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV MYSQL_CLASS_NAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
-                variavelEnv=$(grep "ENV SLACK_URL=" ./vars/envJava.txt)
+                variavelEnv=$(grep "ENV SLACK_URL=" ../vars/envJava.txt)
                 echo "$variavelEnv"
                 variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
                 sed -i "s/^.*ENV SLACK_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
 
 		# Retorna para o início do repositório
+		ls
 		cd ../
 		git checkout -f deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
