@@ -1075,24 +1075,60 @@ function alterarDoenca(){
     var poliomielite = document.getElementsByClassName('poliomielite');
     console.log(doenca);
 
-if(doenca == 'Coqueluche'){
-    for(var i = 0; i < coqueluche.length; i++){
-        coqueluche[i].style.display = 'flex';
-        meningite[i].style.display = 'none';
-        poliomielite[i].style.display = 'none';
+fetch("/medidas/alterarDoenca", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        doencaServer: doenca
+    })
+}).then(function (resposta) {
+    console.log("ESTOU NO THEN DO entrar()!")
+
+    if (resposta.ok) {
+        console.log(resposta);
+
+        resposta.json().then(json => {
+            console.log(json);
+            console.log(JSON.stringify(json));
+
+            if( resposta[0].nomeDoenca == 'Coqueluche'){
+                for(var i = 0; i < coqueluche.length; i++){
+                    coqueluche[i].style.display = 'flex';
+                    meningite[i].style.display = 'none';
+                    poliomielite[i].style.display = 'none';
+                }
+            }else if(resposta[0].nomeDoenca == 'Meningite'){
+                for(var j = 0; j < meningite.length; j++){
+                    coqueluche[j].style.display = 'none';
+                    meningite[j].style.display = 'flex';
+                    poliomielite[j].style.display = 'none';
+                }
+            }else{
+                for(var k = 0; k < poliomielite.length; k++){
+                    coqueluche[k].style.display = 'none';
+                    meningite[k].style.display = 'none';
+                    poliomielite[k].style.display = 'flex';
+                }
+            }
+
+        // montarGrafico(resposta[0].idDoenca);
+
+        });
+
+    } else {
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+            console.error(texto);
+            // finalizarAguardar(texto);
+        });
     }
-}else if(doenca == 'Meningite'){
-    for(var j = 0; j < meningite.length; j++){
-        coqueluche[j].style.display = 'none';
-        meningite[j].style.display = 'flex';
-        poliomielite[j].style.display = 'none';
-    }
-}else{
-    for(var k = 0; k < poliomielite.length; k++){
-        coqueluche[k].style.display = 'none';
-        meningite[k].style.display = 'none';
-        poliomielite[k].style.display = 'flex';
-    }
-}
+
+}).catch(function (erro) {
+    console.log(erro);
+})
 
 }

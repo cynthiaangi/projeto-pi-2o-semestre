@@ -29,6 +29,14 @@ function buscarMedidasEmTempoReal(idAquario) {
     return database.executar(instrucaoSql);
 }
 
+function alterarDoenca(doenca) {
+
+    var instrucaoSql = `SELECT idDoenca, nomeDoenca FROM doencas WHERE nomeDoenca = '${doenca}'`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal

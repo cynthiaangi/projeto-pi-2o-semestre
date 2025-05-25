@@ -41,8 +41,44 @@ function buscarMedidasEmTempoReal(req, res) {
     });
 }
 
+function alterarDoenca(req, res) {
+    var doenca = req.body.doencaServer;
+    
+    if (doenca == undefined) {
+            res.status(400).send("Sua doença está undefined!");
+        } else {
+    
+            medidaModel.alterarDoenca(doenca)
+                .then(
+                    function (resultadoDoenca) {
+                        console.log(`\nResultados encontrados: ${resultadoDoenca.length}`);
+                        console.log(`Resultados: ${JSON.stringify(resultadoDoenca)}`); // transforma JSON em String
+    
+                        if (resultadoDoenca.length == 1) {
+                            
+                            res.json({
+                                idDoenca: resultadoDoenca[0].idDoenca,
+                                nomeDoenca: resultadoDoenca[0].nomeDoenca,
+                            });
+                            
+                        } else if (resultadoDoenca.length == 0) {
+                            res.status(403).send("Doença não encontrada");
+                        } 
+                    }
+                ).catch(
+                    function (erro) {
+                        console.log(erro);
+                        console.log("\nHouve um erro ao trocar a doença! Erro: ", erro.sqlMessage);
+                        res.status(500).json(erro.sqlMessage);
+                    }
+                );
+        }
+    
+    }
+
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarMedidasEmTempoReal,
+    alterarDoenca
 
 }
