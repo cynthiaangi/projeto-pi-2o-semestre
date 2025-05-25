@@ -29,10 +29,10 @@ public class OcorrenciasDao {
     }
 
     // atualiza os casos no banco de dados caso já exista
-    public void atualizarCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
+    public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
         jdbcTemplate.update(
-                "UPDATE ocorrencias SET quantidadeCasosNoAno = ? WHERE fkDoenca = ? AND fkCidade = ? AND anoReferencia = ?",
-                quantidadeCasosNoAno, fkDoenca, fkCidade, anoReferencia
+                "INSERT IGNORE INTO casos SET (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos)",
+                fkDoenca, fkCidade, anoReferencia, quantidadeCasosNoAno
         );
     }
 
@@ -53,7 +53,7 @@ public class OcorrenciasDao {
     }
 
     public Boolean verificarCasoAnualInserido() {
-        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE quantidadeCasosNoAno IS NULL)", Boolean.class);
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM casos WHERE quantidadeCasos IS NULL)", Boolean.class);
     }
 
 }

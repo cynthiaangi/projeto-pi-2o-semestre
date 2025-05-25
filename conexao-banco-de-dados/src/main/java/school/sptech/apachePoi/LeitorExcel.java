@@ -186,7 +186,7 @@ public class LeitorExcel {
 
         for (String doencaDaVez : doencas) {
             try {
-                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
+                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(1).getCell(0)).trim();
                 Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
@@ -282,7 +282,7 @@ public class LeitorExcel {
         // Validação se os dados já foram inseridos
         try {
             for (String doencaDaVez : doencas) {
-                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(0).getCell(0)).trim();
+                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(3).getCell(0)).trim();
                 Long codigoIbge = Long.parseLong(valorIbgeStr);
 
                 if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
@@ -403,7 +403,7 @@ public class LeitorExcel {
                             continue;
                         } // trata a exceção de erro da leitura do arquivo
 
-                        ocorrenciasDao.atualizarCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        ocorrenciasDao.inserirCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                     }
                 }
             } catch (Exception e) {
