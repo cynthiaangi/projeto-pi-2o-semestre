@@ -141,11 +141,11 @@ ls ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar > /dev/null 
 
 if [ $? = 0 ];
 	then
-		log "Container Java encontra-se em execução"
+		log "JAR encontrado na instância"
 
 	else
-        log "Container Java não encontra-se em execução"
-        git checkout -f main
+        	log "JAR não encontrado na instância"
+        	git checkout -f release/java
 
 		# Verificando se o Maven está instalado
 		mvn --version
@@ -168,7 +168,7 @@ if [ $? = 0 ];
 
 		# Retorna para o inicio do repositório
 		cd ../
-		git checkout -f deployment
+		git checkout -f release/deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 		log "Buildando docker Java"

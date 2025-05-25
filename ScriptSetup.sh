@@ -53,7 +53,7 @@ log "Inicializado o Script de Instalação"
 
 if id "adm-immunodata" &>/dev/null;
 	then
-			log "Usuário adm-immunodata encontrado"
+		log "Usuário adm-immunodata encontrado"
 
 	else
                 log "Configurando EC2 pela primeira vez"
@@ -198,7 +198,7 @@ log "Apagando versão antiga dos scripts"
 rm -r ./projeto-pi-2o-semestre
 
 log "Baixando nova versão dos scripts"
-git clone --branch deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
+git clone --branch release/deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
 
 
 ###########################################################
