@@ -195,10 +195,8 @@ public class LeitorExcel {
                 }
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("404", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(0).getRowNum(), e.getMessage()),"LeitorExcel");
-
+                logEtl.inserirLogEtl("404", "Erro ao processar validação das ocorrências anuais na linha %s: %s".formatted(sheet.getRow(1).getRowNum(), e.getMessage()),"LeitorExcel");
             }
-
         }
 
         ocorrenciasDao.iniciarInserts();

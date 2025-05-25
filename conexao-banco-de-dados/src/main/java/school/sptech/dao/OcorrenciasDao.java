@@ -53,7 +53,8 @@ public class OcorrenciasDao {
     }
 
     public Boolean verificarCasoAnualInserido() {
-        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM casos WHERE quantidadeCasos IS NULL)", Boolean.class);
+        return jdbcTemplate.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM casos)", Boolean.class);
     }
 
 }
