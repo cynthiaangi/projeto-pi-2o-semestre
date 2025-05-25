@@ -2,6 +2,7 @@ var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
+var idFuncionario = 0;
 
 const cidadesSP = ["Selecione a cidade",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
@@ -261,7 +262,7 @@ function listarFuncionarios() {
                         name.innerHTML = `${resposta[i].nomeCompleto}`;
                         atividade.innerHTML = `${resposta[i].cargoExercido}`;
                         numberConselho.innerHTML = `${resposta[i].numConselho}`;
-                        city.innerHTML = `${cidade_funcionario}`;                      
+                        city.innerHTML = `${cidade_funcionario}`;
                         button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
 
                         instancia.appendChild(id);
@@ -356,12 +357,14 @@ function habilitarEdicao(funcionario) {
         }
     }
 
+    idFuncionario = funcionario.idUsuario;
+
     document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
     document.getElementById("ipt_number").value = funcionario.numConselho;
 
     const selCargo = document.getElementById("sel_cargo");
-    for(let opcao of selCargo.options){
-        if(opcao.value == funcionario.cargoExercido){
+    for (let opcao of selCargo.options) {
+        if (opcao.value == funcionario.cargoExercido) {
             opcao.selected = true;
             break;
         }
@@ -377,142 +380,86 @@ function habilitarEdicao(funcionario) {
 
 }
 
-function alterarFuncionario(){
+function alterarFuncionario() {
     var nome = document.getElementById("ipt_nome");
-    var idFuncionario = 0;
     var cidadeAtuante = document.getElementById("sel_cidade");
     var codigoCidade = 0;
     var cargo = document.getElementById("sel_cargo");
     var conselho = document.getElementById("ipt_number");
+    var id = idFuncionario;
 
 
-    fetch("/funcionarios/listar").then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status == 204) {
-                var mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado."
-                tabela.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!!";
-            }
-
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                for (let i = 0; i < resposta.length; i++) {
-                    console.log(resposta[i])
-                    if (resposta[i].nomeCompleto == nome) {
-                        console.log("estou no if para alterar idusuario")
-                        idFuncionario = resposta[i].idUsuario;
-                    }
-
-                    break;
-                }
-
-                 for(let k = 0; k < cidadesSP.length; k++){
-                if(cidadesSP[k] == cidadeAtuante){
-                    codigoCidade = codigosCidade[k];
-                }
-            }
-
-            fetch(`/funcionarios/alterar`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nomeServer: nome,
-                cargoServer: cargo,
-                conselhoServer: conselho,
-                cidadeServer: codigoCidade
-
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
-                if (resposta.ok) {
-                    // cardErro.style.display = "block";
-
-                    alert("Funcionário atualizado com sucesso! Atualizando lista de funcionários");
-                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                    setTimeout(() => {
-                        window.location.href = "gerenciamento.html";
-                    }, "2000");
-
-                    //   finalizarAguardar();
-                } else {
-                    throw alert("Houve um erro ao tentar realizar o cadastro!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                // finalizarAguardar();
-            });
-
-            });
-        } else {
-            throw ('Houve um erro na API!');
+    for (let k = 0; k < cidadesSP.length; k++) {
+        if (cidadesSP[k] == cidadeAtuante) {
+            codigoCidade = codigosCidade[k];
         }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
-   
-}
+    }
 
-function excluir() {
-    var nome = document.getElementById("ipt_nome");
-    var idFuncionario = 0;
+    fetch(`/funcionarios/alterar/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nomeServer: nome,
+            cargoServer: cargo,
+            conselhoServer: conselho,
+            cidadeServer: codigoCidade
 
-    fetch("/funcionarios/listar").then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status == 204) {
-                var mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado."
-                tabela.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!!";
-            }
-
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                for (let i = 0; i < resposta.length; i++) {
-                    if (resposta[i].nomeCompleto == nome) {
-                        idFuncionario = resposta[i].idUsuario;
-                    }
-
-                    break;
-                }
-            });
-        } else {
-            throw ('Houve um erro na API!');
-        }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
-
-    fetch(`/funcionarios/excluir/${idFuncionario}`, {
-        method: "DELETE",
-
+        }),
     })
         .then(function (resposta) {
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
+                // cardErro.style.display = "block";
 
-                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+                alert("Funcionário atualizado com sucesso! Atualizando lista de funcionários");
+                // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                 setTimeout(() => {
                     window.location.href = "gerenciamento.html";
                 }, "2000");
 
-
+                //   finalizarAguardar();
             } else {
-                throw alert("Houve um erro ao tentar excluir funcionário!");
+                throw alert("Houve um erro ao tentar realizar o cadastro!");
             }
         })
         .catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
-
+            // finalizarAguardar();
         });
+
+}
+
+function excluir() {
+    var id = idFuncionario;
+
+    return fetch(`/funcionarios/excluir/${id}`, {
+                    method: "DELETE",
+
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+
+                            alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+
+                            setTimeout(() => {
+                                window.location.href = "gerenciamento.html";
+                            }, "2000");
+
+
+                        } else {
+                            throw alert("Houve um erro ao tentar excluir funcionário!");
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+
+                    });
 
 }
 
