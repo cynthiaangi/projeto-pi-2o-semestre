@@ -399,7 +399,7 @@ function alterarFuncionario(){
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 for (let i = 0; i < resposta.length; i++) {
                     console.log(resposta[i])
-                    if (resposta[i].nomeCompleto === nome) {
+                    if (resposta[i].nomeCompleto == nome) {
                         console.log("estou no if para alterar idusuario")
                         idFuncionario = resposta[i].idUsuario;
                     }
@@ -475,7 +475,7 @@ function excluir() {
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 for (let i = 0; i < resposta.length; i++) {
-                    if (resposta[i].nomeCompleto === nome) {
+                    if (resposta[i].nomeCompleto == nome) {
                         idFuncionario = resposta[i].idUsuario;
                     }
 
