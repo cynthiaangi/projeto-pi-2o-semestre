@@ -8,6 +8,9 @@
 # TODO: Imagens .yml estão vindo do local, mudar isso
 # TODO: Mudar validação de conexão do DockerHub, e mudar a conexão automatica para maneira não inteirativa (pois não esta funcionando automaticamente)
 # TODO: Mudar tempo do log do bash para timezone brasil
+# TODO: Adicionar validação se achou a variável de ambiente
+# TODO: Refatorar código da definição dos envs, para ter for
+# TODO: Mudar atribuição automatica do IP, para ser substituição de linha
 
 #########################################################
 #                                                       #

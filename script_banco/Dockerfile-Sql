@@ -2,10 +2,10 @@
 FROM mysql:8.0
 
 # Definindo configurações de ambiente
-ENV MYSQL_ROOT_PASSWORD=urubu100
-ENV MYSQL_DATABASE=immunodata
-ENV MYSQL_USER=immuno
-ENV MYSQL_PASSWORD=urubu100@
+ENV MYSQL_ROOT_PASSWORD=senhaRoot
+ENV MYSQL_DATABASE=baseDeDados
+ENV MYSQL_USER=usuario
+ENV MYSQL_PASSWORD=senhaUsuario
 
 # Expondo porta MySQL
 EXPOSE 3306
