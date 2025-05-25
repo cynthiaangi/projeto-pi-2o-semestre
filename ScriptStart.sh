@@ -136,7 +136,8 @@ fi
 log "Acessando o diretório do projeto"
 cd ./projeto-pi-2o-semestre
 
-sudo docker ps --filter "name=ContainerJava" --filter "status=running" | grep "ContainerJava" > /dev/null
+# sudo docker ps --filter name=ContainerJava --filter status=running | grep ContainerJava > /dev/null - codigo antigo, apaguei as aspas
+ls ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar > /dev/null 2>&1
 
 if [ $? = 0 ];
 	then
