@@ -360,7 +360,7 @@ function habilitarEdicao(funcionario) {
     document.getElementById("ipt_number").value = funcionario.numConselho;
 
     const selCargo = document.getElementById("sel_cargo");
-    for(let opcao of selCargo.option){
+    for(let opcao of selCargo.options){
         if(opcao.value == funcionario.cargoExercido){
             opcao.selected = true;
             break;
@@ -368,7 +368,7 @@ function habilitarEdicao(funcionario) {
     }
 
     const selCidade = document.getElementById("sel_cidade");
-    for (let option of selCidade.option) {
+    for (let option of selCidade.options) {
         if (option.value === cidade_funcionario) {
             option.selected = true;
             break;
@@ -398,7 +398,9 @@ function alterarFuncionario(){
             resposta.json().then(function (resposta) {
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 for (let i = 0; i < resposta.length; i++) {
+                    console.log(resposta[i])
                     if (resposta[i].nomeCompleto === nome) {
+                        console.log("estou no if para alterar idusuario")
                         idFuncionario = resposta[i].idUsuario;
                     }
 
