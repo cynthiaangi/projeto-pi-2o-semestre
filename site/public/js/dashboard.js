@@ -1093,21 +1093,21 @@ fetch("/medidas/alterarDoenca", {
             console.log(json);
             console.log(JSON.stringify(json));
 
-            console.log(resposta.nomeDoenca);
+            console.log(json.nomeDoenca);
 
-            if( resposta.nomeDoenca == 'Coqueluche'){
+            if( json.nomeDoenca == 'Coqueluche'){
                 for(var i = 0; i < coqueluche.length; i++){
                     coqueluche[i].style.display = 'flex';
                     meningite[i].style.display = 'none';
                     poliomielite[i].style.display = 'none';
                 }
-            }else if(resposta.nomeDoenca == 'Meningite'){
+            }else if(json.nomeDoenca == 'Meningite'){
                 for(var j = 0; j < meningite.length; j++){
                     coqueluche[j].style.display = 'none';
                     meningite[j].style.display = 'flex';
                     poliomielite[j].style.display = 'none';
                 }
-            }else{
+            }else if(json.nomeDoenca == 'Poliomelite'){
                 for(var k = 0; k < poliomielite.length; k++){
                     coqueluche[k].style.display = 'none';
                     meningite[k].style.display = 'none';
@@ -1115,7 +1115,7 @@ fetch("/medidas/alterarDoenca", {
                 }
             }
 
-        // montarGrafico(resposta[0].idDoenca);
+        // montarGrafico(json[0].idDoenca);
 
         });
 
