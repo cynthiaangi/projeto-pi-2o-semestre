@@ -11,6 +11,7 @@
 # TODO: Adicionar validação se achou a variável de ambiente
 # TODO: Refatorar código da definição dos envs, para ter for
 # TODO: Mudar atribuição automatica do IP, para ser substituição de linha
+# TODO: Retirar as envs do .env
 
 #########################################################
 #                                                       #
