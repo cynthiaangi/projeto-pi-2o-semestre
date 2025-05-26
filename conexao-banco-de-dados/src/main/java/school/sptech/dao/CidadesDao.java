@@ -16,7 +16,7 @@ public class CidadesDao extends Dao{
 
     public Boolean buscarPorId(Long codigoIbge) {
         try {
-            return getJdbcTemplate().queryForObject("SELECT * FROM cidades WHERE codigoIbge = ?", Boolean.class, codigoIbge);
+            return getJdbcTemplate().queryForObject("SELECT 1 FROM cidades WHERE codigoIbge = ?", Boolean.class, codigoIbge);
         } catch (Exception e) {
             return null;
         }
