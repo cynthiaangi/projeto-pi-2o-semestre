@@ -1093,6 +1093,8 @@ fetch("/medidas/alterarDoenca", {
             console.log(json);
             console.log(JSON.stringify(json));
 
+            console.log(resposta.nomeDoenca);
+
             if( resposta.nomeDoenca == 'Coqueluche'){
                 for(var i = 0; i < coqueluche.length; i++){
                     coqueluche[i].style.display = 'flex';
