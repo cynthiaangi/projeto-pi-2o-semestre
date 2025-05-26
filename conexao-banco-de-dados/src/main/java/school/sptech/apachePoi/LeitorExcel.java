@@ -235,7 +235,7 @@ public class LeitorExcel {
                                     cobertura = Double.parseDouble(valorFormatado);
                                 }
                             } catch (NumberFormatException ex) {
-                                logEtl.inserirLogEtl("400", "Erro ao ler valor da célula (linha %d, coluna %d): %s".formatted(row.getRowNum(), coluna), ex.getMessage());
+                                logEtl.inserirLogEtl("400", "Erro ao ler valor da célula (linha %d, coluna %d): %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "Leitor Excel");
                                 continue;
                             }
                         }
@@ -329,7 +329,7 @@ public class LeitorExcel {
                                 coberturaVacinal = Double.parseDouble(valorFormatado);
                             } catch (NumberFormatException ex) {
                                 logEtl.inserirLogEtl(
-                                        "400", "Erro ao converter valor na linha %s, coluna %s: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel"
+                                        "400", "Erro ao converter valor na linha %d, coluna %d: %s".formatted(row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel"
                                 );
                                 continue;
                             }
@@ -339,7 +339,7 @@ public class LeitorExcel {
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", "Erro ao processar linha %s: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl("400", "Erro ao processar linha %d: %s".formatted(row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
         ocorrenciasDao.finalizarInserts();

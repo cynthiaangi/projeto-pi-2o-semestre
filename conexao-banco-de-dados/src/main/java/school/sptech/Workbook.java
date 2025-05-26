@@ -2,6 +2,8 @@ package school.sptech;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
+import school.sptech.infraestrutura.DBConnectionProvider;
+import school.sptech.infraestrutura.S3Provider;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -49,7 +51,7 @@ public class Workbook{
     }
 
     public static void baixarArquivosParaExtracao(LogEtl logEtl) {
-        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+        S3Client s3Client = new S3Provider().getS3Client();
         String bucketNome = System.getenv("BUCKET_NAME");
 
         try {
