@@ -6,7 +6,9 @@ package school.sptech.utils;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.LogEtlDao;
+import school.sptech.infraestrutura.Slack;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,12 +67,16 @@ public class LogEtl {
         return "%02dm %02ds".formatted(minutos, segundos);
     }
 
-    public void encerrarLog() {
+    public void encerrarLog() throws IOException, InterruptedException {
         LocalDateTime horarioFim = LocalDateTime.now();
+
+        Slack slack = new Slack();
 
         String textoTempoDeExecucao = this.calcularTempoExecucao(horarioFim);
 
-        System.out.println("Base de dados atualizada com sucesso!");
-        System.out.println("Tempo total de execução: %s%n".formatted(textoTempoDeExecucao));
+        slack.enviarMensagem("Base de dados atualizada com sucesso!");
+        slack.enviarMensagem(String.format("Tempo total de execução: %s%n", textoTempoDeExecucao));
+        //System.out.println("Base de dados atualizada com sucesso!");
+        //System.out.println("Tempo total de execução: %s%n".formatted(textoTempoDeExecucao));
     }
 }
