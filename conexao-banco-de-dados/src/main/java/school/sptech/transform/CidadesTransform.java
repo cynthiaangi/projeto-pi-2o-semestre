@@ -48,12 +48,12 @@ public class CidadesTransform {
 
                 // Verifica se a cidade já existe no banco
                 // Se não existir, insere a cidade
-                if (!cidadesDao.buscarPorId(codigoIbge)) {
-                    cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
-                } else {
-                    logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"LeitorExcel");
+                // if (!cidadesDao.buscarPorId(codigoIbge)) {
+                cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
+                //} else {
+                    //logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"LeitorExcel");
 
-                }
+                //}
             } catch (Exception e) {
                 logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
