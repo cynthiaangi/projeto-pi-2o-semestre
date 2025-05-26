@@ -39,7 +39,7 @@ import java.util.HashMap;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.LogEtl;
+import school.sptech.utils.LogEtl;
 import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;

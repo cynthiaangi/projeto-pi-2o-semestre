@@ -3,7 +3,6 @@ package school.sptech.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DoencasDao extends Dao{
-
     public DoencasDao(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }

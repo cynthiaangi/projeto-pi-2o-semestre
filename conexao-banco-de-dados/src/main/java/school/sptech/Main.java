@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.infraestrutura.DBConnectionProvider;
 import school.sptech.infraestrutura.S3Provider;
+import school.sptech.utils.LogEtl;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -18,9 +19,9 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.List;
 
-import static school.sptech.LogEtl.iniciarLog;
+import static school.sptech.utils.LogEtl.iniciarLog;
 
-public class Workbook{
+public class Main {
     public static LogEtl iniciarAplicacaoJava(JdbcTemplate connection) {
         LogEtl logEtl = iniciarLog(connection);
 

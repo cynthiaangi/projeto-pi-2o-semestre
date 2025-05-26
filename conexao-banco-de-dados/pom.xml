@@ -122,7 +122,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>school.sptech.Workbook</mainClass>
+                            <mainClass>school.sptech.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
