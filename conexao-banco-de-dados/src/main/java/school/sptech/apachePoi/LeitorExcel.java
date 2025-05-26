@@ -41,6 +41,7 @@ import java.util.HashMap;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.JdbcTemplate;
+import school.sptech.dao.CasosDao;
 import school.sptech.utils.LogEtl;
 import school.sptech.dao.CidadesDao;
 import school.sptech.dao.DoencasDao;
@@ -354,8 +355,8 @@ public class LeitorExcel {
     private void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
 
-        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
         DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
+        CasosDao casosDao = new CasosDao(connection);
 
         DataFormatter formatter = new DataFormatter();
 
@@ -372,12 +373,12 @@ public class LeitorExcel {
 
         Sheet sheet = workbook.getSheetAt(0);
 
-        if (!ocorrenciasDao.verificarCasoAnualInserido()) {
+        if (!casosDao.verificarCasoAnualInserido()) {
             logEtl.inserirLogEtl("204", String.format("Planilha do %s já inserida", nomeArquivo), "LeitorExcel.processarCasosDoencas");
             return;
         }
 
-        ocorrenciasDao.iniciarInserts();
+        casosDao.iniciarInserts();
 
         for (int i = 2; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
@@ -410,15 +411,14 @@ public class LeitorExcel {
                             logEtl.inserirLogEtl("400", String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna), ex.getMessage());
                             continue;
                         } // trata a exceção de erro da leitura do arquivo
-
-                        ocorrenciasDao.inserirCasos(fkDoenca, codigoIbge, anos[a], numCasos);
+                        casosDao.inserirCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                     }
                 }
             } catch (Exception e) {
                 logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
             }
         }
-        ocorrenciasDao.finalizarInserts();
+        casosDao.finalizarInserts();
         logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
     }
 }

@@ -18,13 +18,6 @@ public class OcorrenciasDao extends Dao {
                 fkDoenca, fkCidade, mesReferencia, anoReferencia, coberturaVacinal);
     }
 
-    public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
-        getJdbcTemplate().update(
-                "INSERT IGNORE INTO casos (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos) VALUES (?, ?, ?, ?)",
-                fkDoenca, fkCidade, anoReferencia, quantidadeCasosNoAno
-        );
-    }
-
     public Boolean existsByFksAnual(Integer codigoIbge, Integer ano, Integer fkDoenca) {
         return getJdbcTemplate().queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND anoReferencia = ? AND fkDoenca = ?) ",
@@ -37,10 +30,5 @@ public class OcorrenciasDao extends Dao {
                 "SELECT EXISTS(SELECT 1 FROM ocorrencias WHERE fkCidade = ? AND mesReferencia = ? AND anoReferencia = ? AND fkDoenca = ?)",
                 Boolean.class, codigoIbge, mesReferencia, anoReferencia, fkDoenca
         );
-    }
-
-    public Boolean verificarCasoAnualInserido() {
-        return getJdbcTemplate().queryForObject(
-                "SELECT NOT EXISTS(SELECT 1 FROM casos)", Boolean.class);
     }
 }
