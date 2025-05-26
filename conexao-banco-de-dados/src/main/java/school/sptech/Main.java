@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.List;
 
 import static school.sptech.utils.LogEtl.iniciarLog;
@@ -80,11 +79,11 @@ public class Main {
         leitor.extrairDados(logEtl, connection, nomeArquivos);
     }
 
-    public static void finalizarAplicacaoJava(LogEtl logEtl) {
+    public static void finalizarAplicacaoJava(LogEtl logEtl) throws IOException, InterruptedException {
         logEtl.encerrarLog();
     }
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // Arquivos que serão extraídos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 
