@@ -10,7 +10,15 @@ public class CidadesDao extends Dao{
 
     // insere as cidades no banco de dados
     public void inserirCidade(Long codigoIbge, String nomeCidade, Float qtdPopulacional) {
-        String sql = "INSERT IGNORE INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)";
-        getJdbcTemplate().update(sql, codigoIbge, nomeCidade, qtdPopulacional);
+        getJdbcTemplate().update("INSERT IGNORE INTO cidades (codigoIbge, nome, qtdPopulacional) VALUES (?, ?, ?)", codigoIbge, nomeCidade, qtdPopulacional);
+    }
+
+
+    public Boolean buscarPorId(Long codigoIbge) {
+        try {
+            return getJdbcTemplate().queryForObject("SELECT * FROM cidades WHERE codigoIbge = ?", Boolean.class, codigoIbge);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
