@@ -76,7 +76,7 @@ public class CasosTransform {
                         } catch (NumberFormatException ex) {
                             logEtl.inserirLogEtl("400", String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna), ex.getMessage());
                             continue;
-                        } // trata a exceção de erro da leitura do arquivo
+                        }
                         casosDao.inserirCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                     }
                 }

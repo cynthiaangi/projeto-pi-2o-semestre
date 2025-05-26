@@ -13,8 +13,6 @@ public class CasosDao extends Dao {
     }
 
     public void inserirCasos(Integer fkDoenca, Integer fkCidade, Integer anoReferencia, Integer quantidadeCasosNoAno) {
-        System.out.println(fkDoenca + fkCidade + anoReferencia + quantidadeCasosNoAno);
-
         getJdbcTemplate().update(
                 "INSERT INTO casos (fkCasos_Doenca, fkCasos_Cidade, anoReferencia, quantidadeCasos) VALUES (?, ?, ?, ?)",
                 fkDoenca, fkCidade, anoReferencia, quantidadeCasosNoAno
