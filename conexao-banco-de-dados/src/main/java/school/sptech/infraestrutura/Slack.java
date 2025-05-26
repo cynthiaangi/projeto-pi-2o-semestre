@@ -14,7 +14,7 @@ public class Slack {
     public void enviarMensagem(String mensagem) throws IOException,InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         String url = System.getenv("SLACK_URL");
-        System.out.println(url);
+
         String jsonMensagem = String.format("{\"text\":\"%s\"}", mensagem.replace("\"", "\\\""));
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .header("accept", "application/json")

@@ -19,6 +19,7 @@ package school.sptech.apachePoi;
 // TODO: Adicionar classeQueOcorreu no banco de dados e no Java
 // TODO: Adicionar verificar inserção cidade ??
 // TODO: Validar os nomes dos metodos do log
+// TODO: Adicionar ID execução na msg do Slack?
 
 // TODO: ! Validar nomes dos métodos, com ajuda do Diagrama de Classes. Nomear os métodos para entender de forma intuitiva
 // TODO: ! Validar se classes transform terão herança - mudar atributo leitor, por metodo getFkDoenca, e adicionar LogETl nesse metodo

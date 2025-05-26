@@ -85,8 +85,6 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Slack slack = new Slack();
-        slack.enviarMensagem("Teste!");
         // Arquivos que serão extraídos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 

@@ -18,6 +18,7 @@ public class CidadesDao extends Dao{
         try {
             return getJdbcTemplate().queryForObject("SELECT 1 FROM cidades WHERE codigoIbge = ?", Boolean.class, codigoIbge);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
