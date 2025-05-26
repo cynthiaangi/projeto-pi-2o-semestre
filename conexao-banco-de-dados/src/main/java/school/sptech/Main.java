@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.infraestrutura.DBConnectionProvider;
 import school.sptech.infraestrutura.S3Provider;
+import school.sptech.infraestrutura.Slack;
 import school.sptech.utils.LogEtl;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -84,6 +85,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        Slack slack = new Slack();
+        slack.enviarMensagem("Teste!");
         // Arquivos que serão extraídos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 

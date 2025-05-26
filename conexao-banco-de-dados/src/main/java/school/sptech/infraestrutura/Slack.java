@@ -10,12 +10,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Slack {
-    private static HttpClient client = HttpClient.newHttpClient(); //instanciando a requisição http
-    private static final String url = System.getenv("SLACK_URL");
 
-    public static void enviarMensagem(String mensagem) throws IOException,InterruptedException {
+    public void enviarMensagem(String mensagem) throws IOException,InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String url = System.getenv("SLACK_URL");
         System.out.println(url);
-        String jsonMensagem = String.format("{\"Text\":\"%s\"}", mensagem.replace("\"", "\\\""));
+        String jsonMensagem = String.format("{\"text\":\"%s\"}", mensagem.replace("\"", "\\\""));
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .header("accept", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonMensagem))
