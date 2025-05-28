@@ -7,6 +7,29 @@ CREATE TABLE cidades (
     qtdPopulacional FLOAT
 );
 
+CREATE TABLE campanha (
+	idCampanha INT PRIMARY KEY,
+	nomeCampanha VARCHAR(90) NOT NULL,
+	dtCriacao DATE NOT NULL
+);
+
+CREATE TABLE cidadeCampanha (
+        idCidadeCampanha INT PRIMARY KEY,
+        dtAdicionada DATE NOT NULL,
+        fkCidadeCampanha_Cidade BIGINT,
+        fkCidadeCampanha_Campanha INT,
+        CONSTRAINT constraint_fkCidadeCampanha_Cidade FOREIGN KEY (fkCidadeCampanha_Cidade) REFERENCES cidades(codigoIbge),
+        CONSTRAINT constraint_fkCidadeCampanha_Campanha FOREIGN KEY (fkCidadeCampanha_Campanha) REFERENCES campanha(idCampanha)
+);
+
+CREATE TABLE perfil (
+	idPerfil INT PRIMARY KEY AUTO_INCREMENT,
+	acessoDash VARCHAR(20),
+	podeAlterarPerfil BOOLEAN,
+	podeCadastrarFuncionario BOOLEAN,
+	podeCriarCampanha BOOLEAN
+);
+
 CREATE TABLE usuarios (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nomeCompleto VARCHAR(90) NOT NULL,
@@ -15,7 +38,9 @@ CREATE TABLE usuarios (
     numConselho VARCHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
     fkCidadeResidente BIGINT,
-    CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge)
+    fkUsuarios_Perfil INT,
+    CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge),
+    CONSTRAINT constraint_fkUsuarios_Perfil FOREIGN KEY (fkUsuarios_Perfil) REFERENCES perfil(idPerfil)
 );
 
 CREATE TABLE doencas (
