@@ -5,15 +5,12 @@ FROM openjdk:21-jdk
 COPY ./conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar /app/elt-app.jar
 
 # Definir as variveis de ambiente
-ENV BUCKET_NAME=bucket-immunodata
-ENV MYSQL_ROOT_PASSWORD=urubu100
-ENV MYSQL_DATABASE=immunodata
-ENV MYSQL_USER=immuno
-ENV MYSQL_PASSWORD=urubu100@
-ENV JAVA_URL="jdbc:mysql://mysql:3306/immunodata"
-ENV JAVA_USERNAME="root"
-ENV JAVA_PASSWORD="urubu100"
-ENV JAVA_CLASS_NAME="com.mysql.cj.jdbc.Driver"
+ENV MYSQL_URL=enderecoBanco
+ENV MYSQL_USERNAME=usarioBanco
+ENV MYSQL_PASSWORD=senhaUsuarioBanco
+ENV MYSQL_CLASS_NAME=classNameBanco
+ENV SLACK_URL=urlSlack
+ENV BUCKET_NAME=nomeS3
 
 # Definindo inicialização do java com o container
 ENTRYPOINT ["java", "-jar", "/app/elt-app.jar"]

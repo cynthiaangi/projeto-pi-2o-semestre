@@ -86,8 +86,33 @@ if [ $? = 0 ];
 	else
 		log "Container BD não encontra-se em execução"
 
+		# Buscando e definindo as variáveis de ambiente
+		log "Definindo as variáveis de ambiente do banco"
+
+		caminhoPastaDockerSql="./projeto-pi-2o-semestre/script_banco"
+
+		variavelEnv=$(grep "ENV MYSQL_ROOT_PASSWORD=" ./vars/envBanco.txt)
+		echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+		sed -i "s/^.*ENV MYSQL_ROOT_PASSWORD=.*$/$variavelEnv/" "$caminhoPastaDockerSql/Dockerfile-Sql"
+
+                variavelEnv=$(grep "ENV MYSQL_DATABASE=" ./vars/envBanco.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_DATABASE=.*$/$variavelEnv/" "$caminhoPastaDockerSql/Dockerfile-Sql"
+
+		variavelEnv=$(grep "ENV MYSQL_USER" ./vars/envBanco.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_USER=.*$/$variavelEnv/" "$caminhoPastaDockerSql/Dockerfile-Sql"
+
+                variavelEnv=$(grep "ENV MYSQL_PASSWORD=" ./vars/envBanco.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_PASSWORD=.*$/$variavelEnv/" "$caminhoPastaDockerSql/Dockerfile-Sql"
+
 		log "Buildando docker BD"
-		sudo docker build -f ./projeto-pi-2o-semestre/script_banco/Dockerfile-Sql -t imagem-bancoimmuno:latest ./projeto-pi-2o-semestre/script_banco
+		sudo docker build -f "$caminhoPastaDockerSql/Dockerfile-Sql" -t imagem-bancoimmuno:latest "$caminhoPastaDockerSql"
 
 		log "Atribuindo tag à imagem banco"
 		sudo docker image tag imagem-bancoimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
@@ -112,12 +137,37 @@ if [ $? = 0 ];
 	else
 		log "Container site não encontra-se em execução"
 
+                # Buscando e definindo as variáveis de ambiente
+                log "Definindo as variáveis de ambiente do site"
+
+                caminhoPastaDockerSite="./projeto-pi-2o-semestre/script_site"
+
+                variavelEnv=$(grep "DB_HOST=" ./vars/envSite.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*DB_HOST=.*$/$variavelEnv/" "$caminhoPastaDockerSite/config.txt"
+
+                variavelEnv=$(grep "DB_DATABASE=" ./vars/envSite.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*DB_DATABASE=.*$/$variavelEnv/" "$caminhoPastaDockerSite/config.txt"
+
+                variavelEnv=$(grep "DB_USER=" ./vars/envSite.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*DB_USER=.*$/$variavelEnv/" "$caminhoPastaDockerSite/config.txt"
+
+                variavelEnv=$(grep "DB_PASSWORD=" ./vars/envSite.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*DB_PASSWORD=.*$/$variavelEnv/" "$caminhoPastaDockerSite/config.txt"
+
 		log "Definindo ipv4 da instancia"
 		echo "APP_HOST=$(curl -s ifconfig.me)"
 		echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
 
 		log "Buildando site"
-		sudo docker build -f ./projeto-pi-2o-semestre/script_site/Dockerfile-Site -t imagem-siteimmuno:latest ./projeto-pi-2o-semestre/script_site
+		sudo docker build -f ".$caminhoPastaDockerSite/Dockerfile-Site" -t imagem-siteimmuno:latest "$caminhoPastaDockerSite"
 
 		log "Atribuindo tag à imagem site"
 		sudo docker image tag imagem-siteimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:site-latest
@@ -141,11 +191,11 @@ ls ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar > /dev/null 
 
 if [ $? = 0 ];
 	then
-		log "Container Java encontra-se em execução"
+		log "JAR encontrado na instância"
 
 	else
-        log "Container Java não encontra-se em execução"
-        git checkout -f main
+        	log "JAR não encontrado na instância"
+        	git checkout -f release/java
 
 		# Verificando se o Maven está instalado
 		mvn --version
@@ -168,12 +218,46 @@ if [ $? = 0 ];
 
 		# Retorna para o inicio do repositório
 		cd ../
-		git checkout -f deployment
+		git checkout -f release/deployment
 		cp ../conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar ./script_java/conexao-banco-de-dados-1.0-SNAPSHOT-jar-with-dependencies.jar
 
+                # Buscando e definindo as variáveis de ambiente
+                log "Definindo as variáveis de ambiente do java"
+
+                caminhoPastaDockerJava="./script_java"
+
+                variavelEnv=$(grep "ENV MYSQL_URL=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+		variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
+                variavelEnv=$(grep "ENV MYSQL_USERNAME=" ../vars/envJava.txt)
+		variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                echo "$variavelEnv"
+                sed -i "s/^.*ENV MYSQL_USERNAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
+                variavelEnv=$(grep "ENV MYSQL_PASSWORD=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_PASSWORD=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
+                variavelEnv=$(grep "ENV MYSQL_CLASS_NAME=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV MYSQL_CLASS_NAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
+                variavelEnv=$(grep "ENV SLACK_URL=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV SLACK_URL=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
+                variavelEnv=$(grep "ENV BUCKET_NAME=" ../vars/envJava.txt)
+                echo "$variavelEnv"
+                variavelEnv=$(echo "$variavelEnv" | sed 's/[\/&]/\\&/g')
+                sed -i "s/^.*ENV BUCKET_NAME=.*$/$variavelEnv/" "$caminhoPastaDockerJava/Dockerfile-Java"
+
 		log "Buildando docker Java"
-		ls
-		sudo docker build -f ./script_java/Dockerfile-Java -t imagem-javaimmuno:latest ./script_java
+		sudo docker build -f "$caminhoPastaDockerJava/Dockerfile-Java" -t imagem-javaimmuno:latest "$caminhoPastaDockerJava"
 
 		log "Atribuindo tag à imagem java"
 		sudo docker image tag imagem-javaimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:java-latest

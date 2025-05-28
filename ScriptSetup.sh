@@ -8,6 +8,10 @@
 # TODO: Imagens .yml estão vindo do local, mudar isso
 # TODO: Mudar validação de conexão do DockerHub, e mudar a conexão automatica para maneira não inteirativa (pois não esta funcionando automaticamente)
 # TODO: Mudar tempo do log do bash para timezone brasil
+# TODO: Adicionar validação se achou a variável de ambiente
+# TODO: Refatorar código da definição dos envs, para ter for
+# TODO: Mudar atribuição automatica do IP, para ser substituição de linha
+# TODO: Retirar as envs do .env
 
 #########################################################
 #                                                       #
@@ -53,7 +57,7 @@ log "Inicializado o Script de Instalação"
 
 if id "adm-immunodata" &>/dev/null;
 	then
-			log "Usuário adm-immunodata encontrado"
+		log "Usuário adm-immunodata encontrado"
 
 	else
                 log "Configurando EC2 pela primeira vez"
@@ -198,7 +202,7 @@ log "Apagando versão antiga dos scripts"
 rm -r ./projeto-pi-2o-semestre
 
 log "Baixando nova versão dos scripts"
-git clone --branch deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
+git clone --branch release/deployment https://github.com/cynthiaangi/projeto-pi-2o-semestre.git
 
 
 ###########################################################

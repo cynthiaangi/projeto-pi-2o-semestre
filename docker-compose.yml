@@ -3,11 +3,6 @@ services:
     container_name: ContainerBanco
     image: fabiamdamaceno/projeto-pi-2o-semestre:banco-latest
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: urubu100
-      MYSQL_DATABASE: immunodata
-      MYSQL_USER: immuno
-      MYSQL_PASSWORD: urubu100@
 #    volumes:
 #      - mysql_data:/var/lib/mysql
 #      - ./init-scripts:/docker-entrypoint-initdb.d
