@@ -139,7 +139,7 @@ if [ $? = 0 ];
 
                 # Buscando e definindo as variáveis de ambiente
                 log "Definindo as variáveis de ambiente do site"
-
+		ls
                 caminhoPastaDockerSite="./projeto-pi-2o-semestre/script_site"
 
                 variavelEnv=$(grep "DB_HOST=" ./vars/envSite.txt)
@@ -167,7 +167,7 @@ if [ $? = 0 ];
 		echo "APP_HOST=$(curl -s ifconfig.me)" >> ./projeto-pi-2o-semestre/script_site/config.txt
 
 		log "Buildando site"
-		sudo docker build -f ".$caminhoPastaDockerSite/Dockerfile-Site" -t imagem-siteimmuno:latest "$caminhoPastaDockerSite"
+		sudo docker build -f "$caminhoPastaDockerSite/Dockerfile-Site" -t imagem-siteimmuno:latest "$caminhoPastaDockerSite"
 
 		log "Atribuindo tag à imagem site"
 		sudo docker image tag imagem-siteimmuno:latest fabiamdamaceno/projeto-pi-2o-semestre:site-latest
