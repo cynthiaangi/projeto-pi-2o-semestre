@@ -1,4 +1,4 @@
-package school.sptech;
+package school.sptech.infraestrutura;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;

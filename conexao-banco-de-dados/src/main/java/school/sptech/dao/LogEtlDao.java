@@ -2,17 +2,15 @@ package school.sptech.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class LogEtlDao {
-        private final JdbcTemplate jdbcTemplate;
+public class LogEtlDao extends Dao {
 
-        public LogEtlDao(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
-        }
+    public LogEtlDao(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
-        // Insere os logs no banco de dados
-        public void inserirLogBD(String dateTimeAgora, String status, String detalhes, String metodoQueOcorreu) {
+    public void inserirLogBD(String dateTimeAgora, String status, String detalhes, String metodoQueOcorreu) {
             // Insere log no banco de dados
-            jdbcTemplate.
+            getJdbcTemplate().
                     update("INSERT INTO logetl (status, dataHora, detalhes, metodoQueOcorreu)" + " VALUES (?, ?, ?, ?)",
                     status, dateTimeAgora, detalhes, metodoQueOcorreu);
         }

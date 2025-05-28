@@ -2,6 +2,10 @@ package school.sptech;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
+import school.sptech.infraestrutura.DBConnectionProvider;
+import school.sptech.infraestrutura.S3Provider;
+import school.sptech.infraestrutura.Slack;
+import school.sptech.utils.LogEtl;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -13,12 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.List;
 
-import static school.sptech.LogEtl.iniciarLog;
+import static school.sptech.utils.LogEtl.iniciarLog;
 
-public class Workbook{
+public class Main {
     public static LogEtl iniciarAplicacaoJava(JdbcTemplate connection) {
         LogEtl logEtl = iniciarLog(connection);
 
@@ -49,7 +52,7 @@ public class Workbook{
     }
 
     public static void baixarArquivosParaExtracao(LogEtl logEtl) {
-        S3Client s3Client = new school.sptech.S3Provider().getS3Client();
+        S3Client s3Client = new S3Provider().getS3Client();
         String bucketNome = System.getenv("BUCKET_NAME");
 
         try {
@@ -77,11 +80,11 @@ public class Workbook{
         leitor.extrairDados(logEtl, connection, nomeArquivos);
     }
 
-    public static void finalizarAplicacaoJava(LogEtl logEtl) {
+    public static void finalizarAplicacaoJava(LogEtl logEtl) throws IOException, InterruptedException {
         logEtl.encerrarLog();
     }
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // Arquivos que serão extraídos
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 

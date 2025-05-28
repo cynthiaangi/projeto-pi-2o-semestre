@@ -1,23 +1,24 @@
-package slack;
+package school.sptech.infraestrutura;
 
-import org.json.JSONObject;
-import software.amazon.ion.IonException;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.h2.util.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import org.json.JSONObject;
 
 public class Slack {
-    private static HttpClient client = HttpClient.newHttpClient(); //instanciando a requisição http
-    private static final String url = System.getenv("URL_SLACK");
 
-    public static void enviarMensagem(JSONObject content) throws IOException,InterruptedException {
+    public void enviarMensagem(String mensagem) throws IOException,InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String url = System.getenv("SLACK_URL");
+
+        String jsonMensagem = String.format("{\"text\":\"%s\"}", mensagem.replace("\"", "\\\""));
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .header("accept", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
+                .POST(HttpRequest.BodyPublishers.ofString(jsonMensagem))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

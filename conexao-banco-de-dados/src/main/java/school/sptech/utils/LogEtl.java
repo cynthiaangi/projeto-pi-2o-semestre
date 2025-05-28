@@ -1,4 +1,4 @@
-package school.sptech;
+package school.sptech.utils;
 
 // LOGS: 200 - OK; 201 - Criado; 204 sucesso mas sem resposta ou sem ação mas tudo bem;
 // 400 - requisição mal formatada; 403 - acesso negado; 404 - recurso não encontrado
@@ -6,7 +6,9 @@ package school.sptech;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.LogEtlDao;
+import school.sptech.infraestrutura.Slack;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,7 +49,6 @@ public class LogEtl {
         LocalDateTime horarioInicio = LocalDateTime.now(); // Busca horario de início do processo de ETL
         DateTimeFormatter formatoHorarioLog = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-
         // Usa o horario de início para criar um id para a execução do Java: J + horarioInicio
         String idExecucao = criarIdExecucao(horarioInicio);
 
@@ -66,12 +67,16 @@ public class LogEtl {
         return "%02dm %02ds".formatted(minutos, segundos);
     }
 
-    public void encerrarLog() {
+    public void encerrarLog() throws IOException, InterruptedException {
         LocalDateTime horarioFim = LocalDateTime.now();
+
+        Slack slack = new Slack();
 
         String textoTempoDeExecucao = this.calcularTempoExecucao(horarioFim);
 
-        System.out.println("Base de dados atualizada com sucesso!");
-        System.out.println("Tempo total de execução: %s%n".formatted(textoTempoDeExecucao));
+        slack.enviarMensagem("Base de dados atualizada com sucesso!");
+        slack.enviarMensagem(String.format("Tempo total de execução: %s%n", textoTempoDeExecucao));
+        //System.out.println("Base de dados atualizada com sucesso!");
+        //System.out.println("Tempo total de execução: %s%n".formatted(textoTempoDeExecucao));
     }
 }
