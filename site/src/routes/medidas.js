@@ -15,4 +15,8 @@ router.post("/alterarDoenca",function (req, res) {
     medidaController.alterarDoenca(req, res);
 });
 
+router.post("/alterarDoencaCidade",function (req, res) {
+    medidaController.alterarDoencaCidade(req, res);
+});
+
 module.exports = router;

@@ -58,7 +58,7 @@ function alterarDoenca(req, res) {
                             
                             res.json({
                                 idDoenca: resultadoDoenca[0].idDoenca,
-                                nomeDoenca: resultadoDoenca[0].nomeDoenca,
+                                nomeDoenca: resultadoDoenca[0].nomeDoenca
                             });
                             
                         } else if (resultadoDoenca.length == 0) {
@@ -76,9 +76,49 @@ function alterarDoenca(req, res) {
     
     }
 
+    function alterarDoencaCidade(req, res) {
+    var doenca = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+    
+    if (doenca == undefined) {
+            res.status(400).send("Sua doença está undefined!");
+        } 
+    else if (cidade == undefined) {
+            res.status(400).send("Sua cidade está undefined")
+    }
+    else {
+            medidaModel.alterarDoencaCidade(doenca, cidade)
+                .then(
+                    function (resultadoDoencaCidade) {
+                        console.log(`\nResultados encontrados: ${resultadoDoenca.length}`);
+                        console.log(`Resultados: ${JSON.stringify(resultadoDoencaCidade)}`); // transforma JSON em String
+    
+                        if (resultadoDoencaCidade.length == 1) {
+                            
+                            res.json({
+                                anoReferencia: resultadoDoencaCidade[0].anoReferencia,
+                                quantidadedeCasos: resultadoDoencaCidade[0].quantidadedeCasos
+                            });
+                            
+                        } else if (resultadoDoencaCidade.length == 0) {
+                            res.status(403).send("Doença ou cidade não encontrada");
+                        } 
+                    }
+                ).catch(
+                    function (erro) {
+                        console.log(erro);
+                        console.log("\nHouve um erro ao trocar a doença ou a cidade! Erro: ", erro.sqlMessage);
+                        res.status(500).json(erro.sqlMessage);
+                    }
+                );
+        }
+    
+    }
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
-    alterarDoenca
+    alterarDoenca,
+    alterarDoencaCidade
 
 }

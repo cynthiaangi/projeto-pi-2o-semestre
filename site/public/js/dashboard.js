@@ -1068,6 +1068,10 @@ function alterarCidade(){
     window.location = 'dash-medico.html';
 }
 
+function alterarCidade(){
+    
+}
+
 function alterarDoenca(){
     var doenca = doencaSelect.value;
     var coqueluche = document.getElementsByClassName('coqueluche');
