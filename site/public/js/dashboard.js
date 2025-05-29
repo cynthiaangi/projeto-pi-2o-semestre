@@ -1107,7 +1107,7 @@ fetch("/medidas/alterarDoenca", {
                     meningite[j].style.display = 'flex';
                     poliomielite[j].style.display = 'none';
                 }
-            }else if(json.nomeDoenca == 'Poliomelite'){
+            }else if(json.nomeDoenca == 'Poliomielite'){
                 for(var k = 0; k < poliomielite.length; k++){
                     coqueluche[k].style.display = 'none';
                     meningite[k].style.display = 'none';
