@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.infraestrutura.DBConnectionProvider;
 import school.sptech.infraestrutura.S3Provider;
-import school.sptech.infraestrutura.Slack;
 import school.sptech.utils.LogEtl;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;

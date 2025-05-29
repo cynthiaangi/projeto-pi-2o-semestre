@@ -2,21 +2,21 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.CidadesDao;
 import school.sptech.utils.LogEtl;
 
-public class CidadesTransform {
-    private final LeitorExcel leitor;
+public class CidadesTransform extends Transform {
+    private CidadesDao cidadesDao;
 
-    public CidadesTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    @Override
+    public void conectarAoBanco(JdbcTemplate connection) {
+        this.cidadesDao = new CidadesDao(connection);
     }
 
     public void processarCidades(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "leitorExcel");
 
-        CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
+        conectarAoBanco(connection);
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
@@ -25,16 +25,7 @@ public class CidadesTransform {
         for (int i = 2; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                // Obtém o valor do codigoIbge
-                Cell cellCodigoIbge = row.getCell(0);
-                Long codigoIbge; // transforma o valor para Long pq no banco é BigInt
-
-                // Verifica o tipo da célula e converte para Long
-                if (cellCodigoIbge.getCellType() == CellType.STRING) {
-                    codigoIbge = Long.parseLong(cellCodigoIbge.getStringCellValue()); // transforma o valor para Long
-                } else {
-                    codigoIbge = (long) cellCodigoIbge.getNumericCellValue(); // transforma o valor para Long
-                }
+                Long codigoIbge = lerCodigoIbge(row);
 
                 String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
 

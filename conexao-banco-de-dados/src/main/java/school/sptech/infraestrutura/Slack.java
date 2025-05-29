@@ -1,8 +1,5 @@
 package school.sptech.infraestrutura;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.h2.util.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

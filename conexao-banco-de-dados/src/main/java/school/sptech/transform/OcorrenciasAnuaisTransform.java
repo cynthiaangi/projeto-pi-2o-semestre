@@ -2,7 +2,6 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
@@ -11,42 +10,34 @@ import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
-public class OcorrenciasAnuaisTransform {
-    private final LeitorExcel leitor;
+public class OcorrenciasAnuaisTransform extends Transform {
+    private DoencasDao doencasDao;
+    private OcorrenciasDao ocorrenciasDao;
 
-    public OcorrenciasAnuaisTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    @Override
+    public void conectarAoBanco(JdbcTemplate connection) {
+        this.doencasDao = new DoencasDao(connection);
+        this.ocorrenciasDao = new OcorrenciasDao(connection);
     }
 
     public void processarOcorrenciasAnuais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
 
-        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
-        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
+        conectarAoBanco(connection);
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
 
-        String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
-        HashMap<String, Integer> doencasFK = new HashMap<>();
-
-        // Busca as FKs das doenças e as relaciona num HashMap
-        for (String doencaDaVez : doencas) {
-            doencasFK.put(doencaDaVez, leitor.getFkDoenca(doencaDaVez, doencasDao));
-        }
+        HashMap<String, Integer> doencasFK = listarFkDoencas(doencasDao);
 
         Integer colunaInicial = 2;
-
-        DataFormatter formatter = new DataFormatter();
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
 
-
         for (String doencaDaVez : doencas) {
             try {
-                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(1).getCell(0)).trim();
-                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+                Long codigoIbge = lerCodigoIbge(sheet.getRow(1));
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
                     logEtl.inserirLogEtl("204", String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "LeitorExcel");
@@ -62,10 +53,7 @@ public class OcorrenciasAnuaisTransform {
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                // Obtendo o valor do código IBGE e convertendo para inteiro
-                // (não tenho certeza se isso é necessário, vou verificar depois)
-                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+                Long codigoIbge = lerCodigoIbge(row);
 
                 // for para percorrer as doenças e anos
                 for (int d = 0; d < doencas.length; d++) {

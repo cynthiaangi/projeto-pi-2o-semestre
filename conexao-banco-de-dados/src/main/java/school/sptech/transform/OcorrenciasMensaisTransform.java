@@ -2,7 +2,6 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
@@ -11,29 +10,24 @@ import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
-public class OcorrenciasMensaisTransform {
-    private final LeitorExcel leitor;
+public class OcorrenciasMensaisTransform extends Transform{
+    private DoencasDao doencasDao;
+    private OcorrenciasDao ocorrenciasDao;
 
-    public OcorrenciasMensaisTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    @Override
+    public void conectarAoBanco(JdbcTemplate connection) {
+        this.doencasDao = new DoencasDao(connection);
+        this.ocorrenciasDao = new OcorrenciasDao(connection);
     }
 
     public void processarOcorrenciasMensais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
 
-        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
-        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
-
-        DataFormatter formatter = new DataFormatter();
+        conectarAoBanco(connection);
 
         // Mapeamento das variáveis da planilha
         String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
-        HashMap<String, Integer> doencasFK = new HashMap<>();
-
-        // Busca as FKs das doenças e as relaciona num HashMap
-        for (String doencaDaVez : doencas) {
-            doencasFK.put(doencaDaVez, leitor.getFkDoenca(doencaDaVez, doencasDao));
-        }
+        HashMap<String, Integer> doencasFK = listarFkDoencas(doencasDao);
 
         String[] meses = {
                 "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
@@ -50,9 +44,7 @@ public class OcorrenciasMensaisTransform {
         try {
             Row row = sheet.getRow(3);
             for (String doencaDaVez : doencas) {
-
-                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-                Long codigoIbge = Long.parseLong(valorIbgeStr);
+                Long codigoIbge = lerCodigoIbge(row);
 
                 if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
                     logEtl.inserirLogEtl("204", String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "LeitorExcel");
@@ -61,17 +53,13 @@ public class OcorrenciasMensaisTransform {
             }
         } catch (Exception e) {
             logEtl.inserirLogEtl("404", String.format("Erro ao processar validação das ocorrências mensais na linha %s: %s", sheet.getRow(3).getRowNum(), e.getMessage()) ,"LeitorExcel");
-
         }
 
         ocorrenciasDao.iniciarInserts();
         for (int i = 3; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                // Lê o código IBGE da coluna 0 (índice 0)
-                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-                Long codigoIbge = Long.parseLong(valorIbgeStr);
-
+                Long codigoIbge = lerCodigoIbge(row);
 
                 for (int d = 0; d < doencas.length; d++) {
                     Integer fkDoenca = doencasFK.get(doencas[d]); // Está buscando o id das doenças a cell, pode-se buscar isso antes num for de 3 iterações (por nome de doenca) e salvar num array ou num key value com os nomes das doenças
@@ -112,4 +100,5 @@ public class OcorrenciasMensaisTransform {
         ocorrenciasDao.finalizarInserts();
         logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
     }
+
 }

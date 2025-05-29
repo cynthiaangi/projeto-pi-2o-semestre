@@ -49,20 +49,10 @@ import school.sptech.transform.CidadesTransform;
 import school.sptech.transform.OcorrenciasAnuaisTransform;
 import school.sptech.transform.OcorrenciasMensaisTransform;
 import school.sptech.utils.LogEtl;
-import school.sptech.dao.DoencasDao;
 
 public class LeitorExcel {
 
     // metodo para buscar o ID da doença no banco pelo nome
-    public Integer getFkDoenca(String nomeDoenca, DoencasDao doencasDao) {
-        Integer id = doencasDao.buscarIdDoenca(nomeDoenca); // busca a doença pelo nome
-        if (id != null) {
-            return id; // retorna o ID da doença
-        } else {
-            // TO DO: Adicionar log
-            throw new RuntimeException("Doença não encontrada no banco: " + nomeDoenca);
-        }
-    }
 
     public static InputStream abrirArquivo(String nomeArquivo) throws IOException {
         Path caminhoArquivo = Path.of(nomeArquivo);
@@ -74,19 +64,19 @@ public class LeitorExcel {
     public void processarDadosDoArquivo(LogEtl logEtl, JdbcTemplate connection, Workbook planilhaExcel, String nomeArquivo) {
         switch (nomeArquivo) {
             case "cidades-sp.xlsx" -> {
-                CidadesTransform cidadesTransform = new CidadesTransform(this);
+                CidadesTransform cidadesTransform = new CidadesTransform();
                 cidadesTransform.processarCidades(logEtl, connection, nomeArquivo, planilhaExcel); // Processa as cidades
             }
             case "estadoSP_vacinas-19-22.xlsx" -> {
-                OcorrenciasAnuaisTransform ocorrenciasAnuaisTransform = new OcorrenciasAnuaisTransform(this);
+                OcorrenciasAnuaisTransform ocorrenciasAnuaisTransform = new OcorrenciasAnuaisTransform();
                 ocorrenciasAnuaisTransform.processarOcorrenciasAnuais(logEtl, connection, nomeArquivo, planilhaExcel);
             }
             case "estadoSP_vacinas-23-24.xlsx" -> {
-                OcorrenciasMensaisTransform ocorrenciasMensaisTransform = new OcorrenciasMensaisTransform(this);
+                OcorrenciasMensaisTransform ocorrenciasMensaisTransform = new OcorrenciasMensaisTransform();
                 ocorrenciasMensaisTransform.processarOcorrenciasMensais(logEtl, connection, nomeArquivo, planilhaExcel);
             }
             case "estadoSP_doencas.xlsx" -> {
-                CasosTransform casosTransform = new CasosTransform(this);
+                CasosTransform casosTransform = new CasosTransform();
                 casosTransform.processarCasosDoencas(logEtl, connection, nomeArquivo, planilhaExcel);
             }
             default -> {

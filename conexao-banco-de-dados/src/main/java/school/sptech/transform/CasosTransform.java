@@ -2,38 +2,33 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.CasosDao;
 import school.sptech.dao.DoencasDao;
+import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
 
 import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
-public class CasosTransform {
-    private final LeitorExcel leitor;
+public class CasosTransform extends Transform{
+    private DoencasDao doencasDao;
+    private CasosDao casosDao;
 
-    public CasosTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    @Override
+    public void conectarAoBanco(JdbcTemplate connection) {
+        this.doencasDao = new DoencasDao(connection);
+        this.casosDao = new CasosDao(connection);
     }
 
     public void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
 
-        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
-        CasosDao casosDao = new CasosDao(connection);
-
-        DataFormatter formatter = new DataFormatter();
+        conectarAoBanco(connection);
 
         Integer[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
-        String[] doencas = {"Coqueluche", "Meningite", "Poliomielite"};
-        HashMap<String, Integer> doencasFK = new HashMap<>();
 
-        // Busca as FKs das doenças e as relaciona num HashMap
-        for (String doencaDaVez : doencas) {
-            doencasFK.put(doencaDaVez, leitor.getFkDoenca(doencaDaVez, doencasDao));
-        }
+        HashMap<String, Integer> doencasFK = listarFkDoencas(doencasDao);
 
         Integer colunaInicial = 1;
 
@@ -49,8 +44,7 @@ public class CasosTransform {
         for (int i = 2; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-                Integer codigoIbge = Integer.parseInt(valorIbgeStr);
+                Long codigoIbge = lerCodigoIbge(row);
 
                 for (int d = 0; d < doencas.length; d++) {
                     Integer fkDoenca = doencasFK.get(doencas[d]);
