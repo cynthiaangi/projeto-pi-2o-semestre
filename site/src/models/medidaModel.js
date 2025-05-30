@@ -37,8 +37,20 @@ function alterarDoenca(doenca) {
     return database.executar(instrucaoSql);
 }
 
+function alterarDoencaCidade(doenca, cidade) {
+
+    var instrucaoSql = `SELECT casos.anoReferencia, casos.quantidadeCasos FROM casos JOIN doencas 
+    ON casos.fkCasos_Doenca = doencas.idDoenca JOIN cidades ON casos.fkCasos_Cidade = cidades.codigoIbge WHERE 
+    cidades.nome = ${cidade} AND doencas.nomeDoenca = ${doenca} LIMIT 1`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
-    alterarDoenca
+    alterarDoenca,
+    alterarDoencaCidade
 }

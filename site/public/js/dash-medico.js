@@ -1,5 +1,6 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
+var cidadeUser = "Barueri"
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
 
@@ -1029,31 +1030,76 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
-function alterarDoenca() {
+function alterarDoencaCidade(){
     var doenca = doencaSelect.value;
+    var cidade = cidadeUser;
     var coqueluche = document.getElementsByClassName('coqueluche');
     var meningite = document.getElementsByClassName('meningite');
     var poliomielite = document.getElementsByClassName('poliomielite');
     console.log(doenca);
+    console.log(cidade);
 
-    if (doenca == 'Coqueluche') {
-        for (var i = 0; i < coqueluche.length; i++) {
-            coqueluche[i].style.display = 'flex';
-            meningite[i].style.display = 'none';
-            poliomielite[i].style.display = 'none';
-        }
-    } else if (doenca == 'Meningite') {
-        for (var j = 0; j < meningite.length; j++) {
-            coqueluche[j].style.display = 'none';
-            meningite[j].style.display = 'flex';
-            poliomielite[j].style.display = 'none';
-        }
+fetch("/medidas/alterarDoencaCidade", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        doencaServer: doenca,
+        cidadeServer: cidade
+    })
+}).then(function (resposta) {
+    console.log("ESTOU NO THEN DO entrar()!")
+
+    if (resposta.ok) {
+        console.log(resposta);
+
+        resposta.json().then(json => {
+            console.log(json);
+            console.log(JSON.stringify(json));
+
+            console.log(json.anoReferencia);
+            console.log(json.quantidadedeCasos);
+            alert(json.anoReferencia)
+            alert(json.quantidadedeCasos)
+
+
+            // if( json.nomeDoenca == 'Coqueluche'){
+            //     for(var i = 0; i < coqueluche.length; i++){
+            //         coqueluche[i].style.display = 'flex';
+            //         meningite[i].style.display = 'none';
+            //         poliomielite[i].style.display = 'none';
+            //     }
+            // }else if(json.nomeDoenca == 'Meningite'){
+            //     for(var j = 0; j < meningite.length; j++){
+            //         coqueluche[j].style.display = 'none';
+            //         meningite[j].style.display = 'flex';
+            //         poliomielite[j].style.display = 'none';
+            //     }
+            // }else if(json.nomeDoenca == 'Poliomelite'){
+            //     for(var k = 0; k < poliomielite.length; k++){
+            //         coqueluche[k].style.display = 'none';
+            //         meningite[k].style.display = 'none';
+            //         poliomielite[k].style.display = 'flex';
+            //     }
+            // }
+
+        // montarGrafico(json[0].idDoenca);
+
+        });
+
     } else {
-        for (var k = 0; k < poliomielite.length; k++) {
-            coqueluche[k].style.display = 'none';
-            meningite[k].style.display = 'none';
-            poliomielite[k].style.display = 'flex';
-        }
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+            console.error(texto);
+            // finalizarAguardar(texto);
+        });
     }
+
+}).catch(function (erro) {
+    console.log(erro);
+})
 
 }
