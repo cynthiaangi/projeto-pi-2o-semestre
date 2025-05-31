@@ -1600,6 +1600,9 @@ fetch("/medidas/alterarDoenca", {
 }
 
 function criarGraficoSituacaoCobertura(idDoenca) {
+    var baixo = 0
+    var acima = 0
+
     fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
@@ -1615,7 +1618,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
             
-            var acima = json[0].total_cidades_acima_95
+            acima = json[0].total_cidades_acima_95
         })
         } else {
     
@@ -1647,7 +1650,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
 
-                var baixo = json[0].total_cidades_baixo_85
+                baixo = json[0].total_cidades_baixo_85
         })
         } else {
     
