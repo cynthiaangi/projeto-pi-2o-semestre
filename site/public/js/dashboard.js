@@ -1636,5 +1636,6 @@ function variacaoDaQuantidadeDeCasos (idDoenca) {
 }
 
 function montarGrafico (idDoenca) {
-    criarGraficoSituacaoCobertura (idDoenca);
+    // criarGraficoSituacaoCobertura (idDoenca);
+    variacaoCoberturaVacinal (idDoenca)
 }
