@@ -753,7 +753,7 @@ let myChart7 = new Chart(ctc, {
     data: {
         labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
         datasets: [{
-            data: ['152', '403', '90'],
+            data: dados3,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
             borderWidth: 1,
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
@@ -814,7 +814,7 @@ let myChart11 = new Chart(ctk, {
     data: {
         labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
         datasets: [{
-            data: ['152', '403', '90'],
+            data: dados3,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
             borderWidth: 1,
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
@@ -1614,6 +1614,8 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta.json().then(json => {
                 console.log(json);
                 console.log(JSON.stringify(json));
+            
+            var acima = json[0].total_cidades_acima_95
         })
         } else {
     
@@ -1629,7 +1631,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
         console.log(erro);
     })
 
-    
+
     fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
@@ -1644,6 +1646,8 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta85.json().then(json => {
                 console.log(json);
                 console.log(JSON.stringify(json));
+
+                var baixo = json[0].total_cidades_baixo_85
         })
         } else {
     
@@ -1658,6 +1662,11 @@ function criarGraficoSituacaoCobertura(idDoenca) {
     }).catch(function (erro) {
         console.log(erro);
     })
+
+    var media = cidadesSP.length - acima - baixo
+    dados3.push(acima)
+    dados3.push(media)
+    dados3.push(baixo)
     
 }
 
