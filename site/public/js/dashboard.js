@@ -1620,11 +1620,11 @@ function variacaoCoberturaVacinal (idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
     
-                console.log(json.variacaoPercentualMedia);
+                console.log(json[0].variacaoPercentualMedia);
             
 
             var variacao = document.getElementsByClassName("valor-vacina")[0]
-            variacao.innerHTML = json.variacaoPercentualMedia
+            variacao.innerHTML = json[0].variacaoPercentualMedia
         })
         } else {
     
