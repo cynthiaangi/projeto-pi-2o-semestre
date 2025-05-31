@@ -115,15 +115,16 @@ FROM (
     SELECT
         o.fkCidade,
         ROUND(AVG(o.coberturaVacinal), 2) AS media_cobertura
-    FROM ocorrencias o 
-    WHERE fkDoenca = ${id}
+    FROM ocorrencias o
     JOIN (
         SELECT
             fkCidade,
             MAX(anoReferencia) AS maxAno
         FROM ocorrencias
+        WHERE fkDoenca = ${id}
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
+     WHERE fkDoenca = ${id}
     GROUP BY o.fkCidade
     HAVING media_cobertura < 85  
 ) sub;`
@@ -141,14 +142,15 @@ FROM (
         o.fkCidade,
         ROUND(AVG(o.coberturaVacinal), 2) AS media_cobertura
     FROM ocorrencias o
-    WHERE fkDoenca = ${id}
     JOIN (
         SELECT
             fkCidade,
             MAX(anoReferencia) AS maxAno
         FROM ocorrencias
+        WHERE fkDoenca = ${id}
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
+     WHERE fkDoenca = ${id}
     GROUP BY o.fkCidade
     HAVING media_cobertura > 95
 ) sub;`
