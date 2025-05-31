@@ -119,14 +119,14 @@ FROM (
     JOIN (
         SELECT
             fkCidade,
-            MAX(2024) AS maxAno
+            MAX(anoReferencia) AS maxAno
         FROM ocorrencias
+        WHERE fkDoenca = ${id}
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
     GROUP BY o.fkCidade
     HAVING media_cobertura < 85  
-) sub
- WHERE fkDoenca = ${id};`
+) sub;`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
