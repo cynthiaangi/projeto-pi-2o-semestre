@@ -115,7 +115,8 @@ FROM (
     SELECT
         o.fkCidade,
         ROUND(AVG(o.coberturaVacinal), 2) AS media_cobertura
-    FROM ocorrencias o
+    FROM ocorrencias o 
+    WHERE fkDoenca = ${id}
     JOIN (
         SELECT
             fkCidade,
@@ -141,6 +142,7 @@ FROM (
         o.fkCidade,
         ROUND(AVG(o.coberturaVacinal), 2) AS media_cobertura
     FROM ocorrencias o
+    WHERE fkDoenca = ${id}
     JOIN (
         SELECT
             fkCidade,
