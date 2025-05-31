@@ -1658,11 +1658,11 @@ function variacaoCasos (idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
     
-                console.log(json[0].variacaoPercentualMedia);
+                console.log(json[0].variacaoPercentualCasos);
             
 
             var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1]
-            variacao.innerHTML = json[0].variacaoPercentualMedia
+            variacao.innerHTML = json[0].variacaoPercentualCasos
         })
         } else {
     
