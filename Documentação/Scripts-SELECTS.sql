@@ -69,12 +69,13 @@ FROM (
     JOIN (
         SELECT
             fkCidade,
-            MAX(anoReferencia) AS maxAno
+            MAX(2024) AS maxAno
         FROM ocorrencias
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
     GROUP BY o.fkCidade
     HAVING media_cobertura < 85
+    WHERE idDoenca = id
 ) sub;
 
 

@@ -31,4 +31,8 @@ router.get("/variacaoCasos/:idDoenca",function (req, res) {
     medidaController.variacaoCasos(req, res);
 });
 
+router.get("/criarGraficoSituacaoCobertura/:idDoenca",function (req, res) {
+    medidaController.criarGraficoSituacaoCobertura(req, res);
+});
+
 module.exports = router;

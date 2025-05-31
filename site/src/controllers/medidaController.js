@@ -183,6 +183,23 @@ function variacaoCasos(req, res) {
         );
 }
 
+function criarGraficoSituacaoCobertura(req, res) {
+    var id = req.params.idDoenca;
+
+    medidaModel.criarGraficoSituacaoCobertura(id)
+        .then((resultado) => {
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 
 
 
@@ -193,6 +210,6 @@ module.exports = {
     alterarDoencaCidade,
     alterarCidade,
     variacaoCoberturaVacinal,
-    variacaoCasos
-
+    variacaoCasos,
+    criarGraficoSituacaoCobertura
 }
