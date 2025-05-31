@@ -1642,11 +1642,46 @@ function variacaoCoberturaVacinal (idDoenca) {
     
     }
 
-function variacaoDaQuantidadeDeCasos (idDoenca) {
+function variacaoCasos (idDoenca) {
+    fetch(`/medidas/variacaoCasos/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        console.log(resposta)
+    
+        if (resposta.ok) {
+            console.log(resposta)
 
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+    
+                console.log(json[0].variacaoPercentualMedia);
+            
+
+            var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1]
+            variacao.innerHTML = json[0].variacaoPercentualMedia
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação de casos");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+    
 }
 
 function montarGrafico (idDoenca) {
     // criarGraficoSituacaoCobertura (idDoenca);
-    variacaoCoberturaVacinal (idDoenca)
+    variacaoCoberturaVacinal (idDoenca);
+    variacaoCasos (idDoenca)
 }

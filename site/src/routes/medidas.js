@@ -27,4 +27,8 @@ router.get("/variacaoCoberturaVacinal/:idDoenca",function (req, res) {
     medidaController.variacaoCoberturaVacinal(req, res);
 });
 
+router.get("/variacaoCasos/:idDoenca",function (req, res) {
+    medidaController.variacaoCasos(req, res);
+});
+
 module.exports = router;
