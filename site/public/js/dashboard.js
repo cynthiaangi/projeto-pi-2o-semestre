@@ -751,7 +751,7 @@ let myChart3 = new Chart(ctz, {
 let myChart7 = new Chart(ctc, {
     type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
+        labels: ['Acima da meta ( > 95%)', 'Abaixo sem risco (< 95% e > 85%)', 'Risco epidemiológico (< 85%)'],
         datasets: [{
             data: dados3,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
@@ -812,7 +812,7 @@ let myChart7 = new Chart(ctc, {
 let myChart11 = new Chart(ctk, {
     type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
+        labels: ['Acima da meta ( > 95%)', 'Abaixo sem risco (< 95% e > 85%)', 'Risco epidemiológico (< 85%)'],
         datasets: [{
             data: dados3,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
@@ -1617,7 +1617,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
 
                 console.log(json[0].total_cidades_acima_95)
             
-            return json[0].total_cidades_acima_95
+            dados3.push(json[0].total_cidades_acima_95); 
         })
         } else {
     
@@ -1671,7 +1671,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
         return false
     })
 
-    var media = cidadesSP.length - acima - baixo
+    var media = cidadesSP.length - dados3[0] - baixo
     dados3.push(acima)
     dados3.push(media)
     dados3.push(baixo)
@@ -1685,18 +1685,10 @@ function variacaoCoberturaVacinal (idDoenca) {
             "Content-Type": "application/json"
         }
     }).then(function (resposta) {
-        console.log(resposta)
     
         if (resposta.ok) {
-            console.log(resposta)
 
             resposta.json().then(json => {
-                console.log(json);
-                console.log(JSON.stringify(json));
-    
-                console.log(json[0].variacaoPercentualMedia);
-            
-
             var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1]
             variacao.innerHTML = json[0].variacaoPercentualMedia
         })
@@ -1723,18 +1715,10 @@ function variacaoCasos (idDoenca) {
             "Content-Type": "application/json"
         }
     }).then(function (resposta) {
-        console.log(resposta)
     
         if (resposta.ok) {
-            console.log(resposta)
 
             resposta.json().then(json => {
-                console.log(json);
-                console.log(JSON.stringify(json));
-    
-                console.log(json[0].variacaoPercentualCasos);
-            
-
             var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1]
             variacao.innerHTML = json[0].variacaoPercentualCasos
         })
