@@ -183,10 +183,27 @@ function variacaoCasos(req, res) {
         );
 }
 
-function criarGraficoSituacaoCobertura(req, res) {
+function criarGraficoSituacao95Cobertura(req, res) {
     var id = req.params.idDoenca;
 
-    medidaModel.criarGraficoSituacaoCobertura(id)
+    medidaModel.criarGraficoSituacao95Cobertura(id)
+        .then((resultado) => {
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function criarGraficoSituacao85Cobertura(req, res) {
+    var id = req.params.idDoenca;
+
+    medidaModel.criarGraficoSituacao85Cobertura(id)
         .then((resultado) => {
 
             res.status(200).json(resultado);
@@ -211,5 +228,6 @@ module.exports = {
     alterarCidade,
     variacaoCoberturaVacinal,
     variacaoCasos,
-    criarGraficoSituacaoCobertura
+    criarGraficoSituacao95Cobertura,
+    criarGraficoSituacao85Cobertura
 }

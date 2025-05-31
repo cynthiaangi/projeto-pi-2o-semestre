@@ -1600,7 +1600,7 @@ fetch("/medidas/alterarDoenca", {
 }
 
 function criarGraficoSituacaoCobertura(idDoenca) {
-    fetch(`/medidas/criarGraficoSituacaoCobertura/${idDoenca}`, {
+    fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -1620,6 +1620,36 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             console.log("Houve um erro ao tentar calcular cobertura vacinal");
     
             resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+
+    
+    fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta85) {
+        console.log(resposta85)
+    
+        if (resposta85.ok) {
+            console.log(resposta85)
+
+            resposta85.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular cobertura vacinal");
+    
+            resposta85.text().then(texto => {
                 console.error(texto);
                 // finalizarAguardar(texto);
             });

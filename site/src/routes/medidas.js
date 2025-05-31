@@ -31,8 +31,12 @@ router.get("/variacaoCasos/:idDoenca",function (req, res) {
     medidaController.variacaoCasos(req, res);
 });
 
-router.get("/criarGraficoSituacaoCobertura/:idDoenca",function (req, res) {
-    medidaController.criarGraficoSituacaoCobertura(req, res);
+router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
+    medidaController.criarGraficoSituacao95Cobertura(req, res);
+});
+
+router.get("/criarGraficoSituacao85Cobertura/:idDoenca",function (req, res) {
+    medidaController.criarGraficoSituacao85Cobertura(req, res);
 });
 
 module.exports = router;
