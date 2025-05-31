@@ -122,7 +122,6 @@ FROM (
             fkCidade,
             MAX(anoReferencia) AS maxAno
         FROM ocorrencias
-        WHERE fkDoenca = ${id}
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
     GROUP BY o.fkCidade
@@ -148,7 +147,6 @@ FROM (
             fkCidade,
             MAX(anoReferencia) AS maxAno
         FROM ocorrencias
-        WHERE fkDoenca = ${id}
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
     GROUP BY o.fkCidade
