@@ -19,4 +19,12 @@ router.post("/alterarDoencaCidade",function (req, res) {
     medidaController.alterarDoencaCidade(req, res);
 });
 
+router.post("/alterarCidade",function (req, res) {
+    medidaController.alterarCidade(req, res);
+});
+
+router.get("/variacaoCoberturaVacinal/:idDoenca",function (req, res) {
+    medidaController.variacaoCoberturaVacinal(req, res);
+});
+
 module.exports = router;

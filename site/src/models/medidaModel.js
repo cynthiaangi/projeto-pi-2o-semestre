@@ -48,9 +48,42 @@ function alterarDoencaCidade(doenca, cidade) {
 
 }
 
+function variacaoCoberturaVacinal(id) {
+
+    var instrucaoSql = `SELECT
+    ROUND(
+        AVG(
+            (
+                (LEAST(o1.coberturaVacinal, 100) - LEAST(o2.coberturaVacinal, 100)) 
+                / LEAST(o2.coberturaVacinal, 100)
+            ) * 100
+        ),
+        2
+    ) AS variacaoPercentualMedia
+FROM ocorrencias o1
+JOIN ocorrencias o2
+    ON o1.fkDoenca = o2.fkDoenca
+    AND o1.fkCidade = o2.fkCidade
+    AND o1.anoReferencia = o2.anoReferencia + 1
+JOIN doencas d ON o1.fkDoenca = d.idDoenca
+WHERE
+    d.idDoenca = ${id}
+    AND o1.anoReferencia = 2024
+    AND o2.anoReferencia = 2023
+    AND o1.coberturaVacinal IS NOT NULL
+    AND o2.coberturaVacinal IS NOT NULL;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
     alterarDoenca,
-    alterarDoencaCidade
+    alterarDoencaCidade,
+    variacaoCoberturaVacinal
 }

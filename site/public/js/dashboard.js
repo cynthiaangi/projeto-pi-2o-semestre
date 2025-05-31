@@ -21,7 +21,27 @@ var ctj = myChartCanvas10
 var ctk = myChartCanvas11
 var ctl = myChartCanvas12
 
-const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
+var dados1 = []
+var dados2 = []
+var dados3 = []
+var dados4 = []
+var dados5 = []
+var dados6 = []
+var dados7 = []
+var dados8 = []
+var dados9 = []
+var dados10 = []
+var dados11 = []
+var dados12 = []
+var dados13 = []
+var dados14 = []
+var dados15 = []
+var dados16 = []
+var dados17 = []
+var dados18 = []
+
+
+const codigosCidade = ["", "Estado", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
     3501509, 3501608, 3501707, 3501806, 3501905, 3502002, 3502101, 3502200, 3502309, 3502408, 3502507, 3502606, 3502705, 3502754, 3502804, 3502903, 3503000, 3503109, 3503158, 3503208, 3503307,
     3503356, 3503406, 3503505, 3503604, 3503703, 3503802, 3503901, 3503950, 3504008, 3504107, 3504206, 3504305, 3504404, 3504503, 3504602, 3504701, 3504800, 3504909, 3505005, 3505104,
     3505203, 3505302, 3505351, 3505401, 3505500, 3505609, 3505708, 3505807, 3505906, 3506003, 3506102, 3506201, 3506300, 3506359, 3506409, 3506508, 3506607, 3506706, 3506805, 3506904, 3507001,
@@ -62,7 +82,7 @@ const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550,
     3555307, 3555356, 3555406, 3555505, 3555604, 3555703, 3555802, 3555901, 3556008, 3556107, 3556206, 3556305, 3556354, 3556404, 3556453,
     3556503, 3556602, 3556701, 3556800, 3556909, 3556958, 3557006, 3557105, 3557154, 3557204, 3557303];
 
-const cidadesSP = ["Selecione a cidade",
+const cidadesSP = ["Selecione a cidade", "Todo o Estado",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
     "Américo de Campos", "Amparo", "Analândia", "Andradina", "Angatuba", "Anhembi", "Anhumas", "Aparecida", "Aparecida d'Oeste", "Apiaí", "Araçariguama", "Araçatuba", "Araçoiaba da Serra", "Aramina", "Arandu", "Arapeí", "Araraquara", "Araras", "Arco-Íris", "Arealva", "Areias",
     "Areiópolis", "Ariranha", "Artur Nogueira", "Arujá", "Aspásia", "Assis", "Atibaia", "Auriflama", "Avaí", "Avanhandava", "Avaré", "Bady Bassitt", "Balbinos", "Bálsamo", "Bananal", "Barão de Antonina", "Barbosa", "Bariri", "Barra Bonita", "Barra do Chapéu", "Barra do Turvo", "Barretos", "Barrinha", "Barueri", "Bastos", "Batatais", "Bauru", "Bebedouro", "Bento de Abreu", "Bernardino de Campos",
@@ -670,9 +690,9 @@ let myChart9 = new Chart(cti,
 let myChart3 = new Chart(ctz, {
     type: 'bar',
     data: {
-        labels: ['Acima da meta', 'Abaixo sem risco', 'Risco epidemiológico'],
+        labels: ['Acima da meta ( > 95%)', 'Abaixo sem risco (< 95% e > 85%)', 'Risco epidemiológico (< 85%)'],
         datasets: [{
-            data: ['152', '403', '90'],
+            data: dados3,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30'],
             borderWidth: 1,
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30']
@@ -954,6 +974,375 @@ let myChart12 = new Chart(ctl, {
 
 });
 
+var ctm = myChartCanvas13
+var ctn = myChartCanvas14
+var cto = myChartCanvas15
+var ctp = myChartCanvas16
+var ctq = myChartCanvas17
+var ctr = myChartCanvas18
+
+let myChart13 = new Chart(ctm, {
+    type: 'bar',
+    data: {
+        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        datasets: [{
+            data: ['87', '83', '81', '78', '72', '66'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Ranking de vacinação',
+                color: '#2e2e2e',
+                font: {
+                    size: 20
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
+        }
+    }
+
+});
+
+let myChart15 = new Chart(cto, {
+    type: 'bar',
+    data: {
+        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        datasets: [{
+            data: ['87', '83', '81', '78', '72', '66'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Ranking de vacinação',
+                color: '#2e2e2e',
+                font: {
+                    size: 20
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
+        }
+    }
+
+});
+let myChart17 = new Chart(ctq, {
+    type: 'bar',
+    data: {
+        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        datasets: [{
+            data: ['87', '83', '81', '78', '72', '66'],
+            backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+        barThickness: 15,
+        maxBarThickness: 20,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Ranking de vacinação',
+                color: '#2e2e2e',
+                font: {
+                    size: 20
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#2e2e2e',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: '#2e2e2e',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
+        }
+    }
+
+});
+
+let myChart14 = new Chart(ctn, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+            label: 'Cidade',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#0A4D68',
+            backgroundColor: '#0A4D68'
+        },
+        {
+            label: 'Estado',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#99ccff',
+            backgroundColor: '#99ccff'
+        }
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Situação vacinal cidade/estado',
+                color: 'rgb(0,0,0)',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: 'rgb(0, 0, 0)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'anos',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    }
+});
+
+let myChart16 = new Chart(ctp, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+            label: 'Cidade',
+            data: [25, 15, 10, 8, 24],
+            borderWidth: 1,
+            borderColor: '#0A4D68',
+            backgroundColor: '#0A4D68'
+        },
+        {
+            label: 'Estado',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#99ccff',
+            backgroundColor: '#99ccff'
+        }
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Situação vacinal cidade/estado',
+                color: 'rgb(0,0,0)',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: 'rgb(0, 0, 0)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'anos',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    }
+});
+
+let myChart18 = new Chart(ctr, {
+    type: 'bar',
+    data: {
+        labels: ['2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+            label: 'Cidade',
+            data: [45, 15, 50, 68, 79],
+            borderWidth: 1,
+            borderColor: '#0A4D68',
+            backgroundColor: '#0A4D68'
+        },
+        {
+            label: 'Estado',
+            data: [15, 85, 5, 80, 20],
+            borderWidth: 1,
+            borderColor: '#99ccff',
+            backgroundColor: '#99ccff'
+        }
+        ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Situação vacinal cidade/estado',
+                color: 'rgb(0,0,0)',
+                font: {
+                    size: 24
+                }
+            },
+            legend: {
+                labels: {
+                    color: 'rgb(0, 0, 0)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'anos',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'rgb(9, 9, 9)',
+                },
+                title: {
+                    display: true,
+                    text: 'porcentagem (%)',
+                    color: 'rgb(9, 9, 9)',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        }
+    }
+});
+
 const help1 = "Exibe a divisão percentual entre pessoas vacinadas e não vacinadas, apresentando um comparativo direto da cobertura vacinal na população."; 
 const titulo1 = "Total de vacinados e não vacinados";
 const help2 = "Mostra o percentual de aumento ou redução da cobertura vacinal em relação a um período anterior, indicando a tendência de adesão à vacina."; 
@@ -1065,11 +1454,82 @@ function acessarGerenciamento(){
 }
 
 function alterarCidade(){
-    window.location = 'dash-medico.html';
-}
-
-function alterarCidade(){
+    var cidadeEsolhida = sel_cidade.value;
+    var codigoCidade = 0;
+    var botao = document.getElementById("botaoCidade")
     
+        if (cidadeEsolhida == cidadesSP[0] ) {
+            botao.disabled = true
+        } 
+        else if (cidadeEsolhida == cidadesSP[1]) {
+            window.location.href = "./dashboard.html";
+        } 
+        else {
+            for (var i = 0; i < codigosCidade.length; i++) {
+                if (cidadesSP[i] == cidadeEsolhida) {
+                    codigoCidade = codigosCidade[i];
+                }
+            }
+
+            fetch("/medidas/alterarCidade", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    cidadeServer: codigoCidade
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+        
+                if (resposta.ok) {
+                    console.log(resposta);
+        
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+        
+                        for (var i = 0; i < codigosCidade.length; i++) {
+                            if (codigosCidade[i] == json.codigoCidade) {
+                                cidadeSelecionada = cidadesSP[i];
+                            }
+                        }
+                        sessionStorage.CONSELHO_USUARIO = conselho;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.ID_USUARIO = json.id;
+                        sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
+                        sessionStorage.SENHA_USUARIO = senha;
+        
+                        console.log(cidadeSelecionada);
+        
+                        if(senha == `${conselho}@Immuno`){
+                            window.location.href = "./alterar-senha.html";
+                        }
+                        else if (conselho.length == 4) {
+                            window.location.href = "./dashboard.html";
+                        }
+                        else if(conselho.length == 5) {
+                            window.location.href = "./dash-medico.html";
+                        }
+        
+                    });
+        
+                } else {
+        
+                    console.log("Houve um erro ao tentar realizar o login!");
+        
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // finalizarAguardar(texto);
+                    });
+                }
+        
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+        }
+
+
 }
 
 function alterarDoenca(){
@@ -1119,7 +1579,7 @@ fetch("/medidas/alterarDoenca", {
                 }
             }
 
-        // montarGrafico(json[0].idDoenca);
+        montarGrafico(json[0].idDoenca)
 
         });
 
@@ -1137,4 +1597,44 @@ fetch("/medidas/alterarDoenca", {
     console.log(erro);
 })
 
+}
+
+function criarGraficoSituacaoCobertura (idDoenca) {
+    fkdoenca
+    anoReferencia
+}
+
+function variacaoCoberturaVacinal (idDoenca) {
+    fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        console.log(resposta)
+    
+        if (resposta.ok) {
+            console.log(resposta)
+        } else {
+    
+            console.log("Houve um erro ao tentar realizar o login!");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+    
+    }
+
+function variacaoDaQuantidadeDeCasos (idDoenca) {
+
+}
+
+function montarGrafico (idDoenca) {
+    criarGraficoSituacaoCobertura (idDoenca);
 }

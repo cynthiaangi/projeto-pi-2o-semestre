@@ -103,7 +103,7 @@
                     <div class="periodo">
                         <div>Cidade: </div>
                         <input type="text" id="ipt_cidades">
-                        <button onclick="alterarCidade()">Alterar</button>
+                        <button id="botaoCidade" onclick="alterarCidade()">Alterar</button>
                     </div>
                     <!-- <div class="periodo">
                         <div>Filtrar por período (ano)</div>
@@ -252,6 +252,27 @@
                                     help
                                 </button>
                             </div>
+                            <div class="quadradinho coqueluche" id="umid_kpi">
+                                <canvas id="myChartCanvas13" class="conteudo-dash-medico"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho meningite" id="umid_kpi">
+                                <canvas id="myChartCanvas15" class="conteudo-dash-medico"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
+                                    help
+                                </button>
+                            </div>
+                            <div class="quadradinho poliomielite" id="umid_kpi">
+                                <canvas id="myChartCanvas17" class="conteudo-dash-medico"></canvas>
+                                <button class="material-symbols-outlined ajuda" id="ajuda"
+                                    onclick="abrirMensagem('help5')">
+                                    help
+                                </button>
+                            </div>
                         </div>
                         <div>
                             <div class="graph" id="graficos">
@@ -298,6 +319,27 @@
                                     </div>
                                     <div class="chart-container poliomielite">
                                         <canvas id="myChartCanvas12" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container coqueluche">
+                                        <canvas id="myChartCanvas14" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container meningite">
+                                        <canvas id="myChartCanvas16" class="conteudo-dash"></canvas>
+                                        <button class="material-symbols-outlined ajuda" id="ajuda"
+                                            onclick="abrirMensagem('help7')">
+                                            help
+                                        </button>
+                                    </div>
+                                    <div class="chart-container poliomielite">
+                                        <canvas id="myChartCanvas18" class="conteudo-dash"></canvas>
                                         <button class="material-symbols-outlined ajuda" id="ajuda"
                                             onclick="abrirMensagem('help7')">
                                             help
