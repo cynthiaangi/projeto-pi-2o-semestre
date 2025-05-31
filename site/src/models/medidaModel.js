@@ -124,9 +124,9 @@ FROM (
         GROUP BY fkCidade
     ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
     GROUP BY o.fkCidade
-    HAVING media_cobertura < 85
-    WHERE fkDoenca = ${id}
-) sub;`
+    HAVING media_cobertura < 85  
+) sub
+ WHERE fkDoenca = ${id};`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
