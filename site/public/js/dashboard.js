@@ -1708,7 +1708,7 @@ function variacaoCasos (idDoenca) {
 }
 
 function montarGrafico (idDoenca) {
-    // criarGraficoSituacaoCobertura (idDoenca);
+    criarGraficoSituacaoCobertura (idDoenca);
     variacaoCoberturaVacinal (idDoenca);
     variacaoCasos (idDoenca)
 }
