@@ -1614,6 +1614,8 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta.json().then(json => {
                 console.log(json);
                 console.log(JSON.stringify(json));
+
+                console.log(json[0].total_cidades_acima_95)
             
             return json[0].total_cidades_acima_95
         })
@@ -1648,6 +1650,8 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta85.json().then(json => {
                 console.log(json);
                 console.log(JSON.stringify(json));
+
+                console.log(json[0].total_cidades_baixo_85)
 
                 return json[0].total_cidades_baixo_85
         })
