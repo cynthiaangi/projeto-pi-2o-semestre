@@ -48,6 +48,36 @@ function alterarDoencaCidade(doenca, cidade) {
 
 }
 
+function variacaoCasos(id) {
+
+    var instrucaoSql = `SELECT
+    ROUND(
+        AVG(
+            (
+                (c1.quantidadeCasos - c2.quantidadeCasos) 
+                / NULLIF(c2.quantidadeCasos, 0)
+            ) * 100
+        ),
+        2
+    ) AS variacaoPercentualCasos
+FROM casos c1
+JOIN casos c2
+    ON c1.fkCasos_Doenca = c2.fkCasos_Doenca
+    AND c1.fkCasos_Cidade = c2.fkCasos_Cidade
+    AND c1.anoReferencia = c2.anoReferencia + 1
+JOIN doencas d ON c1.fkCasos_Doenca = d.idDoenca
+WHERE
+    d.idDoenca = ${id}
+    AND c1.anoReferencia = 2024
+    AND c2.anoReferencia = 2023
+    AND c1.quantidadeCasos IS NOT NULL
+    AND c2.quantidadeCasos IS NOT NULL;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function variacaoCoberturaVacinal(id) {
 
     var instrucaoSql = `SELECT
@@ -85,5 +115,6 @@ module.exports = {
     buscarMedidasEmTempoReal,
     alterarDoenca,
     alterarDoencaCidade,
-    variacaoCoberturaVacinal
+    variacaoCoberturaVacinal,
+    variacaoCasos
 }
