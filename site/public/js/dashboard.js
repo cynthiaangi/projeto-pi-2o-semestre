@@ -1616,8 +1616,16 @@ function variacaoCoberturaVacinal (idDoenca) {
         if (resposta.ok) {
             console.log(resposta)
 
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+    
+                console.log(json.variacaoPercentualMedia);
+            
+
             var variacao = document.getElementsByClassName("valor-vacina")[0]
-            variacao.innerHTML = resposta[0].variacaoPercentualMedia
+            variacao.innerHTML = json.variacaoPercentualMedia
+        })
         } else {
     
             console.log("Houve um erro ao tentar calcular variação vacinal");
