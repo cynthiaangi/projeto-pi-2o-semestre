@@ -1599,9 +1599,36 @@ fetch("/medidas/alterarDoenca", {
 
 }
 
-function criarGraficoSituacaoCobertura (idDoenca) {
-    fkdoenca
-    anoReferencia
+function criarGraficoSituacaoCobertura(idDoenca) {
+    fetch(`/medidas/criarGraficoSituacaoCobertura/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        console.log(resposta)
+    
+        if (resposta.ok) {
+            console.log(resposta)
+
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular cobertura vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+    
 }
 
 function variacaoCoberturaVacinal (idDoenca) {

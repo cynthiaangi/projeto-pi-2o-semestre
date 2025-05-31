@@ -108,6 +108,33 @@ WHERE
 
 }
 
+function criarGraficoSituacaoCobertura(id) {
+
+    var instrucaoSql = `SELECT COUNT(*) AS total_cidades_baixo_85
+FROM (
+    SELECT
+        o.fkCidade,
+        ROUND(AVG(o.coberturaVacinal), 2) AS media_cobertura
+    FROM ocorrencias o
+    JOIN (
+        SELECT
+            fkCidade,
+            MAX(2024) AS maxAno
+        FROM ocorrencias
+        GROUP BY fkCidade
+    ) maxAnos ON o.fkCidade = maxAnos.fkCidade AND o.anoReferencia = maxAnos.maxAno
+    GROUP BY o.fkCidade
+    HAVING media_cobertura < 85
+    WHERE fkDoenca = ${id}
+) sub;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+
+
 
 
 module.exports = {
@@ -116,5 +143,6 @@ module.exports = {
     alterarDoenca,
     alterarDoencaCidade,
     variacaoCoberturaVacinal,
-    variacaoCasos
+    variacaoCasos,
+    criarGraficoSituacaoCobertura
 }
