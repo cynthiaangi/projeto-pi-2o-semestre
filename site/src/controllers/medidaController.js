@@ -148,6 +148,25 @@ function alterarDoenca(req, res) {
             }
         
         }
+
+        function variacaoCoberturaVacinal(req, res) {
+            var id = req.params.idDoenca;
+
+                    medidaModel.variacaoCoberturaVacinal(id)
+                    .then((resultado) => {
+
+                        res.status(200).json(resultado);
+                      })
+                      .catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log("\nHouve um erro ao trocar a cidade! Erro: ", erro.sqlMessage);
+                                res.status(500).json(erro.sqlMessage);
+                            }
+                        );
+                }
+
+
     
 
 module.exports = {
@@ -155,5 +174,7 @@ module.exports = {
     buscarMedidasEmTempoReal,
     alterarDoenca,
     alterarDoencaCidade,
-    alterarCidade
+    alterarCidade,
+    variacaoCoberturaVacinal
+
 }
