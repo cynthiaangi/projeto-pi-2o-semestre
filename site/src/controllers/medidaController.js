@@ -115,10 +115,45 @@ function alterarDoenca(req, res) {
     
     }
 
+    function alterarCidade(req, res) {
+        var cidade = req.body.cidadeServer;
+        
+        if (cidade == undefined) {
+                res.status(400).send("Sua cidade está undefined")
+        }
+        else {
+                medidaModel.alterarCidade( cidade)
+                    .then(
+                        function (resultadoCidade) {
+                            console.log(`Resultados: ${JSON.stringify(resultadoCidade)}`); // transforma JSON em String
+        
+                            if (resultadoCidade.length == 1) {
+                                
+                                res.json({
+                                    anoReferencia: resultadoCidade[0].anoReferencia,
+                                    quantidadedeCasos: resultadoCidade[0].quantidadedeCasos
+                                });
+                                
+                            } else if (resultadoCidade.length == 0) {
+                                res.status(403).send("Cidade não encontrada");
+                            } 
+                        }
+                    ).catch(
+                        function (erro) {
+                            console.log(erro);
+                            console.log("\nHouve um erro ao trocar a cidade! Erro: ", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        }
+                    );
+            }
+        
+        }
+    
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
     alterarDoenca,
-    alterarDoencaCidade
-
+    alterarDoencaCidade,
+    alterarCidade
 }
