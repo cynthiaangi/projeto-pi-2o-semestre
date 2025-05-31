@@ -1579,7 +1579,7 @@ fetch("/medidas/alterarDoenca", {
                 }
             }
 
-        montarGrafico(json[0].idDoenca)
+        montarGrafico(json.idDoenca)
 
         });
 
