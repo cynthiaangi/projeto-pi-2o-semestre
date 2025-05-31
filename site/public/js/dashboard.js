@@ -1600,10 +1600,7 @@ fetch("/medidas/alterarDoenca", {
 }
 
 function criarGraficoSituacaoCobertura(idDoenca) {
-    var baixo = 0
-    var acima = 0
-
-    fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
+    var acima = fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -1618,7 +1615,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
             
-            acima = json[0].total_cidades_acima_95
+            return json[0].total_cidades_acima_95
         })
         } else {
     
@@ -1627,15 +1624,17 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta.text().then(texto => {
                 console.error(texto);
                 // finalizarAguardar(texto);
+                return false
             });
         }
     
     }).catch(function (erro) {
         console.log(erro);
+        return false
     })
 
 
-    fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
+    var baixo = fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -1650,7 +1649,7 @@ function criarGraficoSituacaoCobertura(idDoenca) {
                 console.log(json);
                 console.log(JSON.stringify(json));
 
-                baixo = json[0].total_cidades_baixo_85
+                return json[0].total_cidades_baixo_85
         })
         } else {
     
@@ -1659,11 +1658,13 @@ function criarGraficoSituacaoCobertura(idDoenca) {
             resposta85.text().then(texto => {
                 console.error(texto);
                 // finalizarAguardar(texto);
+                return false
             });
         }
     
     }).catch(function (erro) {
         console.log(erro);
+        return false
     })
 
     var media = cidadesSP.length - acima - baixo

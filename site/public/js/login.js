@@ -134,7 +134,7 @@ function entrar() {
                 for (var i = 0; i < codigosCidade.length; i++) {
                     if (codigosCidade[i] == json.codigoCidade) {
                         cidadeSelecionada = cidadesSP[i];
-                    }
+                    }             
                 }
                 sessionStorage.CONSELHO_USUARIO = conselho;
                 sessionStorage.NOME_USUARIO = json.nome;
