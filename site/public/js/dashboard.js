@@ -1671,7 +1671,10 @@ function criarGraficoSituacaoCobertura(idDoenca) {
         return false
     })
 
-    var media = cidadesSP.length - dados3[0] - baixo
+    var media = cidadesSP.length - acima - baixo
+    console.log(acima)
+    console.log(baixo)
+    console.log(media)
     dados3.push(acima)
     dados3.push(media)
     dados3.push(baixo)
