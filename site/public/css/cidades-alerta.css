@@ -163,7 +163,18 @@ nav button {
 }
 
 .cadastro {
-  display: flex;
+  display: none;
+  width: 100%;
+  justify-content: space-around;
+  border-bottom: 1px solid #adadad;
+  height: auto;
+  font-size: 0.9rem;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.cadastro-cidade {
+  display: none;
   width: 100%;
   justify-content: space-around;
   border-bottom: 1px solid #adadad;
@@ -247,7 +258,7 @@ button{
     outline: none;
 }
 
-.cadastro-box select {
+.select {
   width: 77%;
     padding: 0.75rem 1rem;
     border: 1px solid #ccc;
@@ -256,21 +267,23 @@ button{
     transition: border 0.3s;
 }
 
-.cadastro-box select:hover {
+.select:hover {
     background-color: #f0f0f0;
 }
 
-.cadastro-box select:focus-visible {
+.select:focus-visible {
     border-color: #165c89;
     outline: none;
 }
 
 .continue-button{
-  padding-top: 30px;
   padding-left: 100px;
 }
 
 .continue-button button{
+  padding: 10px 15px;
+}
+.button-cidade button{
   padding: 10px 15px;
 }
 

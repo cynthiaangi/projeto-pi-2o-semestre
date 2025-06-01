@@ -1,9 +1,8 @@
-var aquarioModel = require("../models/aquarioModel");
+var campanhaModel = require("../models/campanhaModel");
 
-function buscarAquariosPorEmpresa(req, res) {
-  var idUsuario = req.params.idUsuario;
+function listar(req, res) {
 
-  aquarioModel.buscarAquariosPorEmpresa(idUsuario).then((resultado) => {
+  campanhaModel.listar().then((resultado) => {
     if (resultado.length > 0) {
       res.status(200).json(resultado);
     } else {
@@ -11,8 +10,32 @@ function buscarAquariosPorEmpresa(req, res) {
     }
   }).catch(function (erro) {
     console.log(erro);
-    console.log("Houve um erro ao buscar os aquarios: ", erro.sqlMessage);
+    console.log("Houve um erro ao listar campanhas ", erro.sqlMessage);
     res.status(500).json(erro.sqlMessage);
+  });
+}
+
+function listarCidades(req, res) {
+  var id = req.params.id;
+
+  campanhaModel.listarCidades(id).then((resultado) => {
+    if (resultado.length > 0) {
+      res.status(200).json(resultado);
+    } else {
+      res.status(204).json([]);
+    }
+  }).catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao listar campanhas ", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  });
+}
+
+function excluirCidade(req, res) {
+  var id = req.params.id;
+
+  campanhaModel.excluirCidade(id).then((resultado) => {
+    res.status(200).json(resultado);
   });
 }
 
@@ -44,6 +67,8 @@ function cadastrar(req, res) {
 }
 
 module.exports = {
-  buscarAquariosPorEmpresa,
+  listar,
+  listarCidades,
+  excluirCidade,
   cadastrar
 }
