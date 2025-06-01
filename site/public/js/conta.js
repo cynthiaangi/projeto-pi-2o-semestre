@@ -2,9 +2,10 @@ var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
 var senhaUser = sessionStorage.SENHA_USUARIO;
 var conselho = sessionStorage.CONSELHO_USUARIO;
+var localTrabalho = sessionStorage.CIDADE_USUARIO;
+var cargoExercido = sessionStorage.CARGO_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
-bemVinda.innerHTML = `${nomeUser}`;
-var idFuncionario = 0;
+// bemVinda.innerHTML = `${nomeUser}`;
 
 const cidadesSP = ["Selecione a cidade",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
@@ -121,41 +122,6 @@ cidadesSP.forEach((cidade) => {
 // Substitui o campo de input por um <select> com as cidades
 cidadeInput.replaceWith(selectCidade);
 
-const cidadeInputCadastro = document.getElementById("cidade_cadastro");
-
-const selectCidadeCadastro = document.createElement("select");
-selectCidadeCadastro.name = "cidade_cadastro";
-selectCidadeCadastro.id = "sel_cidade_cadastro";
-selectCidadeCadastro.className = "select";
-
-// Adiciona as opções de cidades
-cidadesSP.forEach((cidade) => {
-    const option3 = document.createElement("option");
-    option3.value = cidade;
-    option3.textContent = cidade;
-    selectCidadeCadastro.appendChild(option3);
-});
-
-// Substitui o campo de input por um <select> com as cidades
-cidadeInputCadastro.replaceWith(selectCidadeCadastro);
-
-const cidadeInput2 = document.getElementById("ipt_cidade");
-
-const selectCidade2 = document.createElement("select");
-selectCidade2.name = "cidade2";
-selectCidade2.id = "sel_cidade2";
-
-// Adiciona as opções de cidades
-cidadesSP.forEach((cidade) => {
-    const option2 = document.createElement("option");
-    option2.value = cidade;
-    option2.textContent = cidade;
-    selectCidade2.appendChild(option2);
-});
-
-// Substitui o campo de input por um <select> com as cidades
-cidadeInput2.replaceWith(selectCidade2);
-
 const cargoInput = document.getElementById("ipt_cargo");
 
 const selectCargo = document.createElement("select");
@@ -172,133 +138,8 @@ cargos.forEach((cargo) => {
 
 cargoInput.replaceWith(selectCargo);
 
-const cargoInputCadastro = document.getElementById("ipt_cargo_cadastro");
+window.onload = habilitarEdicao();
 
-const selectCargoCadastro = document.createElement("select");
-selectCargoCadastro.name = "cargo_cadastro";
-selectCargoCadastro.id = "sel_cargo_cadastro";
-selectCargoCadastro.className = "select";
-
-cargos.forEach((cargo) => {
-    const opcao4 = document.createElement("option");
-    opcao4.value = cargo;
-    opcao4.textContent = cargo;
-    selectCargoCadastro.appendChild(opcao4);
-});
-
-cargoInputCadastro.replaceWith(selectCargoCadastro);
-
-const cargoInput2 = document.getElementById("ipt_cargo2");
-
-const selectCargo2 = document.createElement("select");
-selectCargo2.name = "cargo";
-selectCargo2.id = "sel_cargo2";
-
-cargos.forEach((cargo) => {
-    const opcao2 = document.createElement("option");
-    opcao2.value = cargo;
-    opcao2.textContent = cargo;
-    selectCargo2.appendChild(opcao2);
-});
-
-cargoInput2.replaceWith(selectCargo2);
-
-window.onload = listarFuncionarios();
-
-function listarFuncionarios() {
-    var tabela = document.getElementsByClassName("tabela-usuario")[0];
-
-    fetch("/funcionarios/listar").then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status == 204) {
-                var mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado."
-                tabela.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!!";
-            }
-
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                var titulo_instancia = document.createElement('tr');
-                var titulo_id = document.createElement('th');
-                var titulo_name = document.createElement('th');
-                var titulo_atividade = document.createElement('th');
-                var titulo_numberConselho = document.createElement('th');
-                var titulo_city = document.createElement('th');
-                var titulo_button = document.createElement('th');
-
-                titulo_id.innerHTML = "ID Funcionário";
-                titulo_name.innerHTML = "Nome completo";
-                titulo_atividade.innerHTML = "Cargo";
-                titulo_numberConselho.innerHTML = "CRM/ID Agente";
-                titulo_city.innerHTML = "Cidade";
-                titulo_button.innerHTML = "Edição";
-
-                titulo_instancia.appendChild(titulo_id);
-                titulo_instancia.appendChild(titulo_name);
-                titulo_instancia.appendChild(titulo_atividade);
-                titulo_instancia.appendChild(titulo_numberConselho);
-                titulo_instancia.appendChild(titulo_city);
-                titulo_instancia.appendChild(titulo_button);
-                tabela.appendChild(titulo_instancia);
-
-                for (let i = 0; i < resposta.length; i++) {
-                    if (resposta[i].numConselho.length == 5) {
-                        var instancia = document.createElement('tr');
-                        var id = document.createElement('td');
-                        var name = document.createElement('td');
-                        var atividade = document.createElement('td');
-                        var numberConselho = document.createElement('td');
-                        var city = document.createElement('td');
-                        var button = document.createElement('td');
-                        var cidade_funcionario = "";
-                        const funcionarioJSON = encodeURIComponent(JSON.stringify(resposta[i]));
-
-                        for (let j = 0; j < cidadesSP.length; j++) {
-                            if (codigosCidade[j] == resposta[i].fkCidadeResidente) {
-                                cidade_funcionario = cidadesSP[j];
-                            }
-                        }
-
-                        id.innerHTML = `${resposta[i].idUsuario}`;
-                        name.innerHTML = `${resposta[i].nomeCompleto}`;
-                        atividade.innerHTML = `${resposta[i].cargoExercido}`;
-                        numberConselho.innerHTML = `${resposta[i].numConselho}`;
-                        city.innerHTML = `${cidade_funcionario}`;
-                        button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
-
-                        instancia.appendChild(id);
-                        instancia.appendChild(name);
-                        instancia.appendChild(atividade);
-                        instancia.appendChild(numberConselho);
-                        instancia.appendChild(city);
-                        instancia.appendChild(button);
-                        tabela.appendChild(instancia);
-
-                    }
-                }
-            });
-        } else {
-            throw ('Houve um erro na API!');
-        }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
-}
-
-function cadastrarFuncionarios() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function fecharMensagem() {
-    var bottomsheet = document.getElementsByClassName('mensagem')[0];
-    var fundo = document.getElementsByClassName('area-mensagem')[0];
-
-    bottomsheet.style.display = 'none';
-    fundo.style.display = 'none';
-}
 
 function voltarHome() {
     window.location = "index.html";
@@ -354,14 +195,6 @@ function acessarDashboard(){
     }
 }
 
-function mostrarFuncionarios() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'none';
-
-    listarFuncionarios();
-}
-
 function habilitarMudaSenha() {
     var areaCadastro = document.getElementsByClassName('mensagem')[0];
     var alteraSenha = document.getElementsByClassName('altera-senha')[0];
@@ -370,31 +203,14 @@ function habilitarMudaSenha() {
     alteraSenha.style.display = 'flex';
 }
 
-function habilitarEdicao(funcionario) {
-    console.log(funcionario);
+function habilitarEdicao() {
 
-    var bottomsheet = document.getElementsByClassName('mensagem')[0];
-    var fundo = document.getElementsByClassName('area-mensagem')[0];
-
-    bottomsheet.style.display = 'flex';
-    fundo.style.display = 'flex';
-
-    var cidade_funcionario = "";
-
-    for (let j = 0; j < cidadesSP.length; j++) {
-        if (codigosCidade[j] == funcionario.fkCidadeResidente) {
-            cidade_funcionario = cidadesSP[j];
-        }
-    }
-
-    idFuncionario = funcionario.idUsuario;
-
-    document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
-    document.getElementById("ipt_number").value = funcionario.numConselho;
+    document.getElementById("ipt_nome").value = nomeUser;
+    document.getElementById("ipt_number").value = conselho;
 
     const selCargo = document.getElementById("sel_cargo");
     for (let opcao of selCargo.options) {
-        if (opcao.value == funcionario.cargoExercido) {
+        if (opcao.value == cargoExercido) {
             opcao.selected = true;
             break;
         }
@@ -402,7 +218,7 @@ function habilitarEdicao(funcionario) {
 
     const selCidade = document.getElementById("sel_cidade");
     for (let option of selCidade.options) {
-        if (option.value === cidade_funcionario) {
+        if (option.value === localTrabalho) {
             option.selected = true;
             break;
         }
@@ -416,7 +232,7 @@ function alterarFuncionario() {
     var codigoCidade = 0;
     var cargo = document.getElementById("sel_cargo").value;
     var conselho = document.getElementById("ipt_number").value;
-    var id = idFuncionario;
+    var id = idUsuario;
 
 
     for (let k = 0; k < cidadesSP.length; k++) {
@@ -464,7 +280,7 @@ function alterarFuncionario() {
 }
 
 function excluir() {
-    var id = idFuncionario;
+    var id = idUsuario;
 
     return fetch(`/funcionarios/excluir/${id}`, {
                     method: "DELETE",
@@ -493,78 +309,6 @@ function excluir() {
 
 }
 
-function cadastrar() {
-    console.log("estou no cadastro");
-    var nome = ipt_nome_cadastro.value;
-    var cargo = sel_cargo_cadastro.value;
-    var dataNasc = ipt_data_cadastro.value;
-    var conselho = ipt_number_cadastro.value;
-    var cidadeAtuante = sel_cidade_cadastro.value;
-    var codigoCidade = 0;
-    var senhaPadrao = `${conselho}@Immuno`;
-
-    var num_conselho = parseInt(conselho);
-    var tam_nome = nome.length;
-    var tam_conselho = conselho.length;
-
-    if (nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || dataNasc == '') {
-        alert("Todos os campos devem ser preenchidos");
-    } else if (conselho != num_conselho || tam_conselho < 3) {
-        alert("O número de conselho deve conter apenas números, com pelo menos 3 digitos");
-    } else if (tam_nome < 3) {
-        alert("Digite um nome válido")
-    } else {
-        console.log('passei nas validações')
-        for (let k = 0; k < cidadesSP.length; k++) {
-            if (cidadesSP[k] == cidadeAtuante) {
-                codigoCidade = codigosCidade[k];
-            }
-        }
-        console.log(codigoCidade);
-        fetch("/login/cadastrar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                nomeServer: nome,
-                dtNascServer: dataNasc,
-                cargoServer: cargo,
-                conselhoServer: conselho,
-                cidadeServer: codigoCidade,
-                senhaServer: senhaPadrao,
-
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
-                if (resposta.ok) {
-                    // cardErro.style.display = "block";
-
-                    alert("Cadastro realizado com sucesso! Atualizando lista de funcionários");
-                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                    setTimeout(() => {
-                        window.location.href = "gerenciamento.html";
-                    }, "2000");
-
-                    //   finalizarAguardar();
-                } else {
-                    throw alert("Houve um erro ao tentar realizar o cadastro!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                // finalizarAguardar();
-            });
-
-        return false;
-    }
-}
-
 function alterarSenha() {
     var senhaPadrao = ipt_senha.value;
     var senhaNova = ipt_nova.value;
@@ -579,7 +323,7 @@ function alterarSenha() {
         alert("Todos os campos devem ser preenchidos");
         return;
     } else if(senhaPadrao != senhaUser){
-        alert("A senha padrão não está correta, digite a mesma senha que usou para acessar.")
+        alert("A senha atual não está correta, digite a mesma senha que usou para acessar.")
         return;
     } else if (tam_senha < 8) {
         alert("A senha deve conter no mínimo 8 caracteres");
