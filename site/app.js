@@ -19,7 +19,7 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuario");
 var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
-var aquariosRouter = require("./src/routes/aquarios");
+var campanhassRouter = require("./src/routes/campanhas");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var loginRouter = require("./src/routes/login");
 
@@ -33,7 +33,7 @@ app.use("/", indexRouter);
 app.use("/usuario", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
-app.use("/aquarios", aquariosRouter);
+app.use("/campanhas", campanhasRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/login", loginRouter);
 
