@@ -100,26 +100,6 @@ const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550,
     3555307, 3555356, 3555406, 3555505, 3555604, 3555703, 3555802, 3555901, 3556008, 3556107, 3556206, 3556305, 3556354, 3556404, 3556453,
     3556503, 3556602, 3556701, 3556800, 3556909, 3556958, 3557006, 3557105, 3557154, 3557204, 3557303];
 
-const cargos = ["Selecione o cargo", "Agente de Saúde", "Médico", "Secretaria de Saúde"];
-
-const cidadeInput = document.getElementById("cidade");
-
-const selectCidade = document.createElement("select");
-selectCidade.name = "cidade";
-selectCidade.id = "sel_cidade";
-selectCidade.className = "select";
-
-// Adiciona as opções de cidades
-cidadesSP.forEach((cidade) => {
-    const option = document.createElement("option");
-    option.value = cidade;
-    option.textContent = cidade;
-    selectCidade.appendChild(option);
-});
-
-// Substitui o campo de input por um <select> com as cidades
-cidadeInput.replaceWith(selectCidade);
-
 const cidadeInputCadastro = document.getElementById("cidade_cadastro");
 
 const selectCidadeCadastro = document.createElement("select");
@@ -137,70 +117,6 @@ cidadesSP.forEach((cidade) => {
 
 // Substitui o campo de input por um <select> com as cidades
 cidadeInputCadastro.replaceWith(selectCidadeCadastro);
-
-const cidadeInput2 = document.getElementById("ipt_cidade");
-
-const selectCidade2 = document.createElement("select");
-selectCidade2.name = "cidade2";
-selectCidade2.id = "sel_cidade2";
-
-// Adiciona as opções de cidades
-cidadesSP.forEach((cidade) => {
-    const option2 = document.createElement("option");
-    option2.value = cidade;
-    option2.textContent = cidade;
-    selectCidade2.appendChild(option2);
-});
-
-// Substitui o campo de input por um <select> com as cidades
-cidadeInput2.replaceWith(selectCidade2);
-
-const cargoInput = document.getElementById("ipt_cargo");
-
-const selectCargo = document.createElement("select");
-selectCargo.name = "cargo";
-selectCargo.id = "sel_cargo";
-selectCargo.className = "select";
-
-cargos.forEach((cargo) => {
-    const opcao = document.createElement("option");
-    opcao.value = cargo;
-    opcao.textContent = cargo;
-    selectCargo.appendChild(opcao);
-});
-
-cargoInput.replaceWith(selectCargo);
-
-const cargoInputCadastro = document.getElementById("ipt_cargo_cadastro");
-
-const selectCargoCadastro = document.createElement("select");
-selectCargoCadastro.name = "cargo_cadastro";
-selectCargoCadastro.id = "sel_cargo_cadastro";
-selectCargoCadastro.className = "select";
-
-cargos.forEach((cargo) => {
-    const opcao4 = document.createElement("option");
-    opcao4.value = cargo;
-    opcao4.textContent = cargo;
-    selectCargoCadastro.appendChild(opcao4);
-});
-
-cargoInputCadastro.replaceWith(selectCargoCadastro);
-
-const cargoInput2 = document.getElementById("ipt_cargo2");
-
-const selectCargo2 = document.createElement("select");
-selectCargo2.name = "cargo";
-selectCargo2.id = "sel_cargo2";
-
-cargos.forEach((cargo) => {
-    const opcao2 = document.createElement("option");
-    opcao2.value = cargo;
-    opcao2.textContent = cargo;
-    selectCargo2.appendChild(opcao2);
-});
-
-cargoInput2.replaceWith(selectCargo2);
 
 window.onload = listarFuncionarios();
 
@@ -335,6 +251,18 @@ function abrirNotificacao() {
     var notificacao = document.getElementsByClassName('notificacoes')[0];
 
     notificacao.style.display = 'flex';
+}
+
+function acessarGerenciamento(){
+    window.location = 'gerenciamento.html';
+}
+
+function acessarConta(){
+    window.location = 'conta.html';
+}
+
+function acessarDashboard(){
+    window.location = 'dashboard.html';
 }
 
 function mostrarFuncionarios() {

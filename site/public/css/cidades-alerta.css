@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -78,11 +76,6 @@ body {
   border-top: 1px solid #00195a;
   padding: 40px 0;
   align-items: start;
-}
-
-.menu-principal {
-  display: flex;
-  flex-direction: column;
 }
 
 .lateral-extendido .icone-lateral {
@@ -165,8 +158,12 @@ nav button {
   align-items: center;
 }
 
+.tabelas{
+  display: flex;
+}
+
 .cadastro {
-  display: none;
+  display: flex;
   width: 100%;
   justify-content: space-around;
   border-bottom: 1px solid #adadad;
@@ -181,14 +178,6 @@ nav button {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     width: 70%;
-}
-
-.periodo{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #2e2e2e;
-  font-weight: 600;
 }
 
 button{
@@ -215,6 +204,7 @@ button{
   height: 25px;
   border-radius: 5px;
 }
+
 .busca select{
   height: 30px;
   border-radius: 5px;
@@ -226,53 +216,6 @@ button{
   justify-content: center;
   gap: 20px;
   width: 50%;
-}
-
-.input-box {
-    display: flex;
-    flex-direction: column;
-}
-
-.input-box label {
-    font-size: 0.9rem;
-    color: #333;
-    margin-bottom: 0.3rem;
-}
-
-.input-box input {
-  width: 85%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border 0.3s;
-}
-
-.input-box select {
-  width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border 0.3s;
-}
-
-.input-box input:hover {
-    background-color: #f0f0f0;
-}
-
-.input-box input:focus-visible {
-    border-color: #165c89;
-    outline: none;
-}
-
-.input-box select:hover {
-    background-color: #f0f0f0;
-}
-
-.input-box select:focus-visible {
-    border-color: #165c89;
-    outline: none;
 }
 
 .cadastro-box {
@@ -295,15 +238,6 @@ button{
     transition: border 0.3s;
 }
 
-.cadastro-box select {
-  width: 77%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border 0.3s;
-}
-
 .cadastro-box input:hover {
     background-color: #f0f0f0;
 }
@@ -311,6 +245,15 @@ button{
 .cadastro-box input:focus-visible {
     border-color: #165c89;
     outline: none;
+}
+
+.cadastro-box select {
+  width: 77%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
 }
 
 .cadastro-box select:hover {
@@ -331,201 +274,11 @@ button{
   padding: 10px 15px;
 }
 
-.botoes{
-  display: flex;
-  gap: 40px;
-}
-
-.tabela-usuario{
+.tabela-campanha{
   width: 100%;
   text-align: center;
   padding: 2rem;
   line-height: 3rem;
-}
-
-.select-ano{
-  margin: 0.6rem 0;
-  padding: 0.8rem 1.2rem;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 1px 1px 6px #0000001c;
-  font-size: 0.8rem;
-}
-
-.area-parametros-alerta {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 10px 0;
-  align-items: center;
-  justify-content: space-around;
-  gap: 1.5rem;
-}
-
-.item-regua {
-  width: 200px;
-  text-align: center;
-  height: 125px;
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  border-radius: 10px;
-  border: 1px solid #adadad;
-  background-color: #eeeeee;
-  gap: 5px;
-  padding: 30px 20px;
-}
-
-.identificacao{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.info-kpi{
-  display: flex;
-  flex-direction: column;
-  text-align: start;
-  gap: 5px;
-}
-
-.ajuda{
-  font-size: 1rem !important;
-  border: none;
-  background-color: transparent;
-}
-
-
-.item-regua p {
-  margin: 0;
-  font-weight: 300;
-  font-size: 1rem;
-}
-
-.item-regua p:nth-child(2) {
-  font-weight: 600;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: end;
-}
-
-.graficos{
-  display: flex;
-  gap: 20px;
-}
-
-.kpi {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  gap: 20px;
-}
-
-.coqueluche{
-display: flex;
-}
-
-.meningite{
-display: none;
-}
-
-.poliomielite{
-display: none;
-}
-
-/* Dashboard */
-
-.chart-container {
-  background-color: #eeeeee;
-  border: 1px solid #adadad;
-  height: 20rem;
-  width: 40rem;
-  padding: 0 40px;
-  margin: 1rem 0;
-  border-radius: 20px;
-  justify-content: center;
-}
-
-.chart-container button{
-  margin-top: 1rem;
-  height: 0;
-}
-
-.area-mensagem{
-  display: none;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
-  background-color: #2e2e2e1e;
-  position: fixed;
-  top: 0;
-}
-
-.area-fechar{
-  width: 100%;
-  text-align: end;
-}
-
-.fechar{
-  background-color: transparent;
-  border: none;
-}
-
-.mensagem{
-  padding: 30px;
-  background-color: #cdcdcd;
-  width: 35%;
-  height: 40%;
-  display: none;
-  position: fixed;
-  top: 25%;
-  left: 30%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  border-radius: 10px;
-  box-shadow: -10px 10px 10px #adadad;
-  font-size: 1rem;
-  color: #eeeeee;
-  font-weight: 900;
-  text-align: center;
-}
-
-.mensagem button{
-  padding: 10px 20px;
-}
-
-.titulo-mensagem{
-  font-size: 1.5rem;
-  color: #2e2e2e;
-}
-
-.corpo-mensagem{
-  font-weight: 500;
-  display: flex;
-  gap: 10px;
-}
-
-.quadradinho {
-  border: 1px solid #adadad;
-  text-align: center;
-  color: #000000;
-  border-radius: 15px;
-  height: 300px;
-  width: 400px;
-  justify-content: center;
-  font-size: 4rem;
-  font-weight: 700;
-}
-
-.quadradinho button{
-  margin-top: 1rem;
-  padding-left: 1rem;
-  height: 0;
 }
 
 .conteudo-dash {
@@ -534,39 +287,6 @@ display: none;
   width: 100%;
   margin: 0;
   border-radius: 10px;
-}
-
-.conteudo-dash-veloc {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  border-radius: 10px;
-}
-
-.conteudo-dash-medico {
-  display: flex;
-  height: 17rem !important;
-  width: 22rem !important;
-  margin-left: 10px;
-  margin-top: 13px;
-  border-radius: 10px;
-}
-
-.chart {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1rem;
-}
-
-.valor-vacina{
-  color: #00bf63 !important;
-}
-
-.valor-caso{
-  color: #ff3131 !important;
 }
 
 .dash {

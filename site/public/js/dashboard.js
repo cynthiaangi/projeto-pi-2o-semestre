@@ -1453,6 +1453,14 @@ function acessarGerenciamento(){
     window.location = 'gerenciamento.html';
 }
 
+function acessarConta(){
+    window.location = 'conta.html';
+}
+
+function acessarDashboard(){
+    window.location = 'dashboard.html';
+}
+
 function alterarCidade(){
     var cidadeEsolhida = sel_cidade.value;
     var codigoCidade = 0;
@@ -1672,9 +1680,6 @@ function criarGraficoSituacaoCobertura(idDoenca) {
     })
 
     var media = cidadesSP.length - acima - baixo
-    console.log(acima)
-    console.log(baixo)
-    console.log(media)
     dados3.push(acima)
     dados3.push(media)
     dados3.push(baixo)

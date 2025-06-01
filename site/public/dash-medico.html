@@ -38,7 +38,7 @@
                             <button onclick="recolherMenu()" id="menu" class="material-symbols-outlined">
                                 chevron_left
                             </button>
-                            <label for="menu">Voltar</label>
+                            <label for="menu">Recolher</label>
                         </div>
                         <div class="menu-item" onclick="abrirNotificacao()">
                             <span id="notificacao" class="material-symbols-outlined">
@@ -48,13 +48,13 @@
                         </div>
                     </div>
                     <div class="menu-ajuste">
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarConta()">
                             <span class="material-symbols-outlined" id="conta">
                                 person
                             </span>
                             <label for="conta">Conta</label>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarGerenciamento()">
                             <span class="material-symbols-outlined" id="funcionarios">
                                 manage_accounts
                             </span>
@@ -62,11 +62,11 @@
                         </div>
                     </div>
                     <div class="menu-sair">
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarDashboard()">
                             <span class="material-symbols-outlined" id="ajuda">
-                                help
+                                monitoring
                             </span>
-                            <label for="ajuda">Ajuda</label>
+                            <label for="ajuda">Dashboard</label>
                         </div>
                         <div class="menu-item">
                             <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral" id="sair">
@@ -82,13 +82,13 @@
                     <div class="titulo-notificacao">Notificações</div>
                     <div class="area-notificacao">
                         <div class="notificacao"><span class="material-symbols-outlined people">
-                            account_circle
+                                account_circle
                             </span>Mateus solicitou acesso ao Dashboard.</div>
                         <div>Revise as permissões e libere o acesso se apropriado.</div>
                     </div>
                     <div class="area-notificacao">
                         <div class="notificacao"><span class="material-symbols-outlined people">
-                            account_circle
+                                account_circle
                             </span>Cynthia solicitou acesso ao Dashboard.</div>
                         <div>Revise as permissões e libere o acesso se apropriado.</div>
                     </div>
@@ -115,8 +115,8 @@
                             close
                         </button>
                     </div>
-                        <div class="titulo-mensagem">
-                        </div>
+                    <div class="titulo-mensagem">
+                    </div>
                     <div class="corpo-mensagem"></div>
                 </div>
                 <div class="chart">
