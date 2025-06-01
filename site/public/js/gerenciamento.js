@@ -337,8 +337,24 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
+function acessarGerenciamento(){
+    window.location = 'gerenciamento.html';
+}
+
+function acessarConta(){
+    window.location = 'conta.html';
+}
+
+function acessarDashboard(){
+    window.location = 'dashboard.html';
+}
+
 function mostrarFuncionarios() {
-    window.location = 'dash-medico.html';
+    var areaCadastro = document.getElementsByClassName('cadastro')[0];
+
+    areaCadastro.style.display = 'none';
+
+    listarFuncionarios();
 }
 
 function habilitarEdicao(funcionario) {
