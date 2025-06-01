@@ -22,7 +22,8 @@ function autenticar(req, res) {
                             id: resultadoAutenticar[0].idUsuario,
                             conselho: resultadoAutenticar[0].numConselho,
                             nome: resultadoAutenticar[0].nomeCompleto,
-                            codigoCidade: resultadoAutenticar[0].fkCidadeResidente
+                            codigoCidade: resultadoAutenticar[0].fkCidadeResidente,
+                            cargoExercido: resultadoAutenticar[0].cargoExercido
                         });
                         
                     } else if (resultadoAutenticar.length == 0) {
