@@ -1030,6 +1030,18 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
+function acessarConta(){
+    window.location = 'conta.html';
+}
+
+function acessarDashboard(){
+    window.location = 'dash-medico.html';
+}
+
+function acessarCampanha(){
+    window.location = 'cidades-alerta.html';
+}
+
 function alterarDoencaCidade(){
     var doenca = doencaSelect.value;
     var cidade = cidadeUser;
