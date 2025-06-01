@@ -118,12 +118,12 @@ cidadesSP.forEach((cidade) => {
 // Substitui o campo de input por um <select> com as cidades
 cidadeInputCadastro.replaceWith(selectCidadeCadastro);
 
-window.onload = listarFuncionarios();
+window.onload = listarCampanhas();
 
-function listarFuncionarios() {
-    var tabela = document.getElementsByClassName("tabela-usuario")[0];
+function listarCampanhas() {
+    var tabela = document.getElementsByClassName("tabela-campanha")[0];
 
-    fetch("/funcionarios/listar").then(function (resposta) {
+    fetch("/campanhas/listar").then(function (resposta) {
         if (resposta.ok) {
             if (resposta.status == 204) {
                 var mensagem = document.createElement("span");
@@ -137,60 +137,38 @@ function listarFuncionarios() {
                 var titulo_instancia = document.createElement('tr');
                 var titulo_id = document.createElement('th');
                 var titulo_name = document.createElement('th');
-                var titulo_atividade = document.createElement('th');
-                var titulo_numberConselho = document.createElement('th');
-                var titulo_city = document.createElement('th');
+                var titulo_data = document.createElement('th');
                 var titulo_button = document.createElement('th');
 
-                titulo_id.innerHTML = "ID Funcionário";
-                titulo_name.innerHTML = "Nome completo";
-                titulo_atividade.innerHTML = "Cargo";
-                titulo_numberConselho.innerHTML = "CRM/ID Agente";
-                titulo_city.innerHTML = "Cidade";
+                titulo_id.innerHTML = "Número da Campanha";
+                titulo_name.innerHTML = "Nome Campanha";
+                titulo_data.innerHTML = "Data de Início";
                 titulo_button.innerHTML = "Edição";
 
                 titulo_instancia.appendChild(titulo_id);
                 titulo_instancia.appendChild(titulo_name);
-                titulo_instancia.appendChild(titulo_atividade);
-                titulo_instancia.appendChild(titulo_numberConselho);
-                titulo_instancia.appendChild(titulo_city);
+                titulo_instancia.appendChild(titulo_data);
                 titulo_instancia.appendChild(titulo_button);
                 tabela.appendChild(titulo_instancia);
 
                 for (let i = 0; i < resposta.length; i++) {
-                    if (resposta[i].numConselho.length == 5) {
-                        var instancia = document.createElement('tr');
-                        var id = document.createElement('td');
-                        var name = document.createElement('td');
-                        var atividade = document.createElement('td');
-                        var numberConselho = document.createElement('td');
-                        var city = document.createElement('td');
-                        var button = document.createElement('td');
-                        var cidade_funcionario = "";
-                        const funcionarioJSON = encodeURIComponent(JSON.stringify(resposta[i]));
+                    var instancia = document.createElement('tr');
+                    var id = document.createElement('td');
+                    var name = document.createElement('td');
+                    var data = document.createElement('td');
+                    var button = document.createElement('td');
 
-                        for (let j = 0; j < cidadesSP.length; j++) {
-                            if (codigosCidade[j] == resposta[i].fkCidadeResidente) {
-                                cidade_funcionario = cidadesSP[j];
-                            }
-                        }
+                    id.innerHTML = `${resposta[i].idCampanha}`;
+                    name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i], idCampanha})">${resposta[i].nomeCampanha}</span>`;
+                    data.innerHTML = `${resposta[i].dtCriacao}`;
+                    button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
 
-                        id.innerHTML = `${resposta[i].idUsuario}`;
-                        name.innerHTML = `${resposta[i].nomeCompleto}`;
-                        atividade.innerHTML = `${resposta[i].cargoExercido}`;
-                        numberConselho.innerHTML = `${resposta[i].numConselho}`;
-                        city.innerHTML = `${cidade_funcionario}`;
-                        button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
+                    instancia.appendChild(id);
+                    instancia.appendChild(name);
+                    instancia.appendChild(data);
+                    instancia.appendChild(button);
+                    tabela.appendChild(instancia);
 
-                        instancia.appendChild(id);
-                        instancia.appendChild(name);
-                        instancia.appendChild(atividade);
-                        instancia.appendChild(numberConselho);
-                        instancia.appendChild(city);
-                        instancia.appendChild(button);
-                        tabela.appendChild(instancia);
-
-                    }
                 }
             });
         } else {
@@ -199,6 +177,112 @@ function listarFuncionarios() {
     }).catch(function (resposta) {
         console.error(resposta);
     });
+}
+
+function selecionarCampanha(id) {
+    var tabela = document.getElementsByClassName("tabela-campanha")[0];
+
+    fetch(`/campanhas/listarCidades/${id}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                var mensagem = document.createElement("span");
+                mensagem.innerHTML = "Nenhum resultado encontrado."
+                tabela.appendChild(mensagem);
+                throw "Nenhum resultado encontrado!!";
+            }
+
+            resposta.json().then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                var titulo_instancia = document.createElement('tr');
+                var titulo_id = document.createElement('th');
+                var titulo_name = document.createElement('th');
+                var titulo_data = document.createElement('th');
+                var titulo_button = document.createElement('th');
+
+                titulo_id.innerHTML = "Identificação";
+                titulo_name.innerHTML = "Cidade";
+                titulo_data.innerHTML = "Data de Entrada";
+                titulo_button.innerHTML = "Excluir";
+
+                titulo_instancia.appendChild(titulo_id);
+                titulo_instancia.appendChild(titulo_name);
+                titulo_instancia.appendChild(titulo_data);
+                titulo_instancia.appendChild(titulo_button);
+                tabela.appendChild(titulo_instancia);
+
+                for (let i = 0; i < resposta.length; i++) {
+                    var instancia = document.createElement('tr');
+                    var id = document.createElement('td');
+                    var name = document.createElement('td');
+                    var data = document.createElement('td');
+                    var button = document.createElement('td');
+                    var cidade_campanha = "";
+
+                    for (let j = 0; j < cidadesSP.length; j++) {
+                        if (codigosCidade[j] == resposta[i].fkCidadeCampanha_Cidade) {
+                            cidade_campanha = cidadesSP[j];
+                        }
+                    }
+
+                    id.innerHTML = `${resposta[i].idCidadeCampanha}`;
+                    name.innerHTML = `${cidade_campanha}`;
+                    data.innerHTML = `${resposta[i].dtAdicionada}`;
+                    button.innerHTML = `<span class="material-symbols-outlined" onclick="excluirCidade(${resposta[i].idCidadeCampanha})">remove</span>`;
+
+                    instancia.appendChild(id);
+                    instancia.appendChild(name);
+                    instancia.appendChild(data);
+                    instancia.appendChild(button);
+                    tabela.appendChild(instancia);
+
+                }
+            });
+        } else {
+            throw ('Houve um erro na API!');
+        }
+    }).catch(function (resposta) {
+        console.error(resposta);
+    });
+}
+
+function excluirCidade(id){
+    return fetch(`/campanhas/excluirCidade/${id}`, {
+        method: "DELETE",
+
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+
+                setTimeout(() => {
+                    window.location.href = "gerenciamento.html";
+                }, "2000");
+
+
+            } else {
+                throw alert("Houve um erro ao tentar excluir funcionário!");
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+
+        });
+
+}
+
+function abrirCadastroCidade() {
+    var areaCadastro = document.getElementsByClassName('cadastro-cidade')[0];
+
+    areaCadastro.style.display = 'flex';
+}
+
+function abrirCadastroCampanha() {
+    var areaCadastro = document.getElementsByClassName('cadastro')[0];
+
+    areaCadastro.style.display = 'flex';
 }
 
 function cadastrarFuncionarios() {
@@ -253,15 +337,15 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
-function acessarGerenciamento(){
+function acessarGerenciamento() {
     window.location = 'gerenciamento.html';
 }
 
-function acessarConta(){
+function acessarConta() {
     window.location = 'conta.html';
 }
 
-function acessarDashboard(){
+function acessarDashboard() {
     window.location = 'dashboard.html';
 }
 
@@ -366,29 +450,29 @@ function excluir() {
     var id = idFuncionario;
 
     return fetch(`/funcionarios/excluir/${id}`, {
-                    method: "DELETE",
+        method: "DELETE",
 
-                })
-                    .then(function (resposta) {
-                        console.log("resposta: ", resposta);
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
 
-                        if (resposta.ok) {
+            if (resposta.ok) {
 
-                            alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
 
-                            setTimeout(() => {
-                                window.location.href = "gerenciamento.html";
-                            }, "2000");
+                setTimeout(() => {
+                    window.location.href = "gerenciamento.html";
+                }, "2000");
 
 
-                        } else {
-                            throw alert("Houve um erro ao tentar excluir funcionário!");
-                        }
-                    })
-                    .catch(function (resposta) {
-                        console.log(`#ERRO: ${resposta}`);
+            } else {
+                throw alert("Houve um erro ao tentar excluir funcionário!");
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
 
-                    });
+        });
 
 }
 
@@ -477,7 +561,7 @@ function alterarSenha() {
     if (senhaNova == "" || senhaPadrao == "") {
         alert("Todos os campos devem ser preenchidos");
         return;
-    } else if(senhaPadrao != senhaUser){
+    } else if (senhaPadrao != senhaUser) {
         alert("A senha padrão não está correta, digite a mesma senha que usou para acessar.")
         return;
     } else if (tam_senha < 8) {
@@ -504,36 +588,36 @@ function alterarSenha() {
             return;
         } else {
             fetch(`/funcionarios/alterarSenha/${idUsuario}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            senhaServer: senhaNova,
-        }),
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    senhaServer: senhaNova,
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                // cardErro.style.display = "block";
+                    if (resposta.ok) {
+                        // cardErro.style.display = "block";
 
-                alert("Senha atualizada com sucesso! Encaminhando para sua página");
-                // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+                        alert("Senha atualizada com sucesso! Encaminhando para sua página");
+                        // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-                setTimeout(() => {
-                    window.location.href = "dash-medico.html";
-                }, "2000");
+                        setTimeout(() => {
+                            window.location.href = "dash-medico.html";
+                        }, "2000");
 
-                //   finalizarAguardar();
-            } else {
-                throw alert("Houve um erro ao tentar atualizar a senha!");
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            // finalizarAguardar();
-        });
+                        //   finalizarAguardar();
+                    } else {
+                        throw alert("Houve um erro ao tentar atualizar a senha!");
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    // finalizarAguardar();
+                });
 
         }
     }

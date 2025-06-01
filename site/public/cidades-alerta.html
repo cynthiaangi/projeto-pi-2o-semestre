@@ -102,6 +102,7 @@
                             <label for="">Nome: </label>
                             <input type="text" id="ipt_nome">
                             <button onclick="buscar()">Filtrar</button>
+                            <button onclick="abrirCadastroCampanha()">Cadastrar nova campanha</button>
                         </div>
                         <div class="cadastro">
                             <div class="input-group">
@@ -117,28 +118,29 @@
                                 </div>
 
                                 <div class="continue-button">
-                                    <button type="button" onclick="cadastrar()">Cadastrar Campanha</button>
+                                    <button type="button" onclick="cadastrarCampanha()">Cadastrar Campanha</button>
                                 </div>
 
                             </div>
                         </div>
                         <table class="tabela-campanha">
+                            Não há campanhas cadastradas!
                         </table>
                     </div>
                     <div class="cidades">
-                        <div class="busca" onclick="buscar()">
+                        <div class="busca" onclick="abrirCadastroCidade()">
                             <div>Adicionar cidade</div>
                             <span class="material-symbols-outlined">
                                 add
                             </span>
                         </div>
-                        <div class="cadastro">
+                        <div class="cadastro-cidade">
                             <div class="input-group">
                                 <select id="cidade_cadastro" name="cidade">
                                 <option value="">Selecione uma cidade</option>
                             </select>
-                                <div class="continue-button">
-                                    <button type="button" onclick="cadastrar()">Cadastrar Cidade</button>
+                                <div class="button-cidade">
+                                    <button type="button" onclick="cadastrarCidade()">Cadastrar Cidade</button>
                                 </div>
                             </div>
                         </div>
