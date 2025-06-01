@@ -19,7 +19,7 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuario");
 var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
-var campanhassRouter = require("./src/routes/campanhas");
+var campanhasRouter = require("./src/routes/campanhas");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var loginRouter = require("./src/routes/login");
 
