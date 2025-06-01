@@ -7,7 +7,7 @@
     <title>ImmunoData</title>
     <!-- <script src="./js/sessao.js"></script>
     <script src="./js/alerta.js"></script> -->
-    <link rel="stylesheet" href="css/gerenciamento.css" />
+    <link rel="stylesheet" href="css/conta.css" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
@@ -38,12 +38,6 @@
                                 chevron_left
                             </button>
                             <label for="menu">Recolher</label>
-                        </div>
-                        <div class="menu-item" onclick="abrirNotificacao()">
-                            <span id="notificacao" class="material-symbols-outlined">
-                                notifications
-                            </span>
-                            <label for="notificacao">Notificações</label>
                         </div>
                     </div>
                     <div class="menu-ajuste">
@@ -76,29 +70,11 @@
                     </div>
                 </div>
             </nav>
-            <div class="dashboard-conteudo" onclick="fecharNotificacao()">
-                <div class="notificacoes">
-                    <div class="titulo-notificacao">Notificações</div>
-                    <div class="area-notificacao">
-                        <div class="notificacao"><span class="material-symbols-outlined people">
-                                account_circle
-                            </span>Mateus solicitou acesso ao Dashboard.</div>
-                        <div>Revise as permissões e libere o acesso se apropriado.</div>
-                    </div>
-                    <div class="area-notificacao">
-                        <div class="notificacao"><span class="material-symbols-outlined people">
-                                account_circle
-                            </span>Cynthia solicitou acesso ao Dashboard.</div>
-                        <div>Revise as permissões e libere o acesso se apropriado.</div>
-                    </div>
-                </div>
-                <div class="cabecalho">
-                    <div>Olá, <span id="nome_usuario"></span></div>
-                </div>
+            <div class="dashboard-conteudo">
                 <div class="area-mensagem" onclick="fecharMensagem()"></div>
                 <div class="mensagem">
                     <div class="titulo-mensagem">
-                        Editar Funcionário
+                        Editar Sua Conta
                     </div>
                     <div class="corpo-mensagem">
                         <div class="edicao-parte">
@@ -153,12 +129,14 @@
                     </div>
                     <div class="botoes">
                         <button onclick="alterarSenha()">Confirmar</button>
+                        <button onclick="excluir()">Excluir Conta</button>
+                        <button onclick="excluir()">Retornar a Dashboard</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-    <script src="js/gerenciamento.js"></script>
+    <script src="js/conta.js"></script>
 </body>
 
 </html>
