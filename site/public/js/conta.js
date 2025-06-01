@@ -179,16 +179,16 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
-function acessarGerenciamento(){
+function acessarGerenciamento() {
     window.location = 'gerenciamento.html';
 }
 
-function acessarConta(){
+function acessarConta() {
     window.location = 'conta.html';
 }
 
-function acessarDashboard(){
-    if(conselho.length == 4){
+function acessarDashboard() {
+    if (conselho.length == 4) {
         window.location = 'dashboard.html';
     } else {
         window.location = 'dash-medico.html';
@@ -227,11 +227,11 @@ function habilitarEdicao() {
 }
 
 function alterarFuncionario() {
-    var nome = document.getElementById("ipt_nome").value;
+    var nomeAtual = document.getElementById("ipt_nome").value;
     var cidadeAtuante = document.getElementById("sel_cidade").value;
     var codigoCidade = 0;
-    var cargo = document.getElementById("sel_cargo").value;
-    var conselho = document.getElementById("ipt_number").value;
+    var cargoAtual = document.getElementById("sel_cargo").value;
+    var conselhoAtual = document.getElementById("ipt_number").value;
     var id = idUsuario;
 
 
@@ -260,11 +260,20 @@ function alterarFuncionario() {
             if (resposta.ok) {
                 // cardErro.style.display = "block";
 
-                alert("Funcionário atualizado com sucesso! Atualizando lista de funcionários");
+                alert("Dados atualizados com sucesso! Redirecionando para sua dashboard");
                 // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
+                sessionStorage.CONSELHO_USUARIO = conselhoAtual;
+                sessionStorage.NOME_USUARIO = nomeAtual;
+                sessionStorage.CIDADE_USUARIO = cidadeAtuante;
+                sessionStorage.CARGO_USUARIO = cargoAtual;
+
                 setTimeout(() => {
-                    window.location.href = "gerenciamento.html";
+                    if (conselho.length == 4) {
+                        window.location = 'dashboard.html';
+                    } else {
+                        window.location = 'dash-medico.html';
+                    }
                 }, "2000");
 
                 //   finalizarAguardar();
@@ -283,29 +292,29 @@ function excluir() {
     var id = idUsuario;
 
     return fetch(`/funcionarios/excluir/${id}`, {
-                    method: "DELETE",
+        method: "DELETE",
 
-                })
-                    .then(function (resposta) {
-                        console.log("resposta: ", resposta);
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
 
-                        if (resposta.ok) {
+            if (resposta.ok) {
 
-                            alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+                alert("Que pena que excluiu sua conta! :( Deslogando");
 
-                            setTimeout(() => {
-                                window.location.href = "gerenciamento.html";
-                            }, "2000");
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, "2000");
 
 
-                        } else {
-                            throw alert("Houve um erro ao tentar excluir funcionário!");
-                        }
-                    })
-                    .catch(function (resposta) {
-                        console.log(`#ERRO: ${resposta}`);
+            } else {
+                throw alert("Houve um erro ao tentar excluir sua conta!");
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
 
-                    });
+        });
 
 }
 
@@ -322,7 +331,7 @@ function alterarSenha() {
     if (senhaNova == "" || senhaPadrao == "") {
         alert("Todos os campos devem ser preenchidos");
         return;
-    } else if(senhaPadrao != senhaUser){
+    } else if (senhaPadrao != senhaUser) {
         alert("A senha atual não está correta, digite a mesma senha que usou para acessar.")
         return;
     } else if (tam_senha < 8) {
@@ -349,36 +358,36 @@ function alterarSenha() {
             return;
         } else {
             fetch(`/funcionarios/alterarSenha/${idUsuario}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            senhaServer: senhaNova,
-        }),
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    senhaServer: senhaNova,
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                // cardErro.style.display = "block";
+                    if (resposta.ok) {
+                        // cardErro.style.display = "block";
 
-                alert("Senha atualizada com sucesso! Encaminhando para sua página");
-                // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+                        alert("Senha atualizada com sucesso! Encaminhando para sua página");
+                        // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-                setTimeout(() => {
-                    window.location.href = "dash-medico.html";
-                }, "2000");
+                        setTimeout(() => {
+                            window.location.href = "dash-medico.html";
+                        }, "2000");
 
-                //   finalizarAguardar();
-            } else {
-                throw alert("Houve um erro ao tentar atualizar a senha!");
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            // finalizarAguardar();
-        });
+                        //   finalizarAguardar();
+                    } else {
+                        throw alert("Houve um erro ao tentar atualizar a senha!");
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    // finalizarAguardar();
+                });
 
         }
     }
