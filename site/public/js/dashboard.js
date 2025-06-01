@@ -1461,6 +1461,10 @@ function acessarDashboard(){
     window.location = 'dashboard.html';
 }
 
+function acessarCampanha(){
+    window.location = 'cidades-alerta.html';
+}
+
 function alterarCidade(){
     var cidadeEsolhida = sel_cidade.value;
     var codigoCidade = 0;
