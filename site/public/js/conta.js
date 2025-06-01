@@ -247,9 +247,9 @@ function alterarFuncionario() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            nomeServer: nome,
-            cargoServer: cargo,
-            conselhoServer: conselho,
+            nomeServer: nomeAtual,
+            cargoServer: cargoAtual,
+            conselhoServer: conselhoAtual,
             cidadeServer: codigoCidade
 
         }),
