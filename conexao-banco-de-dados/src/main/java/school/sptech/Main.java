@@ -5,6 +5,7 @@ import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.infraestrutura.DBConnectionProvider;
 import school.sptech.infraestrutura.S3Provider;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -43,7 +44,7 @@ public class Main {
                     // Deleta o arquivo
                     Files.delete(caminhoGet);
                 } catch (IOException e) {
-                    logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main.apagarArquivosAntigos");
+                    logEtl.inserirLogEtl(Status.S_503, "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "apagarArquivosAntigos", "Main");
                 }
             }
         }
@@ -65,10 +66,10 @@ public class Main {
 
                 // Busca o arquivo S3 com base na requisição
                 s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
-                logEtl.inserirLogEtl("200", "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "Main.baixarArquivosParaExtracao");
+                logEtl.inserirLogEtl(Status.S_200, "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "baixarArquivosParaExtracao", "Main");
             }
         } catch (S3Exception e) {
-            logEtl.inserirLogEtl("503", "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "Main.baixarArquivosParaExtracao");
+            logEtl.inserirLogEtl(Status.S_503, "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "baixarArquivosParaExtracao", "Main");
             throw new RuntimeException("Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()));
         }
     }
@@ -91,26 +92,26 @@ public class Main {
 
         // Inicializa a aplicação Java
         LogEtl logEtl = iniciarAplicacaoJava(connection);
-        logEtl.inserirLogEtl("200", "Inicializado a aplicação Java de ETL", "Main");
-        logEtl.inserirLogEtl("200", "Conectado com o Banco de Dados", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Inicializado a aplicação Java de ETL", "Main", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Conectado com o Banco de Dados", "Main", "Main");
 
         // Apagar arquivos antigos remanescentes
         apagarArquivosRemanescentes(logEtl, nomeArquivos);
 
         //Fazendo download dos arquivos do Bucket
         baixarArquivosParaExtracao(logEtl);
-        logEtl.inserirLogEtl("200", "Arquivos baixados xlsx do S3", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Arquivos baixados xlsx do S3", "Main", "Main");
 
         // Executa o processo de ETL
-        logEtl.inserirLogEtl("200", "Inicializado processo de ETL", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Inicializado processo de ETL", "Main", "Main");
         executarProcessoETL(logEtl, connection, nomeArquivos);
-        logEtl.inserirLogEtl("200", "Finalizado processo de ETL", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Finalizado processo de ETL", "Main", "Main");
 
         // Apaga os arquivos xlsx após execução do ETL
         apagarArquivosRemanescentes(logEtl, nomeArquivos);
 
         // Finaliza a aplicação Java
-        logEtl.inserirLogEtl("200", "Finalizado a aplicação Java de ETL", "Main");
+        logEtl.inserirLogEtl(Status.S_200, "Finalizado a aplicação Java de ETL", "Main", "Main");
         finalizarAplicacaoJava(logEtl);
     }
 }

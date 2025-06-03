@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class OcorrenciasAnuaisTransform extends Transform {
     }
 
     public void processarOcorrenciasAnuais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
 
         conectarAoBanco(connection);
 
@@ -40,12 +41,12 @@ public class OcorrenciasAnuaisTransform extends Transform {
                 Long codigoIbge = lerCodigoIbge(sheet.getRow(1));
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
-                    logEtl.inserirLogEtl("204", String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl(Status.S_204, String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
                     return;
                 }
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("404", String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_404, String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
             }
         }
 
@@ -81,7 +82,7 @@ public class OcorrenciasAnuaisTransform extends Transform {
                                     cobertura = Double.parseDouble(valorFormatado);
                                 }
                             } catch (NumberFormatException ex) {
-                                logEtl.inserirLogEtl("400", String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "Leitor Excel");
+                                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
                                 continue;
                             }
                         }
@@ -90,11 +91,11 @@ public class OcorrenciasAnuaisTransform extends Transform {
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
             }
 
         }
         ocorrenciasDao.finalizarInserts();
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
     }
 }

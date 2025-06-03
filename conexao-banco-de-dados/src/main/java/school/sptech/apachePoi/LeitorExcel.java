@@ -49,6 +49,7 @@ import school.sptech.transform.CidadesTransform;
 import school.sptech.transform.OcorrenciasAnuaisTransform;
 import school.sptech.transform.OcorrenciasMensaisTransform;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 public class LeitorExcel {
 
@@ -80,7 +81,7 @@ public class LeitorExcel {
                 casosTransform.processarCasosDoencas(logEtl, connection, nomeArquivo, planilhaExcel);
             }
             default -> {
-                logEtl.inserirLogEtl("404", "Arquivo não reconhecido: %s".formatted(nomeArquivo), "LeitorExcel.extraisDados");
+                logEtl.inserirLogEtl(Status.S_404, "Arquivo não reconhecido: %s".formatted(nomeArquivo), "processarDadosDoArquivo", "LeitorExcel");
             }
         }
     }
@@ -88,7 +89,7 @@ public class LeitorExcel {
     // metodo para extrair os dados de todos os arquivos Excel
     public void extrairDados(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
-            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "Main.executarProcessoETL");
+            logEtl.inserirLogEtl(Status.S_200, "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "extrairDados", "LeitorExcel");
 
             try {
                 // Abre arquivo
@@ -101,7 +102,7 @@ public class LeitorExcel {
                 arquivoLocal.close();
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_500, e.getMessage(),"extrairDados", "LeitorExcel");
                 throw new RuntimeException(e);
             }
         }

@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class OcorrenciasMensaisTransform extends Transform{
     }
 
     public void processarOcorrenciasMensais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
 
         conectarAoBanco(connection);
 
@@ -47,12 +48,12 @@ public class OcorrenciasMensaisTransform extends Transform{
                 Long codigoIbge = lerCodigoIbge(row);
 
                 if (ocorrenciasDao.existsByFksMensal(codigoIbge, meses[11], anos[1], doencasFK.get(doencaDaVez))) {
-                    logEtl.inserirLogEtl("204", String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl(Status.S_204, String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
                     return;
                 }
             }
         } catch (Exception e) {
-            logEtl.inserirLogEtl("404", String.format("Erro ao processar validação das ocorrências mensais na linha %s: %s", sheet.getRow(3).getRowNum(), e.getMessage()) ,"LeitorExcel");
+            logEtl.inserirLogEtl(Status.S_204, String.format("Erro ao processar validação das ocorrências mensais na linha %s: %s", sheet.getRow(3).getRowNum(), e.getMessage()) ,"processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
         }
 
         ocorrenciasDao.iniciarInserts();
@@ -84,7 +85,7 @@ public class OcorrenciasMensaisTransform extends Transform{
                                 coberturaVacinal = Double.parseDouble(valorFormatado);
                             } catch (NumberFormatException ex) {
                                 logEtl.inserirLogEtl(
-                                        "400", String.format("Erro ao converter valor na linha %d, coluna %d: %s", row.getRowNum(), coluna, ex.getMessage()), "LeitorExcel"
+                                        Status.S_400, String.format("Erro ao converter valor na linha %d, coluna %d: %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform"
                                 );
                                 continue;
                             }
@@ -94,11 +95,11 @@ public class OcorrenciasMensaisTransform extends Transform{
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
             }
         }
         ocorrenciasDao.finalizarInserts();
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
     }
 
 }

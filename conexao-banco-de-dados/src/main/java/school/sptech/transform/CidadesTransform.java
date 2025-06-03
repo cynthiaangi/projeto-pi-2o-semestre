@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.CidadesDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 public class CidadesTransform extends Transform {
     private CidadesDao cidadesDao;
@@ -14,7 +15,7 @@ public class CidadesTransform extends Transform {
     }
 
     public void processarCidades(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "leitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "processarCidades", "CidadesTransform");
 
         conectarAoBanco(connection);
 
@@ -42,15 +43,15 @@ public class CidadesTransform extends Transform {
                 // if (!cidadesDao.buscarPorId(codigoIbge)) {
                 cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
                 //} else {
-                    //logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"LeitorExcel");
+                    //logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"processarCidades", "CidadesTransform");
 
                 //}
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"processarCidades", "CidadesTransform");
             }
         }
         cidadesDao.finalizarInserts();
 
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarCidades", "CidadesTransform");
     }
 }

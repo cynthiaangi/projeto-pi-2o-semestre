@@ -6,6 +6,7 @@ import school.sptech.dao.CasosDao;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 import java.util.HashMap;
 
@@ -22,7 +23,7 @@ public class CasosTransform extends Transform{
     }
 
     public void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarCasosDoencas", "CasosTransform");
 
         conectarAoBanco(connection);
 
@@ -35,7 +36,7 @@ public class CasosTransform extends Transform{
         Sheet sheet = workbook.getSheetAt(0);
 
         if (!casosDao.verificarCasoAnualInserido()) {
-            logEtl.inserirLogEtl("204", String.format("Planilha do %s já inserida", nomeArquivo), "LeitorExcel.processarCasosDoencas");
+            logEtl.inserirLogEtl(Status.S_204, String.format("Planilha do %s já inserida", nomeArquivo), "processarCasosDoencas", "CasosTransform");
             return;
         }
 
@@ -68,17 +69,17 @@ public class CasosTransform extends Transform{
                                 numCasos = Integer.parseInt(valorFormatado);
                             }
                         } catch (NumberFormatException ex) {
-                            logEtl.inserirLogEtl("400", String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna), ex.getMessage());
+                            logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "processarCasosDoencas", "CasosTransform");
                             continue;
                         }
                         casosDao.inserirCasos(fkDoenca, codigoIbge, anos[a], numCasos);
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"processarCasosDoencas", "CasosTransform");
             }
         }
         casosDao.finalizarInserts();
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarCasosDoencas", "CasosTransform");
     }
 }
