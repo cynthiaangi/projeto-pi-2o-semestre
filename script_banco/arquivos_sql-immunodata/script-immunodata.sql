@@ -25,16 +25,14 @@ CREATE TABLE cidadeCampanha (
 CREATE TABLE perfil (
 	idPerfil INT PRIMARY KEY AUTO_INCREMENT,
 	nomePerfil VARCHAR(30) NOT NULL,
-	podeAcessarDashGeral BOOLEAN NOT NULL,
-	podeAcessarDashCidade BOOLEAN NOT NULL,
 	podeCadastrarPerfil BOOLEAN NOT NULL,
 	podeCadastrarFuncionario BOOLEAN NOT NULL,
 	podeCriarCampanha BOOLEAN NOT NULL
 );
 
-INSERT INTO perfil (nomePerfil, podeAcessarDashGeral, podeAcessarDashCidade, podeCadastrarPerfil, podeCadastrarFuncionario, podeCriarCampanha) VALUES
-	("Administrador", TRUE,TRUE, TRUE, TRUE, TRUE),
-	("Comum", FALSE, TRUE, FALSE, FALSE, FALSE);
+INSERT INTO perfil (nomePerfil, podeCadastrarPerfil, podeCadastrarFuncionario, podeCriarCampanha) VALUES
+	("Administrador", TRUE, TRUE, TRUE),
+	("Comum", FALSE, FALSE, FALSE);
 
 CREATE TABLE usuarios (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -44,7 +42,7 @@ CREATE TABLE usuarios (
     numConselho VARCHAR(5) NOT NULL,
     senha VARCHAR(45) NOT NULL,
     fkCidadeResidente BIGINT,
-    fkUsuarios_Perfil INT,
+    fkUsuarios_Perfil INT DEFAULT 2,
     CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge),
     CONSTRAINT constraint_fkUsuarios_Perfil FOREIGN KEY (fkUsuarios_Perfil) REFERENCES perfil(idPerfil)
 );
