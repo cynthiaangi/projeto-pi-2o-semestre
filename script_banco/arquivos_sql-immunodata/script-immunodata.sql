@@ -8,13 +8,13 @@ CREATE TABLE cidades (
 );
 
 CREATE TABLE campanha (
-	idCampanha INT PRIMARY KEY,
+	idCampanha INT PRIMARY KEY AUTO_INCREMENT,
 	nomeCampanha VARCHAR(90) NOT NULL,
 	dtCriacao DATE NOT NULL
 );
 
 CREATE TABLE cidadeCampanha (
-        idCidadeCampanha INT PRIMARY KEY,
+        idCidadeCampanha INT PRIMARY KEY AUTO_INCREMENT,
         dtAdicionada DATE NOT NULL,
         fkCidadeCampanha_Cidade BIGINT,
         fkCidadeCampanha_Campanha INT,
@@ -24,11 +24,17 @@ CREATE TABLE cidadeCampanha (
 
 CREATE TABLE perfil (
 	idPerfil INT PRIMARY KEY AUTO_INCREMENT,
-	acessoDash VARCHAR(20),
-	podeAlterarPerfil BOOLEAN,
-	podeCadastrarFuncionario BOOLEAN,
-	podeCriarCampanha BOOLEAN
+	nomePerfil VARCHAR(30) NOT NULL,
+	podeAcessarDashGeral BOOLEAN NOT NULL,
+	podeAcessarDashCidade BOOLEAN NOT NULL,
+	podeCadastrarPerfil BOOLEAN NOT NULL,
+	podeCadastrarFuncionario BOOLEAN NOT NULL,
+	podeCriarCampanha BOOLEAN NOT NULL
 );
+
+INSERT INTO perfil (nomePerfil, podeAcessarDashGeral, podeAcessarDashCidade, podeCadastrarPerfil, podeCadastrarFuncionario, podeCriarCampanha) VALUES
+	("Administrador", TRUE,TRUE, TRUE, TRUE, TRUE),
+	("Comum", FALSE, TRUE, FALSE, FALSE, FALSE);
 
 CREATE TABLE usuarios (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -42,6 +48,10 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuarios_cidades FOREIGN KEY (fkCidadeResidente) REFERENCES cidades(codigoIbge),
     CONSTRAINT constraint_fkUsuarios_Perfil FOREIGN KEY (fkUsuarios_Perfil) REFERENCES perfil(idPerfil)
 );
+
+INSERT INTO usuarios (nomeCompleto, dataNascimento, cargoExercido, numConselho, senha, fkCidadeResidente, fkUsuarios_perfil) VALUES
+	("Mateus Roque", 21/06/2003, "", "000", "1234", , 1),
+	("Linya Alves", 08/08/2004, "", "0001", "5678", , 2);
 
 CREATE TABLE doencas (
     idDoenca INT PRIMARY KEY AUTO_INCREMENT,
@@ -57,13 +67,13 @@ INSERT INTO doencas (nomeDoenca, nomeVacina) VALUES
 
 CREATE TABLE ocorrencias (
 	idOcorrencia INT primary key auto_increment,
-    fkDoenca INT,
-    fkCidade BIGINT,
-    mesReferencia VARCHAR(40),
-    anoReferencia YEAR NOT NULL,
-    coberturaVacinal DOUBLE,
-    CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
-    CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
+	fkDoenca INT,
+	fkCidade BIGINT,
+	mesReferencia VARCHAR(40),
+	anoReferencia YEAR NOT NULL,
+	coberturaVacinal DOUBLE,
+	CONSTRAINT fk_ocorrencia_doenca FOREIGN KEY (fkDoenca) REFERENCES doencas(idDoenca),
+	CONSTRAINT fk_ocorrencia_cidade FOREIGN KEY (fkCidade) REFERENCES cidades(codigoIbge)
 );
 
 CREATE TABLE casos (
@@ -77,10 +87,11 @@ CREATE TABLE casos (
 );
 
 CREATE TABLE logetl (
-    idLog INT PRIMARY KEY AUTO_INCREMENT,
-    status VARCHAR(100) NOT NULL,
-    dataHora DATETIME NOT NULL,
-    detalhes TEXT,
-    metodoQueOcorreu VARCHAR(100),
-    idDaExecucaoEtl VARCHAR(20)
+	idLog INT PRIMARY KEY AUTO_INCREMENT,
+	status VARCHAR(3) NOT NULL,
+	dataHora DATETIME NOT NULL,
+	detalhes TEXT,
+	metodoQueOcorreu VARCHAR(100),
+	classeQueOcorreu VARCHAR(100),
+	idDaExecucaoEtl VARCHAR(30)
 );
