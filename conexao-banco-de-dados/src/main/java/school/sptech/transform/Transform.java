@@ -4,7 +4,6 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.DoencasDao;
-import school.sptech.dao.OcorrenciasDao;
 
 import java.util.HashMap;
 

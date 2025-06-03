@@ -44,7 +44,6 @@ public class Main {
                     Files.delete(caminhoGet);
                 } catch (IOException e) {
                     logEtl.inserirLogEtl("503", "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "Main.apagarArquivosAntigos");
-
                 }
             }
         }
