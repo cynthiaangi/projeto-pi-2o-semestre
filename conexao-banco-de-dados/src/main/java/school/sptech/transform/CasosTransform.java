@@ -4,7 +4,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.dao.CasosDao;
 import school.sptech.dao.DoencasDao;
-import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
 import school.sptech.utils.Status;
 
@@ -16,16 +15,20 @@ public class CasosTransform extends Transform{
     private DoencasDao doencasDao;
     private CasosDao casosDao;
 
+    public CasosTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
+    }
+
     @Override
-    public void conectarAoBanco(JdbcTemplate connection) {
+    public void conectarAoBanco() {
         this.doencasDao = new DoencasDao(connection);
         this.casosDao = new CasosDao(connection);
     }
 
-    public void processarCasosDoencas(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
+    public void processarCasosDoencas(String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarCasosDoencas", "CasosTransform");
 
-        conectarAoBanco(connection);
+        conectarAoBanco();
 
         Integer[] anos = {2019, 2020, 2021, 2022, 2023, 2024};
 

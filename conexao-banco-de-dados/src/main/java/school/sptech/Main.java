@@ -6,6 +6,8 @@ import school.sptech.infraestrutura.DBConnectionProvider;
 import school.sptech.infraestrutura.S3Provider;
 import school.sptech.utils.LogEtl;
 import school.sptech.utils.Status;
+import software.amazon.awssdk.core.SdkClient;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.List;
 
 import static school.sptech.utils.LogEtl.iniciarLog;
@@ -28,7 +31,7 @@ public class Main {
         return logEtl;
     }
 
-    public static JdbcTemplate conectarBanco () {
+    public static JdbcTemplate conectarBancoGeral () {
         DBConnectionProvider dbConnectionProvider = new DBConnectionProvider();
         JdbcTemplate connection = dbConnectionProvider.getJdbcTemplate();
 
@@ -41,7 +44,6 @@ public class Main {
 
             if (Files.exists(caminhoGet)) {
                 try {
-                    // Deleta o arquivo
                     Files.delete(caminhoGet);
                 } catch (IOException e) {
                     logEtl.inserirLogEtl(Status.S_503, "Erro ao deletar o arquivo %s: %s %n".formatted(nomeArquivo, e.getMessage()), "apagarArquivosAntigos", "Main");
@@ -66,17 +68,22 @@ public class Main {
 
                 // Busca o arquivo S3 com base na requisição
                 s3Client.getObject(requisicaoArquivo, ResponseTransformer.toFile(new File(arquivoS3.key())));
-                logEtl.inserirLogEtl(Status.S_200, "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "baixarArquivosParaExtracao", "Main");
+                logEtl.inserirLogEtl(Status.S_201, "Arquivo baixado: %s %n".formatted(arquivoS3.key()), "baixarArquivosParaExtracao", "Main");
             }
         } catch (S3Exception e) {
             logEtl.inserirLogEtl(Status.S_503, "Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()), "baixarArquivosParaExtracao", "Main");
             throw new RuntimeException("Erro ao fazer download dos arquivos:%s %n".formatted(e.getMessage()));
+        } catch (SdkClientException e) {
+            logEtl.inserirLogEtl(Status.S_403, "Acesso negado a AWS", "baixarArquivosParaExtracao", "Main");
+            throw new RuntimeException("Acesso negado a AWS:%s %n".formatted(e.getMessage()));
+        } catch (Exception e) {
+            logEtl.inserirLogEtl(Status.S_504, String.format("Erro inesperado ao baixar arquivos do S3:%s %n", e.getMessage()), "baixarArquivosParaExtracao", "Main");
         }
     }
 
     public static void executarProcessoETL(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
-        LeitorExcel leitor = new LeitorExcel();
-        leitor.extrairDados(logEtl, connection, nomeArquivos);
+        LeitorExcel leitor = new LeitorExcel(logEtl);
+        leitor.extrairDados(connection, nomeArquivos);
     }
 
     public static void finalizarAplicacaoJava(LogEtl logEtl) throws IOException, InterruptedException {
@@ -88,7 +95,7 @@ public class Main {
         String[] nomeArquivos = {"cidades-sp.xlsx", "estadoSP_vacinas-19-22.xlsx", "estadoSP_vacinas-23-24.xlsx", "estadoSP_doencas.xlsx"};
 
         // Conexão com o Banco de Dados
-        JdbcTemplate connection = conectarBanco();
+        JdbcTemplate connection = conectarBancoGeral();
 
         // Inicializa a aplicação Java
         LogEtl logEtl = iniciarAplicacaoJava(connection);

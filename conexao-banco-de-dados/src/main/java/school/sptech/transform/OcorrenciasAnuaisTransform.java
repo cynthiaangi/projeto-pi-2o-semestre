@@ -15,16 +15,20 @@ public class OcorrenciasAnuaisTransform extends Transform {
     private DoencasDao doencasDao;
     private OcorrenciasDao ocorrenciasDao;
 
+    public OcorrenciasAnuaisTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
+    }
+
     @Override
-    public void conectarAoBanco(JdbcTemplate connection) {
+    public void conectarAoBanco() {
         this.doencasDao = new DoencasDao(connection);
         this.ocorrenciasDao = new OcorrenciasDao(connection);
     }
 
-    public void processarOcorrenciasAnuais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
+    public void processarOcorrenciasAnuais(String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
 
-        conectarAoBanco(connection);
+        conectarAoBanco();
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
@@ -80,6 +84,9 @@ public class OcorrenciasAnuaisTransform extends Transform {
                                 String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                                 if (!valorFormatado.isEmpty()) {
                                     cobertura = Double.parseDouble(valorFormatado);
+                                    if (cobertura > 100.00) {
+                                        cobertura = 100.00;
+                                    }
                                 }
                             } catch (NumberFormatException ex) {
                                 logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
