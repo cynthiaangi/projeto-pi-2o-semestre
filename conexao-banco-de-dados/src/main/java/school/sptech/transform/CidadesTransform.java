@@ -9,15 +9,19 @@ import school.sptech.utils.Status;
 public class CidadesTransform extends Transform {
     private CidadesDao cidadesDao;
 
+    public CidadesTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
+    }
+
     @Override
-    public void conectarAoBanco(JdbcTemplate connection) {
+    public void conectarAoBanco() {
         this.cidadesDao = new CidadesDao(connection);
     }
 
-    public void processarCidades(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
+    public void processarCidades(String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "processarCidades", "CidadesTransform");
 
-        conectarAoBanco(connection);
+        conectarAoBanco();
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);

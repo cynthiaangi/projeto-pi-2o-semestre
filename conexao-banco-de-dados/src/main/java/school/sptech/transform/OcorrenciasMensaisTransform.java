@@ -15,16 +15,20 @@ public class OcorrenciasMensaisTransform extends Transform{
     private DoencasDao doencasDao;
     private OcorrenciasDao ocorrenciasDao;
 
+    public OcorrenciasMensaisTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
+    }
+
     @Override
-    public void conectarAoBanco(JdbcTemplate connection) {
+    public void conectarAoBanco() {
         this.doencasDao = new DoencasDao(connection);
         this.ocorrenciasDao = new OcorrenciasDao(connection);
     }
 
-    public void processarOcorrenciasMensais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
+    public void processarOcorrenciasMensais(String nomeArquivo, Workbook workbook) {
         logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform");
 
-        conectarAoBanco(connection);
+        conectarAoBanco();
 
         // Mapeamento das variáveis da planilha
         String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
