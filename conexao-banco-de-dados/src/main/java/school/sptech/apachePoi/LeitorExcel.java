@@ -100,7 +100,7 @@ public class LeitorExcel {
 
                 Workbook planilhaExcel = new XSSFWorkbook(arquivoLocal);
 
-                this.processarDadosDoArquivo(logEtl, connection, planilhaExcel, nomeArquivo);
+                this.processarDadosDoArquivo(connection, planilhaExcel, nomeArquivo);
 
                 arquivoLocal.close();
 
