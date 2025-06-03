@@ -26,14 +26,15 @@ public class LogEtl {
         this.idExecucao = idExecucao;
     }
 
-    public void inserirLogEtl(String status, String detalhes, String metodoQueOcorreu) {
+    public void inserirLogEtl(Status status, String detalhes, String metodoQueOcorreu, String classeQueOcorreu) {
         String dateTimeAgora = LocalDateTime.now().format(formatoHorarioLog);
+        String statusNumero = status.getNumero();
 
         // Printa log no terminal
-        System.out.printf("\n[%s] [%s] - %s (%s) - %s%n", status, dateTimeAgora, detalhes, metodoQueOcorreu, this.idExecucao);
+        System.out.printf("\n[%s] [%s] - %s (%s) - %s%n", statusNumero, dateTimeAgora, detalhes, metodoQueOcorreu, classeQueOcorreu, this.idExecucao);
 
         // Insere log no banco de dados
-        logEtlDao.inserirLogBD(dateTimeAgora, status, detalhes, metodoQueOcorreu);
+        logEtlDao.inserirLogBD(dateTimeAgora, statusNumero, detalhes, metodoQueOcorreu, classeQueOcorreu, idExecucao);
     }
 
     public static String criarIdExecucao(LocalDateTime horarioInicio) {
