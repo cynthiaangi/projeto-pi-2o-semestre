@@ -49,10 +49,6 @@ CREATE TABLE usuarios (
     CONSTRAINT constraint_fkUsuarios_Perfil FOREIGN KEY (fkUsuarios_Perfil) REFERENCES perfil(idPerfil)
 );
 
-INSERT INTO usuarios (nomeCompleto, dataNascimento, cargoExercido, numConselho, senha, fkCidadeResidente, fkUsuarios_perfil) VALUES
-	("Mateus Roque", 21/06/2003, "", "000", "1234", , 1),
-	("Linya Alves", 08/08/2004, "", "0001", "5678", , 2);
-
 CREATE TABLE doencas (
     idDoenca INT PRIMARY KEY AUTO_INCREMENT,
     nomeDoenca VARCHAR(45) NOT NULL,
