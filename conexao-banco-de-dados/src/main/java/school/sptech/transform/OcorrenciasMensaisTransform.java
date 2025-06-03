@@ -83,6 +83,9 @@ public class OcorrenciasMensaisTransform extends Transform{
                             try {
                                 String valorFormatado = formatter.formatCellValue(cell2).replace(",", ".").trim();
                                 coberturaVacinal = Double.parseDouble(valorFormatado);
+                                if (coberturaVacinal > 100.00) {
+                                    coberturaVacinal = 100.00;
+                                }
                             } catch (NumberFormatException ex) {
                                 logEtl.inserirLogEtl(
                                         Status.S_400, String.format("Erro ao converter valor na linha %d, coluna %d: %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasMensais", "OcorrenciasMensaisTransform"

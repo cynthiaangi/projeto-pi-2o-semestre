@@ -80,6 +80,9 @@ public class OcorrenciasAnuaisTransform extends Transform {
                                 String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                                 if (!valorFormatado.isEmpty()) {
                                     cobertura = Double.parseDouble(valorFormatado);
+                                    if (cobertura > 100.00) {
+                                        cobertura = 100.00;
+                                    }
                                 }
                             } catch (NumberFormatException ex) {
                                 logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
