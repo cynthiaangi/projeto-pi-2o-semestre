@@ -10,12 +10,12 @@ CREATE TABLE cidades (
 CREATE TABLE campanha (
 	idCampanha INT PRIMARY KEY AUTO_INCREMENT,
 	nomeCampanha VARCHAR(90) NOT NULL,
-	dtCriacao DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+	dtCriacao DATE NOT NULL DEFAULT (CURRENT_DATE)
 );
 
 CREATE TABLE cidadeCampanha (
         idCidadeCampanha INT PRIMARY KEY AUTO_INCREMENT,
-        dtAdicionada DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        dtAdicionada DATE NOT NULL DEFAULT (CURRENT_DATE),
         fkCidadeCampanha_Cidade BIGINT,
         fkCidadeCampanha_Campanha INT,
         CONSTRAINT constraint_fkCidadeCampanha_Cidade FOREIGN KEY (fkCidadeCampanha_Cidade) REFERENCES cidades(codigoIbge),
