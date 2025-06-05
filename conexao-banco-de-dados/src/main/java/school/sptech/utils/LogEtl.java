@@ -34,7 +34,7 @@ public class LogEtl {
         System.out.printf("\n[%s] [%s] - %s (%s) - %s%n", statusNumero, dateTimeAgora, detalhes, metodoQueOcorreu, classeQueOcorreu, this.idExecucao);
 
         // Insere log no banco de dados
-        logEtlDao.inserirLogBD(dateTimeAgora, statusNumero, detalhes, metodoQueOcorreu, classeQueOcorreu, idExecucao);
+        logEtlDao.inserirLogBD(statusNumero, dateTimeAgora, detalhes, metodoQueOcorreu, classeQueOcorreu, idExecucao);
     }
 
     public static String criarIdExecucao(LocalDateTime horarioInicio) {
