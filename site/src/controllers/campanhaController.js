@@ -41,17 +41,17 @@ function excluirCidade(req, res) {
 
 
 function cadastrar(req, res) {
-  var descricao = req.body.descricao;
-  var idUsuario = req.body.idUsuario;
+  var nome = req.body.nomeServer;
+  var data = req.body.dataServer;
 
-  if (descricao == undefined) {
+  if (nome == undefined) {
     res.status(400).send("descricao está undefined!");
-  } else if (idUsuario == undefined) {
+  } else if (data == undefined) {
     res.status(400).send("idUsuario está undefined!");
   } else {
 
 
-    aquarioModel.cadastrar(descricao, idUsuario)
+    campanhaModel.cadastrar(nome, data)
       .then((resultado) => {
         res.status(201).json(resultado);
       }

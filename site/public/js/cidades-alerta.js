@@ -179,6 +179,55 @@ function listarCampanhas() {
     });
 }
 
+function cadastrarCampanha() {
+    console.log("estou no cadastro");
+    var nome = ipt_nome_cadastro.value;
+    var data = ipt_data_cadastro.value;
+
+    if (nome == "" || data == '') {
+        alert("Todos os campos devem ser preenchidos");
+    } else 
+    
+    {
+        fetch("/campanhas/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nome,
+                dataServer: dataNasc
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    // cardErro.style.display = "block";
+
+                    alert("Cadastro realizado com sucesso! Atualizando lista de funcionários");
+                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                    setTimeout(() => {
+                        window.location.href = "gerenciamento.html";
+                    }, "2000");
+
+                    //   finalizarAguardar();
+                } else {
+                    throw alert("Houve um erro ao tentar realizar o cadastro!");
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                // finalizarAguardar();
+            });
+
+        return false;
+    }
+}
+
 function selecionarCampanha(id) {
     var tabela = document.getElementsByClassName("tabela-campanha")[0];
 
