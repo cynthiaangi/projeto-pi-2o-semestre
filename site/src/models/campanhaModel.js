@@ -24,7 +24,7 @@ function excluirCidade(id){
 
 function cadastrar(nome, data) {
   
-  var instrucaoSql = `INSERT INTO (nomeCampanha, dtCriacao) campanha VAwwwwdLUES (${nome}, ${data})`;
+  var instrucaoSql = `INSERT INTO (nomeCampanha, dtCriacao) campanha VALUES (${nome}, ${data})`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
