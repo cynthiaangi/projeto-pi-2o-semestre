@@ -152,6 +152,7 @@ function listarCampanhas() {
                 tabela.appendChild(titulo_instancia);
 
                 for (let i = 0; i < resposta.length; i++) {
+                    const cidadeJSON = encodeURIComponent(JSON.stringify(resposta[i]));
                     var instancia = document.createElement('tr');
                     var id = document.createElement('td');
                     var name = document.createElement('td');
@@ -161,7 +162,7 @@ function listarCampanhas() {
                     id.innerHTML = `${resposta[i].idCampanha}`;
                     name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i].idCampanha})">${resposta[i].nomeCampanha}</span>`;
                     data.innerHTML = `${resposta[i].dtCriacao}`;
-                    button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
+                    button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${cidadeJSON}')))">Editar</button>`;
 
                     instancia.appendChild(id);
                     instancia.appendChild(name);
