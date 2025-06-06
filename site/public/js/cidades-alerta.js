@@ -199,7 +199,7 @@ function cadastrarCampanha() {
                 // crie um atributo que recebe o valor recuperado aqui
                 // Agora vá para o arquivo routes/usuario.js
                 nomeServer: nome,
-                dataServer: dataNasc
+                dataServer: data
             }),
         })
             .then(function (resposta) {
@@ -208,11 +208,11 @@ function cadastrarCampanha() {
                 if (resposta.ok) {
                     // cardErro.style.display = "block";
 
-                    alert("Cadastro realizado com sucesso! Atualizando lista de funcionários");
+                    alert("Cadastro realizado com sucesso! Atualizando lista de campanhas");
                     // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                     setTimeout(() => {
-                        window.location.href = "gerenciamento.html";
+                        window.location.href = "cidades-alerta.html";
                     }, "2000");
 
                     //   finalizarAguardar();
