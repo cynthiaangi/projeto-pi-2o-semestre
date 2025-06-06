@@ -20,7 +20,6 @@ public class Slack {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(String.format("Status: %s", response.statusCode())); //descobrir o erro http
-        System.out.println(String.format("Response: %s", response.body())); //alguns requests retornam um corpo, um json com todas as informações
+        System.out.println(String.format("Envio mensagem Slack - Status: %s", response.statusCode()));
     }
 }
