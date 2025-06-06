@@ -159,7 +159,7 @@ function listarCampanhas() {
                     var button = document.createElement('td');
 
                     id.innerHTML = `${resposta[i].idCampanha}`;
-                    name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i], idCampanha})">${resposta[i].nomeCampanha}</span>`;
+                    name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i].idCampanha})">${resposta[i].nomeCampanha}</span>`;
                     data.innerHTML = `${resposta[i].dtCriacao}`;
                     button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${funcionarioJSON}')))">Editar</button>`;
 
