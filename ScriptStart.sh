@@ -195,7 +195,7 @@ if [ $? = 0 ];
 
 	else
         	log "JAR não encontrado na instância"
-        	git checkout -f main
+        	git checkout -f main 
 
 		# Verificando se o Maven está instalado
 		mvn --version
