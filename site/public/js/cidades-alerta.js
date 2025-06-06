@@ -199,7 +199,7 @@ function cadastrarCampanha() {
                 // crie um atributo que recebe o valor recuperado aqui
                 // Agora vá para o arquivo routes/usuario.js
                 nomeServer: nome,
-                dataServer: dataNasc
+                dataServer: data
             }),
         })
             .then(function (resposta) {
