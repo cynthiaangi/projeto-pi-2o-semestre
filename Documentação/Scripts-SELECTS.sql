@@ -1,18 +1,44 @@
--- Ranking de vacinação por cidade: (ERRADO)
-SELECT 
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal,
-    'Cidade do usuário' AS origem
-FROM usuarios u
-JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
-JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
-WHERE u.idUsuario = 1
-  AND o.anoReferencia = (
-      SELECT MAX(anoReferencia)
-      FROM ocorrencias
-      WHERE fkCidade = u.fkCidadeResidente
-  )
+-- Ranking de vacinação por cidade: (VERIFICADO)
+WITH cidade_usuario AS (
+    SELECT
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        'Cidade do usuário' AS origem
+    FROM usuarios u
+    JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    WHERE u.idUsuario = {idUsuario}
+      AND o.anoReferencia = (
+          SELECT MAX(anoReferencia)
+          FROM ocorrencias
+          WHERE fkCidade = u.fkCidadeResidente
+      )
+    ORDER BY o.coberturaVacinal DESC
+    LIMIT 1
+),
+outras_cidades AS (
+    SELECT
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        'Outra cidade' AS origem
+    FROM usuarios u
+    JOIN cidades c ON c.codigoIbge != u.fkCidadeResidente
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    WHERE u.idUsuario = 1
+      AND o.anoReferencia = (
+          SELECT MAX(anoReferencia) FROM ocorrencias
+      )
+    ORDER BY o.coberturaVacinal DESC
+    LIMIT 5
+)
+
+SELECT * FROM cidade_usuario
+UNION ALL
+SELECT * FROM outras_cidades
+ORDER BY coberturaVacinal DESC;
+
 
 UNION ALL
 
@@ -32,31 +58,32 @@ WHERE u.idUsuario = 1
 ORDER BY coberturaVacinal DESC
 LIMIT 5;
 
+-- Situação vacinal ao longo dos anos da cidade: (VERIFICADO)
+WITH ocorrencias_filtradas AS (
+    SELECT
+        d.nomeDoenca,
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        ROW_NUMBER() OVER (
+            PARTITION BY d.idDoenca, o.anoReferencia
+            ORDER BY o.coberturaVacinal DESC
+        ) AS rn
+    FROM usuarios u
+    JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    JOIN doencas d ON o.fkDoenca = d.idDoenca
+    WHERE u.idUsuario = {idUsuario}
+)
+SELECT
+    nomeDoenca,
+    cidade,
+    anoReferencia,
+    coberturaVacinal
+FROM ocorrencias_filtradas
+WHERE rn = 1
+ORDER BY nomeDoenca, anoReferencia;
 
--- Situação vacinal ao longo dos anos: (ERRADO)
-SELECT 
-    d.nomeDoenca,
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal
-FROM ocorrencias o
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-JOIN cidades c ON o.fkCidade = c.codigoIbge
-ORDER BY d.nomeDoenca, c.nome, o.anoReferencia
-LIMIT 10;
-
--- Situação vacinal ao longo dos anos da cidade: (ERRADO)
-SELECT 
-    d.nomeDoenca,
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal
-FROM usuarios u
-JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
-JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-WHERE u.idUsuario = 1
-ORDER BY d.nomeDoenca, c.nome, o.anoReferencia;
 
 -- Situação da cobertura vacinal do estado: (VERIFICADO)
 -- Total de cidades com cobertura média abaixo de 85%
