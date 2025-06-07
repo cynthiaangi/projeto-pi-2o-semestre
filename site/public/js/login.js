@@ -153,6 +153,8 @@ function entrar() {
                 }
                 else if(conselho.length == 5) {
                     window.location.href = "./dash-medico.html";
+                } else if(conselho.length == 3) {
+                    window.location.href = "./administracao.html";
                 }
 
             });
