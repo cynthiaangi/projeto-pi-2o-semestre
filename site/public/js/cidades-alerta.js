@@ -237,7 +237,7 @@ function selecionarCampanha(id) {
     var botaoCidade = document.getElementsByClassName("button-cidade")[0];
 
     areaCadastro.style.display = 'flex';
-    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`;
+    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${id})">Cadastrar Cidade</button>`;
 
     fetch(`/campanhas/listarCidades/${id}`).then(function (resposta) {
         if (resposta.ok) {
