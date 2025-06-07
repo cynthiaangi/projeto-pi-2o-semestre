@@ -1620,9 +1620,9 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             },
             cache: "no-store"
         });
-
+        console.log("Status resposta acima:", respostaAcima.status);
         var acima = 0;
-        if (respostaAcima.ok) {
+        if (respostaAcima.status === 200 || respostaAcima.status === 304) {
             const json = await respostaAcima.json();
             acima = json[0].total_cidades_acima_95;
         } else {

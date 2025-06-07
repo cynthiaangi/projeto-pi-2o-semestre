@@ -167,10 +167,12 @@ function variacaoCoberturaVacinal(req, res) {
 }
 
 function variacaoCasos(req, res) {
+    console.log('passando pela controller')
     var id = req.params.idDoenca;
 
     medidaModel.variacaoCasos(id)
         .then((resultado) => {
+            console.log('executei a model')
 
             res.status(200).json(resultado);
         })
