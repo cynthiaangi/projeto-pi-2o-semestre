@@ -69,7 +69,7 @@ function listarPerfil() {
                             valor_funcionario = "Sim";
                         }
 
-                        if (resposta[i].podeCadastrarCampanha == 1) {
+                        if (resposta[i].podeCriarCampanha == 1) {
                             valor_campanha = "Sim";
                         }
 
