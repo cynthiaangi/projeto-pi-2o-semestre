@@ -1620,9 +1620,7 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             },
             cache: "no-store"
         });
-console.log("Status resposta acima:", respostaAcima.status);
-const texto = await respostaAcima.text();
-console.log("Texto bruto da resposta acima:", texto);
+
         var acima = 0;
         if (respostaAcima.ok) {
             const json = await respostaAcima.json();
