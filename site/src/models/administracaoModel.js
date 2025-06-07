@@ -21,7 +21,7 @@ function cadastrar(nome, perfil, funcionario, campanha) {
 }
 
 function alterar(id, nome, perfil, funcionario, campanha){
-  var instrucaoSql = `UPDATE perfil SET nomePerfil = '${nome}', podeCadastrarPerfil = '${perfil}', podeCadastrarFuncionario = '${funcionario}', podeCriarCampanha = '${campanha}' WHERE idUsuario =  ${id}`;
+  var instrucaoSql = `UPDATE perfil SET nomePerfil = '${nome}', podeCadastrarPerfil = '${perfil}', podeCadastrarFuncionario = '${funcionario}', podeCriarCampanha = '${campanha}' WHERE idPerfil =  ${id}`;
 
   return database.executar(instrucaoSql);
 }
