@@ -464,7 +464,7 @@ function alterarCampanha() {
 function excluir() {
     var id = idCampanha;
 
-    return fetch(`/campanhas/excluir/${id}`, {
+    fetch(`/campanhas/excluir/${id}`, {
         method: "DELETE",
 
     })
