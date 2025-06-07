@@ -36,11 +36,19 @@ function alterar(id, nome, data){
   return database.executar(instrucaoSql);
 }
 
+function excluir(id){
+  var instrucaoSql = `DELETE FROM cidadeCampanha WHERE fkCidadeCampanha_Campanha = ${id};
+  DELETE FROM campanha WHERE idCampanha = ${id};`;
+
+  return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
   listar,
   listarCidades,
   excluirCidade,
   cadastrar,
-  alterar
+  alterar,
+  excluir
 }

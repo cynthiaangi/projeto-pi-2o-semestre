@@ -15,6 +15,10 @@ router.delete("/excluirCidade/:id", function (req, res) {
   campanhaController.excluirCidade(req, res);
 });
 
+router.delete("/excluir/:id", function (req, res){
+  campanhaController.excluir(req, res);
+});
+
 router.post("/cadastrar", function (req, res) {
   campanhaController.cadastrar(req, res);
 })
