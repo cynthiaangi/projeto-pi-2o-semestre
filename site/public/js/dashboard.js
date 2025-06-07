@@ -1358,6 +1358,8 @@ const titulo6 = "Quantidade de casos por ano";
 const help7 = "Exibe as 10 cidades com menor valor de cobertura vacinal atualmente.";
 const titulo7 = "Ranking de alerta na vacinação"; 
 
+window.onload = montarGrafico();
+
 function abrirMensagem(mensagem){
     var mensagemTitulo = document.getElementsByClassName('titulo-mensagem')[0];
     var mensagemCorpo = document.getElementsByClassName('corpo-mensagem')[0];
@@ -1646,10 +1648,13 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             console.error("Erro ao buscar cidades abaixo de 85%");
             return;
         }
-        
+        console.log(acima);
+        console.log(abaixo);
         var media = cidadesSP.length - acima - baixo
         dados3 = [acima, media, baixo];
         
+        myChart3.update();
+
     } catch (erro) {
         console.error("Erro na criação do gráfico:", erro);
     }
