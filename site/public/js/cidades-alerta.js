@@ -417,24 +417,7 @@ function habilitarEdicao(campanha) {
     idCampanha = campanha.idCampanha;
 
     document.getElementById("ipt_nome").value = campanha.nomeCampanha;
-    document.getElementById("ipt_data").value = campanha.dtCriacao;
-
-    const selCargo = document.getElementById("sel_cargo");
-    for (let opcao of selCargo.options) {
-        if (opcao.value == funcionario.cargoExercido) {
-            opcao.selected = true;
-            break;
-        }
-    }
-
-    const selCidade = document.getElementById("sel_cidade");
-    for (let option of selCidade.options) {
-        if (option.value === cidade_funcionario) {
-            option.selected = true;
-            break;
-        }
-    }
-
+    document.getElementById("ipt_number").value = campanha.dtCriacao;
 }
 
 function alterarCampanha() {
@@ -459,16 +442,16 @@ function alterarCampanha() {
             if (resposta.ok) {
                 // cardErro.style.display = "block";
 
-                alert("Funcionário atualizado com sucesso! Atualizando lista de funcionários");
+                alert("Campanha atualizada com sucesso! Atualizando lista de campanhas");
                 // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                 setTimeout(() => {
-                    window.location.href = "gerenciamento.html";
+                    window.location.href = "cidades-alerta.html";
                 }, "2000");
 
                 //   finalizarAguardar();
             } else {
-                throw alert("Houve um erro ao tentar realizar o cadastro!");
+                throw alert("Houve um erro ao tentar atualizar campanha!");
             }
         })
         .catch(function (resposta) {
@@ -481,7 +464,7 @@ function alterarCampanha() {
 function excluir() {
     var id = idCampanha;
 
-    return fetch(`/funcionarios/excluir/${id}`, {
+    return fetch(`/campanhas/excluir/${id}`, {
         method: "DELETE",
 
     })
@@ -490,15 +473,15 @@ function excluir() {
 
             if (resposta.ok) {
 
-                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+                alert("Campanha deletada com sucesso! Atualizando lista de campanhas.");
 
                 setTimeout(() => {
-                    window.location.href = "gerenciamento.html";
+                    window.location.href = "cidades-alerta.html";
                 }, "2000");
 
 
             } else {
-                throw alert("Houve um erro ao tentar excluir funcionário!");
+                throw alert("Houve um erro ao tentar excluir campanha!");
             }
         })
         .catch(function (resposta) {
