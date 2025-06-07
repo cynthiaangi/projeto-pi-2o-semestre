@@ -95,6 +95,31 @@
                 <div class="cabecalho">
                     <div>Olá, <span id="nome_usuario"></span></div>
                 </div>
+                <div class="mensagem">
+                    <div class="titulo-mensagem">
+                        Editar Campanha
+                    </div>
+                    <div class="corpo-mensagem">
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_nome">Nome Campanha</label>
+                                <input id="ipt_nome" name="nomeCompleto" type="text"
+                                    placeholder="Nome da Campanha">
+                            </div>
+                        </div>
+                        <div class="edicao-parte">
+                            <div class="input-box">
+                                <label for="ipt_number">Data de Início</label>
+                                <input id="ipt_number" name="dataCampanha" type="date" placeholder="Apenas números">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="alterarCampanha()">Confirmar</button>
+                        <button onclick="excluir()">Excluir</button>
+                        <button onclick="fecharMensagem()">Cancelar</button>
+                    </div>
+                </div>
                 <div class="tabelas">
                     <div class="campanhas">
                         <div class="busca">
@@ -114,7 +139,7 @@
 
                                 <div class="cadastro-box">
                                     <label for="ipt_data_cadastro">Data início campanha</label>
-                                    <input id="ipt_data_cadastro" name="dataNascimento" type="date">
+                                    <input id="ipt_data_cadastro" name="dataCampanha" type="date">
                                 </div>
 
                                 <div class="continue-button">
@@ -124,7 +149,6 @@
                             </div>
                         </div>
                         <table class="tabela-campanha">
-                            Não há campanhas cadastradas!
                         </table>
                     </div>
                     <div class="cidades">
