@@ -1617,9 +1617,12 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            cache: "no-store"
         });
-
+console.log("Status resposta acima:", respostaAcima.status);
+const texto = await respostaAcima.text();
+console.log("Texto bruto da resposta acima:", texto);
         var acima = 0;
         if (respostaAcima.ok) {
             const json = await respostaAcima.json();
@@ -1633,7 +1636,8 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
-        }
+        },
+        cache: "no-store"
     });
 
     var baixo = 0;
