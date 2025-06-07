@@ -423,7 +423,7 @@ function cadastrarCidade(id) {
     console.log("estou no cadastro");
     var cidadeAtuante = sel_cidade_cadastro.value;
 
-    if (cidadeAtuante = cidadesSP[0]) {
+    if (cidadeAtuante == cidadesSP[0]) {
         alert("Selecione a cidade!");
     } else {
         console.log('passei nas validações')
