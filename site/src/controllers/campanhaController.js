@@ -101,9 +101,14 @@ function alterar(req, res) {
 function excluir(req, res) {
   var id = req.params.id;
 
-  campanhaModel.excluir(id).then((resultado) => {
+  campanhaModel.excluir(id)
+  .then((resultado) => {
     res.status(200).json(resultado);
-  });
+  })
+  .catch(erro => {
+      console.error("Erro no controller ao excluir:", erro);
+      res.status(500).json({ erro: "Erro ao excluir campanha" });
+    });
 }
 
 module.exports = {
