@@ -237,6 +237,7 @@ function selecionarCampanha(id) {
     var botaoCidade = document.getElementsByClassName("button-cidade")[0];
 
     areaCadastro.style.display = 'flex';
+    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`;
 
     fetch(`/campanhas/listarCidades/${id}`).then(function (resposta) {
         if (resposta.ok) {
@@ -249,7 +250,6 @@ function selecionarCampanha(id) {
 
             resposta.json().then(function (resposta) {
                 tabela.innerHTML = "";
-                botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 var titulo_instancia = document.createElement('tr');
                 var titulo_id = document.createElement('th');
