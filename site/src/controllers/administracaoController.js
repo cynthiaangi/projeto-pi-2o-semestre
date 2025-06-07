@@ -13,34 +13,23 @@ function listar(req, res) {
 
 function cadastrar(req, res) {
 
-    var fkUser = req.body.fkUserServer;
-    var dtAborto = req.body.dtAbortoServer;
-    var tempo = req.body.tempoServer;
-    var motivo = req.body.motivoServer;
-    var descricao = req.body.descricaoServer;
-    var filhos = req.body.filhosServer;
-    var repeticao = req.body.repeticaoServer;
-    var autorizacao = req.body.autorizacaoServer;
+    var nome = req.body.nomeServer;
+    var perfil = req.body.perfilServer;
+    var funcionario = req.body.funcionarioServer;
+    var campanha = req.body.campanhaServer;
+
     
-    if (fkUser == undefined) {
+    if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
-    } else if (dtAborto == undefined) {
+    } else if (perfil == undefined) {
         res.status(400).send("Sua data de Nascimento está undefined!");
-    } else if (tempo == undefined) {
+    } else if (funcionario == undefined) {
         res.status(400).send("Seu email está undefined!");
-    } else if (motivo == undefined) {
+    } else if (campanha == undefined) {
         res.status(400).send("Seu telefone está undefined!");
-    } else if (descricao == undefined) {
-        res.status(400).send("Seu genero está undefined!");
-    } else if (filhos == undefined) {
-        res.status(400).send("Sua senha está undefined!"); 
-    }else if(repeticao == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    }else if(autorizacao == undefined) {
-        res.status(400).send("Sua senha está undefined!");
     }else{
 
-        usuarioModel.cadastrar(fkUser, dtAborto, tempo, motivo, descricao, filhos, repeticao, autorizacao)
+        administracaoModel.cadastrar(nome, perfil, funcionario, campanha)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -59,7 +48,60 @@ function cadastrar(req, res) {
     }
 }
 
+function alterar(req, res) {
+  var id = req.params.id;
+
+  var nome = req.body.nomeServer;
+  var perfil = req.body.perfilServer;
+  var funcionario = req.body.funcionarioServer;
+  var campanha = req.body.campanhaServer;
+
+  if (nome == undefined) {
+    res.status(400).send("Seu nome está undefined!");
+  } else if (perfil == undefined) {
+    res.status(400).send("Seu cargo está undefined!");
+  } else if (funcionario == undefined) {
+    res.status(400).send("Seu conselho está undefined!");
+  } else if (campanha == undefined) {
+    res.status(400).send("Sua cidade está undefined!");
+  } else {
+
+    administracaoModel.alterar(id, nome, perfil, funcionario, campanha)
+      .then(
+        function (resultado) {
+          res.json(resultado);
+        }
+      ).catch(
+        function (erro) {
+
+          console.log(erro);
+          console.log(
+            "\nHouve um erro ao tentar editar perfil! Erro: ",
+            erro.sqlMessage
+          );
+          res.status(500).json(erro.sqlMessage);
+        }
+      );
+  }
+
+}
+
+function excluir(req, res) {
+  var id = req.params.id;
+
+  administracaoModel.excluir(id)
+  .then((resultado) => {
+    res.status(200).json(resultado);
+  })
+  .catch(erro => {
+      console.error("Erro no controller ao excluir:", erro);
+      res.status(500).json({ erro: "Erro ao excluir campanha" });
+    });
+}
+
 module.exports = {
     listar,
-    cadastrar
+    cadastrar,
+    alterar,
+    excluir
 }
