@@ -32,6 +32,7 @@ router.get("/variacaoCasos/:idDoenca",function (req, res) {
 });
 
 router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
+    console.log('entrei na rota')
     medidaController.criarGraficoSituacao95Cobertura(req, res);
 });
 
