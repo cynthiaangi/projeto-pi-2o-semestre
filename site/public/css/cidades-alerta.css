@@ -158,6 +158,52 @@ nav button {
   align-items: center;
 }
 
+.area-mensagem{
+  display: none;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: #2e2e2e1e;
+  position: fixed;
+  top: 0;
+}
+
+.mensagem{
+  padding: 30px;
+  background-color: #cdcdcd;
+  width: 35%;
+  height: 40%;
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 30%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border-radius: 10px;
+  box-shadow: -10px 10px 10px #adadad;
+  font-size: 1rem;
+  color: #eeeeee;
+  font-weight: 900;
+  text-align: center;
+}
+
+.mensagem button{
+  padding: 10px 20px;
+}
+
+.titulo-mensagem{
+  font-size: 1.5rem;
+  color: #2e2e2e;
+}
+
+.corpo-mensagem{
+  font-weight: 500;
+  display: flex;
+  gap: 10px;
+}
+
 .tabelas{
   display: flex;
 }
