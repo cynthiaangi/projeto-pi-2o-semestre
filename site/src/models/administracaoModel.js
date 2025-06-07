@@ -14,14 +14,14 @@ function cadastrar(nome, perfil, funcionario, campanha) {
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
     var instrucaoSql = `
-        INSERT INTO perfil (nomePerfil, podeCadastrarPerfil, podeCadastrarFuncionario, podeCadastrarCampanha) VALUES ('${nome}', '${perfil}', '${funcionario}', '${campanha}');
+        INSERT INTO perfil (nomePerfil, podeCadastrarPerfil, podeCadastrarFuncionario, podeCriarCampanha) VALUES ('${nome}', '${perfil}', '${funcionario}', '${campanha}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function alterar(id, nome, perfil, funcionario, campanha){
-  var instrucaoSql = `UPDATE perfil SET nomePerfil = '${nome}', podeCadastrarPerfil = '${perfil}', podeCadastrarFuncionario = '${funcionario}', podeCadastrarCampanha = '${campanha}' WHERE idUsuario =  ${id}`;
+  var instrucaoSql = `UPDATE perfil SET nomePerfil = '${nome}', podeCadastrarPerfil = '${perfil}', podeCadastrarFuncionario = '${funcionario}', podeCriarCampanha = '${campanha}' WHERE idUsuario =  ${id}`;
 
   return database.executar(instrucaoSql);
 }
