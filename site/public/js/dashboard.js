@@ -1611,83 +1611,47 @@ fetch("/medidas/alterarDoenca", {
 
 }
 
-function criarGraficoSituacaoCobertura(idDoenca) {
-    var acima = fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
+async function criarGraficoSituacaoCobertura(idDoenca) {
+    try{
+        var respostaAcima = fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        var acima = 0;
+        if (respostaAcima.ok) {
+            const json = await respostaAcima.json();
+            acima = json[0].total_cidades_acima_95;
+        } else {
+            console.error("Erro ao buscar cidades acima de 95%");
+            return;
+        }
+
+        var respostaBaixo = fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(function (resposta) {
-        console.log(resposta)
-    
-        if (resposta.ok) {
-            console.log(resposta)
+    });
 
-            resposta.json().then(json => {
-                console.log(json);
-                console.log(JSON.stringify(json));
-
-                console.log(json[0].total_cidades_acima_95)
-            
-            dados3.push(json[0].total_cidades_acima_95); 
-        })
+    var baixo = 0;
+        if (respostaBaixo.ok) {
+            const json = await respostaBaixo.json();
+            baixo = json[0].total_cidades_baixo_85;
         } else {
-    
-            console.log("Houve um erro ao tentar calcular cobertura vacinal");
-    
-            resposta.text().then(texto => {
-                console.error(texto);
-                // finalizarAguardar(texto);
-                return false
-            });
+            console.error("Erro ao buscar cidades abaixo de 85%");
+            return;
         }
-    
-    }).catch(function (erro) {
-        console.log(erro);
-        return false
-    })
-
-
-    var baixo = fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(function (resposta85) {
-        console.log(resposta85)
-    
-        if (resposta85.ok) {
-            console.log(resposta85)
-
-            resposta85.json().then(json => {
-                console.log(json);
-                console.log(JSON.stringify(json));
-
-                console.log(json[0].total_cidades_baixo_85)
-
-                return json[0].total_cidades_baixo_85
-        })
-        } else {
-    
-            console.log("Houve um erro ao tentar calcular cobertura vacinal");
-    
-            resposta85.text().then(texto => {
-                console.error(texto);
-                // finalizarAguardar(texto);
-                return false
-            });
-        }
-    
-    }).catch(function (erro) {
-        console.log(erro);
-        return false
-    })
-
-    var media = cidadesSP.length - acima - baixo
-    dados3.push(acima)
-    dados3.push(media)
-    dados3.push(baixo)
-    
+        
+        var media = cidadesSP.length - acima - baixo
+        dados3 = [acima, media, baixo];
+        
+    } catch (erro) {
+        console.error("Erro na criação do gráfico:", erro);
+    }
+ 
 }
 
 function variacaoCoberturaVacinal (idDoenca) {
