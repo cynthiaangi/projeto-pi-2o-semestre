@@ -37,26 +37,8 @@ function alterar(id, nome, data){
 }
 
 function excluir(id){
-  return new Promise((resolve, reject) => {
-    // Primeiro: excluir da tabela filha
-    const sqlFilha = "DELETE FROM cidadeCampanha WHERE fkCidadeCampanha_Campanha = ?";
-    database.query(sqlFilha, [id], function (erroFilha) {
-      if (erroFilha) {
-        console.error("Erro ao excluir cidadeCampanha:", erroFilha);
-        return reject(erroFilha);
-      }
-
-      // Segundo: excluir da tabela campanha
-      const sqlPai = "DELETE FROM campanha WHERE idCampanha = ?";
-      database.query(sqlPai, [id], function (erroPai, resultadoFinal) {
-        if (erroPai) {
-          console.error("Erro ao excluir campanha:", erroPai);
-          return reject(erroPai);
-        }
-
-        resolve(resultadoFinal); // sucesso
-      });
-    });
+  return database.executar(`DELETE FROM cidadeCampanha WHERE fkCidadeCampanha_Campanha = ${id};`).then(() => {
+    return database.executar(`DELETE FROM campanha WHERE idCampanha = ${id};`)
   });
 }
 
