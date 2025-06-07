@@ -30,10 +30,17 @@ function cadastrar(nome, data) {
   return database.executar(instrucaoSql);
 }
 
+function alterar(id, nome, data){
+  var instrucaoSql = `UPDATE campanha SET nomeCampanha = '${nome}', dtCriacao = '${data}' WHERE idCampanha =  ${id}`;
+
+  return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
   listar,
   listarCidades,
   excluirCidade,
-  cadastrar
+  cadastrar,
+  alterar
 }

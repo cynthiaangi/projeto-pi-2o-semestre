@@ -3,7 +3,7 @@ var nomeUser = sessionStorage.NOME_USUARIO;
 var senhaUser = sessionStorage.SENHA_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
-var idFuncionario = 0;
+var idCampanha = 0;
 
 const cidadesSP = ["Selecione a cidade",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
@@ -158,10 +158,12 @@ function listarCampanhas() {
                     var name = document.createElement('td');
                     var data = document.createElement('td');
                     var button = document.createElement('td');
+                    var dataResposta = new Date(resposta[i].dtCriacao);
+                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR')
 
                     id.innerHTML = `${resposta[i].idCampanha}`;
                     name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i].idCampanha})">${resposta[i].nomeCampanha}</span>`;
-                    data.innerHTML = `${resposta[i].dtCriacao}`;
+                    data.innerHTML = `${dataFormatada}`;
                     button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${cidadeJSON}')))">Editar</button>`;
 
                     instancia.appendChild(id);
@@ -403,8 +405,8 @@ function mostrarFuncionarios() {
     window.location = 'dash-medico.html';
 }
 
-function habilitarEdicao(funcionario) {
-    console.log(funcionario);
+function habilitarEdicao(campanha) {
+    console.log(campanha);
 
     var bottomsheet = document.getElementsByClassName('mensagem')[0];
     var fundo = document.getElementsByClassName('area-mensagem')[0];
@@ -412,18 +414,10 @@ function habilitarEdicao(funcionario) {
     bottomsheet.style.display = 'flex';
     fundo.style.display = 'flex';
 
-    var cidade_funcionario = "";
+    idCampanha = campanha.idCampanha;
 
-    for (let j = 0; j < cidadesSP.length; j++) {
-        if (codigosCidade[j] == funcionario.fkCidadeResidente) {
-            cidade_funcionario = cidadesSP[j];
-        }
-    }
-
-    idFuncionario = funcionario.idUsuario;
-
-    document.getElementById("ipt_nome").value = funcionario.nomeCompleto;
-    document.getElementById("ipt_number").value = funcionario.numConselho;
+    document.getElementById("ipt_nome").value = campanha.nomeCampanha;
+    document.getElementById("ipt_data").value = campanha.dtCriacao;
 
     const selCargo = document.getElementById("sel_cargo");
     for (let opcao of selCargo.options) {
@@ -443,31 +437,19 @@ function habilitarEdicao(funcionario) {
 
 }
 
-function alterarFuncionario() {
+function alterarCampanha() {
     var nome = document.getElementById("ipt_nome").value;
-    var cidadeAtuante = document.getElementById("sel_cidade").value;
-    var codigoCidade = 0;
-    var cargo = document.getElementById("sel_cargo").value;
-    var conselho = document.getElementById("ipt_number").value;
-    var id = idFuncionario;
+    var data = document.getElementById("ipt_number").value;
+    var id = idCampanha;
 
-
-    for (let k = 0; k < cidadesSP.length; k++) {
-        if (cidadesSP[k] == cidadeAtuante) {
-            codigoCidade = codigosCidade[k];
-        }
-    }
-
-    fetch(`/funcionarios/alterar/${id}`, {
+    fetch(`/campanhas/alterar/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
             nomeServer: nome,
-            cargoServer: cargo,
-            conselhoServer: conselho,
-            cidadeServer: codigoCidade
+            dataServer: data
 
         }),
     })
@@ -497,7 +479,7 @@ function alterarFuncionario() {
 }
 
 function excluir() {
-    var id = idFuncionario;
+    var id = idCampanha;
 
     return fetch(`/funcionarios/excluir/${id}`, {
         method: "DELETE",

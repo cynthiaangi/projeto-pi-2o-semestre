@@ -19,4 +19,8 @@ router.post("/cadastrar", function (req, res) {
   campanhaController.cadastrar(req, res);
 })
 
+router.put("/alterar/:id", function (req, res){
+  campanhaController.alterar(req, res);
+})
+
 module.exports = router;
