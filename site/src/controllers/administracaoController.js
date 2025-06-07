@@ -4,7 +4,11 @@ function listar(req, res) {
     console.log("Estou na controller");
       administracaoModel.listar().then((resultado) => {
         res.status(200).json(resultado);
-      });
+      })
+       .catch((erro) => {
+            console.error("Erro ao listar perfis:", erro);
+            res.status(500).json({ erro: "Erro interno ao listar perfis." });
+        });
 }
 
 function cadastrar(req, res) {
