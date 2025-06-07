@@ -78,7 +78,7 @@ function alterar(req, res) {
     res.status(400).send("Seu data está undefined!");
   } else {
 
-    funcionarioModel.alterar(id, nome, data)
+    campanhaModel.alterar(id, nome, data)
       .then(
         function (resultado) {
           res.json(resultado);
