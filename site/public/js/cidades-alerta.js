@@ -232,7 +232,11 @@ function cadastrarCampanha() {
 }
 
 function selecionarCampanha(id) {
-    var tabela = document.getElementsByClassName("tabela-campanha")[0];
+    var tabela = document.getElementsByClassName("tabela-campanha-cidade")[0];
+    var areaCadastro = document.getElementsByClassName("area-cadastro")[0];
+    var botaoCidade = document.getElementsByClassName("button-cidade")[0];
+
+    areaCadastro.style.display = 'flex';
 
     fetch(`/campanhas/listarCidades/${id}`).then(function (resposta) {
         if (resposta.ok) {
@@ -280,6 +284,7 @@ function selecionarCampanha(id) {
                     name.innerHTML = `${cidade_campanha}`;
                     data.innerHTML = `${resposta[i].dtAdicionada}`;
                     button.innerHTML = `<span class="material-symbols-outlined" onclick="excluirCidade(${resposta[i].idCidadeCampanha})">remove</span>`;
+                    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`
 
                     instancia.appendChild(id);
                     instancia.appendChild(name);
@@ -307,15 +312,15 @@ function excluirCidade(id){
 
             if (resposta.ok) {
 
-                alert("Funcionário excluído com sucesso! Atualizando lista de funcionários.");
+                alert("Cidade excluída com sucesso! Atualizando lista de campanhas.");
 
                 setTimeout(() => {
-                    window.location.href = "gerenciamento.html";
+                    window.location.href = "cidades-alerta.html";
                 }, "2000");
 
 
             } else {
-                throw alert("Houve um erro ao tentar excluir funcionário!");
+                throw alert("Houve um erro ao tentar excluir cidade!");
             }
         })
         .catch(function (resposta) {
@@ -323,86 +328,6 @@ function excluirCidade(id){
 
         });
 
-}
-
-function abrirCadastroCidade() {
-    var areaCadastro = document.getElementsByClassName('cadastro-cidade')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function abrirCadastroCampanha() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function cadastrarFuncionarios() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function fecharMensagem() {
-    var bottomsheet = document.getElementsByClassName('mensagem')[0];
-    var fundo = document.getElementsByClassName('area-mensagem')[0];
-
-    bottomsheet.style.display = 'none';
-    fundo.style.display = 'none';
-}
-
-function voltarHome() {
-    window.location = "index.html";
-}
-
-function abrirMenuExtendido() {
-    var lateral = document.getElementsByClassName('lateral')[0];
-    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
-    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
-
-    lateralExtendido.style.display = 'flex';
-    lateral.style.display = 'none';
-    dashboard.style.marginLeft = '20%';
-}
-
-function recolherMenu() {
-    var lateral = document.getElementsByClassName('lateral')[0];
-    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
-    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
-    var notificacao = document.getElementsByClassName('notificacoes')[0];
-
-    lateral.style.display = 'flex';
-    lateralExtendido.style.display = 'none';
-    dashboard.style.marginLeft = '5%';
-    notificacao.style.display = 'none';
-}
-
-function fecharNotificacao() {
-    var notificacao = document.getElementsByClassName('notificacoes')[0];
-
-    notificacao.style.display = 'none';
-}
-
-function abrirNotificacao() {
-    var notificacao = document.getElementsByClassName('notificacoes')[0];
-
-    notificacao.style.display = 'flex';
-}
-
-function acessarGerenciamento() {
-    window.location = 'gerenciamento.html';
-}
-
-function acessarConta() {
-    window.location = 'conta.html';
-}
-
-function acessarDashboard() {
-    window.location = 'dashboard.html';
-}
-
-function mostrarFuncionarios() {
-    window.location = 'dash-medico.html';
 }
 
 function habilitarEdicao(campanha) {
@@ -491,26 +416,12 @@ function excluir() {
 
 }
 
-function cadastrar() {
+function cadastrarCidade(id) {
     console.log("estou no cadastro");
-    var nome = ipt_nome_cadastro.value;
-    var cargo = sel_cargo_cadastro.value;
-    var dataNasc = ipt_data_cadastro.value;
-    var conselho = ipt_number_cadastro.value;
     var cidadeAtuante = sel_cidade_cadastro.value;
-    var codigoCidade = 0;
-    var senhaPadrao = `${conselho}@Immuno`;
 
-    var num_conselho = parseInt(conselho);
-    var tam_nome = nome.length;
-    var tam_conselho = conselho.length;
-
-    if (nome == "" || cargo == cargos[0] || conselho == "" || cidadeAtuante == cidadesSP[0] || dataNasc == '') {
-        alert("Todos os campos devem ser preenchidos");
-    } else if (conselho != num_conselho || tam_conselho < 3) {
-        alert("O número de conselho deve conter apenas números, com pelo menos 3 digitos");
-    } else if (tam_nome < 3) {
-        alert("Digite um nome válido")
+    if ( cidadesSP[0]) {
+        alert("Selecione a cidade!");
     } else {
         console.log('passei nas validações')
         for (let k = 0; k < cidadesSP.length; k++) {
@@ -519,20 +430,13 @@ function cadastrar() {
             }
         }
         console.log(codigoCidade);
-        fetch("/login/cadastrar", {
+        fetch(`/campanhas/cadastrarCidade/${id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                nomeServer: nome,
-                dtNascServer: dataNasc,
-                cargoServer: cargo,
-                conselhoServer: conselho,
-                cidadeServer: codigoCidade,
-                senhaServer: senhaPadrao,
+                cidadeServer: codigoCidade
 
             }),
         })
@@ -542,11 +446,11 @@ function cadastrar() {
                 if (resposta.ok) {
                     // cardErro.style.display = "block";
 
-                    alert("Cadastro realizado com sucesso! Atualizando lista de funcionários");
+                    alert("Cadastro realizado com sucesso! Atualizando lista de campanhas");
                     // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
                     setTimeout(() => {
-                        window.location.href = "gerenciamento.html";
+                        window.location.href = "cidades-alerta.html";
                     }, "2000");
 
                     //   finalizarAguardar();
@@ -563,77 +467,77 @@ function cadastrar() {
     }
 }
 
-function alterarSenha() {
-    var senhaPadrao = ipt_senha.value;
-    var senhaNova = ipt_nova.value;
+function abrirCadastroCampanha() {
+    var areaCadastro = document.getElementsByClassName('cadastro')[0];
 
-    var tam_senha = senhaNova.length;
-    var maiuscula_senha = senhaNova.toUpperCase();
-    var minuscula_senha = senhaNova.toLowerCase();
-    var especial = "!@#$%&*";
-    var senhaOk = 0;
-
-    if (senhaNova == "" || senhaPadrao == "") {
-        alert("Todos os campos devem ser preenchidos");
-        return;
-    } else if (senhaPadrao != senhaUser) {
-        alert("A senha padrão não está correta, digite a mesma senha que usou para acessar.")
-        return;
-    } else if (tam_senha < 8) {
-        alert("A senha deve conter no mínimo 8 caracteres");
-        return;
-    } else if (senhaNova == maiuscula_senha || senhaNova == minuscula_senha) {
-        alert("A senha deve conter no mínimo uma letra maiúscula e uma letra minúscula");
-        return;
-    } else {
-        for (let i = 0; i < tam_senha; i++) {
-            if (especial.includes(senhaNova[i])) {
-                senhaOk++;
-                break;
-            }
-        }
-        for (let j = 0; j < tam_senha; j++) {
-            if (Number(senhaNova[j]) != NaN) {
-                senhaOk++;
-                break;
-            }
-        }
-        if (senhaOk != 2) {
-            alert("A senha deve conter pelo menos 1 número e 1 caractere especial (!@#$%&*)");
-            return;
-        } else {
-            fetch(`/funcionarios/alterarSenha/${idUsuario}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    senhaServer: senhaNova,
-                }),
-            })
-                .then(function (resposta) {
-                    console.log("resposta: ", resposta);
-
-                    if (resposta.ok) {
-                        // cardErro.style.display = "block";
-
-                        alert("Senha atualizada com sucesso! Encaminhando para sua página");
-                        // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                        setTimeout(() => {
-                            window.location.href = "dash-medico.html";
-                        }, "2000");
-
-                        //   finalizarAguardar();
-                    } else {
-                        throw alert("Houve um erro ao tentar atualizar a senha!");
-                    }
-                })
-                .catch(function (resposta) {
-                    console.log(`#ERRO: ${resposta}`);
-                    // finalizarAguardar();
-                });
-
-        }
-    }
+    areaCadastro.style.display = 'flex';
 }
+
+function cadastrarFuncionarios() {
+    var areaCadastro = document.getElementsByClassName('cadastro')[0];
+
+    areaCadastro.style.display = 'flex';
+}
+
+function fecharMensagem() {
+    var bottomsheet = document.getElementsByClassName('mensagem')[0];
+    var fundo = document.getElementsByClassName('area-mensagem')[0];
+
+    bottomsheet.style.display = 'none';
+    fundo.style.display = 'none';
+}
+
+function voltarHome() {
+    window.location = "index.html";
+}
+
+function abrirMenuExtendido() {
+    var lateral = document.getElementsByClassName('lateral')[0];
+    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
+    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
+
+    lateralExtendido.style.display = 'flex';
+    lateral.style.display = 'none';
+    dashboard.style.marginLeft = '20%';
+}
+
+function recolherMenu() {
+    var lateral = document.getElementsByClassName('lateral')[0];
+    var lateralExtendido = document.getElementsByClassName('lateral-extendido')[0];
+    var dashboard = document.getElementsByClassName('dashboard-conteudo')[0];
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
+
+    lateral.style.display = 'flex';
+    lateralExtendido.style.display = 'none';
+    dashboard.style.marginLeft = '5%';
+    notificacao.style.display = 'none';
+}
+
+function fecharNotificacao() {
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
+
+    notificacao.style.display = 'none';
+}
+
+function abrirNotificacao() {
+    var notificacao = document.getElementsByClassName('notificacoes')[0];
+
+    notificacao.style.display = 'flex';
+}
+
+function acessarGerenciamento() {
+    window.location = 'gerenciamento.html';
+}
+
+function acessarConta() {
+    window.location = 'conta.html';
+}
+
+function acessarDashboard() {
+    window.location = 'dashboard.html';
+}
+
+function mostrarFuncionarios() {
+    window.location = 'dash-medico.html';
+}
+

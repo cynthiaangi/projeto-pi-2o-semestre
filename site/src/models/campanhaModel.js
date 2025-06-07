@@ -30,6 +30,14 @@ function cadastrar(nome, data) {
   return database.executar(instrucaoSql);
 }
 
+function cadastrarCidade(id, cidade) {
+  
+  var instrucaoSql = `INSERT INTO cidadeCampanha (fkCidadeCampanha_Cidade, fkCidadeCampanha_Campanha ) VALUES ("${cidade}", "${id}")`;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 function alterar(id, nome, data){
   var instrucaoSql = `UPDATE campanha SET nomeCampanha = '${nome}', dtCriacao = '${data}' WHERE idCampanha =  ${id}`;
 
@@ -48,6 +56,7 @@ module.exports = {
   listarCidades,
   excluirCidade,
   cadastrar,
+  cadastrarCidade,
   alterar,
   excluir
 }

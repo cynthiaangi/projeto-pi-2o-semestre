@@ -45,13 +45,38 @@ function cadastrar(req, res) {
   var data = req.body.dataServer;
 
   if (nome == undefined) {
-    res.status(400).send("descricao está undefined!");
+    res.status(400).send("nome está undefined!");
   } else if (data == undefined) {
-    res.status(400).send("idUsuario está undefined!");
+    res.status(400).send("data está undefined!");
   } else {
 
 
     campanhaModel.cadastrar(nome, data)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      }
+      ).catch((erro) => {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao realizar o cadastro! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      });
+  }
+}
+
+function cadastrarCidade(req, res) {
+  var id = req.params.id;
+
+  var cidade = req.body.cidadeServer;
+
+  if (cidade == undefined) {
+    res.status(400).send("cidade está undefined!");
+  } else {
+
+
+    campanhaModel.cadastrarCidade(id, cidade)
       .then((resultado) => {
         res.status(201).json(resultado);
       }
@@ -116,6 +141,7 @@ module.exports = {
   listarCidades,
   excluirCidade,
   cadastrar,
+  cadastrarCidade,
   alterar,
   excluir
 }

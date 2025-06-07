@@ -23,6 +23,10 @@ router.post("/cadastrar", function (req, res) {
   campanhaController.cadastrar(req, res);
 })
 
+router.post("/cadastrarCidade/:id", function (req, res) {
+  campanhaController.cadastrarCidade(req, res);
+})
+
 router.put("/alterar/:id", function (req, res){
   campanhaController.alterar(req, res);
 })
