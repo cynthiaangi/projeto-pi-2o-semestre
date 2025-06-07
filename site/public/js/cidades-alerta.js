@@ -276,7 +276,7 @@ function selecionarCampanha(id) {
                     var data = document.createElement('td');
                     var button = document.createElement('td');
                     var cidade_campanha = "";
-                    var dataResposta = new Date(resposta[i].dtCriacao);
+                    var dataResposta = new Date(resposta[i].dtAdicionada);
                     var dataFormatada = dataResposta.toLocaleDateString('pt-BR');
 
                     for (let j = 0; j < cidadesSP.length; j++) {
