@@ -2,7 +2,7 @@ var administracaoModel = require("../models/administracaoModel");
 
 function listar(req, res) {
     console.log("Estou na controller");
-      funcionarioModel.listar().then((resultado) => {
+      administracaoModel.listar().then((resultado) => {
         res.status(200).json(resultado);
       });
 }
