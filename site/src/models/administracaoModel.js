@@ -2,7 +2,7 @@ var database = require("../database/config")
 
 function listar() {
   console.log("Estou na model");
-  var instrucaoSql = `SELECT idPerfil, nomePerfil, podeCadastrarPerfil, podeCadastrarFuncionario, podeCadastrarCampanha FROM perfil;`;
+  var instrucaoSql = `SELECT * FROM perfil;`;
 
   return database.executar(instrucaoSql);
 }
