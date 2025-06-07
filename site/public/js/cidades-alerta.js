@@ -249,6 +249,7 @@ function selecionarCampanha(id) {
 
             resposta.json().then(function (resposta) {
                 tabela.innerHTML = "";
+                botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 var titulo_instancia = document.createElement('tr');
                 var titulo_id = document.createElement('th');
@@ -266,6 +267,7 @@ function selecionarCampanha(id) {
                 titulo_instancia.appendChild(titulo_data);
                 titulo_instancia.appendChild(titulo_button);
                 tabela.appendChild(titulo_instancia);
+
 
                 for (let i = 0; i < resposta.length; i++) {
                     var instancia = document.createElement('tr');
@@ -287,7 +289,6 @@ function selecionarCampanha(id) {
                     name.innerHTML = `${cidade_campanha}`;
                     data.innerHTML = `${dataFormatada}`;
                     button.innerHTML = `<span class="material-symbols-outlined" onclick="excluirCidade(${resposta[i].idCidadeCampanha})">remove</span>`;
-                    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`
 
                     instancia.appendChild(id);
                     instancia.appendChild(name);
