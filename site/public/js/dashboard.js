@@ -1613,7 +1613,7 @@ fetch("/medidas/alterarDoenca", {
 
 async function criarGraficoSituacaoCobertura(idDoenca) {
     try{
-        var respostaAcima = fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
+        var respostaAcima = await fetch(`/medidas/criarGraficoSituacao95Cobertura/${idDoenca}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1630,7 +1630,7 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             return;
         }
 
-        var respostaBaixo = fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
+        var respostaBaixo = await fetch(`/medidas/criarGraficoSituacao85Cobertura/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
