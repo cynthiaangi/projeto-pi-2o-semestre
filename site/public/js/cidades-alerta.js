@@ -248,6 +248,7 @@ function selecionarCampanha(id) {
             }
 
             resposta.json().then(function (resposta) {
+                tabela.innerHTML = "";
                 console.log("Dados recebidos: ", JSON.stringify(resposta));
                 var titulo_instancia = document.createElement('tr');
                 var titulo_id = document.createElement('th');
@@ -422,7 +423,7 @@ function cadastrarCidade(id) {
     console.log("estou no cadastro");
     var cidadeAtuante = sel_cidade_cadastro.value;
 
-    if ( cidadesSP[0]) {
+    if (cidadeAtuante = cidadesSP[0]) {
         alert("Selecione a cidade!");
     } else {
         console.log('passei nas validações')
