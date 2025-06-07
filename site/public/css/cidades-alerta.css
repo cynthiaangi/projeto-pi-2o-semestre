@@ -271,30 +271,6 @@ button{
   border-radius: 5px;
 }
 
-.area-cadastro label{
-  color: #595959;
-  font-weight: 300;
-  font-size: 0.7rem;
-}
-
-.area-cadastro{
-  margin: 10px 10px 0 0;
-  display: none;
-  justify-content: end;
-  align-items: center;
-  gap: 10px;
-}
-
-.area-cadastro input{
-  height: 25px;
-  border-radius: 5px;
-}
-
-.area-cadastro select{
-  height: 30px;
-  border-radius: 5px;
-}
-
 .edicao-parte{
   display: flex;
   flex-direction: column;

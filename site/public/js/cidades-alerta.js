@@ -159,7 +159,7 @@ function listarCampanhas() {
                     var data = document.createElement('td');
                     var button = document.createElement('td');
                     var dataResposta = new Date(resposta[i].dtCriacao);
-                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR')
+                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR');
 
                     id.innerHTML = `${resposta[i].idCampanha}`;
                     name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i].idCampanha})">${resposta[i].nomeCampanha}</span>`;
@@ -233,7 +233,7 @@ function cadastrarCampanha() {
 
 function selecionarCampanha(id) {
     var tabela = document.getElementsByClassName("tabela-campanha-cidade")[0];
-    var areaCadastro = document.getElementsByClassName("area-cadastro")[0];
+    var areaCadastro = document.getElementsByClassName("cadastro-cidade")[0];
     var botaoCidade = document.getElementsByClassName("button-cidade")[0];
 
     areaCadastro.style.display = 'flex';
@@ -273,6 +273,8 @@ function selecionarCampanha(id) {
                     var data = document.createElement('td');
                     var button = document.createElement('td');
                     var cidade_campanha = "";
+                    var dataResposta = new Date(resposta[i].dtCriacao);
+                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR');
 
                     for (let j = 0; j < cidadesSP.length; j++) {
                         if (codigosCidade[j] == resposta[i].fkCidadeCampanha_Cidade) {
@@ -282,7 +284,7 @@ function selecionarCampanha(id) {
 
                     id.innerHTML = `${resposta[i].idCidadeCampanha}`;
                     name.innerHTML = `${cidade_campanha}`;
-                    data.innerHTML = `${resposta[i].dtAdicionada}`;
+                    data.innerHTML = `${dataFormatada}`;
                     button.innerHTML = `<span class="material-symbols-outlined" onclick="excluirCidade(${resposta[i].idCidadeCampanha})">remove</span>`;
                     botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${resposta[i].idCidadeCampanha})">Cadastrar Cidade</button>`
 
