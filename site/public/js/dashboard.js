@@ -1707,7 +1707,7 @@ function gerarGraficoMetaVacinal(idDoenca){
             resposta.json().then(json => {
                 console.log(json);
             var vacinados = json[0].total_vacinados;
-            var naoVacinados = (100 - vacinados).toFixed(2);
+            var naoVacinados = (100 - vacinados);
             dados1 = [vacinados, naoVacinados];
 
             myChart2.data.datasets[0].data = dados3;
