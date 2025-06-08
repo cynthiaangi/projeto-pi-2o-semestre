@@ -27,18 +27,18 @@ var dados3 = []
 var dados4 = []
 var dados5 = []
 var dados6 = []
-var dados7 = []
-var dados8 = []
-var dados9 = []
-var dados10 = []
-var dados11 = []
-var dados12 = []
-var dados13 = []
-var dados14 = []
-var dados15 = []
-var dados16 = []
-var dados17 = []
-var dados18 = []
+// var dados7 = []
+// var dados8 = []
+// var dados9 = []
+// var dados10 = []
+// var dados11 = []
+// var dados12 = []
+// var dados13 = []
+// var dados14 = []
+// var dados15 = []
+// var dados16 = []
+// var dados17 = []
+// var dados18 = []
 
 
 const codigosCidade = ["", "Estado", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
@@ -1660,7 +1660,7 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
             myChart7.data.datasets[0].data = dados3;
             myChart7.update();
         } else {
-            myChar11.data.datasets[0].data = dados3;
+            myChart11.data.datasets[0].data = dados3;
             myChart11.update();
         }
 
@@ -1721,10 +1721,10 @@ function gerarGraficoMetaVacinal(idDoenca){
             myChart2.data.datasets[0].data = dados1;
         myChart2.update();
         } else if(idDoenca == 2){
-            myChart6.data.datasets[0].data = dados3;
+            myChart6.data.datasets[0].data = dados1;
             myChart6.update();
         } else {
-            myChar10.data.datasets[0].data = dados3;
+            myChart10.data.datasets[0].data = dados1;
             myChart10.update();
         }
         })
@@ -1755,6 +1755,9 @@ function gerarGraficoCasosAno(idDoenca){
 
             resposta.json().then(json => {
                 console.log(json);
+
+                dados2 = [];
+                dados4 = [];
 
                 for(var i = 0; i < json.length; i++){
                     dados2.push(json[i].anoReferencia);
@@ -1805,6 +1808,9 @@ function gerarGraficoRankingAlerta(idDoenca){
 
             resposta.json().then(json => {
                 console.log(json);
+
+                dados5 = [];
+                dados6 = [];
 
                 for(var i = 0; i < json.length; i++){
                     dados5.push(json[i].cidade);
