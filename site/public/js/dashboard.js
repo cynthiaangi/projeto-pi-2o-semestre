@@ -302,7 +302,7 @@ let myChart6 = new Chart(ctb, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#99ccff', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -400,7 +400,7 @@ let myChart10 = new Chart(ctj, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#8a8a8a', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -563,10 +563,10 @@ let myChart5 = new Chart(cta,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Meningite',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 borderColor: "#99ccff",
                 backgroundColor: "#99ccff",
                 tension: 0.1
@@ -627,10 +627,10 @@ let myChart9 = new Chart(cti,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Poliomielite',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 borderColor: "#8a8a8a",
                 backgroundColor: "#8a8a8a",
                 tension: 0.1
@@ -909,9 +909,9 @@ let myChart4 = new Chart(ctw, {
 let myChart8 = new Chart(ctd, {
     type: 'bar',
     data: {
-        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
+        labels: dados5,
         datasets: [{
-            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            data: dados6,
             backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderWidth: 1
@@ -943,9 +943,9 @@ let myChart8 = new Chart(ctd, {
 let myChart12 = new Chart(ctl, {
     type: 'bar',
     data: {
-        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
+        labels: dados5,
         datasets: [{
-            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            data: dados6,
             backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderWidth: 1
@@ -1358,7 +1358,7 @@ const titulo6 = "Quantidade de casos por ano";
 const help7 = "Exibe as 10 cidades com menor valor de cobertura vacinal atualmente.";
 const titulo7 = "Ranking de alerta na vacinação"; 
 
-window.onload = montarGrafico();
+window.onload = montarGrafico(1);
 
 function abrirMensagem(mensagem){
     var mensagemTitulo = document.getElementsByClassName('titulo-mensagem')[0];
@@ -1653,8 +1653,16 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
         var media = cidadesSP.length - acima - baixo
         dados3 = [acima, media, baixo];
         
-        myChart3.data.datasets[0].data = dados3;
-        myChart3.update();
+        if(idDoenca == 1){
+            myChart3.data.datasets[0].data = dados3;
+            myChart3.update();
+        } else if(idDoenca == 2){
+            myChart7.data.datasets[0].data = dados3;
+            myChart7.update();
+        } else {
+            myChar11.data.datasets[0].data = dados3;
+            myChart11.update();
+        }
 
     } catch (erro) {
         console.error("Erro na criação do gráfico:", erro);
@@ -1709,8 +1717,16 @@ function gerarGraficoMetaVacinal(idDoenca){
             var naoVacinados = (100 - vacinados);
             dados1 = [vacinados, naoVacinados];
 
+            if(idDoenca == 1){
             myChart2.data.datasets[0].data = dados1;
         myChart2.update();
+        } else if(idDoenca == 2){
+            myChart6.data.datasets[0].data = dados3;
+            myChart6.update();
+        } else {
+            myChar10.data.datasets[0].data = dados3;
+            myChart10.update();
+        }
         })
         } else {
     
@@ -1748,9 +1764,19 @@ function gerarGraficoCasosAno(idDoenca){
                 console.log(dados2);
                 console.log(dados4);
 
-            myChart.data.datasets[0].data = dados4;
+                    if(idDoenca == 1){
+             myChart.data.datasets[0].data = dados4;
             myChart.data.labels = dados2;
         myChart.update();
+        } else if(idDoenca == 2){
+            myChart5.data.datasets[0].data = dados4;
+            myChart5.data.labels = dados2;
+        myChart.update();
+        } else {
+            myChart9.data.datasets[0].data = dados4;
+            myChart9.data.labels = dados2;
+        myChart.update();
+        }
         })
         } else {
     
@@ -1788,9 +1814,20 @@ function gerarGraficoRankingAlerta(idDoenca){
                 console.log(dados5);
                 console.log(dados6);
 
+                    if(idDoenca == 1){
             myChart4.data.datasets[0].data = dados6;
             myChart4.data.labels = dados5;
         myChart4.update();
+        } else if(idDoenca == 2){
+            myChart8.data.datasets[0].data = dados6;
+            myChart8.data.labels = dados5;
+        myChart4.update();
+        } else {
+            myChart12.data.datasets[0].data = dados6;
+            myChart12.data.labels = dados5;
+        myChart4.update();
+        }
+            
         })
         } else {
     
