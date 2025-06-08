@@ -3245,13 +3245,14 @@ function variacaoCasos(idDoenca) {
 }
 
 function variacaoCasosCidade(codigoCidade, idDoenca) {
-  fetch(`/medidas/variacaoCasosCidade/${idDoenca}`, {
+  fetch(`/medidas/variacaoCasosCidade`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-        cidadeServer: codigoCidade
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
     })
   })
     .then(function (resposta) {

@@ -31,7 +31,7 @@ router.get("/variacaoCasos/:idDoenca",function (req, res) {
     medidaController.variacaoCasos(req, res);
 });
 
-router.get("/variacaoCasosCidade/:idDoenca",function (req, res) {
+router.get("/variacaoCasosCidade",function (req, res) {
     medidaController.variacaoCasosCidade(req, res);
 });
 
