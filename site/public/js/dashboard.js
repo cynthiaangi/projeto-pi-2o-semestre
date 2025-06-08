@@ -1662,8 +1662,8 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
  
 }
 
-function variacaoCoberturaVacinal (idDoenca) {
-    fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
+function variacaoVacinados(idDoenca){
+    fetch(`/medidas/variacaoVacinados/${idDoenca}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -1675,6 +1675,36 @@ function variacaoCoberturaVacinal (idDoenca) {
             resposta.json().then(json => {
             var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1]
             variacao.innerHTML = json[0].variacaoPercentualMedia
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+}
+
+function variacaoCoberturaVacinal (idDoenca) {
+    fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+    
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+                console.log(json);
+            var variacao = document.getElementsByClassName("valor-vacinado")[idDoenca - 1]
+            // variacao.innerHTML = json[0].variacaoPercentualMedia
         })
         } else {
     
@@ -1725,5 +1755,6 @@ function variacaoCasos (idDoenca) {
 function montarGrafico (idDoenca) {
     criarGraficoSituacaoCobertura (idDoenca);
     variacaoCoberturaVacinal (idDoenca);
-    variacaoCasos (idDoenca)
+    variacaoCasos (idDoenca);
+    variacaoVacinados(idDoenca);
 }
