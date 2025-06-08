@@ -1785,7 +1785,7 @@ function gerarGraficoRankingAlerta(idDoenca){
                     dados6.push(json[i].coberturaVacinal);
                 }
 
-                console.log(dado5);
+                console.log(dados5);
                 console.log(dados6);
 
             myChart4.data.datasets[0].data = dados6;
