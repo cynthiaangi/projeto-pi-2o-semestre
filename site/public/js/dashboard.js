@@ -1673,8 +1673,9 @@ function variacaoVacinados(idDoenca){
         if (resposta.ok) {
 
             resposta.json().then(json => {
-            var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1]
-            variacao.innerHTML = json[0].variacaoPercentualMedia
+                console.log(json);
+            var variacao = document.getElementsByClassName("valor-vacinado")[idDoenca - 1]
+            // variacao.innerHTML = json[0].variacaoPercentualMedia
         })
         } else {
     
@@ -1702,9 +1703,8 @@ function variacaoCoberturaVacinal (idDoenca) {
         if (resposta.ok) {
 
             resposta.json().then(json => {
-                console.log(json);
             var variacao = document.getElementsByClassName("valor-vacinado")[idDoenca - 1]
-            // variacao.innerHTML = json[0].variacaoPercentualMedia
+            variacao.innerHTML = json[0].variacaoPercentualMedia
         })
         } else {
     
