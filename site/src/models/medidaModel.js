@@ -187,6 +187,15 @@ FROM (
 
 }
 
+function graficoRankingMelhores(id){
+    var instrucaoSql = `SELECT c.nome AS cidade, ROUND(AVG(o.coberturaVacinal), 2) AS coberturaVacinal FROM ocorrencias o JOIN cidades
+c ON o.fkCidade = c.codigoIbge WHERE o.fkDoenca = ${id} AND o.anoReferencia = 2024 GROUP BY c.nome ORDER BY coberturaVacin
+al DESC LIMIT 5;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 
 
@@ -201,5 +210,6 @@ module.exports = {
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
     graficoCasosAno,
-    graficoRankingAlerta
+    graficoRankingAlerta,
+    graficoRankingMelhores
 }
