@@ -110,7 +110,7 @@ WHERE
 
 function variacaoVacinados(id) {
 
-    var instrucaoSql = `SELECT ROUND(AVG(coberturaVacinal), 2) FROM ocorrencias WHERE anoReferencia = 2024 and fkDoenca = ${id};`
+    var instrucaoSql = `SELECT ROUND(AVG(coberturaVacinal), 2) as total_vacinados FROM ocorrencias WHERE anoReferencia = 2024 and fkDoenca = ${id};`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
