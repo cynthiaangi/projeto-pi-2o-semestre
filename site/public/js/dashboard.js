@@ -875,9 +875,9 @@ let myChart11 = new Chart(ctk, {
 let myChart4 = new Chart(ctw, {
     type: 'bar',
     data: {
-        labels: ['Piracicaba', 'São José do Rio Preto', 'Franca', 'Jundiaí', 'Guararema', 'Santa Isabel', 'Mairiporá', 'São Caetano do Sul', 'Sorocaba', 'Ribeirão Preto'],
+        labels: dados5,
         datasets: [{
-            data: ['37', '38', '39', '41', '42', '42', '43', '46', '47', '48' ],
+            data: dados6,
             backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5", "#FFC133", "#8DFF33", "#FF3333", "#33A1FF"],
             borderWidth: 1
@@ -1767,6 +1767,46 @@ function gerarGraficoCasosAno(idDoenca){
     })
 }
 
+function gerarGraficoRankingAlerta(idDoenca){
+    fetch(`/medidas/graficoRankingAlerta/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+    
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+                console.log(json);
+
+                for(var i = 0; i < json.length; i++){
+                    dados5.push(json[i].cidade);
+                    dados6.push(json[i].coberturaVacinal);
+                }
+
+                console.log(dado5);
+                console.log(dados6);
+
+            myChart4.data.datasets[0].data = dados6;
+            myChart4.data.labels = dados5;
+        myChart4.update();
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+}
+
 function variacaoCoberturaVacinal (idDoenca) {
     fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
         method: "GET",
@@ -1834,4 +1874,5 @@ function montarGrafico (idDoenca) {
     variacaoVacinados(idDoenca);
     gerarGraficoMetaVacinal(idDoenca);
     gerarGraficoCasosAno(idDoenca);
+    gerarGraficoRankingAlerta(idDoenca);
 }

@@ -39,6 +39,10 @@ router.get("/graficoCasosAno/:idDoenca",function (req, res) {
     medidaController.graficoCasosAno(req, res);
 });
 
+router.get("/graficoRankingAlerta/:idDoenca",function (req, res) {
+    medidaController.graficoRankingAlerta(req, res);
+});
+
 router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
     medidaController.criarGraficoSituacao95Cobertura(req, res);
 });

@@ -126,6 +126,15 @@ function graficoCasosAno(id) {
 
 }
 
+function graficoRankingAlerta(id) {
+
+    var instrucaoSql = `SELECT c.nome AS cidade, ROUND(AVG(o.coberturaVacinal), 2) AS coberturaVacinal FROM ocorrencias o JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE o.fkDoenca = ${id} AND o.anoReferencia = 2024 GROUP BY c.nome ORDER BY coberturaVacinal ASC LIMIT 10;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function criarGraficoSituacao85Cobertura(id) {
 
     var instrucaoSql = `SELECT COUNT(*) AS total_cidades_baixo_85
@@ -191,5 +200,6 @@ module.exports = {
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
-    graficoCasosAno
+    graficoCasosAno,
+    graficoRankingAlerta
 }
