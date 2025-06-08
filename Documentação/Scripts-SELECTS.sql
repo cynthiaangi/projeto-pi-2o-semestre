@@ -324,26 +324,4 @@ WHERE d.nomeDoenca = 'Coqueluche'
 GROUP BY c.nome;
 
 -- Variação cobertura vacinal dos últimos 12 meses por cidade: (VERIFICADO)
-SELECT
-    c.nome AS cidade,
-    d.nomeDoenca,
-    ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2024,
-    ROUND(AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2025,
-    ROUND(
-        CASE
-            WHEN AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL
-            ELSE (
-                (
-                    AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) -
-                    AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)
-                ) * 100.0
-            ) / AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)
-        END, 2
-    ) AS variacaoPercentual
-FROM ocorrencias o
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-JOIN cidades c ON o.fkCidade = c.codigoIbge
-WHERE d.nomeDoenca = 'Coqueluche'
-  AND c.nome = 'Sao Paulo'
-  AND o.anoReferencia IN (2024, 2025)
-GROUP BY c.nome, d.nomeDoenca;
+SELECT c.nome AS cidade, d.nomeDoenca, ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2024, ROUND(AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2025, ROUND(CASE WHEN AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL ELSE ((AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) - AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)) * 100.0) / AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) END, 2) AS variacaoPercentual FROM ocorrencias o JOIN doencas d ON o.fkDoenca = d.idDoenca JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE d.nomeDoenca = 'Coqueluche' AND c.nome = 'Sao Paulo' AND o.anoReferencia IN (2024, 2025) GROUP BY c.nome, d.nomeDoenca;
