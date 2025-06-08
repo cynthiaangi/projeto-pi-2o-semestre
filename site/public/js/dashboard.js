@@ -1676,7 +1676,8 @@ function variacaoVacinados(idDoenca){
                 console.log(json);
             var diferenca = document.getElementsByClassName("valor-vacinado")[idDoenca - 1]
             var vacinados = json[0].total_vacinados;
-            diferenca.innerHTML = `${vacinados}% / ${100 - vacinados}%`;
+            var naoVacinados = (100 - vacinados).toFixed(2);
+            diferenca.innerHTML = `${vacinados}% / ${naoVacinados}%`;
         })
         } else {
     
