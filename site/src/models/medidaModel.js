@@ -98,7 +98,7 @@ JOIN casos c2
 JOIN doencas d ON c1.fkCasos_Doenca = d.idDoenca
 WHERE
     d.idDoenca = ${id}
-    AND fkCasos_Cidade = ${cidade}
+    AND c1.fkCasos_Cidade = ${cidade}
     AND c1.anoReferencia = 2024
     AND c2.anoReferencia = 2023
     AND c1.quantidadeCasos IS NOT NULL
