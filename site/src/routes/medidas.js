@@ -43,6 +43,10 @@ router.get("/graficoRankingAlerta/:idDoenca",function (req, res) {
     medidaController.graficoRankingAlerta(req, res);
 });
 
+router.get("/graficoRankingMelhores/:idDoenca",function (req, res) {
+    medidaController.graficoRankingMelhores(req, res);
+});
+
 router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
     medidaController.criarGraficoSituacao95Cobertura(req, res);
 });
