@@ -188,7 +188,7 @@ function variacaoCasos(req, res) {
 
 function variacaoCasosCidade(req, res) {
     console.log('passando pela controller')
-    var id = req.params.idDoenca;
+    var id = req.body.doencaServer;
     var cidade = req.body.cidadeServer;
 
     medidaModel.variacaoCasosCidade(id, cidade)
