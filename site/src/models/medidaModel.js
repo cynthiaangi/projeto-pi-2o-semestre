@@ -135,6 +135,15 @@ function variacaoVacinados(id) {
 
 }
 
+function variacaoVacinadosCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT ROUND(AVG(coberturaVacinal), 2) as total_vacinados FROM ocorrencias WHERE anoReferencia = 2024 and fkDoenca = ${id} and fkCidade = ${cidade};`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function graficoCasosAno(id) {
 
     var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
@@ -228,6 +237,7 @@ module.exports = {
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
+    variacaoVacinadosCidade,
     graficoCasosAno,
     graficoRankingAlerta,
     graficoRankingMelhores
