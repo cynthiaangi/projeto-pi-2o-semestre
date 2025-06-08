@@ -117,7 +117,7 @@ function variacaoVacinados(id) {
 
 }
 
-function quantidadeCasosAno(id) {
+function graficoCasosAno(id) {
 
     var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
 
@@ -191,5 +191,5 @@ module.exports = {
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
-    quantidadeCasosAno
+    graficoCasosAno
 }
