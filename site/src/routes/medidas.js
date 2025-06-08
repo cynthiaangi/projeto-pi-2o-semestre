@@ -35,6 +35,10 @@ router.post("/variacaoCasosCidade",function (req, res) {
     medidaController.variacaoCasosCidade(req, res);
 });
 
+router.post("/variacaoCoberturaVacinalCidade",function (req, res) {
+    medidaController.variacaoCoberturaVacinalCidade(req, res);
+});
+
 router.get("/variacaoVacinados/:idDoenca",function (req, res) {
     medidaController.variacaoVacinados(req, res);
 });

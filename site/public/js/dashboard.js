@@ -2832,7 +2832,8 @@ function alterarCidade() {
         codigoCidade = codigosCidade[i];
       }
     }
-    montarGraficoCidade(codigoCidade, idDoenca);
+    alterarDoenca();
+    // montarGraficoCidade(codigoCidade, idDoenca);
     
   }
 }
@@ -3216,6 +3217,41 @@ function variacaoCoberturaVacinal(idDoenca) {
     });
 }
 
+function variacaoCoberturaVacinalCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoCoberturaVacinalCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1];
+          if(json[0].variacaoPercentual == null){
+            variacao.innerHTML = `${0}`;
+          } else{
+            variacao.innerHTML = json[0].variacaoPercentual;
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
 function variacaoCasos(idDoenca) {
   fetch(`/medidas/variacaoCasos/${idDoenca}`, {
     method: "GET",
@@ -3291,7 +3327,7 @@ function montarGrafico(idDoenca) {
 }
 
 function montarGraficoCidade(codigoCidade, idDoenca) {
-  // variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
+  variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
   variacaoCasosCidade(codigoCidade, idDoenca);
   // variacaoVacinadosCidade(codigoCidade, idDoenca);
   // gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);

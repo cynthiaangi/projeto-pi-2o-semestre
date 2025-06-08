@@ -87,6 +87,15 @@ function variacaoCasosCidade(id, cidade) {
 
 }
 
+function variacaoCoberturaVacinalCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT c.nome AS cidade, d.nomeDoenca, ROUND(AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2023, ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2024, ROUND(CASE WHEN AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL ELSE ((AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) - AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)) * 100.0) / AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) END, 2) AS variacaoPercentual FROM ocorrencias o JOIN doencas d ON o.fkDoenca = d.idDoenca JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE d.idDoenca = ${id} AND c.codigoIbge = ${cidade} AND o.anoReferencia IN (2023, 2024) GROUP BY c.nome, d.nomeDoenca;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function variacaoCoberturaVacinal(id) {
 
     var instrucaoSql = `SELECT
@@ -215,6 +224,7 @@ module.exports = {
     variacaoCoberturaVacinal,
     variacaoCasos,
     variacaoCasosCidade,
+    variacaoCoberturaVacinalCidade,
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
