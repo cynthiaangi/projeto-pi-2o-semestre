@@ -250,7 +250,7 @@ function variacaoVacinadosCidade(req, res) {
     var id = req.body.doencaServer;
     var cidade = req.body.cidadeServer;
 
-    medidaModel.variacaoVacinados(id)
+    medidaModel.variacaoVacinadosCidade(id, cidade)
         .then((resultado) => {
             console.log('executei a model')
 
