@@ -2711,7 +2711,8 @@ const help7 =
 const titulo7 = "Ranking de alerta na vacinação";
 
 var codigoCidade = codigosCidade[0];
-window.onload = montarGrafico(1);
+var idDoenca = 1;
+window.onload = montarGrafico(idDoenca);
 
 function abrirMensagem(mensagem) {
   var mensagemTitulo = document.getElementsByClassName("titulo-mensagem")[0];
