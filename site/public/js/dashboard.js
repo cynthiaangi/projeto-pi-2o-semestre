@@ -1673,7 +1673,6 @@ function variacaoVacinados(idDoenca){
         if (resposta.ok) {
 
             resposta.json().then(json => {
-                console.log(json);
             var diferenca = document.getElementsByClassName("valor-vacinado")[idDoenca - 1]
             var vacinados = json[0].total_vacinados;
             var naoVacinados = (100 - vacinados).toFixed(2);
@@ -1793,4 +1792,5 @@ function montarGrafico (idDoenca) {
     variacaoCoberturaVacinal (idDoenca);
     variacaoCasos (idDoenca);
     variacaoVacinados(idDoenca);
+    gerarGraficoMetaVacinal(idDoenca);
 }
