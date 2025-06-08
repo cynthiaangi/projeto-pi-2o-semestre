@@ -1740,7 +1740,7 @@ function gerarGraficoCasosAno(idDoenca){
             resposta.json().then(json => {
                 console.log(json);
 
-                for(var i = 0; i < json; i++){
+                for(var i = 0; i < json.length; i++){
                     dados2.push(json[i].anoReferencia);
                     dados4.push(json[i].totalCasos);
                 }
