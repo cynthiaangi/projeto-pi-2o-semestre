@@ -1653,6 +1653,7 @@ async function criarGraficoSituacaoCobertura(idDoenca) {
         var media = cidadesSP.length - acima - baixo
         dados3 = [acima, media, baixo];
         
+        myChart3.data.datasets[0].data = dados3;
         myChart3.update();
 
     } catch (erro) {
