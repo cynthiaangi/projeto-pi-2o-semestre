@@ -205,7 +205,7 @@ let myChart2 = new Chart(cty, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#0A4D68', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -1678,6 +1678,40 @@ function variacaoVacinados(idDoenca){
             var vacinados = json[0].total_vacinados;
             var naoVacinados = (100 - vacinados).toFixed(2);
             diferenca.innerHTML = `${vacinados}% / ${naoVacinados}%`;
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+}
+
+function gerarGraficoMetaVacinal(idDoenca){
+    fetch(`/medidas/variacaoVacinados/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+    
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+                console.log(json);
+            var vacinados = json[0].total_vacinados;
+            var naoVacinados = (100 - vacinados).toFixed(2);
+            dados1 = [vacinados, naoVacinados];
+
+            myChart2.data.datasets[0].data = dados3;
+        myChart2.update();
         })
         } else {
     
