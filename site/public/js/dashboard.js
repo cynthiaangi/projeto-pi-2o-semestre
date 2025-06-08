@@ -1710,7 +1710,7 @@ function gerarGraficoMetaVacinal(idDoenca){
             var naoVacinados = (100 - vacinados);
             dados1 = [vacinados, naoVacinados];
 
-            myChart2.data.datasets[0].data = dados3;
+            myChart2.data.datasets[0].data = dados1;
         myChart2.update();
         })
         } else {
