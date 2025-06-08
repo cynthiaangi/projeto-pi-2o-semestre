@@ -108,6 +108,30 @@ WHERE
 
 }
 
+function variacaoVacinados(id) {
+
+    var instrucaoSql = `SELECT
+    SUM(ROUND((o.coberturaVacinal / 100) * cs.quantidadeCasos)) AS total_vacinados,
+    SUM(ROUND(cs.quantidadeCasos - ((o.coberturaVacinal / 100) * cs.quantidadeCasos))) AS total_nao_vacinados
+FROM
+    ocorrencias o
+JOIN
+    casos cs
+    ON o.fkDoenca = cs.fkCasos_Doenca
+    AND o.fkCidade = cs.fkCasos_Cidade
+    AND o.anoReferencia = cs.anoReferencia
+JOIN
+    doencas d ON o.fkDoenca = d.idDoenca
+WHERE
+    o.coberturaVacinal IS NOT NULL
+    AND cs.quantidadeCasos IS NOT NULL
+    AND d.idDoenca = ${id};`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function criarGraficoSituacao85Cobertura(id) {
 
     var instrucaoSql = `SELECT COUNT(*) AS total_cidades_baixo_85
@@ -171,5 +195,6 @@ module.exports = {
     variacaoCoberturaVacinal,
     variacaoCasos,
     criarGraficoSituacao95Cobertura,
-    criarGraficoSituacao85Cobertura
+    criarGraficoSituacao85Cobertura,
+    variacaoVacinados
 }
