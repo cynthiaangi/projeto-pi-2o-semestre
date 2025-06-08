@@ -3287,10 +3287,10 @@ function montarGrafico(idDoenca) {
 }
 
 function montarGraficoCidade(codigoCidade, idDoenca) {
-  variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
+  // variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
   variacaoCasosCidade(codigoCidade, idDoenca);
-  variacaoVacinadosCidade(codigoCidade, idDoenca);
-  gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
-  gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
-  gerarGraficoRankingMelhoresCidade(codigoCidade, idDoenca);
+  // variacaoVacinadosCidade(codigoCidade, idDoenca);
+  // gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
+  // gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
+  // gerarGraficoRankingMelhoresCidade(codigoCidade, idDoenca);
 }
