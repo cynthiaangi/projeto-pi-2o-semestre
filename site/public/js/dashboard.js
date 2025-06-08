@@ -498,10 +498,10 @@ let myChart = new Chart(ctx,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Coqueluche',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 fill: false,
                 borderColor: '#0A4D68',
                 backgroundColor: '#0A4D68',
@@ -1727,6 +1727,40 @@ function gerarGraficoMetaVacinal(idDoenca){
     })
 }
 
+function gerarGraficoCasosAno(idDoenca){
+    fetch(`/medidas/graficoCasosAno/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+    
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+                console.log(json);
+            dados2 = json[0].anoReferencia;
+            dados4 = json[0].totalCasos;
+
+            myChart.data.datasets[0].data = dados4;
+            myChart.data.labels = dados2;
+        myChart.update();
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+}
+
 function variacaoCoberturaVacinal (idDoenca) {
     fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
         method: "GET",
@@ -1793,4 +1827,5 @@ function montarGrafico (idDoenca) {
     variacaoCasos (idDoenca);
     variacaoVacinados(idDoenca);
     gerarGraficoMetaVacinal(idDoenca);
+    gerarGraficoCasosAno(idDoenca);
 }

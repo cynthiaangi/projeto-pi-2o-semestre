@@ -35,6 +35,10 @@ router.get("/variacaoVacinados/:idDoenca",function (req, res) {
     medidaController.variacaoVacinados(req, res);
 });
 
+router.get("/graficoCasosAno/:idDoenca",function (req, res) {
+    medidaController.graficoCasosAno(req, res);
+});
+
 router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
     medidaController.criarGraficoSituacao95Cobertura(req, res);
 });
