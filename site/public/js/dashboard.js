@@ -1,5 +1,6 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
+var cidadeAtual = sessionStorage.CIDADE_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
 
@@ -27,8 +28,8 @@ var dados3 = []
 var dados4 = []
 var dados5 = []
 var dados6 = []
-// var dados7 = []
-// var dados8 = []
+var dados7 = []
+var dados8 = []
 // var dados9 = []
 // var dados10 = []
 // var dados11 = []
@@ -984,9 +985,9 @@ var ctr = myChartCanvas18
 let myChart13 = new Chart(ctm, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -1034,9 +1035,9 @@ let myChart13 = new Chart(ctm, {
 let myChart15 = new Chart(cto, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -1083,9 +1084,9 @@ let myChart15 = new Chart(cto, {
 let myChart17 = new Chart(ctq, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -1831,6 +1832,60 @@ function gerarGraficoRankingAlerta(idDoenca){
         } else {
             myChart12.data.datasets[0].data = dados6;
             myChart12.data.labels = dados5;
+        myChart4.update();
+        }
+            
+        })
+        } else {
+    
+            console.log("Houve um erro ao tentar calcular variação vacinal");
+    
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+    
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+}
+
+function gerarGraficoRankingMelhores(idDoenca){
+    fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+    
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+                console.log(json);
+
+                dados7 = [];
+                dados8 = [];
+
+                for(var i = 0; i < json.length; i++){
+                    dados7.push(json[i].cidade);
+                    dados8.push(json[i].coberturaVacinal);
+                }
+
+                console.log(dados7);
+                console.log(dados8);
+
+                    if(idDoenca == 1){
+            myChart13.data.datasets[0].data = dados8;
+            myChart13.data.labels = dados7;
+        myChart4.update();
+        } else if(idDoenca == 2){
+            myChart15.data.datasets[0].data = dados8;
+            myChart15.data.labels = dados7;
+        myChart4.update();
+        } else {
+            myChart17.data.datasets[0].data = dados8;
+            myChart17.data.labels = dados7;
         myChart4.update();
         }
             
