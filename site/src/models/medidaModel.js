@@ -80,29 +80,7 @@ WHERE
 
 function variacaoCasosCidade(id, cidade) {
 
-    var instrucaoSql = `SELECT
-    ROUND(
-        AVG(
-            (
-                (c1.quantidadeCasos - c2.quantidadeCasos) 
-                / NULLIF(c2.quantidadeCasos, 0)
-            ) * 100
-        ),
-        2
-    ) AS variacaoPercentualCasos
-FROM casos c1
-JOIN casos c2
-    ON c1.fkCasos_Doenca = c2.fkCasos_Doenca
-    AND c1.fkCasos_Cidade = c2.fkCasos_Cidade
-    AND c1.anoReferencia = c2.anoReferencia + 1
-JOIN doencas d ON c1.fkCasos_Doenca = d.idDoenca
-WHERE
-    d.idDoenca = ${id}
-    AND c1.fkCasos_Cidade = ${cidade}
-    AND c1.anoReferencia = 2024
-    AND c2.anoReferencia = 2023
-    AND c1.quantidadeCasos IS NOT NULL
-    AND c2.quantidadeCasos IS NOT NULL;`
+    var instrucaoSql = `SELECT c.nome AS cidade, SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) AS total_2023, SUM(CASE WHEN ca.anoReferencia = 2024 THEN ca.quantidadeCasos ELSE 0 END) AS total_2024, ROUND(CASE WHEN SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) = 0 THEN NULL ELSE ((SUM(CASE WHEN ca.anoReferencia = 2024 THEN ca.quantidadeCasos ELSE 0 END) - SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END)) * 100.0) / SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) END, 2) AS variacaoPercentual FROM casos ca JOIN doencas d ON ca.fkCasos_Doenca = d.idDoenca JOIN cidades c ON ca.fkCasos_Cidade = c.codigoIbge WHERE d.idDoenca = ${id} AND c.codigoIbge = ${cidade} AND ca.anoReferencia IN (2023, 2024) GROUP BY c.nome;`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
