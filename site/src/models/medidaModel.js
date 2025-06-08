@@ -117,6 +117,15 @@ function variacaoVacinados(id) {
 
 }
 
+function quantidadeCasosAno(id) {
+
+    var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function criarGraficoSituacao85Cobertura(id) {
 
     var instrucaoSql = `SELECT COUNT(*) AS total_cidades_baixo_85
@@ -181,5 +190,6 @@ module.exports = {
     variacaoCasos,
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
-    variacaoVacinados
+    variacaoVacinados,
+    quantidadeCasosAno
 }
