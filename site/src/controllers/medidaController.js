@@ -223,6 +223,25 @@ function graficoCasosAno(req, res) {
         );
 }
 
+function graficoRankingAlerta(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.graficoRankingAlerta(id)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 function criarGraficoSituacao95Cobertura(req, res) {
     var id = req.params.idDoenca;
 
@@ -271,5 +290,6 @@ module.exports = {
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
-    graficoCasosAno
+    graficoCasosAno,
+    graficoRankingAlerta
 }
