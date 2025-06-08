@@ -1878,15 +1878,15 @@ function gerarGraficoRankingMelhores(idDoenca){
                     if(idDoenca == 1){
             myChart13.data.datasets[0].data = dados8;
             myChart13.data.labels = dados7;
-        myChart4.update();
+        myChart13.update();
         } else if(idDoenca == 2){
             myChart15.data.datasets[0].data = dados8;
             myChart15.data.labels = dados7;
-        myChart4.update();
+        myChart15.update();
         } else {
             myChart17.data.datasets[0].data = dados8;
             myChart17.data.labels = dados7;
-        myChart4.update();
+        myChart17.update();
         }
             
         })
