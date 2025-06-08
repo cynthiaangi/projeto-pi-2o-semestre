@@ -1,6 +1,5 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
-var cidadeAtual = sessionStorage.CIDADE_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
 
@@ -2711,6 +2710,7 @@ const help7 =
   "Exibe as 10 cidades com menor valor de cobertura vacinal atualmente.";
 const titulo7 = "Ranking de alerta na vacinação";
 
+var codigoCidade = codigosCidade[0];
 window.onload = montarGrafico(1);
 
 function abrirMensagem(mensagem) {
@@ -2818,7 +2818,7 @@ function acessarCampanha() {
 
 function alterarCidade() {
   var cidadeEsolhida = sel_cidade.value;
-  var codigoCidade = 0;
+  codigoCidade = 0;
   var botao = document.getElementById("botaoCidade");
 
   if (cidadeEsolhida == cidadesSP[0]) {
@@ -2831,59 +2831,8 @@ function alterarCidade() {
         codigoCidade = codigosCidade[i];
       }
     }
-
-    fetch("/medidas/alterarCidade", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cidadeServer: codigoCidade,
-      }),
-    })
-      .then(function (resposta) {
-        console.log("ESTOU NO THEN DO entrar()!");
-
-        if (resposta.ok) {
-          console.log(resposta);
-
-          resposta.json().then((json) => {
-            console.log(json);
-            console.log(JSON.stringify(json));
-
-            for (var i = 0; i < codigosCidade.length; i++) {
-              if (codigosCidade[i] == json.codigoCidade) {
-                cidadeSelecionada = cidadesSP[i];
-              }
-            }
-            sessionStorage.CONSELHO_USUARIO = conselho;
-            sessionStorage.NOME_USUARIO = json.nome;
-            sessionStorage.ID_USUARIO = json.id;
-            sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
-            sessionStorage.SENHA_USUARIO = senha;
-
-            console.log(cidadeSelecionada);
-
-            if (senha == `${conselho}@Immuno`) {
-              window.location.href = "./alterar-senha.html";
-            } else if (conselho.length == 4) {
-              window.location.href = "./dashboard.html";
-            } else if (conselho.length == 5) {
-              window.location.href = "./dash-medico.html";
-            }
-          });
-        } else {
-          console.log("Houve um erro ao tentar realizar o login!");
-
-          resposta.text().then((texto) => {
-            console.error(texto);
-            // finalizarAguardar(texto);
-          });
-        }
-      })
-      .catch(function (erro) {
-        console.log(erro);
-      });
+    montarGraficoCidade(codigoCidade, idDoenca);
+    
   }
 }
 
@@ -2934,8 +2883,11 @@ function alterarDoenca() {
               poliomielite[k].style.display = "flex";
             }
           }
-
-          montarGrafico(json.idDoenca);
+          if(codigoCidade == cidadesSP[0] || codigoCidade == cidadesSP[1]){
+            montarGrafico(json.idDoenca);
+          } else {
+            montarGraficoCidade(codigoCidade, json.idDoenca);
+          }
         });
       } else {
         console.log("Houve um erro ao tentar realizar o login!");
@@ -3112,11 +3064,11 @@ function gerarGraficoCasosAno(idDoenca) {
           } else if (idDoenca == 2) {
             myChart5.data.datasets[0].data = dados4;
             myChart5.data.labels = dados2;
-            myChart.update();
+            myChart5.update();
           } else {
             myChart9.data.datasets[0].data = dados4;
             myChart9.data.labels = dados2;
-            myChart.update();
+            myChart9.update();
           }
         });
       } else {
@@ -3291,6 +3243,37 @@ function variacaoCasos(idDoenca) {
     });
 }
 
+function variacaoCasosCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoCasosCidade/${idDoenca}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          var variacao =
+            document.getElementsByClassName("valor-caso")[idDoenca - 1];
+          variacao.innerHTML = json[0].variacaoPercentualCasos;
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação de casos");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
 function montarGrafico(idDoenca) {
   criarGraficoSituacaoCobertura(idDoenca);
   variacaoCoberturaVacinal(idDoenca);
@@ -3300,4 +3283,13 @@ function montarGrafico(idDoenca) {
   gerarGraficoCasosAno(idDoenca);
   gerarGraficoRankingAlerta(idDoenca);
   gerarGraficoRankingMelhores(idDoenca);
+}
+
+function montarGraficoCidade(codigoCidade, idDoenca) {
+  variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
+  variacaoCasosCidade(codigoCidade, idDoenca);
+  variacaoVacinadosCidade(codigoCidade, idDoenca);
+  gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
+  gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
+  gerarGraficoRankingMelhoresCidade(codigoCidade, idDoenca);
 }

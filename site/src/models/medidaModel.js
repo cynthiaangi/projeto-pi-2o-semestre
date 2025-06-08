@@ -37,7 +37,7 @@ function alterarDoenca(doenca) {
     return database.executar(instrucaoSql);
 }
 
-function alterarDoencaCidade(doenca, cidade) {
+function alterarCidade(cidade) {
 
     var instrucaoSql = `SELECT casos.anoReferencia, casos.quantidadeCasos FROM casos JOIN doencas 
     ON casos.fkCasos_Doenca = doencas.idDoenca JOIN cidades ON casos.fkCasos_Cidade = cidades.codigoIbge WHERE 
@@ -68,6 +68,37 @@ JOIN casos c2
 JOIN doencas d ON c1.fkCasos_Doenca = d.idDoenca
 WHERE
     d.idDoenca = ${id}
+    AND c1.anoReferencia = 2024
+    AND c2.anoReferencia = 2023
+    AND c1.quantidadeCasos IS NOT NULL
+    AND c2.quantidadeCasos IS NOT NULL;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function variacaoCasosCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT
+    ROUND(
+        AVG(
+            (
+                (c1.quantidadeCasos - c2.quantidadeCasos) 
+                / NULLIF(c2.quantidadeCasos, 0)
+            ) * 100
+        ),
+        2
+    ) AS variacaoPercentualCasos
+FROM casos c1
+JOIN casos c2
+    ON c1.fkCasos_Doenca = c2.fkCasos_Doenca
+    AND c1.fkCasos_Cidade = c2.fkCasos_Cidade
+    AND c1.anoReferencia = c2.anoReferencia + 1
+JOIN doencas d ON c1.fkCasos_Doenca = d.idDoenca
+WHERE
+    d.idDoenca = ${id}
+    AND fkCasos_Cidade = ${cidade}
     AND c1.anoReferencia = 2024
     AND c2.anoReferencia = 2023
     AND c1.quantidadeCasos IS NOT NULL
@@ -205,6 +236,7 @@ module.exports = {
     alterarDoencaCidade,
     variacaoCoberturaVacinal,
     variacaoCasos,
+    variacaoCasosCidade,
     criarGraficoSituacao95Cobertura,
     criarGraficoSituacao85Cobertura,
     variacaoVacinados,
