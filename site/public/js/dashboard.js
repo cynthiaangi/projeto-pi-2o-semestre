@@ -3258,9 +3258,12 @@ function variacaoCasosCidade(codigoCidade, idDoenca) {
     .then(function (resposta) {
       if (resposta.ok) {
         resposta.json().then((json) => {
-          var variacao =
-            document.getElementsByClassName("valor-caso")[idDoenca - 1];
-          variacao.innerHTML = json[0].variacaoPercentualCasos;
+          var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1];
+          if(json[0].variacaoPercentual == null){
+            variacao.innerHTML = `${0}`;
+          } else{
+            variacao.innerHTML = json[0].variacaoPercentual;
+          }
         });
       } else {
         console.log("Houve um erro ao tentar calcular variação de casos");
