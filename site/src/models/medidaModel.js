@@ -37,7 +37,7 @@ function alterarDoenca(doenca) {
     return database.executar(instrucaoSql);
 }
 
-function alterarCidade(cidade) {
+function alterarDoencaCidade(cidade) {
 
     var instrucaoSql = `SELECT casos.anoReferencia, casos.quantidadeCasos FROM casos JOIN doencas 
     ON casos.fkCasos_Doenca = doencas.idDoenca JOIN cidades ON casos.fkCasos_Cidade = cidades.codigoIbge WHERE 
