@@ -2885,7 +2885,7 @@ function alterarDoenca() {
               poliomielite[k].style.display = "flex";
             }
           }
-          if(codigoCidade == cidadesSP[0] || codigoCidade == cidadesSP[1]){
+          if(codigoCidade == codigosCidade[0] || codigoCidade == codigosCidade[1]){
             console.log(json.idDoenca);
             montarGrafico(json.idDoenca);
           } else {
@@ -3217,85 +3217,85 @@ function gerarGraficoRankingAlerta(idDoenca) {
     });
 }
 
-// async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
-//   try{
-//     var respostaRanking = await fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//       if (respostaRanking.ok) {
-//         const json = await respostaRanking.json();
-//           console.log(json);
+async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
+  try{
+    var respostaRanking = await fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+      if (respostaRanking.ok) {
+        const json = await respostaRanking.json();
+          console.log(json);
 
-//           dados7 = [];
-//           dados8 = [];
+          dados7 = [];
+          dados8 = [];
 
-//           for (var i = 0; i < json.length; i++) {
-//             dados7.push(json[i].cidade);
-//             dados8.push(json[i].coberturaVacinal);
-//           }
+          for (var i = 0; i < json.length; i++) {
+            dados7.push(json[i].cidade);
+            dados8.push(json[i].coberturaVacinal);
+          }
 
-//           console.log(dados7);
-//           console.log(dados8);
-//       } else {
-//         console.log("Houve um erro ao tentar calcular variação vacinal");
-//         resposta.text().then((texto) => {
-//           console.error(texto);
-//         });
-//       }
+          console.log(dados7);
+          console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
     
-//     var respostaCobertura = await fetch(`/medidas/variacaoVacinadosCidade`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//         cidadeServer: codigoCidade,
-//         doencaServer: idDoenca
-//     })
-//   });
-//       if (respostaCobertura.ok) {
-//         const json = await respostaCobertura.json();
-//           console.log(json);
-//           var cidadeSelecionada = "";
-//           for (var i = 0; i < codigosCidade.length; i++) {
-//                     if (codigosCidade[i] == codigoCidade) {
-//                         cidadeSelecionada = cidadesSP[i];
-//                     }             
-//                 }
+    var respostaCobertura = await fetch(`/medidas/variacaoVacinadosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  });
+      if (respostaCobertura.ok) {
+        const json = await respostaCobertura.json();
+          console.log(json);
+          var cidadeSelecionada = "";
+          for (var i = 0; i < codigosCidade.length; i++) {
+                    if (codigosCidade[i] == codigoCidade) {
+                        cidadeSelecionada = cidadesSP[i];
+                    }             
+                }
 
-//           dados7.push(cidadeSelecionada);
-//           dados8.push(json[0].total_vacinados);
+          dados7.push(cidadeSelecionada);
+          dados8.push(json[0].total_vacinados);
 
-//           console.log(dados7);
-//           console.log(dados8);
-//       } else {
-//         console.log("Houve um erro ao tentar calcular variação vacinal");
-//         resposta.text().then((texto) => {
-//           console.error(texto);
-//         });
-//       }
+          console.log(dados7);
+          console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
 
-//       if (idDoenca == 1) {
-//             myChart13.data.datasets[0].data = dados8;
-//             myChart13.data.labels = dados7;
-//             myChart13.update();
-//           } else if (idDoenca == 2) {
-//             myChart15.data.datasets[0].data = dados8;
-//             myChart15.data.labels = dados7;
-//             myChart15.update();
-//           } else {
-//             myChart17.data.datasets[0].data = dados8;
-//             myChart17.data.labels = dados7;
-//             myChart17.update();
-//           }
-//   }
-//   catch (erro) {
-//     console.error("Erro na criação do gráfico:", erro);
-//   }
-// }
+      if (idDoenca == 1) {
+            myChart13.data.datasets[0].data = dados8;
+            myChart13.data.labels = dados7;
+            myChart13.update();
+          } else if (idDoenca == 2) {
+            myChart15.data.datasets[0].data = dados8;
+            myChart15.data.labels = dados7;
+            myChart15.update();
+          } else {
+            myChart17.data.datasets[0].data = dados8;
+            myChart17.data.labels = dados7;
+            myChart17.update();
+          }
+  }
+  catch (erro) {
+    console.error("Erro na criação do gráfico:", erro);
+  }
+}
 
 function variacaoCoberturaVacinal(idDoenca) {
   fetch(`/medidas/variacaoCoberturaVacinal/${idDoenca}`, {
