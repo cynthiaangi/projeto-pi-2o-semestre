@@ -3459,8 +3459,8 @@ try{
           dados11 = [];
 
           for (var i = 0; i < json.length; i++) {
-            dados9.push(json[i].cidade);
-            dados11.push(json[i].coberturaVacinal);
+            dados9.push(json[i].anoReferencia);
+            dados11.push(json[i].coberturaEstado);
           }
 
           console.log(dados9);
@@ -3489,7 +3489,7 @@ try{
           dados10 = [];
 
           for (var i = 0; i < json.length; i++) {
-            dados10.push(json[i].cidade);
+            dados10.push(json[i].coberturaCidade);
           }
 
           console.log(dados10);
