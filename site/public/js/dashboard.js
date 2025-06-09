@@ -2843,6 +2843,8 @@ function alterarDoenca() {
   var coqueluche = document.getElementsByClassName("coqueluche");
   var meningite = document.getElementsByClassName("meningite");
   var poliomielite = document.getElementsByClassName("poliomielite");
+  var divEstado = document.getElementsByClassName("estado");
+  var divCidade = document.getElementsByClassName("cidade");
   console.log(doenca);
 
   fetch("/medidas/alterarDoenca", {
@@ -2887,8 +2889,16 @@ function alterarDoenca() {
           }
           if(codigoCidade == codigosCidade[0] || codigoCidade == codigosCidade[1]){
             console.log(json.idDoenca);
+            for (var m = 0; m < estado.length; m++) {
+              cidade[m].style.display = "none";
+              estado[m].style.display = "flex";
+            }
             montarGrafico(json.idDoenca);
           } else {
+            for (var n = 0; n < cidade.length; n++) {
+              cidade[n].style.display = "flex";
+              estado[n].style.display = "none";
+            }
             montarGraficoCidade(codigoCidade, json.idDoenca);
           }
         });

@@ -260,6 +260,14 @@ nav button {
   gap: 20px;
 }
 
+.estado{
+  display: flex;
+}
+
+.cidade{
+  display: none;
+}
+
 .coqueluche{
 display: flex;
 }
