@@ -27,10 +27,7 @@ public class LogEtl {
     }
 
     public void inserirLogEtl(Status status, String detalhes, String metodoQueOcorreu, String classeQueOcorreu) {
-        if(status.equals(Status.S_400)) {
-            return;
-        }
-        
+
         String dateTimeAgora = LocalDateTime.now().format(formatoHorarioLog);
         String statusNumero = status.getNumero();
 
