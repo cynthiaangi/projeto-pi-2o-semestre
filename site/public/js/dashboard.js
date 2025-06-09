@@ -3575,4 +3575,5 @@ function montarGraficoCidade(codigoCidade, idDoenca) {
   gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
   gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
   gerarGraficoRankingMelhores(codigoCidade, idDoenca);
+  gerarGraficoVacinaEstadoCidade(codigoCidade, idDoenca);
 }
