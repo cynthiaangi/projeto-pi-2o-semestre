@@ -2887,7 +2887,12 @@ function alterarDoenca() {
               poliomielite[k].style.display = "flex";
             }
           }
-            montarGraficoCidade(codigoCidade, json.idDoenca);         
+          if(codigoCidade == codigosCidade[0] || codigoCidade == codigosCidade[1]){
+            console.log(json.idDoenca);
+            montarGrafico(json.idDoenca);
+          } else {
+            montarGraficoCidade(codigoCidade, json.idDoenca);
+          }
         });
       } else {
         console.log("Houve um erro ao tentar realizar o login!");
