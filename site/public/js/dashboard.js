@@ -2886,6 +2886,7 @@ function alterarDoenca() {
             }
           }
           if(codigoCidade == cidadesSP[0] || codigoCidade == cidadesSP[1]){
+            console.log(json.idDoenca);
             montarGrafico(json.idDoenca);
           } else {
             montarGraficoCidade(codigoCidade, json.idDoenca);
