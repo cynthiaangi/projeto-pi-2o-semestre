@@ -164,7 +164,7 @@ function graficoVacinaCidade(id, cidade) {
 
 function graficoVacinaEstado(id) {
 
-    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaEstado FROM ocorrencias WHERE fkDoenca = ${id} AND fkCidade = ${cidade} GROUP BY anoReferencia;`
+    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaEstado FROM ocorrencias WHERE fkDoenca = ${id} GROUP BY anoReferencia;`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
