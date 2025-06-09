@@ -3493,6 +3493,6 @@ function montarGraficoCidade(codigoCidade, idDoenca) {
   variacaoCasosCidade(codigoCidade, idDoenca);
   variacaoVacinadosCidade(codigoCidade, idDoenca);
   gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
-  // gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
+  gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
   gerarGraficoRankingMelhores(codigoCidade, idDoenca);
 }
