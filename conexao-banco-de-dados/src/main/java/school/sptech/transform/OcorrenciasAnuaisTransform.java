@@ -50,7 +50,7 @@ public class OcorrenciasAnuaisTransform extends Transform {
                 }
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl(Status.S_404, String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
             }
         }
 
