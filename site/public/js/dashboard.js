@@ -2887,20 +2887,7 @@ function alterarDoenca() {
               poliomielite[k].style.display = "flex";
             }
           }
-          if(codigoCidade == codigosCidade[0] || codigoCidade == codigosCidade[1]){
-            console.log(json.idDoenca);
-            for (var m = 0; m < divEstado.length; m++) {
-              divCidade[m].style.display = "none";
-              divEstado[m].style.display = "flex";
-            }
-            montarGrafico(json.idDoenca);
-          } else {
-            for (var n = 0; n < divCidade.length; n++) {
-              divCidade[n].style.display = "flex";
-              divEstado[n].style.display = "none";
-            }
-            montarGraficoCidade(codigoCidade, json.idDoenca);
-          }
+            montarGraficoCidade(codigoCidade, json.idDoenca);         
         });
       } else {
         console.log("Houve um erro ao tentar realizar o login!");
