@@ -3430,7 +3430,6 @@ function montarGrafico(idDoenca) {
   gerarGraficoMetaVacinal(idDoenca);
   gerarGraficoCasosAno(idDoenca);
   gerarGraficoRankingAlerta(idDoenca);
-  gerarGraficoRankingMelhores(idDoenca);
 }
 
 function montarGraficoCidade(codigoCidade, idDoenca) {
@@ -3439,5 +3438,5 @@ function montarGraficoCidade(codigoCidade, idDoenca) {
   variacaoVacinadosCidade(codigoCidade, idDoenca);
   gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
   // gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
-  // gerarGraficoRankingMelhoresCidade(codigoCidade, idDoenca);
+  gerarGraficoRankingMelhores(codigoCidade, idDoenca);
 }
