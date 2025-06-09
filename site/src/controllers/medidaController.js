@@ -206,6 +206,26 @@ function variacaoCasosCidade(req, res) {
         );
 }
 
+function graficoCasosAnoCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.graficoCasosAnoCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 function variacaoCoberturaVacinalCidade(req, res) {
     console.log('passando pela controller')
     var id = req.body.doencaServer;
@@ -375,5 +395,6 @@ module.exports = {
     variacaoVacinadosCidade,
     graficoCasosAno,
     graficoRankingAlerta,
-    graficoRankingMelhores
+    graficoRankingMelhores,
+    graficoCasosAnoCidade
 }

@@ -3166,6 +3166,61 @@ function gerarGraficoCasosAno(idDoenca) {
     });
 }
 
+function gerarGraficoCasosAnoCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/graficoCasosAnoCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          console.log(json);
+
+          dados2 = [];
+          dados4 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados2.push(json[i].anoReferencia);
+            dados4.push(json[i].totalCasos);
+          }
+
+          console.log(dados2);
+          console.log(dados4);
+
+          if (idDoenca == 1) {
+            myChart.data.datasets[0].data = dados4;
+            myChart.data.labels = dados2;
+            myChart.update();
+          } else if (idDoenca == 2) {
+            myChart5.data.datasets[0].data = dados4;
+            myChart5.data.labels = dados2;
+            myChart5.update();
+          } else {
+            myChart9.data.datasets[0].data = dados4;
+            myChart9.data.labels = dados2;
+            myChart9.update();
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
 function gerarGraficoRankingAlerta(idDoenca) {
   fetch(`/medidas/graficoRankingAlerta/${idDoenca}`, {
     method: "GET",
@@ -3196,11 +3251,11 @@ function gerarGraficoRankingAlerta(idDoenca) {
           } else if (idDoenca == 2) {
             myChart8.data.datasets[0].data = dados6;
             myChart8.data.labels = dados5;
-            myChart4.update();
+            myChart8.update();
           } else {
             myChart12.data.datasets[0].data = dados6;
             myChart12.data.labels = dados5;
-            myChart4.update();
+            myChart12.update();
           }
         });
       } else {
@@ -3439,5 +3494,5 @@ function montarGraficoCidade(codigoCidade, idDoenca) {
   variacaoVacinadosCidade(codigoCidade, idDoenca);
   gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
   // gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
-  // gerarGraficoRankingMelhores(codigoCidade, idDoenca);
+  gerarGraficoRankingMelhores(codigoCidade, idDoenca);
 }

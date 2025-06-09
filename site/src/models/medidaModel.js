@@ -144,6 +144,15 @@ function variacaoVacinadosCidade(id, cidade) {
 
 }
 
+function graficoCasosAnoCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} AND fkCasos_Cidade = ${cidade} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function graficoCasosAno(id) {
 
     var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
@@ -240,5 +249,6 @@ module.exports = {
     variacaoVacinadosCidade,
     graficoCasosAno,
     graficoRankingAlerta,
-    graficoRankingMelhores
+    graficoRankingMelhores,
+    graficoCasosAnoCidade
 }
