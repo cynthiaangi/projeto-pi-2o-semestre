@@ -153,6 +153,23 @@ function graficoCasosAnoCidade(id, cidade) {
 
 }
 
+function graficoVacinaCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaCidade FROM ocorrencias WHERE fkDoenca = ${id} AND fkCidade = ${cidade} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function graficoVacinaEstado(id) {
+
+    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaEstado FROM ocorrencias WHERE fkDoenca = ${id} AND fkCidade = ${cidade} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
 function graficoCasosAno(id) {
 
     var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
@@ -250,5 +267,7 @@ module.exports = {
     graficoCasosAno,
     graficoRankingAlerta,
     graficoRankingMelhores,
-    graficoCasosAnoCidade
+    graficoCasosAnoCidade,
+    graficoVacinaEstado,
+    graficoVacinaCidade
 }

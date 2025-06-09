@@ -29,9 +29,9 @@ var dados5 = [];
 var dados6 = [];
 var dados7 = [];
 var dados8 = [];
-// var dados9 = []
-// var dados10 = []
-// var dados11 = []
+var dados9 = []
+var dados10 = []
+var dados11 = []
 // var dados12 = []
 // var dados13 = []
 // var dados14 = []
@@ -2619,18 +2619,18 @@ let myChart16 = new Chart(ctp, {
 let myChart18 = new Chart(ctr, {
   type: "bar",
   data: {
-    labels: ["2018", "2019", "2020", "2021", "2022"],
+    labels: dados9,
     datasets: [
       {
         label: "Cidade",
-        data: [45, 15, 50, 68, 79],
+        data: dados10,
         borderWidth: 1,
         borderColor: "#0A4D68",
         backgroundColor: "#0A4D68",
       },
       {
         label: "Estado",
-        data: [15, 85, 5, 80, 20],
+        data: dados11,
         borderWidth: 1,
         borderColor: "#99ccff",
         backgroundColor: "#99ccff",
@@ -3442,6 +3442,86 @@ function variacaoCasos(idDoenca) {
       console.log(erro);
     });
 }
+
+async function gerarGraficoVacinaEstadoCidade(codigoCidade, idDoenca){
+try{
+  var respostaEstado = await fetch(`/medidas/gerarGraficoVacinaEstado/${idDoenca}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+      if (respostaEstado.ok) {
+        const json = await respostaEstado.json();
+          console.log(json);
+
+          dados9 = [];
+          dados11 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados9.push(json[i].cidade);
+            dados11.push(json[i].coberturaVacinal);
+          }
+
+          console.log(dados9);
+          console.log(dados11);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        respostaEstado.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+
+      var respostaCidade = await fetch(`/medidas/gerarGraficoVacinaCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  });
+      if (respostaCidade.ok) {
+        const json = await respostaCidade.json();
+          console.log(json);
+
+          dados10 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados10.push(json[i].cidade);
+          }
+
+          console.log(dados10);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        respostaCidade.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+
+      if (idDoenca == 1) {
+            myChart14.data.datasets[0].data = dados10;
+            myChart14.data.datasets[1].data = dados11;
+            myChart14.data.labels = dados9;
+            myChart14.update();
+          } else if (idDoenca == 2) {
+            myChart16.data.datasets[0].data = dados10;
+            myChart16.data.datasets[1].data = dados11;
+            myChart16.data.labels = dados9;
+            myChart16.update();
+          } else {
+            myChart18.data.datasets[0].data = dados10;
+            myChart18.data.datasets[1].data = dados11;
+            myChart18.data.labels = dados9;
+            myChart18.update();
+          }
+  }
+  catch (erro) {
+    console.error("Erro na criação do gráfico:", erro);
+  }
+}
+
 
 function variacaoCasosCidade(codigoCidade, idDoenca) {
   fetch(`/medidas/variacaoCasosCidade`, {
