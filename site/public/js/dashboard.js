@@ -3216,16 +3216,16 @@ function gerarGraficoRankingAlerta(idDoenca) {
     });
 }
 
-function gerarGraficoRankingMelhores(idDoenca) {
-  fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
+async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
+  try{
+    var respostaRanking = await fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then(function (resposta) {
+  });
       if (resposta.ok) {
-        resposta.json().then((json) => {
+        const json = await respostaRanking.json();
           console.log(json);
 
           dados7 = [];
@@ -3238,8 +3238,46 @@ function gerarGraficoRankingMelhores(idDoenca) {
 
           console.log(dados7);
           console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+    
+    var respostaCobertura = await fetch(`/medidas/variacaoVacinadosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  });
+      if (resposta.ok) {
+        const json = await respostaCobertura.json();
+          console.log(json);
+          var cidadeSelecionada = "";
+          for (var i = 0; i < codigosCidade.length; i++) {
+                    if (codigosCidade[i] == codigoCidade) {
+                        cidadeSelecionada = cidadesSP[i];
+                    }             
+                }
 
-          if (idDoenca == 1) {
+          dados7.push(cidadeSelecionada);
+          dados8.push(json[0].total_vacinados);
+
+          console.log(dados7);
+          console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+      
+      if (idDoenca == 1) {
             myChart13.data.datasets[0].data = dados8;
             myChart13.data.labels = dados7;
             myChart13.update();
@@ -3252,19 +3290,10 @@ function gerarGraficoRankingMelhores(idDoenca) {
             myChart17.data.labels = dados7;
             myChart17.update();
           }
-        });
-      } else {
-        console.log("Houve um erro ao tentar calcular variação vacinal");
-
-        resposta.text().then((texto) => {
-          console.error(texto);
-          // finalizarAguardar(texto);
-        });
-      }
-    })
-    .catch(function (erro) {
-      console.log(erro);
-    });
+  }
+  catch (erro) {
+    console.error("Erro na criação do gráfico:", erro);
+  }
 }
 
 function variacaoCoberturaVacinal(idDoenca) {
