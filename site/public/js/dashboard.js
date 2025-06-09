@@ -3224,7 +3224,7 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
       "Content-Type": "application/json",
     },
   });
-      if (resposta.ok) {
+      if (respostaRanking.ok) {
         const json = await respostaRanking.json();
           console.log(json);
 
@@ -3255,7 +3255,7 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
         doencaServer: idDoenca
     })
   });
-      if (resposta.ok) {
+      if (respostaCobertura.ok) {
         const json = await respostaCobertura.json();
           console.log(json);
           var cidadeSelecionada = "";
@@ -3276,7 +3276,7 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
           console.error(texto);
         });
       }
-      
+
       if (idDoenca == 1) {
             myChart13.data.datasets[0].data = dados8;
             myChart13.data.labels = dados7;
