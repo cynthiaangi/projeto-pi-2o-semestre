@@ -2889,15 +2889,15 @@ function alterarDoenca() {
           }
           if(codigoCidade == codigosCidade[0] || codigoCidade == codigosCidade[1]){
             console.log(json.idDoenca);
-            for (var m = 0; m < estado.length; m++) {
-              cidade[m].style.display = "none";
-              estado[m].style.display = "flex";
+            for (var m = 0; m < divEstado.length; m++) {
+              divCidade[m].style.display = "none";
+              divEstado[m].style.display = "flex";
             }
             montarGrafico(json.idDoenca);
           } else {
-            for (var n = 0; n < cidade.length; n++) {
-              cidade[n].style.display = "flex";
-              estado[n].style.display = "none";
+            for (var n = 0; n < divCidade.length; n++) {
+              divCidade[n].style.display = "flex";
+              divEstado[n].style.display = "none";
             }
             montarGraficoCidade(codigoCidade, json.idDoenca);
           }
