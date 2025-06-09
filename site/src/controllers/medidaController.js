@@ -270,7 +270,7 @@ function gerarGraficoVacinaCidade(req, res) {
     var id = req.body.doencaServer;
     var cidade = req.body.cidadeServer;
 
-    medidaModel.gerarGraficoVacinaCidade(id, cidade)
+    medidaModel.graficoVacinaCidade(id, cidade)
         .then((resultado) => {
             console.log('executei a model')
 
@@ -289,7 +289,7 @@ function gerarGraficoVacinaEstado(req, res) {
     console.log('passando pela controller')
     var id = req.params.idDoenca;
 
-    medidaModel.gerarGraficoVacinaEstado(id)
+    medidaModel.graficoVacinaEstado(id)
         .then((resultado) => {
             console.log('executei a model')
 
