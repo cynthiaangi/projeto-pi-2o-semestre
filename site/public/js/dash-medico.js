@@ -22,6 +22,25 @@ var ctj = myChartCanvas10
 var ctk = myChartCanvas11
 var ctl = myChartCanvas12
 
+var dados1 = [];
+var dados2 = [];
+var dados3 = [];
+var dados4 = [];
+var dados5 = [];
+var dados6 = [];
+var dados7 = [];
+var dados8 = [];
+var dados9 = []
+var dados10 = []
+var dados11 = []
+// var dados12 = []
+// var dados13 = []
+// var dados14 = []
+// var dados15 = []
+// var dados16 = []
+// var dados17 = []
+// var dados18 = []
+
 const doencas = ['Coqueluche', 'Meningite', 'Poliomielite'];
 
 const doencaInput = document.getElementById('ipt_doencas');
@@ -76,7 +95,7 @@ let myChart2 = new Chart(cty, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#0A4D68', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -173,7 +192,7 @@ let myChart6 = new Chart(ctb, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#99ccff', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -271,7 +290,7 @@ let myChart10 = new Chart(ctj, {
     data: {
         labels: ['Onde estamos %'],
         datasets: [{
-            data: [75, 100 - 75],
+            data: dados1,
             backgroundColor: ['#8a8a8a', '#E0E0E0'],
             borderWidth: 0,
             circumference: 180,
@@ -369,10 +388,10 @@ let myChart = new Chart(ctx,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Coqueluche',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 fill: false,
                 borderColor: '#0A4D68',
                 backgroundColor: '#0A4D68',
@@ -434,10 +453,10 @@ let myChart5 = new Chart(cta,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Meningite',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 borderColor: "#99ccff",
                 backgroundColor: "#99ccff",
                 tension: 0.1
@@ -498,10 +517,10 @@ let myChart9 = new Chart(cti,
     {
         type: 'line',
         data: {
-            labels: ['2018', '2019', '2020', '2021', '2022'],
+            labels: dados2,
             datasets: [{
                 label: 'Poliomielite',
-                data: ['100', '400', '342', '298', '792'],
+                data: dados4,
                 borderColor: "#8a8a8a",
                 backgroundColor: "#8a8a8a",
                 tension: 0.1
@@ -561,9 +580,9 @@ let myChart9 = new Chart(cti,
 let myChart3 = new Chart(ctz, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -611,9 +630,9 @@ let myChart3 = new Chart(ctz, {
 let myChart7 = new Chart(ctc, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -660,9 +679,9 @@ let myChart7 = new Chart(ctc, {
 let myChart11 = new Chart(ctk, {
     type: 'bar',
     data: {
-        labels: ['Sorocaba', 'Franca', 'Itapetininga', 'Guarujá', 'Jaú', 'Barretos'],
+        labels: dados8,
         datasets: [{
-            data: ['87', '83', '81', '78', '72', '66'],
+            data: dados7,
             backgroundColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderColor: ['#0A4D68', '#EBCF1C', '#EB3B30', '#2E8B57', '#FF7F50', '#9370DB'],
             borderWidth: 1
@@ -712,17 +731,17 @@ let myChart11 = new Chart(ctk, {
 let myChart4 = new Chart(ctw, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: dados9,
         datasets: [{
             label: 'Cidade',
-            data: [15, 85, 5, 80, 20],
+            data: dados10,
             borderWidth: 1,
             borderColor: '#0A4D68',
             backgroundColor: '#0A4D68'
         },
         {
             label: 'Estado',
-            data: [15, 85, 5, 80, 20],
+            data: dados11,
             borderWidth: 1,
             borderColor: '#99ccff',
             backgroundColor: '#99ccff'
@@ -783,17 +802,17 @@ let myChart4 = new Chart(ctw, {
 let myChart8 = new Chart(ctd, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: dados9,
         datasets: [{
             label: 'Cidade',
-            data: [25, 15, 10, 8, 24],
+            data: dados10,
             borderWidth: 1,
             borderColor: '#0A4D68',
             backgroundColor: '#0A4D68'
         },
         {
             label: 'Estado',
-            data: [15, 85, 5, 80, 20],
+            data: dados11,
             borderWidth: 1,
             borderColor: '#99ccff',
             backgroundColor: '#99ccff'
@@ -854,17 +873,17 @@ let myChart8 = new Chart(ctd, {
 let myChart12 = new Chart(ctl, {
     type: 'bar',
     data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
+        labels: dados9,
         datasets: [{
             label: 'Cidade',
-            data: [45, 15, 50, 68, 79],
+            data: dados10,
             borderWidth: 1,
             borderColor: '#0A4D68',
             backgroundColor: '#0A4D68'
         },
         {
             label: 'Estado',
-            data: [15, 85, 5, 80, 20],
+            data: dados11,
             borderWidth: 1,
             borderColor: '#99ccff',
             backgroundColor: '#99ccff'
@@ -1042,6 +1061,8 @@ function acessarCampanha(){
     window.location = 'cidades-alerta.html';
 }
 
+
+
 function alterarDoencaCidade(){
     var doenca = doencaSelect.value;
     var cidade = cidadeUser;
@@ -1051,7 +1072,7 @@ function alterarDoencaCidade(){
     console.log(doenca);
     console.log(cidade);
 
-fetch("/medidas/alterarDoencaCidade", {
+fetch("/medidas/alterarDoenca", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -1076,27 +1097,27 @@ fetch("/medidas/alterarDoencaCidade", {
             alert(json.quantidadedeCasos)
 
 
-            // if( json.nomeDoenca == 'Coqueluche'){
-            //     for(var i = 0; i < coqueluche.length; i++){
-            //         coqueluche[i].style.display = 'flex';
-            //         meningite[i].style.display = 'none';
-            //         poliomielite[i].style.display = 'none';
-            //     }
-            // }else if(json.nomeDoenca == 'Meningite'){
-            //     for(var j = 0; j < meningite.length; j++){
-            //         coqueluche[j].style.display = 'none';
-            //         meningite[j].style.display = 'flex';
-            //         poliomielite[j].style.display = 'none';
-            //     }
-            // }else if(json.nomeDoenca == 'Poliomelite'){
-            //     for(var k = 0; k < poliomielite.length; k++){
-            //         coqueluche[k].style.display = 'none';
-            //         meningite[k].style.display = 'none';
-            //         poliomielite[k].style.display = 'flex';
-            //     }
-            // }
+            if( json.nomeDoenca == 'Coqueluche'){
+                for(var i = 0; i < coqueluche.length; i++){
+                    coqueluche[i].style.display = 'flex';
+                    meningite[i].style.display = 'none';
+                    poliomielite[i].style.display = 'none';
+                }
+            }else if(json.nomeDoenca == 'Meningite'){
+                for(var j = 0; j < meningite.length; j++){
+                    coqueluche[j].style.display = 'none';
+                    meningite[j].style.display = 'flex';
+                    poliomielite[j].style.display = 'none';
+                }
+            }else if(json.nomeDoenca == 'Poliomelite'){
+                for(var k = 0; k < poliomielite.length; k++){
+                    coqueluche[k].style.display = 'none';
+                    meningite[k].style.display = 'none';
+                    poliomielite[k].style.display = 'flex';
+                }
+            }
 
-        // montarGrafico(json[0].idDoenca);
+        montarGraficoCidade(cidade, json[0].idDoenca);
 
         });
 
@@ -1114,4 +1135,376 @@ fetch("/medidas/alterarDoencaCidade", {
     console.log(erro);
 })
 
+}
+
+function variacaoCasosCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoCasosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1];
+          if(json[0].variacaoPercentual == null){
+            variacao.innerHTML = `${0}`;
+          } else{
+            variacao.innerHTML = json[0].variacaoPercentual;
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação de casos");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
+async function gerarGraficoVacinaEstadoCidade(codigoCidade, idDoenca){
+try{
+  var respostaEstado = await fetch(`/medidas/gerarGraficoVacinaEstado/${idDoenca}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+      if (respostaEstado.ok) {
+        const json = await respostaEstado.json();
+          console.log(json);
+
+          dados9 = [];
+          dados11 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados9.push(json[i].anoReferencia);
+            dados11.push(json[i].coberturaEstado);
+          }
+
+          console.log(dados9);
+          console.log(dados11);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        respostaEstado.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+
+      var respostaCidade = await fetch(`/medidas/gerarGraficoVacinaCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  });
+      if (respostaCidade.ok) {
+        const json = await respostaCidade.json();
+          console.log(json);
+
+          dados10 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados10.push(json[i].coberturaCidade);
+          }
+
+          console.log(dados10);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        respostaCidade.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+
+      if (idDoenca == 1) {
+            myChart14.data.datasets[0].data = dados10;
+            myChart14.data.datasets[1].data = dados11;
+            myChart14.data.labels = dados9;
+            myChart14.update();
+          } else if (idDoenca == 2) {
+            myChart16.data.datasets[0].data = dados10;
+            myChart16.data.datasets[1].data = dados11;
+            myChart16.data.labels = dados9;
+            myChart16.update();
+          } else {
+            myChart18.data.datasets[0].data = dados10;
+            myChart18.data.datasets[1].data = dados11;
+            myChart18.data.labels = dados9;
+            myChart18.update();
+          }
+  }
+  catch (erro) {
+    console.error("Erro na criação do gráfico:", erro);
+  }
+}
+
+function variacaoCoberturaVacinalCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoCoberturaVacinalCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1];
+          if(json[0].variacaoPercentual == null){
+            variacao.innerHTML = `${0}`;
+          } else{
+            variacao.innerHTML = json[0].variacaoPercentual;
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
+async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
+  try{
+    var respostaRanking = await fetch(`/medidas/graficoRankingMelhores/${idDoenca}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+      if (respostaRanking.ok) {
+        const json = await respostaRanking.json();
+          console.log(json);
+
+          dados7 = [];
+          dados8 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados7.push(json[i].cidade);
+            dados8.push(json[i].coberturaVacinal);
+          }
+
+          console.log(dados7);
+          console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+    
+    var respostaCobertura = await fetch(`/medidas/variacaoVacinadosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  });
+      if (respostaCobertura.ok) {
+        const json = await respostaCobertura.json();
+          console.log(json);
+          var cidadeSelecionada = "";
+          for (var i = 0; i < codigosCidade.length; i++) {
+                    if (codigosCidade[i] == codigoCidade) {
+                        cidadeSelecionada = cidadesSP[i];
+                    }             
+                }
+
+          dados7.push(cidadeSelecionada);
+          dados8.push(json[0].total_vacinados);
+
+          console.log(dados7);
+          console.log(dados8);
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+        resposta.text().then((texto) => {
+          console.error(texto);
+        });
+      }
+
+      if (idDoenca == 1) {
+            myChart13.data.datasets[0].data = dados8;
+            myChart13.data.labels = dados7;
+            myChart13.update();
+          } else if (idDoenca == 2) {
+            myChart15.data.datasets[0].data = dados8;
+            myChart15.data.labels = dados7;
+            myChart15.update();
+          } else {
+            myChart17.data.datasets[0].data = dados8;
+            myChart17.data.labels = dados7;
+            myChart17.update();
+          }
+  }
+  catch (erro) {
+    console.error("Erro na criação do gráfico:", erro);
+  }
+}
+
+function gerarGraficoCasosAnoCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/graficoCasosAnoCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          console.log(json);
+
+          dados2 = [];
+          dados4 = [];
+
+          for (var i = 0; i < json.length; i++) {
+            dados2.push(json[i].anoReferencia);
+            dados4.push(json[i].totalCasos);
+          }
+
+          console.log(dados2);
+          console.log(dados4);
+
+          if (idDoenca == 1) {
+            myChart.data.datasets[0].data = dados4;
+            myChart.data.labels = dados2;
+            myChart.update();
+          } else if (idDoenca == 2) {
+            myChart5.data.datasets[0].data = dados4;
+            myChart5.data.labels = dados2;
+            myChart5.update();
+          } else {
+            myChart9.data.datasets[0].data = dados4;
+            myChart9.data.labels = dados2;
+            myChart9.update();
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
+function gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoVacinadosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          console.log(json);
+          var vacinados = json[0].total_vacinados;
+          var naoVacinados = 100 - vacinados;
+          dados1 = [vacinados, naoVacinados];
+
+          if (idDoenca == 1) {
+            myChart2.data.datasets[0].data = dados1;
+            myChart2.update();
+          } else if (idDoenca == 2) {
+            myChart6.data.datasets[0].data = dados1;
+            myChart6.update();
+          } else {
+            myChart10.data.datasets[0].data = dados1;
+            myChart10.update();
+          }
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
+function variacaoVacinadosCidade(codigoCidade, idDoenca) {
+  fetch(`/medidas/variacaoVacinadosCidade`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        cidadeServer: codigoCidade,
+        doencaServer: idDoenca
+    })
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        resposta.json().then((json) => {
+          var diferenca =
+            document.getElementsByClassName("valor-vacinado")[idDoenca - 1];
+          var vacinados = json[0].total_vacinados;
+          var naoVacinados = (100 - vacinados).toFixed(2);
+          diferenca.innerHTML = `${vacinados}% / ${naoVacinados}%`;
+        });
+      } else {
+        console.log("Houve um erro ao tentar calcular variação vacinal");
+
+        resposta.text().then((texto) => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+}
+
+function montarGraficoCidade(codigoCidade, idDoenca) {
+  variacaoCoberturaVacinalCidade(codigoCidade, idDoenca);
+  variacaoCasosCidade(codigoCidade, idDoenca);
+  variacaoVacinadosCidade(codigoCidade, idDoenca);
+  gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca);
+  gerarGraficoCasosAnoCidade(codigoCidade, idDoenca);
+  gerarGraficoRankingMelhores(codigoCidade, idDoenca);
+  gerarGraficoVacinaEstadoCidade(codigoCidade, idDoenca);
 }
