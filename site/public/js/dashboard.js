@@ -2475,18 +2475,18 @@ let myChart17 = new Chart(ctq, {
 let myChart14 = new Chart(ctn, {
   type: "bar",
   data: {
-    labels: ["2018", "2019", "2020", "2021", "2022"],
+    labels: dados9,
     datasets: [
       {
         label: "Cidade",
-        data: [15, 85, 5, 80, 20],
+        data: dados10,
         borderWidth: 1,
         borderColor: "#0A4D68",
         backgroundColor: "#0A4D68",
       },
       {
         label: "Estado",
-        data: [15, 85, 5, 80, 20],
+        data: dados11,
         borderWidth: 1,
         borderColor: "#99ccff",
         backgroundColor: "#99ccff",
@@ -2547,18 +2547,18 @@ let myChart14 = new Chart(ctn, {
 let myChart16 = new Chart(ctp, {
   type: "bar",
   data: {
-    labels: ["2018", "2019", "2020", "2021", "2022"],
+    labels: dados9,
     datasets: [
       {
         label: "Cidade",
-        data: [25, 15, 10, 8, 24],
+        data: dados10,
         borderWidth: 1,
         borderColor: "#0A4D68",
         backgroundColor: "#0A4D68",
       },
       {
         label: "Estado",
-        data: [15, 85, 5, 80, 20],
+        data: dados11,
         borderWidth: 1,
         borderColor: "#99ccff",
         backgroundColor: "#99ccff",
