@@ -51,6 +51,14 @@ router.get("/variacaoVacinados/:idDoenca",function (req, res) {
     medidaController.variacaoVacinados(req, res);
 });
 
+router.post("/gerarGraficoVacinaCidade",function (req, res) {
+    medidaController.gerarGraficoVacinaCidade(req, res);
+});
+
+router.get("/gerarGraficoVacinaEstado/:idDoenca",function (req, res) {
+    medidaController.gerarGraficoVacinaEstado(req, res);
+});
+
 router.get("/graficoCasosAno/:idDoenca",function (req, res) {
     medidaController.graficoCasosAno(req, res);
 });
