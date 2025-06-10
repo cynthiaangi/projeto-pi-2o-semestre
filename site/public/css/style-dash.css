@@ -395,14 +395,14 @@ display: none;
   align-items: center;
   gap: 1rem;
 }
-
+/* 
 .valor-vacina{
   color: #00bf63 !important;
 }
 
 .valor-caso{
   color: #ff3131 !important;
-}
+} */
 
 .dash {
   flex-grow: 1;
