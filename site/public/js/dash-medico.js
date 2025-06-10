@@ -2,7 +2,9 @@ var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
 var cidadeUser = sessionStorage.CIDADE_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
-bemVinda.innerHTML = `${nomeUser}`;
+var local = document.getElementById("sua_cidade");
+bemVinda.innerHTML = `${nomeUser} - `;
+local.innerHTML = `${cidadeUser}`;
 
 // graficos Coqueluche
 var ctx = myChartCanvas
@@ -948,7 +950,7 @@ const titulo2 = "Variação da cobertura vacinal";
 const help3 = "Apresenta a mudança percentual no número de casos registrados da doença em relação ao período anterior, indicando aumento ou redução.";
 const titulo3 = "Variação da quantidade de casos";
 const help4 = "Indica a porcentagem atual da população vacinada em comparação à meta estabelecida, exibindo se o objetivo foi atingido ou não.";
-const titulo4 = "Meta vacinal para coqueluche";
+const titulo4 = "Meta vacinal atual";
 const help5 = "Exibe as 5 cidades com maior valor de cobertura vacinal e a posição que a cidade apresentada está atualmente.";
 const titulo5 = "Ranking de vacinação"
 const help6 = "Gráfico que apresenta a evolução do número de casos ao longo do tempo, exibindo comparativos mensais e tendências da doença.";
@@ -1144,11 +1146,18 @@ function variacaoCasosCidade(codigoCidade, idDoenca) {
       if (resposta.ok) {
         resposta.json().then((json) => {
           var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1];
-          if(json[0].variacaoPercentual == null){
-            variacao.innerHTML = `${0}`;
-          } else{
-            variacao.innerHTML = json[0].variacaoPercentual;
-          }
+                    var casos = json[0].variacaoPercentual;
+          if(casos == null){
+            casos = 0;
+          } 
+
+          if(casos < 0){
+              variacao.style.color = "#00bf63";
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+            } else {
+              variacao.style.color = "#ff3131";
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+            }
         });
       } else {
         console.log("Houve um erro ao tentar calcular variação de casos");
