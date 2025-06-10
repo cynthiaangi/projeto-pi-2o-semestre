@@ -21,6 +21,21 @@ var ctj = myChartCanvas10;
 var ctk = myChartCanvas11;
 var ctl = myChartCanvas12;
 
+// gráficos para Cidades;
+
+var ctm = myChartCanvas13;
+var ctn = myChartCanvas14;
+var cto = myChartCanvas15;
+var ctp = myChartCanvas16;
+var ctq = myChartCanvas17;
+var ctr = myChartCanvas18;
+var cts = myChartCanvas19;
+var ctt = myChartCanvas20;
+var cte = myChartCanvas21;
+var ctf = myChartCanvas22;
+var ctg = myChartCanvas23;
+var cth = myChartCanvas24;
+
 var dados1 = [];
 var dados2 = [];
 var dados3 = [];
@@ -1901,6 +1916,502 @@ let myChart9 = new Chart(cti, {
   },
 });
 
+let myChart19 = new Chart(cts, {
+  type: "doughnut",
+  data: {
+    labels: ["Onde estamos %"],
+    datasets: [
+      {
+        data: dados1,
+        backgroundColor: ["#0A4D68", "#E0E0E0"],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+        cutout: "70%",
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Meta vacinal para Coqueluche",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      tooltip: { enabled: true },
+    },
+  },
+  plugins: [
+    {
+      id: "marcadorMeta",
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return; // garante que o gráfico será desenhado apenas após a caixa dele estiver pronta
+
+        const posicao = 85; // ajuste na inclinação e posição da marca no gráfico
+        const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
+
+        const centerX = (chartArea.left + chartArea.right) / 2;
+        const centerY = chartArea.bottom;
+        const radius = ((chartArea.right - chartArea.left) / 2) * 0.8;
+
+        const x = centerX + radius * Math.cos(angle - 0.5);
+        const y = centerY - radius * Math.cos(angle + 0.5);
+
+        const marcadorComprimento = 30; // comprimento da marca da meta
+        const inclinacao = 0.5; // controla a inclinação da marca da meta
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(
+          x - marcadorComprimento * Math.cos(angle - inclinacao),
+          y + marcadorComprimento * Math.sin(angle - inclinacao)
+        ); // de onde começa
+        ctx.lineTo(
+          x + marcadorComprimento * Math.cos(angle + inclinacao),
+          y - marcadorComprimento * Math.sin(angle + inclinacao)
+        ); // onde termina
+        ctx.strokeStyle = "limegreen";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = "#444";
+        ctx.font = "bold 14px Arial";
+
+        // Posição meta
+        const posicaoMeta = Math.PI;
+        const xMeta = x + marcadorComprimento * Math.cos(angle + inclinacao);
+        const yMeta = y - marcadorComprimento * Math.sin(angle + inclinacao);
+        ctx.fillText("95", xMeta - 5, yMeta - 10);
+
+        // Posição do 0 (lado esquerdo)
+        const posicao0 = Math.PI;
+        const x0 = centerX + (radius + 30) * Math.cos(posicao0);
+        const y0 = centerY - 20 - (radius + 15) * Math.sin(posicao0);
+        ctx.fillText("0", x0, y0); // ajustezinho fino
+
+        // Posição do 100 (lado direito)
+        const posicao100 = 0;
+        const x100 = centerX + (radius + 20) * Math.cos(posicao100);
+        const y100 = centerY - 25 - (radius + 15) * Math.sin(posicao100);
+        ctx.fillText("100", x100 - 15, y100 + 5); // ajustezinho fino
+
+        ctx.restore();
+      },
+    },
+  ],
+});
+let myChart20 = new Chart(ctt, {
+  type: "doughnut",
+  data: {
+    labels: ["Onde estamos %"],
+    datasets: [
+      {
+        data: dados1,
+        backgroundColor: ["#99ccff", "#E0E0E0"],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+        cutout: "70%",
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Meta vacinal para Meningite",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      tooltip: { enabled: true },
+    },
+  },
+  plugins: [
+    {
+      id: "marcadorMeta",
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return; // garante que o gráfico será desenhado apenas após a caixa dele estiver pronta
+
+        const posicao = 85; // ajuste na inclinação e posição da marca no gráfico
+        const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
+
+        const centerX = (chartArea.left + chartArea.right) / 2;
+        const centerY = chartArea.bottom;
+        const radius = ((chartArea.right - chartArea.left) / 2) * 0.8;
+
+        const x = centerX + radius * Math.cos(angle - 0.5);
+        const y = centerY - radius * Math.cos(angle + 0.5);
+
+        const marcadorComprimento = 30; // comprimento da marca da meta
+        const inclinacao = 0.5; // controla a inclinação da marca da meta
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(
+          x - marcadorComprimento * Math.cos(angle - inclinacao),
+          y + marcadorComprimento * Math.sin(angle - inclinacao)
+        ); // de onde começa
+        ctx.lineTo(
+          x + marcadorComprimento * Math.cos(angle + inclinacao),
+          y - marcadorComprimento * Math.sin(angle + inclinacao)
+        ); // onde termina
+        ctx.strokeStyle = "limegreen";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = "#444";
+        ctx.font = "bold 14px Arial";
+
+        // Posição meta
+        const posicaoMeta = Math.PI;
+        const xMeta = x + marcadorComprimento * Math.cos(angle + inclinacao);
+        const yMeta = y - marcadorComprimento * Math.sin(angle + inclinacao);
+        ctx.fillText("95", xMeta - 5, yMeta - 10);
+
+        // Posição do 0 (lado esquerdo)
+        const posicao0 = Math.PI;
+        const x0 = centerX + (radius + 30) * Math.cos(posicao0);
+        const y0 = centerY - 20 - (radius + 15) * Math.sin(posicao0);
+        ctx.fillText("0", x0, y0); // ajustezinho fino
+
+        // Posição do 100 (lado direito)
+        const posicao100 = 0;
+        const x100 = centerX + (radius + 20) * Math.cos(posicao100);
+        const y100 = centerY - 25 - (radius + 15) * Math.sin(posicao100);
+        ctx.fillText("100", x100 - 15, y100 + 5); // ajustezinho fino
+
+        ctx.restore();
+      },
+    },
+  ],
+});
+
+let myChart21 = new Chart(cte, {
+  type: "doughnut",
+  data: {
+    labels: ["Onde estamos %"],
+    datasets: [
+      {
+        data: dados1,
+        backgroundColor: ["#8a8a8a", "#E0E0E0"],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+        cutout: "70%",
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Meta vacinal para Poliomielite",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      tooltip: { enabled: true },
+    },
+  },
+  plugins: [
+    {
+      id: "marcadorMeta",
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return; // garante que o gráfico será desenhado apenas após a caixa dele estiver pronta
+
+        const posicao = 85; // ajuste na inclinação e posição da marca no gráfico
+        const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
+
+        const centerX = (chartArea.left + chartArea.right) / 2;
+        const centerY = chartArea.bottom;
+        const radius = ((chartArea.right - chartArea.left) / 2) * 0.8;
+
+        const x = centerX + radius * Math.cos(angle - 0.5);
+        const y = centerY - radius * Math.cos(angle + 0.5);
+
+        const marcadorComprimento = 30; // comprimento da marca da meta
+        const inclinacao = 0.5; // controla a inclinação da marca da meta
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(
+          x - marcadorComprimento * Math.cos(angle - inclinacao),
+          y + marcadorComprimento * Math.sin(angle - inclinacao)
+        ); // de onde começa
+        ctx.lineTo(
+          x + marcadorComprimento * Math.cos(angle + inclinacao),
+          y - marcadorComprimento * Math.sin(angle + inclinacao)
+        ); // onde termina
+        ctx.strokeStyle = "limegreen";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = "#444";
+        ctx.font = "bold 14px Arial";
+
+        // Posição meta
+        const posicaoMeta = Math.PI;
+        const xMeta = x + marcadorComprimento * Math.cos(angle + inclinacao);
+        const yMeta = y - marcadorComprimento * Math.sin(angle + inclinacao);
+        ctx.fillText("95", xMeta - 5, yMeta - 10);
+
+        // Posição do 0 (lado esquerdo)
+        const posicao0 = Math.PI;
+        const x0 = centerX + (radius + 30) * Math.cos(posicao0);
+        const y0 = centerY - 20 - (radius + 15) * Math.sin(posicao0);
+        ctx.fillText("0", x0, y0); // ajustezinho fino
+
+        // Posição do 100 (lado direito)
+        const posicao100 = 0;
+        const x100 = centerX + (radius + 20) * Math.cos(posicao100);
+        const y100 = centerY - 25 - (radius + 15) * Math.sin(posicao100);
+        ctx.fillText("100", x100 - 15, y100 + 5); // ajustezinho fino
+
+        ctx.restore();
+      },
+    },
+  ],
+});
+
+// Adicionando gráfico criado em div na tela
+let myChart22 = new Chart(ctf, {
+  type: "line",
+  data: {
+    labels: dados2,
+    datasets: [
+      {
+        label: "Coqueluche",
+        data: dados4,
+        fill: false,
+        borderColor: "#0A4D68",
+        backgroundColor: "#0A4D68",
+        tension: 0.1,
+      },
+    ],
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: "Quantidade de casos de Coqueluche por ano",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "anos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "qtde. casos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  },
+});
+
+let myChart23 = new Chart(ctg, {
+  type: "line",
+  data: {
+    labels: dados2,
+    datasets: [
+      {
+        label: "Meningite",
+        data: dados4,
+        borderColor: "#99ccff",
+        backgroundColor: "#99ccff",
+        tension: 0.1,
+      },
+    ],
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: "Quantidade de casos de Meningite por ano",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "anos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "qtde. casos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  },
+});
+
+let myChart24 = new Chart(cth, {
+  type: "line",
+  data: {
+    labels: dados2,
+    datasets: [
+      {
+        label: "Poliomielite",
+        data: dados4,
+        borderColor: "#8a8a8a",
+        backgroundColor: "#8a8a8a",
+        tension: 0.1,
+      },
+    ],
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: "Quantidade de casos de Poliomielite por ano",
+        color: "#2e2e2e",
+        font: {
+          size: 24,
+        },
+      },
+      legend: {
+        labels: {
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "anos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "#2e2e2e",
+        },
+        title: {
+          display: true,
+          text: "qtde. casos",
+          color: "#2e2e2e",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  },
+});
+
 let myChart3 = new Chart(ctz, {
   type: "bar",
   data: {
@@ -2270,13 +2781,6 @@ let myChart12 = new Chart(ctl, {
     },
   },
 });
-
-var ctm = myChartCanvas13;
-var ctn = myChartCanvas14;
-var cto = myChartCanvas15;
-var ctp = myChartCanvas16;
-var ctq = myChartCanvas17;
-var ctr = myChartCanvas18;
 
 let myChart13 = new Chart(ctm, {
   type: "bar",
