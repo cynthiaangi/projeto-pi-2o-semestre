@@ -1464,18 +1464,18 @@ let myChart2 = new Chart(cty, {
         const { ctx, chartArea } = chart;
         if (!chartArea) return; // garante que o gráfico será desenhado apenas após a caixa dele estiver pronta
 
-        const posicao = 85; // ajuste na inclinação e posição da marca no gráfico
+        const posicao = 95; // ajuste na inclinação e posição da marca no gráfico
         const angle = Math.PI * (1 - posicao / 100); // Invertido (vai de 0% à esquerda até 100% à direita)
 
         const centerX = (chartArea.left + chartArea.right) / 2;
-        const centerY = chartArea.bottom;
+        const centerY = chartArea.bottom * 1.15;
         const radius = ((chartArea.right - chartArea.left) / 2) * 0.8;
 
         const x = centerX + radius * Math.cos(angle - 0.5);
         const y = centerY - radius * Math.cos(angle + 0.5);
 
         const marcadorComprimento = 30; // comprimento da marca da meta
-        const inclinacao = 0.5; // controla a inclinação da marca da meta
+        const inclinacao = 0.4; // controla a inclinação da marca da meta
 
         ctx.save();
         ctx.beginPath();
@@ -1505,13 +1505,13 @@ let myChart2 = new Chart(cty, {
         // Posição do 0 (lado esquerdo)
         const posicao0 = Math.PI;
         const x0 = centerX + (radius + 30) * Math.cos(posicao0);
-        const y0 = centerY - 20 - (radius + 15) * Math.sin(posicao0);
+        const y0 = centerY/1.15 - 20 - (radius + 15) * Math.sin(posicao0);
         ctx.fillText("0", x0, y0); // ajustezinho fino
 
         // Posição do 100 (lado direito)
         const posicao100 = 0;
         const x100 = centerX + (radius + 20) * Math.cos(posicao100);
-        const y100 = centerY - 25 - (radius + 15) * Math.sin(posicao100);
+        const y100 = centerY/1.15 - 25 - (radius + 15) * Math.sin(posicao100);
         ctx.fillText("100", x100 - 15, y100 + 5); // ajustezinho fino
 
         ctx.restore();
