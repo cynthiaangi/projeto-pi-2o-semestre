@@ -1500,7 +1500,7 @@ let myChart2 = new Chart(cty, {
         const posicaoMeta = Math.PI;
         const xMeta = x + marcadorComprimento * Math.cos(angle + inclinacao);
         const yMeta = y - marcadorComprimento * Math.sin(angle + inclinacao);
-        ctx.fillText("95", xMeta - 5, yMeta - 10);
+        ctx.fillText("95%", xMeta - 100, yMeta + 10);
 
         // Posição do 0 (lado esquerdo)
         const posicao0 = Math.PI;
