@@ -3565,14 +3565,14 @@ function gerarGraficoMetaVacinalCidade(codigoCidade, idDoenca) {
           dados1 = [vacinados, naoVacinados];
 
           if (idDoenca == 1) {
-            myChart2.data.datasets[0].data = dados1;
-            myChart2.update();
+            myChart19.data.datasets[0].data = dados1;
+            myChart19.update();
           } else if (idDoenca == 2) {
-            myChart6.data.datasets[0].data = dados1;
-            myChart6.update();
+            myChart20.data.datasets[0].data = dados1;
+            myChart20.update();
           } else {
-            myChart10.data.datasets[0].data = dados1;
-            myChart10.update();
+            myChart21.data.datasets[0].data = dados1;
+            myChart21.update();
           }
         });
       } else {
@@ -3708,17 +3708,17 @@ function gerarGraficoCasosAnoCidade(codigoCidade, idDoenca) {
           console.log(dados4);
 
           if (idDoenca == 1) {
-            myChart.data.datasets[0].data = dados4;
-            myChart.data.labels = dados2;
-            myChart.update();
+            myChart22.data.datasets[0].data = dados4;
+            myChart22.data.labels = dados2;
+            myChart22.update();
           } else if (idDoenca == 2) {
-            myChart5.data.datasets[0].data = dados4;
-            myChart5.data.labels = dados2;
-            myChart5.update();
+            myChart23.data.datasets[0].data = dados4;
+            myChart23.data.labels = dados2;
+            myChart23.update();
           } else {
-            myChart9.data.datasets[0].data = dados4;
-            myChart9.data.labels = dados2;
-            myChart9.update();
+            myChart24.data.datasets[0].data = dados4;
+            myChart24.data.labels = dados2;
+            myChart24.update();
           }
         });
       } else {
