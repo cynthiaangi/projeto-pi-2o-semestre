@@ -2835,7 +2835,7 @@ function alterarCidade() {
       }
     }
 
-    if(cidadeEscolhida == cidadesSP[0] || cidadesSP[1]){
+    if(cidadeEscolhida == cidadesSP[0] || cidadeEscolhida == cidadesSP[1]){
       divCidade.style.display = "none";
       divEstado.style.display = "flex";
     } else {
