@@ -1109,7 +1109,7 @@ fetch("/medidas/alterarDoenca", {
                 }
             }
 
-        montarGraficoCidade(codigoCidade, json[0].idDoenca);
+        montarGraficoCidade(codigoCidade, json.idDoenca);
 
         });
 
