@@ -3943,10 +3943,10 @@ function variacaoCoberturaVacinal(idDoenca) {
             document.getElementsByClassName("valor-vacina")[idDoenca - 1];
             if(json[0].variacaoPercentualMedia < 0){
               variacao.style.color = "#ff3131";
-              variacao.innerHTML =`${json[0].variacaoPercentualMedia}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+              variacao.innerHTML =`${json[0].variacaoPercentualMedia}% <span class="material-symbols-outlined">arrow_downward </span>`; 
             } else {
               variacao.style.color = "#00bf63";
-              variacao.innerHTML =`${json[0].variacaoPercentualMedia}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+              variacao.innerHTML =`${json[0].variacaoPercentualMedia}% <span class="material-symbols-outlined">arrow_upward </span>`;
             }
         });
       } else {
@@ -3985,10 +3985,10 @@ function variacaoCoberturaVacinalCidade(codigoCidade, idDoenca) {
 
           if(vacinacao < 0){
               variacao.style.color = "#ff3131";
-              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined">arrow_downward </span>`; 
             } else {
               variacao.style.color = "#00bf63";
-              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined">arrow_upward </span>`;
             }
         });
       } else {
@@ -4019,10 +4019,10 @@ function variacaoCasos(idDoenca) {
             document.getElementsByClassName("valor-caso")[idDoenca - 1];
           if(json[0].variacaoPercentualCasos < 0){
               variacao.style.color = "#00bf63";
-              variacao.innerHTML =`${json[0].variacaoPercentualCasos}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+              variacao.innerHTML =`${json[0].variacaoPercentualCasos}% <span class="material-symbols-outlined">arrow_downward </span>`; 
             } else {
               variacao.style.color = "#ff3131";
-              variacao.innerHTML =`${json[0].variacaoPercentualCasos}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+              variacao.innerHTML =`${json[0].variacaoPercentualCasos}% <span class="material-symbols-outlined">arrow_upward </span>`;
             }
         });
       } else {
@@ -4141,10 +4141,10 @@ function variacaoCasosCidade(codigoCidade, idDoenca) {
 
           if(casos < 0){
               variacao.style.color = "#00bf63";
-              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined">arrow_downward </span>`; 
             } else {
               variacao.style.color = "#ff3131";
-              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined">arrow_upward </span>`;
             }
         });
       } else {
