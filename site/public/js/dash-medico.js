@@ -1002,6 +1002,9 @@ function abrirMensagem(mensagem) {
 
     }
 }
+var codigoCidade = sessionStorage.CODCIDADE_USUARIO;
+var idDoenca = 1;
+window.onload = montarGraficoCidade(codigoCidade, idDoenca);
 
 function fecharMensagem() {
     var bottomsheet = document.getElementsByClassName('mensagem')[0];
@@ -1061,16 +1064,12 @@ function acessarCampanha(){
     window.location = 'cidades-alerta.html';
 }
 
-
-
 function alterarDoencaCidade(){
     var doenca = doencaSelect.value;
-    var cidade = cidadeUser;
     var coqueluche = document.getElementsByClassName('coqueluche');
     var meningite = document.getElementsByClassName('meningite');
     var poliomielite = document.getElementsByClassName('poliomielite');
     console.log(doenca);
-    console.log(cidade);
 
 fetch("/medidas/alterarDoenca", {
     method: "POST",
@@ -1079,7 +1078,6 @@ fetch("/medidas/alterarDoenca", {
     },
     body: JSON.stringify({
         doencaServer: doenca,
-        cidadeServer: cidade
     })
 }).then(function (resposta) {
     console.log("ESTOU NO THEN DO entrar()!")
@@ -1090,12 +1088,6 @@ fetch("/medidas/alterarDoenca", {
         resposta.json().then(json => {
             console.log(json);
             console.log(JSON.stringify(json));
-
-            console.log(json.anoReferencia);
-            console.log(json.quantidadedeCasos);
-            alert(json.anoReferencia)
-            alert(json.quantidadedeCasos)
-
 
             if( json.nomeDoenca == 'Coqueluche'){
                 for(var i = 0; i < coqueluche.length; i++){
@@ -1117,7 +1109,7 @@ fetch("/medidas/alterarDoenca", {
                 }
             }
 
-        montarGraficoCidade(cidade, json[0].idDoenca);
+        montarGraficoCidade(codigoCidade, json[0].idDoenca);
 
         });
 
@@ -1230,20 +1222,20 @@ try{
       }
 
       if (idDoenca == 1) {
-            myChart14.data.datasets[0].data = dados10;
-            myChart14.data.datasets[1].data = dados11;
-            myChart14.data.labels = dados9;
-            myChart14.update();
+            myChart4.data.datasets[0].data = dados10;
+            myChart4.data.datasets[1].data = dados11;
+            myChart4.data.labels = dados9;
+            myChart4.update();
           } else if (idDoenca == 2) {
-            myChart16.data.datasets[0].data = dados10;
-            myChart16.data.datasets[1].data = dados11;
-            myChart16.data.labels = dados9;
-            myChart16.update();
+            myChart8.data.datasets[0].data = dados10;
+            myChart8.data.datasets[1].data = dados11;
+            myChart8.data.labels = dados9;
+            myChart8.update();
           } else {
-            myChart18.data.datasets[0].data = dados10;
-            myChart18.data.datasets[1].data = dados11;
-            myChart18.data.labels = dados9;
-            myChart18.update();
+            myChart12.data.datasets[0].data = dados10;
+            myChart12.data.datasets[1].data = dados11;
+            myChart12.data.labels = dados9;
+            myChart12.update();
           }
   }
   catch (erro) {
@@ -1348,17 +1340,17 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
       }
 
       if (idDoenca == 1) {
-            myChart13.data.datasets[0].data = dados8;
-            myChart13.data.labels = dados7;
-            myChart13.update();
+            myChart3.data.datasets[0].data = dados8;
+            myChart3.data.labels = dados7;
+            myChart3.update();
           } else if (idDoenca == 2) {
-            myChart15.data.datasets[0].data = dados8;
-            myChart15.data.labels = dados7;
-            myChart15.update();
+            myChar7.data.datasets[0].data = dados8;
+            myChar7.data.labels = dados7;
+            myChar7.update();
           } else {
-            myChart17.data.datasets[0].data = dados8;
-            myChart17.data.labels = dados7;
-            myChart17.update();
+            myChart11.data.datasets[0].data = dados8;
+            myChart11.data.labels = dados7;
+            myChart11.update();
           }
   }
   catch (erro) {
