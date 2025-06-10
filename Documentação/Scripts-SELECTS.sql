@@ -1,18 +1,44 @@
--- Ranking de vacinação por cidade: (ERRADO)
-SELECT 
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal,
-    'Cidade do usuário' AS origem
-FROM usuarios u
-JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
-JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
-WHERE u.idUsuario = 1
-  AND o.anoReferencia = (
-      SELECT MAX(anoReferencia)
-      FROM ocorrencias
-      WHERE fkCidade = u.fkCidadeResidente
-  )
+-- Ranking de vacinação por cidade: (VERIFICADO)
+WITH cidade_usuario AS (
+    SELECT
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        'Cidade do usuário' AS origem
+    FROM usuarios u
+    JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    WHERE u.idUsuario = {idUsuario}
+      AND o.anoReferencia = (
+          SELECT MAX(anoReferencia)
+          FROM ocorrencias
+          WHERE fkCidade = u.fkCidadeResidente
+      )
+    ORDER BY o.coberturaVacinal DESC
+    LIMIT 1
+),
+outras_cidades AS (
+    SELECT
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        'Outra cidade' AS origem
+    FROM usuarios u
+    JOIN cidades c ON c.codigoIbge != u.fkCidadeResidente
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    WHERE u.idUsuario = 1
+      AND o.anoReferencia = (
+          SELECT MAX(anoReferencia) FROM ocorrencias
+      )
+    ORDER BY o.coberturaVacinal DESC
+    LIMIT 5
+)
+
+SELECT * FROM cidade_usuario
+UNION ALL
+SELECT * FROM outras_cidades
+ORDER BY coberturaVacinal DESC;
+
 
 UNION ALL
 
@@ -32,31 +58,32 @@ WHERE u.idUsuario = 1
 ORDER BY coberturaVacinal DESC
 LIMIT 5;
 
+-- Situação vacinal ao longo dos anos da cidade: (VERIFICADO)
+WITH ocorrencias_filtradas AS (
+    SELECT
+        d.nomeDoenca,
+        c.nome AS cidade,
+        o.anoReferencia,
+        o.coberturaVacinal,
+        ROW_NUMBER() OVER (
+            PARTITION BY d.idDoenca, o.anoReferencia
+            ORDER BY o.coberturaVacinal DESC
+        ) AS rn
+    FROM usuarios u
+    JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
+    JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
+    JOIN doencas d ON o.fkDoenca = d.idDoenca
+    WHERE u.idUsuario = {idUsuario}
+)
+SELECT
+    nomeDoenca,
+    cidade,
+    anoReferencia,
+    coberturaVacinal
+FROM ocorrencias_filtradas
+WHERE rn = 1
+ORDER BY nomeDoenca, anoReferencia;
 
--- Situação vacinal ao longo dos anos: (ERRADO)
-SELECT 
-    d.nomeDoenca,
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal
-FROM ocorrencias o
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-JOIN cidades c ON o.fkCidade = c.codigoIbge
-ORDER BY d.nomeDoenca, c.nome, o.anoReferencia
-LIMIT 10;
-
--- Situação vacinal ao longo dos anos da cidade: (ERRADO)
-SELECT 
-    d.nomeDoenca,
-    c.nome AS cidade,
-    o.anoReferencia,
-    o.coberturaVacinal
-FROM usuarios u
-JOIN cidades c ON u.fkCidadeResidente = c.codigoIbge
-JOIN ocorrencias o ON o.fkCidade = c.codigoIbge
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-WHERE u.idUsuario = 1
-ORDER BY d.nomeDoenca, c.nome, o.anoReferencia;
 
 -- Situação da cobertura vacinal do estado: (VERIFICADO)
 -- Total de cidades com cobertura média abaixo de 85%
@@ -297,26 +324,4 @@ WHERE d.nomeDoenca = 'Coqueluche'
 GROUP BY c.nome;
 
 -- Variação cobertura vacinal dos últimos 12 meses por cidade: (VERIFICADO)
-SELECT
-    c.nome AS cidade,
-    d.nomeDoenca,
-    ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2024,
-    ROUND(AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2025,
-    ROUND(
-        CASE
-            WHEN AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL
-            ELSE (
-                (
-                    AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) -
-                    AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)
-                ) * 100.0
-            ) / AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)
-        END, 2
-    ) AS variacaoPercentual
-FROM ocorrencias o
-JOIN doencas d ON o.fkDoenca = d.idDoenca
-JOIN cidades c ON o.fkCidade = c.codigoIbge
-WHERE d.nomeDoenca = 'Coqueluche'
-  AND c.nome = 'Sao Paulo'
-  AND o.anoReferencia IN (2024, 2025)
-GROUP BY c.nome, d.nomeDoenca;
+SELECT c.nome AS cidade, d.nomeDoenca, ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2024, ROUND(AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2025, ROUND(CASE WHEN AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL ELSE ((AVG(CASE WHEN o.anoReferencia = 2025 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) - AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)) * 100.0) / AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) END, 2) AS variacaoPercentual FROM ocorrencias o JOIN doencas d ON o.fkDoenca = d.idDoenca JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE d.nomeDoenca = 'Coqueluche' AND c.nome = 'Sao Paulo' AND o.anoReferencia IN (2024, 2025) GROUP BY c.nome, d.nomeDoenca;

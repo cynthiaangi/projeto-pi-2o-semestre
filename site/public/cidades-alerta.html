@@ -37,7 +37,7 @@
                             <button onclick="recolherMenu()" id="menu" class="material-symbols-outlined">
                                 chevron_left
                             </button>
-                            <label for="menu">Voltar</label>
+                            <label for="menu">Recolher</label>
                         </div>
                         <div class="menu-item" onclick="abrirNotificacao()">
                             <span id="notificacao" class="material-symbols-outlined">
@@ -47,13 +47,13 @@
                         </div>
                     </div>
                     <div class="menu-ajuste">
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarConta()">
                             <span class="material-symbols-outlined" id="conta">
                                 person
                             </span>
                             <label for="conta">Conta</label>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarGerenciamento()">
                             <span class="material-symbols-outlined" id="funcionarios">
                                 manage_accounts
                             </span>
@@ -61,11 +61,11 @@
                         </div>
                     </div>
                     <div class="menu-sair">
-                        <div class="menu-item">
+                        <div class="menu-item" onclick="acessarDashboard()">
                             <span class="material-symbols-outlined" id="ajuda">
-                                help
+                                monitoring
                             </span>
-                            <label for="ajuda">Ajuda</label>
+                            <label for="ajuda">Dashboard</label>
                         </div>
                         <div class="menu-item">
                             <button onclick="voltarHome()" class="material-symbols-outlined icone-lateral" id="sair">
@@ -94,110 +94,80 @@
                 </div>
                 <div class="cabecalho">
                     <div>Olá, <span id="nome_usuario"></span></div>
-                    <div class="periodo">
-                        <button onclick="mostrarFuncionarios()">Listar</button>
-                    </div>
-                    <div class="periodo">
-                        <button onclick="cadastrarFuncionarios()">Cadastrar</button>
-                    </div>
-                    <!-- <div class="periodo">
-                        <div>Filtrar por período (ano)</div>
-                        <label for="">De: </label>
-                        <input type="text" id="ipt_ano_antes">
-                        <label for="">Até:</label>
-                        <input type="text" id="ipt_ano_depois">
-                    </div> -->
                 </div>
                 <div class="area-mensagem" onclick="fecharMensagem()"></div>
                 <div class="mensagem">
                     <div class="titulo-mensagem">
-                        Editar Funcionário
+                        Editar Campanha
                     </div>
                     <div class="corpo-mensagem">
                         <div class="edicao-parte">
                             <div class="input-box">
-                                <label for="ipt_nome">Nome Completo</label>
+                                <label for="ipt_nome">Nome Campanha</label>
                                 <input id="ipt_nome" name="nomeCompleto" type="text"
-                                    placeholder="Digite seu nome completo">
-                            </div>
-
-                            <div class="input-box">
-                                <label for="ipt_cargo">Cargo atuante</label>
-                                <input id="ipt_cargo" name="cargo" type="text" placeholder="Digite seu cargo">
+                                    placeholder="Nome da Campanha">
                             </div>
                         </div>
                         <div class="edicao-parte">
                             <div class="input-box">
-                                <label for="ipt_number">Número de conselho</label>
-                                <input id="ipt_number" name="numeroConselho" type="text" placeholder="Apenas números">
-                            </div>
-
-                            <div class="input-box">
-                                <label for="cidade">Cidade onde atua</label>
-                                <select id="cidade" name="cidade">
-                                    <option value="">Selecione uma cidade</option>
-                                </select>
+                                <label for="ipt_number">Data de Início</label>
+                                <input id="ipt_number" name="dataCampanha" type="date" placeholder="Apenas números">
                             </div>
                         </div>
                     </div>
                     <div class="botoes">
-                        <button onclick="alterarFuncionario()">Confirmar</button>
+                        <button onclick="alterarCampanha()">Confirmar</button>
                         <button onclick="excluir()">Excluir</button>
                         <button onclick="fecharMensagem()">Cancelar</button>
                     </div>
                 </div>
-                <div class="cadastro">
-                    <div class="input-group">
-                        <div class="cadastro-box">
-                            <label for="ipt_nome_cadastro">Nome Completo</label>
-                            <input id="ipt_nome_cadastro" name="nomeCompleto" type="text"
-                                placeholder="Digite seu nome completo">
+                <div class="tabelas">
+                    <div class="campanhas">
+                        <div class="busca">
+                            <div>Encontrar campanha</div>
+                            <label for="">Nome: </label>
+                            <input type="text" id="ipt_nome">
+                            <button onclick="buscar()">Filtrar</button>
+                            <button onclick="abrirCadastroCampanha()">Cadastrar nova campanha</button>
                         </div>
+                        <div class="cadastro">
+                            <div class="input-group">
+                                <div class="cadastro-box">
+                                    <label for="ipt_nome_cadastro">Nome Campanha</label>
+                                    <input id="ipt_nome_cadastro" name="nomeCompleto" type="text"
+                                        placeholder="Digite seu nome completo">
+                                </div>
 
-                        <div class="cadastro-box">
-                            <label for="ipt_cargo_cadastro">Cargo atuante</label>
-                            <input id="ipt_cargo_cadastro" name="cargo" type="text" placeholder="Digite seu cargo">
+                                <div class="cadastro-box">
+                                    <label for="ipt_data_cadastro">Data início campanha</label>
+                                    <input id="ipt_data_cadastro" name="dataCampanha" type="date">
+                                </div>
+
+                                <div class="continue-button">
+                                    <button type="button" onclick="cadastrarCampanha()">Cadastrar Campanha</button>
+                                </div>
+
+                            </div>
                         </div>
-
-                        <div class="cadastro-box">
-                            <label for="ipt_data_cadastro">Data de nascimento</label>
-                            <input id="ipt_data_cadastro" name="dataNascimento" type="date">
-                        </div>
-
-                        <div class="cadastro-box">
-                            <label for="ipt_number_cadastro">Número de conselho</label>
-                            <input id="ipt_number_cadastro" name="numeroConselho" type="text"
-                                placeholder="Apenas números">
-                        </div>
-
-                        <div class="cadastro-box">
-                            <label for="cidade_cadastro">Cidade onde atua</label>
-                            <select id="cidade_cadastro" name="cidade">
+                        <table class="tabela-campanha">
+                        </table>
+                    </div>
+                    <div class="cidades">
+                        <div class="cadastro-cidade">
+                            <div>Adicionar cidade</div>
+                            <div class="input-group">
+                                <select id="cidade_cadastro" name="cidade">
                                 <option value="">Selecione uma cidade</option>
                             </select>
+                                <div class="button-cidade">
+                                    <!-- <button type="button" onclick="cadastrarCidade()">Cadastrar Cidade</button> -->
+                                </div>
+                            </div>
                         </div>
-                        <div class="continue-button">
-                            <button type="button" onclick="cadastrar()">Cadastrar Funcionário</button>
-                        </div>
-
+                        <table class="tabela-campanha-cidade">
+                        </table>
                     </div>
-
                 </div>
-                <div>
-                    <div class="busca">
-                        <div>Encontrar funcionário </div>
-                        <label for="">Nome: </label>
-                        <input type="text" id="ipt_nome">
-                        <label for="">Cargo:</label>
-                        <input type="text" id="ipt_cargo2">
-                        <label for="">Cidade:</label>
-                        <input type="text" id="ipt_cidade">
-                        <button onclick="buscar()">Filtrar</button>
-                    </div>
-                    <table class="tabela-usuario">
-                    </table>
-                </div>
-            </div>
         </section>
     </main>
     <script src="js/cidades-alerta.js"></script>

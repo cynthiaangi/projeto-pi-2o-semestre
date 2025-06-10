@@ -167,10 +167,208 @@ function variacaoCoberturaVacinal(req, res) {
 }
 
 function variacaoCasos(req, res) {
+    console.log('passando pela controller')
     var id = req.params.idDoenca;
+    
 
     medidaModel.variacaoCasos(id)
         .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function variacaoCasosCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.variacaoCasosCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function graficoCasosAnoCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.graficoCasosAnoCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function variacaoCoberturaVacinalCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.variacaoCoberturaVacinalCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function variacaoVacinados(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.variacaoVacinados(id)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function gerarGraficoVacinaCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.graficoVacinaCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function gerarGraficoVacinaEstado(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.graficoVacinaEstado(id)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function variacaoVacinadosCidade(req, res) {
+    console.log('passando pela controller')
+    var id = req.body.doencaServer;
+    var cidade = req.body.cidadeServer;
+
+    medidaModel.variacaoVacinadosCidade(id, cidade)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function graficoCasosAno(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.graficoCasosAno(id)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function graficoRankingAlerta(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.graficoRankingAlerta(id)
+        .then((resultado) => {
+            console.log('executei a model')
+
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao trocar a variação de casos da doemça! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function graficoRankingMelhores(req, res) {
+    console.log('passando pela controller')
+    var id = req.params.idDoenca;
+
+    medidaModel.graficoRankingMelhores(id)
+        .then((resultado) => {
+            console.log('executei a model')
 
             res.status(200).json(resultado);
         })
@@ -228,6 +426,16 @@ module.exports = {
     alterarCidade,
     variacaoCoberturaVacinal,
     variacaoCasos,
+    variacaoCasosCidade,
+    variacaoCoberturaVacinalCidade,
     criarGraficoSituacao95Cobertura,
-    criarGraficoSituacao85Cobertura
+    criarGraficoSituacao85Cobertura,
+    variacaoVacinados,
+    variacaoVacinadosCidade,
+    graficoCasosAno,
+    graficoRankingAlerta,
+    graficoRankingMelhores,
+    graficoCasosAnoCidade,
+    gerarGraficoVacinaEstado,
+    gerarGraficoVacinaCidade
 }

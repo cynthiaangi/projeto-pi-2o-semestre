@@ -2,21 +2,26 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.CidadesDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
-public class CidadesTransform {
-    private final LeitorExcel leitor;
+public class CidadesTransform extends Transform {
+    private CidadesDao cidadesDao;
 
-    public CidadesTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    public CidadesTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
     }
 
-    public void processarCidades(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "leitorExcel");
+    @Override
+    public void conectarAoBanco() {
+        this.cidadesDao = new CidadesDao(connection);
+    }
 
-        CidadesDao cidadesDao = new CidadesDao(connection); // conexão com o banco para as cidades
+    public void processarCidades(String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo) , "processarCidades", "CidadesTransform");
+
+        conectarAoBanco();
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
@@ -25,16 +30,7 @@ public class CidadesTransform {
         for (int i = 2; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                // Obtém o valor do codigoIbge
-                Cell cellCodigoIbge = row.getCell(0);
-                Long codigoIbge; // transforma o valor para Long pq no banco é BigInt
-
-                // Verifica o tipo da célula e converte para Long
-                if (cellCodigoIbge.getCellType() == CellType.STRING) {
-                    codigoIbge = Long.parseLong(cellCodigoIbge.getStringCellValue()); // transforma o valor para Long
-                } else {
-                    codigoIbge = (long) cellCodigoIbge.getNumericCellValue(); // transforma o valor para Long
-                }
+                Long codigoIbge = lerCodigoIbge(row);
 
                 String nomeCidade = row.getCell(1).getStringCellValue(); // nome da cidade
 
@@ -51,15 +47,15 @@ public class CidadesTransform {
                 // if (!cidadesDao.buscarPorId(codigoIbge)) {
                 cidadesDao.inserirCidade(codigoIbge, nomeCidade, qtdPopulacional);
                 //} else {
-                    //logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"LeitorExcel");
+                    //logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %s: Cidade já exist no banco", row.getRowNum()) ,"processarCidades", "CidadesTransform");
 
                 //}
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %s: %s", row.getRowNum(), e.getMessage()),"processarCidades", "CidadesTransform");
             }
         }
         cidadesDao.finalizarInserts();
 
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarCidades", "CidadesTransform");
     }
 }

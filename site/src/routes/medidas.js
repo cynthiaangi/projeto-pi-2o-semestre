@@ -31,6 +31,46 @@ router.get("/variacaoCasos/:idDoenca",function (req, res) {
     medidaController.variacaoCasos(req, res);
 });
 
+router.post("/variacaoCasosCidade",function (req, res) {
+    medidaController.variacaoCasosCidade(req, res);
+});
+
+router.post("/variacaoCoberturaVacinalCidade",function (req, res) {
+    medidaController.variacaoCoberturaVacinalCidade(req, res);
+});
+
+router.post("/variacaoVacinadosCidade",function (req, res) {
+    medidaController.variacaoVacinadosCidade(req, res);
+});
+
+router.post("/graficoCasosAnoCidade",function (req, res) {
+    medidaController.graficoCasosAnoCidade(req, res);
+});
+
+router.get("/variacaoVacinados/:idDoenca",function (req, res) {
+    medidaController.variacaoVacinados(req, res);
+});
+
+router.post("/gerarGraficoVacinaCidade",function (req, res) {
+    medidaController.gerarGraficoVacinaCidade(req, res);
+});
+
+router.get("/gerarGraficoVacinaEstado/:idDoenca",function (req, res) {
+    medidaController.gerarGraficoVacinaEstado(req, res);
+});
+
+router.get("/graficoCasosAno/:idDoenca",function (req, res) {
+    medidaController.graficoCasosAno(req, res);
+});
+
+router.get("/graficoRankingAlerta/:idDoenca",function (req, res) {
+    medidaController.graficoRankingAlerta(req, res);
+});
+
+router.get("/graficoRankingMelhores/:idDoenca",function (req, res) {
+    medidaController.graficoRankingMelhores(req, res);
+});
+
 router.get("/criarGraficoSituacao95Cobertura/:idDoenca",function (req, res) {
     medidaController.criarGraficoSituacao95Cobertura(req, res);
 });
