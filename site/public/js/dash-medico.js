@@ -1,6 +1,6 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
-var cidadeUser = "Barueri"
+var cidadeUser = sessionStorage.CIDADE_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
 
@@ -1101,7 +1101,7 @@ fetch("/medidas/alterarDoenca", {
                     meningite[j].style.display = 'flex';
                     poliomielite[j].style.display = 'none';
                 }
-            }else if(json.nomeDoenca == 'Poliomelite'){
+            }else if(json.nomeDoenca == 'Poliomielite'){
                 for(var k = 0; k < poliomielite.length; k++){
                     coqueluche[k].style.display = 'none';
                     meningite[k].style.display = 'none';
@@ -1339,9 +1339,9 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
             myChart3.data.labels = dados7;
             myChart3.update();
           } else if (idDoenca == 2) {
-            myChar7.data.datasets[0].data = dados8;
-            myChar7.data.labels = dados7;
-            myChar7.update();
+            myChart7.data.datasets[0].data = dados8;
+            myChart7.data.labels = dados7;
+            myChart7.update();
           } else {
             myChart11.data.datasets[0].data = dados8;
             myChart11.data.labels = dados7;
