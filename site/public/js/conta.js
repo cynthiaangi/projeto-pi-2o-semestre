@@ -195,6 +195,10 @@ function acessarDashboard() {
     }
 }
 
+function acessarCampanha() {
+  window.location = "cidades-alerta.html";
+}
+
 function habilitarMudaSenha() {
     var areaCadastro = document.getElementsByClassName('mensagem')[0];
     var alteraSenha = document.getElementsByClassName('altera-senha')[0];
