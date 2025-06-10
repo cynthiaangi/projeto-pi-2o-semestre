@@ -1146,17 +1146,17 @@ function variacaoCasosCidade(codigoCidade, idDoenca) {
       if (resposta.ok) {
         resposta.json().then((json) => {
           var variacao = document.getElementsByClassName("valor-caso")[idDoenca - 1];
-                    var casos = json[0].variacaoPercentual;
+          var casos = json[0].variacaoPercentual;
           if(casos == null){
             casos = 0;
           } 
 
           if(casos < 0){
               variacao.style.color = "#00bf63";
-              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_downward </span>`; 
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined">arrow_downward </span>`; 
             } else {
               variacao.style.color = "#ff3131";
-              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined valor-vacina">arrow_upward </span>`;
+              variacao.innerHTML =`${casos}% <span class="material-symbols-outlined">arrow_upward </span>`;
             }
         });
       } else {
@@ -1267,11 +1267,18 @@ function variacaoCoberturaVacinalCidade(codigoCidade, idDoenca) {
       if (resposta.ok) {
         resposta.json().then((json) => {
           var variacao = document.getElementsByClassName("valor-vacina")[idDoenca - 1];
+          var vacinacao = json[0].variacaoPercentual
           if(json[0].variacaoPercentual == null){
-            variacao.innerHTML = `${0}`;
-          } else{
-            variacao.innerHTML = json[0].variacaoPercentual;
+            vacinacao = 0;
           }
+
+          if(vacinacao < 0){
+              variacao.style.color = "#ff3131";
+              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined">arrow_downward </span>`; 
+            } else {
+              variacao.style.color = "#00bf63";
+              variacao.innerHTML =`${vacinacao}% <span class="material-symbols-outlined">arrow_upward </span>`;
+            }
         });
       } else {
         console.log("Houve um erro ao tentar calcular variação vacinal");
