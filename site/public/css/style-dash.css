@@ -246,11 +246,6 @@ nav button {
   justify-content: end;
 }
 
-.graficos{
-  display: flex;
-  gap: 20px;
-}
-
 .kpi {
   display: flex;
   flex-direction: column;
@@ -262,10 +257,12 @@ nav button {
 
 .estado{
   display: flex;
+  gap: 20px;
 }
 
 .cidade{
   display: none;
+  gap: 20px;
 }
 
 .coqueluche{
