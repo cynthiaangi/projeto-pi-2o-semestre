@@ -2818,19 +2818,19 @@ function acessarCampanha() {
 }
 
 function alterarCidade() {
-  var cidadeEsolhida = sel_cidade.value;
+  var cidadeEscolhida = sel_cidade.value;
   codigoCidade = 0;
   var divEstado = document.getElementsByClassName("estado")[0];
   var divCidade = document.getElementsByClassName("cidade")[0];
 
 
-  if (cidadeEsolhida == cidadesSP[0]) {
+  if (cidadeEscolhida == cidadesSP[0]) {
     return;
-  } else if (cidadeEsolhida == cidadesSP[1]) {
+  } else if (cidadeEscolhida == cidadesSP[1]) {
     window.location.href = "./dashboard.html";
   } else {
     for (var i = 0; i < codigosCidade.length; i++) {
-      if (cidadesSP[i] == cidadeEsolhida) {
+      if (cidadesSP[i] == cidadeEscolhida) {
         codigoCidade = codigosCidade[i];
       }
     }
