@@ -205,8 +205,15 @@ function habilitarMudaSenha() {
 
 function habilitarEdicao() {
 
+    var exibicao = document.getElementsByClassName("exibir");
     document.getElementById("ipt_nome").value = nomeUser;
     document.getElementById("ipt_number").value = conselho;
+
+    if(conselho.length == 5){
+        for(var i = 0; i < exibicao.length; i++){
+            exibicao[i].style.display = "none";
+        }
+    }
 
     const selCargo = document.getElementById("sel_cargo");
     for (let opcao of selCargo.options) {
