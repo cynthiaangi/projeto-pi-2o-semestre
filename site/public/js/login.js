@@ -142,7 +142,7 @@ function entrar() {
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
                 sessionStorage.SENHA_USUARIO = senha;
                 sessionStorage.CARGO_USUARIO = json.cargoExercido;
-                sessionStorage.CODCIDADE_USUARIOA = json.codigoCidade;
+                sessionStorage.CODCIDADE_USUARIO = json.codigoCidade;
 
                 console.log(cidadeSelecionada);
 
