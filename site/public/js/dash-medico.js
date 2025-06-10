@@ -1320,14 +1320,7 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
       if (respostaCobertura.ok) {
         const json = await respostaCobertura.json();
           console.log(json);
-          var cidadeSelecionada = "";
-          for (var i = 0; i < codigosCidade.length; i++) {
-                    if (codigosCidade[i] == codigoCidade) {
-                        cidadeSelecionada = cidadesSP[i];
-                    }             
-                }
 
-          dados7.push(cidadeSelecionada);
           dados8.push(json[0].total_vacinados);
 
           console.log(dados7);
