@@ -2820,10 +2820,12 @@ function acessarCampanha() {
 function alterarCidade() {
   var cidadeEsolhida = sel_cidade.value;
   codigoCidade = 0;
-  var botao = document.getElementById("botaoCidade");
+  var divEstado = document.getElementsByClassName("estado")[0];
+  var divCidade = document.getElementsByClassName("cidade")[0];
+
 
   if (cidadeEsolhida == cidadesSP[0]) {
-    botao.disabled = true;
+    return;
   } else if (cidadeEsolhida == cidadesSP[1]) {
     window.location.href = "./dashboard.html";
   } else {
@@ -2831,6 +2833,14 @@ function alterarCidade() {
       if (cidadesSP[i] == cidadeEsolhida) {
         codigoCidade = codigosCidade[i];
       }
+    }
+
+    if(cidadeEscolhida == cidadesSP[0] || cidadesSP[1]){
+      divCidade.style.display = "none";
+      divEstado.style.display = "flex";
+    } else {
+      divCidade.style.display = "flex";
+      divEstado.style.display = "none";
     }
     alterarDoenca();
     // montarGraficoCidade(codigoCidade, idDoenca);
@@ -2843,8 +2853,6 @@ function alterarDoenca() {
   var coqueluche = document.getElementsByClassName("coqueluche");
   var meningite = document.getElementsByClassName("meningite");
   var poliomielite = document.getElementsByClassName("poliomielite");
-  var divEstado = document.getElementsByClassName("estado");
-  var divCidade = document.getElementsByClassName("cidade");
   console.log(doenca);
 
   fetch("/medidas/alterarDoenca", {
