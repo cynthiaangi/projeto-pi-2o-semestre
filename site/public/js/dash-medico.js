@@ -1320,7 +1320,9 @@ async function gerarGraficoRankingMelhores(codigoCidade, idDoenca) {
       if (respostaCobertura.ok) {
         const json = await respostaCobertura.json();
           console.log(json);
+          
 
+          dados7.push(cidadeUser);
           dados8.push(json[0].total_vacinados);
 
           console.log(dados7);
