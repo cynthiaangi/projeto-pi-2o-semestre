@@ -49,19 +49,13 @@ import school.sptech.transform.CidadesTransform;
 import school.sptech.transform.OcorrenciasAnuaisTransform;
 import school.sptech.transform.OcorrenciasMensaisTransform;
 import school.sptech.utils.LogEtl;
-import school.sptech.dao.DoencasDao;
+import school.sptech.utils.Status;
 
 public class LeitorExcel {
+    private LogEtl logEtl;
 
-    // metodo para buscar o ID da doença no banco pelo nome
-    public Integer getFkDoenca(String nomeDoenca, DoencasDao doencasDao) {
-        Integer id = doencasDao.buscarIdDoenca(nomeDoenca); // busca a doença pelo nome
-        if (id != null) {
-            return id; // retorna o ID da doença
-        } else {
-            // TO DO: Adicionar log
-            throw new RuntimeException("Doença não encontrada no banco: " + nomeDoenca);
-        }
+    public LeitorExcel(LogEtl logEtl) {
+        this.logEtl = logEtl;
     }
 
     public static InputStream abrirArquivo(String nomeArquivo) throws IOException {
@@ -71,34 +65,34 @@ public class LeitorExcel {
         return arquivoLocal;
     }
 
-    public void processarDadosDoArquivo(LogEtl logEtl, JdbcTemplate connection, Workbook planilhaExcel, String nomeArquivo) {
+    public void processarDadosDoArquivo(JdbcTemplate connection, Workbook planilhaExcel, String nomeArquivo) {
         switch (nomeArquivo) {
             case "cidades-sp.xlsx" -> {
-                CidadesTransform cidadesTransform = new CidadesTransform(this);
-                cidadesTransform.processarCidades(logEtl, connection, nomeArquivo, planilhaExcel); // Processa as cidades
+                CidadesTransform cidadesTransform = new CidadesTransform(logEtl, connection);
+                cidadesTransform.processarCidades(nomeArquivo, planilhaExcel);
             }
             case "estadoSP_vacinas-19-22.xlsx" -> {
-                OcorrenciasAnuaisTransform ocorrenciasAnuaisTransform = new OcorrenciasAnuaisTransform(this);
-                ocorrenciasAnuaisTransform.processarOcorrenciasAnuais(logEtl, connection, nomeArquivo, planilhaExcel);
+                OcorrenciasAnuaisTransform ocorrenciasAnuaisTransform = new OcorrenciasAnuaisTransform(logEtl, connection);
+                ocorrenciasAnuaisTransform.processarOcorrenciasAnuais(nomeArquivo, planilhaExcel);
             }
             case "estadoSP_vacinas-23-24.xlsx" -> {
-                OcorrenciasMensaisTransform ocorrenciasMensaisTransform = new OcorrenciasMensaisTransform(this);
-                ocorrenciasMensaisTransform.processarOcorrenciasMensais(logEtl, connection, nomeArquivo, planilhaExcel);
+                OcorrenciasMensaisTransform ocorrenciasMensaisTransform = new OcorrenciasMensaisTransform(logEtl, connection);
+                ocorrenciasMensaisTransform.processarOcorrenciasMensais(nomeArquivo, planilhaExcel);
             }
             case "estadoSP_doencas.xlsx" -> {
-                CasosTransform casosTransform = new CasosTransform(this);
-                casosTransform.processarCasosDoencas(logEtl, connection, nomeArquivo, planilhaExcel);
+                CasosTransform casosTransform = new CasosTransform(logEtl, connection);
+                casosTransform.processarCasosDoencas(nomeArquivo, planilhaExcel);
             }
             default -> {
-                logEtl.inserirLogEtl("404", "Arquivo não reconhecido: %s".formatted(nomeArquivo), "LeitorExcel.extraisDados");
+                logEtl.inserirLogEtl(Status.S_404, "Arquivo não reconhecido: %s".formatted(nomeArquivo), "processarDadosDoArquivo", "LeitorExcel");
             }
         }
     }
 
     // metodo para extrair os dados de todos os arquivos Excel
-    public void extrairDados(LogEtl logEtl, JdbcTemplate connection, String[] nomeArquivos) {
+    public void extrairDados(JdbcTemplate connection, String[] nomeArquivos) {
         for (String nomeArquivo : nomeArquivos) {
-            logEtl.inserirLogEtl("200", "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "Main.executarProcessoETL");
+            logEtl.inserirLogEtl(Status.S_200, "Início da leitura do arquivo: %s %n".formatted(nomeArquivo), "extrairDados", "LeitorExcel");
 
             try {
                 // Abre arquivo
@@ -106,12 +100,12 @@ public class LeitorExcel {
 
                 Workbook planilhaExcel = new XSSFWorkbook(arquivoLocal);
 
-                this.processarDadosDoArquivo(logEtl, connection, planilhaExcel, nomeArquivo);
+                this.processarDadosDoArquivo(connection, planilhaExcel, nomeArquivo);
 
                 arquivoLocal.close();
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("500", e.getMessage(), "LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_500, e.getMessage(),"extrairDados", "LeitorExcel");
                 throw new RuntimeException(e);
             }
         }

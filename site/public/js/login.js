@@ -134,13 +134,15 @@ function entrar() {
                 for (var i = 0; i < codigosCidade.length; i++) {
                     if (codigosCidade[i] == json.codigoCidade) {
                         cidadeSelecionada = cidadesSP[i];
-                    }
+                    }             
                 }
                 sessionStorage.CONSELHO_USUARIO = conselho;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
                 sessionStorage.CIDADE_USUARIO = cidadeSelecionada;
                 sessionStorage.SENHA_USUARIO = senha;
+                sessionStorage.CARGO_USUARIO = json.cargoExercido;
+                sessionStorage.CODCIDADE_USUARIO = json.codigoCidade;
 
                 console.log(cidadeSelecionada);
 
@@ -152,6 +154,8 @@ function entrar() {
                 }
                 else if(conselho.length == 5) {
                     window.location.href = "./dash-medico.html";
+                } else if(conselho.length == 3) {
+                    window.location.href = "./administracao.html";
                 }
 
             });

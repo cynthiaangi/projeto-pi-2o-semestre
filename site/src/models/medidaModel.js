@@ -37,7 +37,7 @@ function alterarDoenca(doenca) {
     return database.executar(instrucaoSql);
 }
 
-function alterarDoencaCidade(doenca, cidade) {
+function alterarDoencaCidade(cidade) {
 
     var instrucaoSql = `SELECT casos.anoReferencia, casos.quantidadeCasos FROM casos JOIN doencas 
     ON casos.fkCasos_Doenca = doencas.idDoenca JOIN cidades ON casos.fkCasos_Cidade = cidades.codigoIbge WHERE 
@@ -78,6 +78,24 @@ WHERE
 
 }
 
+function variacaoCasosCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT c.nome AS cidade, SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) AS total_2023, SUM(CASE WHEN ca.anoReferencia = 2024 THEN ca.quantidadeCasos ELSE 0 END) AS total_2024, ROUND(CASE WHEN SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) = 0 THEN NULL ELSE ((SUM(CASE WHEN ca.anoReferencia = 2024 THEN ca.quantidadeCasos ELSE 0 END) - SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END)) * 100.0) / SUM(CASE WHEN ca.anoReferencia = 2023 THEN ca.quantidadeCasos ELSE 0 END) END, 2) AS variacaoPercentual FROM casos ca JOIN doencas d ON ca.fkCasos_Doenca = d.idDoenca JOIN cidades c ON ca.fkCasos_Cidade = c.codigoIbge WHERE d.idDoenca = ${id} AND c.codigoIbge = ${cidade} AND ca.anoReferencia IN (2023, 2024) GROUP BY c.nome;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function variacaoCoberturaVacinalCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT c.nome AS cidade, d.nomeDoenca, ROUND(AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END), 2) AS cobertura_2023, ROUND(AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END), 2) AS cobertura_2024, ROUND(CASE WHEN AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) = 0 THEN NULL ELSE ((AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE 0 END) - AVG(CASE WHEN o.anoReferencia = 2024 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END)) * 100.0) / AVG(CASE WHEN o.anoReferencia = 2023 THEN LEAST(o.coberturaVacinal, 100) ELSE NULL END) END, 2) AS variacaoPercentual FROM ocorrencias o JOIN doencas d ON o.fkDoenca = d.idDoenca JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE d.idDoenca = ${id} AND c.codigoIbge = ${cidade} AND o.anoReferencia IN (2023, 2024) GROUP BY c.nome, d.nomeDoenca;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 function variacaoCoberturaVacinal(id) {
 
     var instrucaoSql = `SELECT
@@ -102,6 +120,68 @@ WHERE
     AND o2.anoReferencia = 2023
     AND o1.coberturaVacinal IS NOT NULL
     AND o2.coberturaVacinal IS NOT NULL;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function variacaoVacinados(id) {
+
+    var instrucaoSql = `SELECT ROUND(AVG(coberturaVacinal), 2) as total_vacinados FROM ocorrencias WHERE anoReferencia = 2024 and fkDoenca = ${id};`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function variacaoVacinadosCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT ROUND(AVG(coberturaVacinal), 2) as total_vacinados FROM ocorrencias WHERE anoReferencia = 2024 and fkDoenca = ${id} and fkCidade = ${cidade};`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function graficoCasosAnoCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} AND fkCasos_Cidade = ${cidade} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function graficoVacinaCidade(id, cidade) {
+
+    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaCidade FROM ocorrencias WHERE fkDoenca = ${id} AND fkCidade = ${cidade} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function graficoVacinaEstado(id) {
+
+    var instrucaoSql = `SELECT anoReferencia, ROUND(AVG(coberturaVacinal), 2) as coberturaEstado FROM ocorrencias WHERE fkDoenca = ${id} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+function graficoCasosAno(id) {
+
+    var instrucaoSql = `SELECT anoReferencia, SUM(quantidadeCasos) as totalCasos FROM casos WHERE fkCasos_Doenca = ${id} GROUP BY anoReferencia;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
+function graficoRankingAlerta(id) {
+
+    var instrucaoSql = `SELECT c.nome AS cidade, ROUND(AVG(o.coberturaVacinal), 2) AS coberturaVacinal FROM ocorrencias o JOIN cidades c ON o.fkCidade = c.codigoIbge WHERE o.fkDoenca = ${id} AND o.anoReferencia = 2024 GROUP BY c.nome ORDER BY coberturaVacinal ASC LIMIT 10;`
 
     console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -160,6 +240,14 @@ FROM (
 
 }
 
+function graficoRankingMelhores(id){
+    var instrucaoSql = `SELECT c.nome AS cidade, ROUND(AVG(o.coberturaVacinal), 2) AS coberturaVacinal FROM ocorrencias o JOIN cidades
+c ON o.fkCidade = c.codigoIbge WHERE o.fkDoenca = ${id} AND o.anoReferencia = 2024 GROUP BY c.nome ORDER BY coberturaVacinal DESC LIMIT 5;`
+
+    console.log("Executando a instruçao no SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 
 
@@ -170,6 +258,16 @@ module.exports = {
     alterarDoencaCidade,
     variacaoCoberturaVacinal,
     variacaoCasos,
+    variacaoCasosCidade,
+    variacaoCoberturaVacinalCidade,
     criarGraficoSituacao95Cobertura,
-    criarGraficoSituacao85Cobertura
+    criarGraficoSituacao85Cobertura,
+    variacaoVacinados,
+    variacaoVacinadosCidade,
+    graficoCasosAno,
+    graficoRankingAlerta,
+    graficoRankingMelhores,
+    graficoCasosAnoCidade,
+    graficoVacinaEstado,
+    graficoVacinaCidade
 }

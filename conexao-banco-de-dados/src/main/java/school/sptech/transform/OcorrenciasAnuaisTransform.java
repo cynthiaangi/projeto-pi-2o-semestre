@@ -2,59 +2,55 @@ package school.sptech.transform;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import school.sptech.apachePoi.LeitorExcel;
 import school.sptech.dao.DoencasDao;
 import school.sptech.dao.OcorrenciasDao;
 import school.sptech.utils.LogEtl;
+import school.sptech.utils.Status;
 
 import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
-public class OcorrenciasAnuaisTransform {
-    private final LeitorExcel leitor;
+public class OcorrenciasAnuaisTransform extends Transform {
+    private DoencasDao doencasDao;
+    private OcorrenciasDao ocorrenciasDao;
 
-    public OcorrenciasAnuaisTransform(LeitorExcel leitor) {
-        this.leitor = leitor;
+    public OcorrenciasAnuaisTransform(LogEtl logEtl, JdbcTemplate connection) {
+        super(logEtl, connection);
     }
 
-    public void processarOcorrenciasAnuais(LogEtl logEtl, JdbcTemplate connection, String nomeArquivo, Workbook workbook) {
-        logEtl.inserirLogEtl("200", String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "leitorExcel");
+    @Override
+    public void conectarAoBanco() {
+        this.doencasDao = new DoencasDao(connection);
+        this.ocorrenciasDao = new OcorrenciasDao(connection);
+    }
 
-        DoencasDao doencasDao = new DoencasDao(connection); // conexão com o banco para as doenças
-        OcorrenciasDao ocorrenciasDao = new OcorrenciasDao(connection); // conexão com o banco para as ocorrências
+    public void processarOcorrenciasAnuais(String nomeArquivo, Workbook workbook) {
+        logEtl.inserirLogEtl(Status.S_200, String.format("Iniciando leitura do arquivo: %s", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
+
+        conectarAoBanco();
 
         // Mapeamento dos anos, doenças e a coluna inicial da planilha
         Integer[] anos = {2019, 2020, 2021, 2022};
 
-        String[] doencas = {"Meningite", "Poliomielite", "Coqueluche"};
-        HashMap<String, Integer> doencasFK = new HashMap<>();
-
-        // Busca as FKs das doenças e as relaciona num HashMap
-        for (String doencaDaVez : doencas) {
-            doencasFK.put(doencaDaVez, leitor.getFkDoenca(doencaDaVez, doencasDao));
-        }
+        HashMap<String, Integer> doencasFK = listarFkDoencas(doencasDao);
 
         Integer colunaInicial = 2;
-
-        DataFormatter formatter = new DataFormatter();
 
         // Busca a primeira planilha do excel
         Sheet sheet = workbook.getSheetAt(0);
 
-
         for (String doencaDaVez : doencas) {
             try {
-                String valorIbgeStr = formatter.formatCellValue(sheet.getRow(1).getCell(0)).trim();
-                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+                Long codigoIbge = lerCodigoIbge(sheet.getRow(1));
 
                 if (ocorrenciasDao.existsByFksAnual(codigoIbge, anos[3], doencasFK.get(doencaDaVez))) {
-                    logEtl.inserirLogEtl("204", String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "LeitorExcel");
+                    logEtl.inserirLogEtl(Status.S_204, String.format("Arquivo já inserido anteriormente: %s", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
                     return;
                 }
 
             } catch (Exception e) {
-                logEtl.inserirLogEtl("404", String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar validação das ocorrências anuais na linha %s: %s", sheet.getRow(1).getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
             }
         }
 
@@ -62,10 +58,7 @@ public class OcorrenciasAnuaisTransform {
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             try {
-                // Obtendo o valor do código IBGE e convertendo para inteiro
-                // (não tenho certeza se isso é necessário, vou verificar depois)
-                String valorIbgeStr = formatter.formatCellValue(row.getCell(0)).trim();
-                Integer codigoIbge = Integer.parseInt(valorIbgeStr); // código IBGE
+                Long codigoIbge = lerCodigoIbge(row);
 
                 // for para percorrer as doenças e anos
                 for (int d = 0; d < doencas.length; d++) {
@@ -91,9 +84,12 @@ public class OcorrenciasAnuaisTransform {
                                 String valorFormatado = formatter.formatCellValue(cell).replace(",", ".").trim();
                                 if (!valorFormatado.isEmpty()) {
                                     cobertura = Double.parseDouble(valorFormatado);
+                                    if (cobertura > 100.00) {
+                                        cobertura = 100.00;
+                                    }
                                 }
                             } catch (NumberFormatException ex) {
-                                logEtl.inserirLogEtl("400", String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "Leitor Excel");
+                                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao ler valor da célula (linha %d, coluna %d): %s", row.getRowNum(), coluna, ex.getMessage()), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
                                 continue;
                             }
                         }
@@ -102,11 +98,11 @@ public class OcorrenciasAnuaisTransform {
                     }
                 }
             } catch (Exception e) {
-                logEtl.inserirLogEtl("400", String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()),"LeitorExcel");
+                logEtl.inserirLogEtl(Status.S_400, String.format("Erro ao processar linha %d: %s", row.getRowNum(), e.getMessage()),"processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
             }
 
         }
         ocorrenciasDao.finalizarInserts();
-        logEtl.inserirLogEtl("200", String.format("Leitura do arquivo %s completa", nomeArquivo), "LeitorExcel");
+        logEtl.inserirLogEtl(Status.S_200, String.format("Leitura do arquivo %s completa", nomeArquivo), "processarOcorrenciasAnuais", "OcorrenciasAnuaisTransform");
     }
 }

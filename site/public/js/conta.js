@@ -1,9 +1,11 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
 var senhaUser = sessionStorage.SENHA_USUARIO;
+var conselho = sessionStorage.CONSELHO_USUARIO;
+var localTrabalho = sessionStorage.CIDADE_USUARIO;
+var cargoExercido = sessionStorage.CARGO_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
-bemVinda.innerHTML = `${nomeUser}`;
-var idCampanha = 0;
+// bemVinda.innerHTML = `${nomeUser}`;
 
 const cidadesSP = ["Selecione a cidade",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
@@ -100,396 +102,44 @@ const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550,
     3555307, 3555356, 3555406, 3555505, 3555604, 3555703, 3555802, 3555901, 3556008, 3556107, 3556206, 3556305, 3556354, 3556404, 3556453,
     3556503, 3556602, 3556701, 3556800, 3556909, 3556958, 3557006, 3557105, 3557154, 3557204, 3557303];
 
-const cidadeInputCadastro = document.getElementById("cidade_cadastro");
+const cargos = ["Selecione o cargo", "Agente de Saúde", "Médico", "Secretaria de Saúde"];
 
-const selectCidadeCadastro = document.createElement("select");
-selectCidadeCadastro.name = "cidade_cadastro";
-selectCidadeCadastro.id = "sel_cidade_cadastro";
-selectCidadeCadastro.className = "select";
+const cidadeInput = document.getElementById("cidade");
+
+const selectCidade = document.createElement("select");
+selectCidade.name = "cidade";
+selectCidade.id = "sel_cidade";
+selectCidade.className = "select";
 
 // Adiciona as opções de cidades
 cidadesSP.forEach((cidade) => {
-    const option3 = document.createElement("option");
-    option3.value = cidade;
-    option3.textContent = cidade;
-    selectCidadeCadastro.appendChild(option3);
+    const option = document.createElement("option");
+    option.value = cidade;
+    option.textContent = cidade;
+    selectCidade.appendChild(option);
 });
 
 // Substitui o campo de input por um <select> com as cidades
-cidadeInputCadastro.replaceWith(selectCidadeCadastro);
+cidadeInput.replaceWith(selectCidade);
 
-window.onload = listarCampanhas();
+const cargoInput = document.getElementById("ipt_cargo");
 
-function listarCampanhas() {
-    var tabela = document.getElementsByClassName("tabela-campanha")[0];
+const selectCargo = document.createElement("select");
+selectCargo.name = "cargo";
+selectCargo.id = "sel_cargo";
+selectCargo.className = "select";
 
-    fetch("/campanhas/listar").then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status == 204) {
-                var mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado."
-                tabela.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!!";
-            }
+cargos.forEach((cargo) => {
+    const opcao = document.createElement("option");
+    opcao.value = cargo;
+    opcao.textContent = cargo;
+    selectCargo.appendChild(opcao);
+});
 
-            resposta.json().then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                var titulo_instancia = document.createElement('tr');
-                var titulo_id = document.createElement('th');
-                var titulo_name = document.createElement('th');
-                var titulo_data = document.createElement('th');
-                var titulo_button = document.createElement('th');
+cargoInput.replaceWith(selectCargo);
 
-                titulo_id.innerHTML = "Número da Campanha";
-                titulo_name.innerHTML = "Nome Campanha";
-                titulo_data.innerHTML = "Data de Início";
-                titulo_button.innerHTML = "Edição";
+window.onload = habilitarEdicao();
 
-                titulo_instancia.appendChild(titulo_id);
-                titulo_instancia.appendChild(titulo_name);
-                titulo_instancia.appendChild(titulo_data);
-                titulo_instancia.appendChild(titulo_button);
-                tabela.appendChild(titulo_instancia);
-
-                for (let i = 0; i < resposta.length; i++) {
-                    const cidadeJSON = encodeURIComponent(JSON.stringify(resposta[i]));
-                    var instancia = document.createElement('tr');
-                    var id = document.createElement('td');
-                    var name = document.createElement('td');
-                    var data = document.createElement('td');
-                    var button = document.createElement('td');
-                    var dataResposta = new Date(resposta[i].dtCriacao);
-                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR');
-
-                    id.innerHTML = `${resposta[i].idCampanha}`;
-                    name.innerHTML = `<span onclick="selecionarCampanha(${resposta[i].idCampanha})">${resposta[i].nomeCampanha}</span>`;
-                    data.innerHTML = `${dataFormatada}`;
-                    button.innerHTML = `<button onclick="habilitarEdicao(JSON.parse(decodeURIComponent('${cidadeJSON}')))">Editar</button>`;
-
-                    instancia.appendChild(id);
-                    instancia.appendChild(name);
-                    instancia.appendChild(data);
-                    instancia.appendChild(button);
-                    tabela.appendChild(instancia);
-
-                }
-            });
-        } else {
-            throw ('Houve um erro na API!');
-        }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
-}
-
-function cadastrarCampanha() {
-    console.log("estou no cadastro");
-    var nome = ipt_nome_cadastro.value;
-    var data = ipt_data_cadastro.value;
-
-    if (nome == "" || data == '') {
-        alert("Todos os campos devem ser preenchidos");
-    } else 
-    
-    {
-        fetch("/campanhas/cadastrar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                nomeServer: nome,
-                dataServer: data
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
-                if (resposta.ok) {
-                    // cardErro.style.display = "block";
-
-                    alert("Cadastro realizado com sucesso! Atualizando lista de campanhas");
-                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                    setTimeout(() => {
-                        window.location.href = "cidades-alerta.html";
-                    }, "2000");
-
-                    //   finalizarAguardar();
-                } else {
-                    throw alert("Houve um erro ao tentar realizar o cadastro!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                // finalizarAguardar();
-            });
-
-        return false;
-    }
-}
-
-function selecionarCampanha(id) {
-    var tabela = document.getElementsByClassName("tabela-campanha-cidade")[0];
-    var areaCadastro = document.getElementsByClassName("cadastro-cidade")[0];
-    var botaoCidade = document.getElementsByClassName("button-cidade")[0];
-
-    areaCadastro.style.display = 'flex';
-    botaoCidade.innerHTML = `<button type="button" onclick="cadastrarCidade(${id})">Cadastrar Cidade</button>`;
-
-    fetch(`/campanhas/listarCidades/${id}`).then(function (resposta) {
-        if (resposta.ok) {
-            if (resposta.status == 204) {
-                var mensagem = document.createElement("span");
-                mensagem.innerHTML = "Nenhum resultado encontrado."
-                tabela.appendChild(mensagem);
-                throw "Nenhum resultado encontrado!!";
-            }
-
-            resposta.json().then(function (resposta) {
-                tabela.innerHTML = "";
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
-                var titulo_instancia = document.createElement('tr');
-                var titulo_id = document.createElement('th');
-                var titulo_name = document.createElement('th');
-                var titulo_data = document.createElement('th');
-                var titulo_button = document.createElement('th');
-
-                titulo_id.innerHTML = "Identificação";
-                titulo_name.innerHTML = "Cidade";
-                titulo_data.innerHTML = "Data de Entrada";
-                titulo_button.innerHTML = "Excluir";
-
-                titulo_instancia.appendChild(titulo_id);
-                titulo_instancia.appendChild(titulo_name);
-                titulo_instancia.appendChild(titulo_data);
-                titulo_instancia.appendChild(titulo_button);
-                tabela.appendChild(titulo_instancia);
-
-
-                for (let i = 0; i < resposta.length; i++) {
-                    var instancia = document.createElement('tr');
-                    var id = document.createElement('td');
-                    var name = document.createElement('td');
-                    var data = document.createElement('td');
-                    var button = document.createElement('td');
-                    var cidade_campanha = "";
-                    var dataResposta = new Date(resposta[i].dtAdicionada);
-                    var dataFormatada = dataResposta.toLocaleDateString('pt-BR');
-
-                    for (let j = 0; j < cidadesSP.length; j++) {
-                        if (codigosCidade[j] == resposta[i].fkCidadeCampanha_Cidade) {
-                            cidade_campanha = cidadesSP[j];
-                        }
-                    }
-
-                    id.innerHTML = `${resposta[i].idCidadeCampanha}`;
-                    name.innerHTML = `${cidade_campanha}`;
-                    data.innerHTML = `${dataFormatada}`;
-                    button.innerHTML = `<span class="material-symbols-outlined" onclick="excluirCidade(${resposta[i].idCidadeCampanha})">remove</span>`;
-
-                    instancia.appendChild(id);
-                    instancia.appendChild(name);
-                    instancia.appendChild(data);
-                    instancia.appendChild(button);
-                    tabela.appendChild(instancia);
-
-                }
-            });
-        } else {
-            throw ('Houve um erro na API!');
-        }
-    }).catch(function (resposta) {
-        console.error(resposta);
-    });
-}
-
-function excluirCidade(id){
-    return fetch(`/campanhas/excluirCidade/${id}`, {
-        method: "DELETE",
-
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-
-                alert("Cidade excluída com sucesso! Atualizando lista de campanhas.");
-
-                setTimeout(() => {
-                    window.location.href = "cidades-alerta.html";
-                }, "2000");
-
-
-            } else {
-                throw alert("Houve um erro ao tentar excluir cidade!");
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-
-        });
-
-}
-
-function habilitarEdicao(campanha) {
-    console.log(campanha);
-
-    var bottomsheet = document.getElementsByClassName('mensagem')[0];
-    var fundo = document.getElementsByClassName('area-mensagem')[0];
-
-    bottomsheet.style.display = 'flex';
-    fundo.style.display = 'flex';
-
-    idCampanha = campanha.idCampanha;
-
-    document.getElementById("ipt_nome").value = campanha.nomeCampanha;
-    document.getElementById("ipt_number").value = campanha.dtCriacao;
-}
-
-function alterarCampanha() {
-    var nome = document.getElementById("ipt_nome").value;
-    var data = document.getElementById("ipt_number").value;
-    var id = idCampanha;
-
-    fetch(`/campanhas/alterar/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nomeServer: nome,
-            dataServer: data
-
-        }),
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-                // cardErro.style.display = "block";
-
-                alert("Campanha atualizada com sucesso! Atualizando lista de campanhas");
-                // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                setTimeout(() => {
-                    window.location.href = "cidades-alerta.html";
-                }, "2000");
-
-                //   finalizarAguardar();
-            } else {
-                throw alert("Houve um erro ao tentar atualizar campanha!");
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            // finalizarAguardar();
-        });
-
-}
-
-function excluir() {
-    var id = idCampanha;
-
-    fetch(`/campanhas/excluir/${id}`, {
-        method: "DELETE",
-
-    })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-
-                alert("Campanha deletada com sucesso! Atualizando lista de campanhas.");
-
-                setTimeout(() => {
-                    window.location.href = "cidades-alerta.html";
-                }, "2000");
-
-
-            } else {
-                throw alert("Houve um erro ao tentar excluir campanha!");
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-
-        });
-
-}
-
-function cadastrarCidade(id) {
-    console.log("estou no cadastro");
-    var cidadeAtuante = sel_cidade_cadastro.value;
-
-    if (cidadeAtuante == cidadesSP[0]) {
-        alert("Selecione a cidade!");
-    } else {
-        console.log('passei nas validações')
-        for (let k = 0; k < cidadesSP.length; k++) {
-            if (cidadesSP[k] == cidadeAtuante) {
-                codigoCidade = codigosCidade[k];
-            }
-        }
-        console.log(codigoCidade);
-        fetch(`/campanhas/cadastrarCidade/${id}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                cidadeServer: codigoCidade
-
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
-                if (resposta.ok) {
-                    // cardErro.style.display = "block";
-
-                    alert("Cadastro realizado com sucesso! Atualizando lista de campanhas");
-                    // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                    setTimeout(() => {
-                        window.location.href = "cidades-alerta.html";
-                    }, "2000");
-
-                    //   finalizarAguardar();
-                } else {
-                    throw alert("Houve um erro ao tentar realizar o cadastro!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                // finalizarAguardar();
-            });
-
-        return false;
-    }
-}
-
-function abrirCadastroCampanha() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function cadastrarFuncionarios() {
-    var areaCadastro = document.getElementsByClassName('cadastro')[0];
-
-    areaCadastro.style.display = 'flex';
-}
-
-function fecharMensagem() {
-    var bottomsheet = document.getElementsByClassName('mensagem')[0];
-    var fundo = document.getElementsByClassName('area-mensagem')[0];
-
-    bottomsheet.style.display = 'none';
-    fundo.style.display = 'none';
-}
 
 function voltarHome() {
     window.location = "index.html";
@@ -538,10 +188,207 @@ function acessarConta() {
 }
 
 function acessarDashboard() {
-    window.location = 'dashboard.html';
+    if (conselho.length == 4) {
+        window.location = 'dashboard.html';
+    } else {
+        window.location = 'dash-medico.html';
+    }
 }
 
-function mostrarFuncionarios() {
-    window.location = 'dash-medico.html';
+function habilitarMudaSenha() {
+    var areaCadastro = document.getElementsByClassName('mensagem')[0];
+    var alteraSenha = document.getElementsByClassName('altera-senha')[0];
+
+    areaCadastro.style.display = 'none';
+    alteraSenha.style.display = 'flex';
 }
 
+function habilitarEdicao() {
+
+    document.getElementById("ipt_nome").value = nomeUser;
+    document.getElementById("ipt_number").value = conselho;
+
+    const selCargo = document.getElementById("sel_cargo");
+    for (let opcao of selCargo.options) {
+        if (opcao.value == cargoExercido) {
+            opcao.selected = true;
+            break;
+        }
+    }
+
+    const selCidade = document.getElementById("sel_cidade");
+    for (let option of selCidade.options) {
+        if (option.value === localTrabalho) {
+            option.selected = true;
+            break;
+        }
+    }
+
+}
+
+function alterarFuncionario() {
+    var nomeAtual = document.getElementById("ipt_nome").value;
+    var cidadeAtuante = document.getElementById("sel_cidade").value;
+    var codigoCidade = 0;
+    var cargoAtual = document.getElementById("sel_cargo").value;
+    var conselhoAtual = document.getElementById("ipt_number").value;
+    var id = idUsuario;
+
+
+    for (let k = 0; k < cidadesSP.length; k++) {
+        if (cidadesSP[k] == cidadeAtuante) {
+            codigoCidade = codigosCidade[k];
+        }
+    }
+
+    fetch(`/funcionarios/alterar/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nomeServer: nomeAtual,
+            cargoServer: cargoAtual,
+            conselhoServer: conselhoAtual,
+            cidadeServer: codigoCidade
+
+        }),
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                // cardErro.style.display = "block";
+
+                alert("Dados atualizados com sucesso! Redirecionando para sua dashboard");
+                // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                sessionStorage.CONSELHO_USUARIO = conselhoAtual;
+                sessionStorage.NOME_USUARIO = nomeAtual;
+                sessionStorage.CIDADE_USUARIO = cidadeAtuante;
+                sessionStorage.CARGO_USUARIO = cargoAtual;
+
+                setTimeout(() => {
+                    if (conselho.length == 4) {
+                        window.location = 'dashboard.html';
+                    } else {
+                        window.location = 'dash-medico.html';
+                    }
+                }, "2000");
+
+                //   finalizarAguardar();
+            } else {
+                throw alert("Houve um erro ao tentar realizar o cadastro!");
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            // finalizarAguardar();
+        });
+
+}
+
+function excluir() {
+    var id = idUsuario;
+
+    return fetch(`/funcionarios/excluir/${id}`, {
+        method: "DELETE",
+
+    })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                alert("Que pena que excluiu sua conta! :( Deslogando");
+
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, "2000");
+
+
+            } else {
+                throw alert("Houve um erro ao tentar excluir sua conta!");
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+
+        });
+
+}
+
+function alterarSenha() {
+    var senhaPadrao = ipt_senha.value;
+    var senhaNova = ipt_nova.value;
+
+    var tam_senha = senhaNova.length;
+    var maiuscula_senha = senhaNova.toUpperCase();
+    var minuscula_senha = senhaNova.toLowerCase();
+    var especial = "!@#$%&*";
+    var senhaOk = 0;
+
+    if (senhaNova == "" || senhaPadrao == "") {
+        alert("Todos os campos devem ser preenchidos");
+        return;
+    } else if (senhaPadrao != senhaUser) {
+        alert("A senha atual não está correta, digite a mesma senha que usou para acessar.")
+        return;
+    } else if (tam_senha < 8) {
+        alert("A senha deve conter no mínimo 8 caracteres");
+        return;
+    } else if (senhaNova == maiuscula_senha || senhaNova == minuscula_senha) {
+        alert("A senha deve conter no mínimo uma letra maiúscula e uma letra minúscula");
+        return;
+    } else {
+        for (let i = 0; i < tam_senha; i++) {
+            if (especial.includes(senhaNova[i])) {
+                senhaOk++;
+                break;
+            }
+        }
+        for (let j = 0; j < tam_senha; j++) {
+            if (Number(senhaNova[j]) != NaN) {
+                senhaOk++;
+                break;
+            }
+        }
+        if (senhaOk != 2) {
+            alert("A senha deve conter pelo menos 1 número e 1 caractere especial (!@#$%&*)");
+            return;
+        } else {
+            fetch(`/funcionarios/alterarSenha/${idUsuario}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    senhaServer: senhaNova,
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        // cardErro.style.display = "block";
+
+                        alert("Senha atualizada com sucesso! Encaminhando para sua página");
+                        // mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                        setTimeout(() => {
+                            window.location.href = "dash-medico.html";
+                        }, "2000");
+
+                        //   finalizarAguardar();
+                    } else {
+                        throw alert("Houve um erro ao tentar atualizar a senha!");
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    // finalizarAguardar();
+                });
+
+        }
+    }
+}

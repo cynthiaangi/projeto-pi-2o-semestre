@@ -1,6 +1,7 @@
 var idUsuario = sessionStorage.ID_USUARIO;
 var nomeUser = sessionStorage.NOME_USUARIO;
 var senhaUser = sessionStorage.SENHA_USUARIO;
+var conselho = sessionStorage.CONSELHO_USUARIO;
 var bemVinda = document.getElementById("nome_usuario");
 bemVinda.innerHTML = `${nomeUser}`;
 var idFuncionario = 0;
@@ -337,8 +338,36 @@ function abrirNotificacao() {
     notificacao.style.display = 'flex';
 }
 
+function acessarGerenciamento(){
+    window.location = 'gerenciamento.html';
+}
+
+function acessarConta(){
+    window.location = 'conta.html';
+}
+
+function acessarDashboard(){
+    if(conselho.length == 4){
+        window.location = 'dashboard.html';
+    } else {
+        window.location = 'dash-medico.html';
+    }
+}
+
 function mostrarFuncionarios() {
-    window.location = 'dash-medico.html';
+    var areaCadastro = document.getElementsByClassName('cadastro')[0];
+
+    areaCadastro.style.display = 'none';
+
+    listarFuncionarios();
+}
+
+function habilitarMudaSenha() {
+    var areaCadastro = document.getElementsByClassName('mensagem')[0];
+    var alteraSenha = document.getElementsByClassName('altera-senha')[0];
+
+    areaCadastro.style.display = 'none';
+    alteraSenha.style.display = 'flex';
 }
 
 function habilitarEdicao(funcionario) {
