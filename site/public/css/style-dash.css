@@ -283,8 +283,7 @@ display: none;
   background-color: #eeeeee;
   border: 1px solid #adadad;
   height: 20rem;
-  width: 100%;
-  max-width: 600px;
+  width: 40rem;
   padding: 0 40px;
   margin: 1rem 0;
   border-radius: 20px;
@@ -407,20 +406,6 @@ display: none;
 
 .dash {
   flex-grow: 1;
-}
-
-.menu-toggle {
-  display: none;
-  font-size: 2rem;
-  cursor: pointer;
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1001;
-  color: white;
-  background-color: #6365676d;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
 }
 
 /* Notebok */
