@@ -22,6 +22,7 @@
     <main class="dash">
 
         <section class="conteudo-dash">
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
             <nav class="lateral">
                 <button onclick="abrirMenuExtendido()" class="material-symbols-outlined">
                     menu
@@ -422,5 +423,23 @@
 </body>
 
 </html>
+
+<script>
+  function toggleMenu() {
+    const menu = document.querySelector('.lateral');
+    menu.classList.toggle('open');
+  }
+
+  // Fecha o menu se clicar fora dele (opcional)
+  document.addEventListener('click', function (e) {
+    const menu = document.querySelector('.lateral');
+    const toggle = document.querySelector('.menu-toggle');
+
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+</script>
+
 
 <!-- onload="atualizarGrafico()" -->

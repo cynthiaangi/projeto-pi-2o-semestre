@@ -408,6 +408,20 @@ display: none;
   flex-grow: 1;
 }
 
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  color: white;
+  background-color: #6365676d;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
 /* Notebok */
 @media screen and (max-width: 1200px) {
    .menu-toggle {
