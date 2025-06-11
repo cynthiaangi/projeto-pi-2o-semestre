@@ -286,7 +286,8 @@ display: none;
   background-color: #eeeeee;
   border: 1px solid #adadad;
   height: 20rem;
-  width: 40rem;
+  width: 100%;
+  max-width: 600px;
   padding: 0 40px;
   margin: 1rem 0;
   border-radius: 20px;
@@ -410,10 +411,45 @@ display: none;
 .dash {
   flex-grow: 1;
 }
+
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  color: white;
+  background-color: #6365676d;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
 /* Notebok */
 @media screen and (max-width: 1200px) {
+   .menu-toggle {
+    display: block;
+  }
+
   .lateral {
-    width: 8%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #343a40;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .lateral.open {
+    transform: translateX(0);
+  }
+
+  .dashboard-conteudo {
+    margin-left: 0 !important; /* evita espaço quando menu está fechado */
   }
 
   .dashboard-conteudo {
@@ -466,7 +502,30 @@ display: none;
   }
 }
 
-/*  Celular grande */
+ .kpi {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .item-regua {
+    width: 40%; /* ou 45%, 48% dependendo do espaço */
+    min-width: 180px;
+  }
+
+   .kpi {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .item-regua {
+    width: 45%;
+    height: auto;
+    padding: 20px;
+  }
 /* Celular grande */
 @media screen and (max-width: 768px) {
   .lateral {
@@ -475,29 +534,52 @@ display: none;
 
   .dashboard-conteudo {
     margin-left: 12%;
-  }
-
-  .titulo-notificacao {
-    font-size: 1.2rem;
-  }
-
-  .area-notificacao {
-    font-size: 0.7rem;
-  }
-
-  .item-regua {
-    width: 90%;
-    padding: 20px 15px;
+    font-size: 1rem;
   }
 
   .chart-container {
-    width: 100%;
-    padding: 0 20px;
+    padding: 1rem;
+    height: auto;
   }
+
+    .graficos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Espaço entre os gráficos */
+  }
+
+  .grafico-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
 
   .mensagem {
     width: 90%;
     left: 5%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .conteudo-dash-medico {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0;
+  }
+
+  .item-regua {
+    width: 90%;
+  }
+
+  .notificacoes {
+    width: 90%;
+    left: 5%;
+    top: 10%;
   }
 }
 
