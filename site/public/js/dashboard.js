@@ -55,7 +55,7 @@ var dados11 = []
 // var dados17 = []
 // var dados18 = []
 
-const cidadesSP = ["Selecione a cidade",
+const cidadesSP = ["Selecione a cidade", "Todo o estado",
     "Adamantina", "Adolfo", "Aguaí", "Águas da Prata", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Agudos", "Alambari", "Alfredo Marcondes", "Altair", "Altinópolis", "Alto Alegre", "Alumínio", "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Alvinlândia", "Americana", "Américo Brasiliense",
     "Américo de Campos", "Amparo", "Analândia", "Andradina", "Angatuba", "Anhembi", "Anhumas", "Aparecida", "Aparecida d'Oeste", "Apiaí", "Araçariguama", "Araçatuba", "Araçoiaba da Serra", "Aramina", "Arandu", "Arapeí", "Araraquara", "Araras", "Arco-Íris", "Arealva", "Areias",
     "Areiópolis", "Ariranha", "Artur Nogueira", "Arujá", "Aspásia", "Assis", "Atibaia", "Auriflama", "Avaí", "Avanhandava", "Avaré", "Bady Bassitt", "Balbinos", "Bálsamo", "Bananal", "Barão de Antonina", "Barbosa", "Bariri", "Barra Bonita", "Barra do Chapéu", "Barra do Turvo", "Barretos", "Barrinha", "Barueri", "Bastos", "Batatais", "Bauru", "Bebedouro", "Bento de Abreu", "Bernardino de Campos",
@@ -109,7 +109,7 @@ const cidadesSP = ["Selecione a cidade",
     "Vitória Brasil", "Votorantim", "Votuporanga", "Zacarias", "Chavantes", "Estiva Gerbi"];
 
 
-const codigosCidade = ["", 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
+const codigosCidade = ["", 0, 3500105, 3500204, 3500303, 3500402, 3500501, 3500550, 3500600, 3500709, 3500758, 3500808, 3500907, 3501004, 3501103, 3501152, 3501202, 3501301, 3501400,
     3501509, 3501608, 3501707, 3501806, 3501905, 3502002, 3502101, 3502200, 3502309, 3502408, 3502507, 3502606, 3502705, 3502754, 3502804, 3502903, 3503000, 3503109, 3503158, 3503208, 3503307,
     3503356, 3503406, 3503505, 3503604, 3503703, 3503802, 3503901, 3503950, 3504008, 3504107, 3504206, 3504305, 3504404, 3504503, 3504602, 3504701, 3504800, 3504909, 3505005, 3505104,
     3505203, 3505302, 3505351, 3505401, 3505500, 3505609, 3505708, 3505807, 3505906, 3506003, 3506102, 3506201, 3506300, 3506359, 3506409, 3506508, 3506607, 3506706, 3506805, 3506904, 3507001,
