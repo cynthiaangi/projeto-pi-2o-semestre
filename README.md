@@ -1,4 +1,4 @@
-# 💉 Dashboard de Cobertura Vacinal
+# 💉 Conscientização da Vacinação no Estado de São Paulo
 
 Sistema desenvolvido durante o Projeto de Pesquisa e Inovação da SPTech com o objetivo de apoiar a análise da cobertura vacinal no Estado de São Paulo por meio da visualização de indicadores e dashboards interativos.
 
